@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "techarium-botanica:block/botarium_tier_5" },
+    "facing=east":  { "model": "techarium-botanica:block/botarium_tier_5", "y": 90 },
+    "facing=south": { "model": "techarium-botanica:block/botarium_tier_5", "y": 180 },
+    "facing=west":  { "model": "techarium-botanica:block/botarium_tier_5", "y": 270 }
+  }
+}

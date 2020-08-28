@@ -1,0 +1,10 @@
+{
+  "default": {
+    "model": "techarium-botanica:block/botarium_tier_1"
+  },
+  "variants": {
+    "": {
+      "model": "techarium-botanica:block/botarium_tier_1"
+    }
+  }
+}
