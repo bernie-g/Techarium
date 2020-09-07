@@ -10,7 +10,6 @@ import net.minecraft.world.storage.loot.LootParameterSet;
 import net.minecraft.world.storage.loot.LootParameterSets;
 import net.minecraft.world.storage.loot.LootTable;
 import net.minecraft.world.storage.loot.ValidationTracker;
-import software.bernie.techariumbotanica.registry.BlockRegistry;
 
 import java.util.List;
 import java.util.Map;
@@ -48,19 +47,8 @@ public class TechariumLootTables extends LootTableProvider
 		@Override
 		protected void addTables()
 		{
-			dropSelf(BlockRegistry.BOTARIUM_TIER_1);
-			dropSelf(BlockRegistry.BOTARIUM_TIER_2);
-			dropSelf(BlockRegistry.BOTARIUM_TIER_3);
-			dropSelf(BlockRegistry.BOTARIUM_TIER_4);
-			dropSelf(BlockRegistry.BOTARIUM_TIER_5);
-			dropSelf(BlockRegistry.ARBORATORIUM);
 
 		}
 
-		@Override
-		protected Iterable<Block> getKnownBlocks()
-		{
-			return BlockRegistry.BLOCKS.getEntries().stream().map(Supplier::get).collect(Collectors.toList());
-		}
 	}
 }

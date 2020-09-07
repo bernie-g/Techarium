@@ -20,7 +20,7 @@ public class BotariumTop extends Block
 	public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, IFluidState fluid)
 	{
 		BlockState blockState = world.getBlockState(pos.down());
-		if(blockState.getBlock() instanceof BotariumBase || blockState.getBlock() instanceof ArboratoriumBase)
+		if(blockState.getBlock() instanceof BotaniumMaster)
 		{
 			world.destroyBlock(pos.down(), !player.isCreative());
 		}

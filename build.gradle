@@ -25,7 +25,7 @@ minecraft {
     // stable_#            Stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: '20200514-1.15.1'
+    mappings channel: 'snapshot', version: '20200904-1.15.1'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -90,7 +90,7 @@ repositories {
 }
 dependencies {
 
-    minecraft 'net.minecraftforge:forge:1.15.2-31.2.27'
+    minecraft 'net.minecraftforge:forge:1.15.2-31.2.36'
     implementation fg.deobf('software.bernie.geckolib:forge-1.15.2-geckolib:SNAPSHOT-68')
     implementation fg.deobf('com.eliotlash.molang:molang:SNAPSHOT.8')
     implementation fg.deobf('com.eliotlash.mclib:mclib:SNAPSHOT.8')
