@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica;
+package software.bernie.techarium;
 
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.data.DataGenerator;
@@ -9,16 +9,16 @@ import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import software.bernie.techariumbotanica.datagen.TechariumLootTables;
-import software.bernie.techariumbotanica.registry.*;
-import software.bernie.techariumbotanica.machine.screen.AutomaticContainerScreen;
+import software.bernie.techarium.datagen.TechariumLootTables;
+import software.bernie.techarium.registry.*;
+import software.bernie.techarium.machine.screen.AutomaticContainerScreen;
 
-import static software.bernie.techariumbotanica.registry.ContainerRegistry.AUTO_CONTAINER;
+import static software.bernie.techarium.registry.ContainerRegistry.AUTO_CONTAINER;
 
 @Mod(TechariumBotanica.ModID)
 public class TechariumBotanica
 {
-	public final static String ModID = "techarium-botanica";
+	public final static String ModID = "techarium";
 	public static Logger LOGGER;
 
 	public TechariumBotanica()

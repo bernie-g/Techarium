@@ -2,12 +2,12 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "techarium-botanica:block/botarium_glass",
-		"1": "techarium-botanica:block/botarium",
-		"3": "techarium-botanica:block/tier2addon",
-		"4": "techarium-botanica:block/tier3addon",
-		"5": "techarium-botanica:block/needwater",
-		"particle": "techarium-botanica:block/botarium_glass"
+		"0": "techarium:block/botarium_glass",
+		"1": "techarium:block/botarium",
+		"3": "techarium:block/tier2addon",
+		"4": "techarium:block/tier3addon",
+		"5": "techarium:block/needwater",
+		"particle": "techarium:block/botarium_glass"
 	},
 	"elements": [
 		{

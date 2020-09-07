@@ -2,14 +2,13 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "techarium-botanica:block/botarium_glass",
-		"1": "techarium-botanica:block/botarium",
-		"3": "techarium-botanica:block/tier2addon",
-		"4": "techarium-botanica:block/tier3addon",
-		"5": "techarium-botanica:block/needwater",
-		"6": "techarium-botanica:block/tier4addon",
-		"8": "techarium-botanica:block/tier5addon",
-		"particle": "techarium-botanica:block/botarium_glass"
+		"0": "techarium:block/botarium_glass",
+		"1": "techarium:block/botarium",
+		"3": "techarium:block/tier2addon",
+		"4": "techarium:block/tier3addon",
+		"5": "techarium:block/needwater",
+		"6": "techarium:block/tier4addon",
+		"particle": "techarium:block/botarium_glass"
 	},
 	"elements": [
 		{
@@ -1038,151 +1037,6 @@
 				"up": {"uv": [9, 9, 7.5, 7.5], "texture": "#6"},
 				"down": {"uv": [9, 0, 7.5, 1.5], "texture": "#6"}
 			}
-		},
-		{
-			"from": [0, 26.75, 0],
-			"to": [6, 29.75, 3],
-			"faces": {
-				"north": {"uv": [0, 0, 3, 1.5], "texture": "#8"},
-				"east": {"uv": [2, 4.5, 3.5, 6], "texture": "#8"},
-				"south": {"uv": [0, 1.5, 3, 3], "texture": "#8"},
-				"west": {"uv": [3.5, 4.5, 5, 6], "texture": "#8"},
-				"up": {"uv": [3, 4.5, 0, 3], "texture": "#8"},
-				"down": {"uv": [6, 3, 3, 4.5], "texture": "#8"}
-			}
-		},
-		{
-			"from": [1.1, 22.35, 1.1],
-			"to": [1.9, 23.15, 5.9],
-			"faces": {
-				"north": {"uv": [5, 4.5, 5.5, 5], "texture": "#8"},
-				"east": {"uv": [3, 2, 5.5, 2.5], "texture": "#8"},
-				"south": {"uv": [5.5, 2, 6, 2.5], "texture": "#8"},
-				"west": {"uv": [3, 2.5, 5.5, 3], "texture": "#8"},
-				"up": {"uv": [3.5, 8.5, 3, 6], "texture": "#8"},
-				"down": {"uv": [4, 6, 3.5, 8.5], "texture": "#8"}
-			}
-		},
-		{
-			"from": [1.1, 17.75, 1.1],
-			"to": [1.9, 18.55, 5.9],
-			"faces": {
-				"north": {"uv": [5, 4.5, 5.5, 5], "texture": "#8"},
-				"east": {"uv": [3, 2, 5.5, 2.5], "texture": "#8"},
-				"south": {"uv": [5.5, 2, 6, 2.5], "texture": "#8"},
-				"west": {"uv": [3, 2.5, 5.5, 3], "texture": "#8"},
-				"up": {"uv": [3.5, 8.5, 3, 6], "texture": "#8"},
-				"down": {"uv": [4, 6, 3.5, 8.5], "texture": "#8"}
-			}
-		},
-		{
-			"from": [0.9, 22.15, 4.4],
-			"to": [2.1, 23.35, 5.6],
-			"faces": {
-				"north": {"uv": [5.5, 2.5, 6, 3], "texture": "#8"},
-				"east": {"uv": [6.5, 3, 7, 3.5], "texture": "#8"},
-				"south": {"uv": [6.5, 3.5, 7, 4], "texture": "#8"},
-				"west": {"uv": [6.5, 4.5, 7, 5], "texture": "#8"},
-				"up": {"uv": [7, 5.5, 6.5, 5], "texture": "#8"},
-				"down": {"uv": [7, 6, 6.5, 6.5], "texture": "#8"}
-			}
-		},
-		{
-			"from": [0.9, 17.55, 4.4],
-			"to": [2.1, 18.75, 5.6],
-			"faces": {
-				"north": {"uv": [5.5, 2.5, 6, 3], "texture": "#8"},
-				"east": {"uv": [6.5, 3, 7, 3.5], "texture": "#8"},
-				"south": {"uv": [6.5, 3.5, 7, 4], "texture": "#8"},
-				"west": {"uv": [6.5, 4.5, 7, 5], "texture": "#8"},
-				"up": {"uv": [7, 5.5, 6.5, 5], "texture": "#8"},
-				"down": {"uv": [7, 6, 6.5, 6.5], "texture": "#8"}
-			}
-		},
-		{
-			"from": [1.1, 23.15, 1.1],
-			"to": [1.9, 26.95, 1.9],
-			"faces": {
-				"north": {"uv": [4, 6, 4.5, 8], "texture": "#8"},
-				"east": {"uv": [4.5, 6, 5, 8], "texture": "#8"},
-				"south": {"uv": [6, 6, 6.5, 8], "texture": "#8"},
-				"west": {"uv": [6, 2, 6.5, 4], "texture": "#8"},
-				"up": {"uv": [7.5, 3.5, 7, 3], "texture": "#8"},
-				"down": {"uv": [7.5, 3.5, 7, 4], "texture": "#8"}
-			}
-		},
-		{
-			"from": [1.1, 18.55, 1.1],
-			"to": [1.9, 22.35, 1.9],
-			"faces": {
-				"north": {"uv": [4, 6, 4.5, 8], "texture": "#8"},
-				"east": {"uv": [4.5, 6, 5, 8], "texture": "#8"},
-				"south": {"uv": [6, 6, 6.5, 8], "texture": "#8"},
-				"west": {"uv": [6, 2, 6.5, 4], "texture": "#8"},
-				"up": {"uv": [7.5, 3.5, 7, 3], "texture": "#8"},
-				"down": {"uv": [7.5, 3.5, 7, 4], "texture": "#8"}
-			}
-		},
-		{
-			"from": [0, 16.75, 6],
-			"to": [1, 29.75, 7],
-			"faces": {
-				"north": {"uv": [2, 6, 2.5, 12], "texture": "#8"},
-				"east": {"uv": [2.5, 6, 3, 12], "texture": "#8"},
-				"south": {"uv": [2, 6, 2.5, 12], "texture": "#8"},
-				"west": {"uv": [2.5, 6, 3, 12], "texture": "#8"},
-				"up": {"uv": [7.5, 4.5, 7, 4], "texture": "#8"},
-				"down": {"uv": [7.5, 4.5, 7, 5], "texture": "#8"}
-			}
-		},
-		{
-			"from": [0, 16.75, 10],
-			"to": [1, 29.75, 11],
-			"faces": {
-				"north": {"uv": [2, 6, 2.5, 12], "texture": "#8"},
-				"east": {"uv": [2.5, 6, 3, 12], "texture": "#8"},
-				"south": {"uv": [2, 6, 2.5, 12], "texture": "#8"},
-				"west": {"uv": [2.5, 6, 3, 12], "texture": "#8"},
-				"up": {"uv": [7.5, 4.5, 7, 4], "texture": "#8"},
-				"down": {"uv": [7.5, 4.5, 7, 5], "texture": "#8"}
-			}
-		},
-		{
-			"from": [0.5, 21.75, 5],
-			"to": [2.5, 23.75, 12],
-			"faces": {
-				"north": {"uv": [5.5, 4.5, 6.5, 5.5], "texture": "#8"},
-				"east": {"uv": [6.5, 1, 3, 2], "texture": "#8"},
-				"south": {"uv": [6.5, 6.5, 7.5, 7.5], "texture": "#8"},
-				"west": {"uv": [3, 1, 6.5, 2], "texture": "#8"},
-				"up": {"uv": [1, 8, 0, 4.5], "texture": "#8"},
-				"down": {"uv": [2, 4.5, 1, 8], "texture": "#8"}
-			}
-		},
-		{
-			"from": [0.5, 17.15, 5],
-			"to": [2.5, 19.15, 12],
-			"faces": {
-				"north": {"uv": [5.5, 4.5, 6.5, 5.5], "texture": "#8"},
-				"east": {"uv": [6.5, 1, 3, 2], "texture": "#8"},
-				"south": {"uv": [6.5, 6.5, 7.5, 7.5], "texture": "#8"},
-				"west": {"uv": [3, 1, 6.5, 2], "texture": "#8"},
-				"up": {"uv": [1, 8, 0, 4.5], "texture": "#8"},
-				"down": {"uv": [2, 4.5, 1, 8], "texture": "#8"}
-			}
-		},
-		{
-			"from": [0.75, 26.25, 0.75],
-			"to": [2.25, 26.75, 2.25],
-			"rotation": {"angle": 0, "axis": "y", "origin": [0.25, 24.5, 1]},
-			"faces": {
-				"north": {"uv": [6, 4, 7, 4.5], "texture": "#8"},
-				"east": {"uv": [6, 5.5, 7, 6], "texture": "#8"},
-				"south": {"uv": [6.5, 2, 7.5, 2.5], "texture": "#8"},
-				"west": {"uv": [6.5, 2.5, 7.5, 3], "texture": "#8"},
-				"up": {"uv": [7.5, 1, 6.5, 0], "texture": "#8"},
-				"down": {"uv": [7.5, 1, 6.5, 2], "texture": "#8"}
-			}
 		}
 	],
 	"display": {
@@ -1236,11 +1090,6 @@
 			"name": "tier4Addon",
 			"origin": [12.83333, 16.5, 4],
 			"children": [67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78]
-		},
-		{
-			"name": "tier5Addon",
-			"origin": [8, 8, 8],
-			"children": [79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90]
 		}
 	]
 }

@@ -2,10 +2,10 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "techarium-botanica:block/botarium_glass",
-		"1": "techarium-botanica:block/botarium",
-		"particle": "techarium-botanica:block/botarium_glass",
-		"5": "techarium-botanica:block/needwater"
+		"0": "techarium:block/botarium_glass",
+		"1": "techarium:block/botarium",
+		"particle": "techarium:block/botarium_glass",
+		"5": "techarium:block/needwater"
 	},
 	"elements": [
 		{

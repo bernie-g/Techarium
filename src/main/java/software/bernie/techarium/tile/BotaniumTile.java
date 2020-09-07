@@ -1,11 +1,11 @@
-package software.bernie.techariumbotanica.tile;
+package software.bernie.techarium.tile;
 
-import software.bernie.techariumbotanica.client.screen.draw.IDrawable;
-import software.bernie.techariumbotanica.machine.controller.MachineController;
-import software.bernie.techariumbotanica.tile.base.MachineTile;
+import software.bernie.techarium.client.screen.draw.IDrawable;
+import software.bernie.techarium.machine.controller.MachineController;
+import software.bernie.techarium.tile.base.MachineTile;
 
-import static software.bernie.techariumbotanica.client.screen.draw.GuiAddonTextures.*;
-import static software.bernie.techariumbotanica.registry.BlockTileRegistry.BOTANIUM;
+import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.*;
+import static software.bernie.techarium.registry.BlockTileRegistry.BOTANIUM;
 
 public class BotaniumTile extends MachineTile {
 
