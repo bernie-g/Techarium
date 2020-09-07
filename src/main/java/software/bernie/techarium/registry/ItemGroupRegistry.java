@@ -11,7 +11,7 @@ public class ItemGroupRegistry
 	public static final ItemGroup TECHARIUMS = new ItemGroup("techarium") {
 		@Override
 		public ItemStack createIcon() {
-			return new ItemStack(Item.getItemFromBlock(BOTANIUM.get()));
+			return new ItemStack(BOTANIUM.getItem());
 		}
 	};
 }
