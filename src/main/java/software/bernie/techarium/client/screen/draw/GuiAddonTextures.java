@@ -1,11 +1,8 @@
-package software.bernie.techariumbotanica.client.screen.draw;
+package software.bernie.techarium.client.screen.draw;
 
 import net.minecraft.util.ResourceLocation;
-import software.bernie.techariumbotanica.client.screen.draw.IDrawable;
-import software.bernie.techariumbotanica.client.screen.draw.UiTexture;
 
-import static net.minecraftforge.versions.forge.ForgeVersion.MOD_ID;
-import static software.bernie.techariumbotanica.TechariumBotanica.ModID;
+import static software.bernie.techarium.TechariumBotanica.ModID;
 
 public class GuiAddonTextures {
 

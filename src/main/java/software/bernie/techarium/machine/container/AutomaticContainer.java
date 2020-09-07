@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.machine.container;
+package software.bernie.techarium.machine.container;
 
 import javafx.util.Pair;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,10 +9,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
-import software.bernie.techariumbotanica.machine.controller.MachineController;
-import software.bernie.techariumbotanica.tile.base.MachineTile;
+import software.bernie.techarium.machine.controller.MachineController;
+import software.bernie.techarium.tile.base.MachineTile;
 
-import static software.bernie.techariumbotanica.registry.ContainerRegistry.AUTO_CONTAINER;
+import static software.bernie.techarium.registry.ContainerRegistry.AUTO_CONTAINER;
 
 public class AutomaticContainer extends Container {
 

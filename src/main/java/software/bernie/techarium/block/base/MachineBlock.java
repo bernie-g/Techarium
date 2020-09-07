@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.block.base;
+package software.bernie.techarium.block.base;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -13,7 +13,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import software.bernie.techariumbotanica.tile.base.MachineTile;
+import software.bernie.techarium.tile.base.MachineTile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -21,7 +21,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import static software.bernie.techariumbotanica.registry.ItemRegistry.DEBUGSTICK;
+import static software.bernie.techarium.registry.ItemRegistry.DEBUGSTICK;
 
 public abstract class MachineBlock<T extends MachineTile> extends Block {
 

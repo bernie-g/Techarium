@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.machine.controller;
+package software.bernie.techarium.machine.controller;
 
 import javafx.util.Pair;
 import net.minecraft.client.gui.widget.Widget;
@@ -7,11 +7,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
-import software.bernie.techariumbotanica.machine.interfaces.IFactory;
-import software.bernie.techariumbotanica.client.screen.draw.IDrawable;
-import software.bernie.techariumbotanica.machine.addon.energy.EnergyStorageAddon;
-import software.bernie.techariumbotanica.machine.interfaces.IContainerComponentProvider;
-import software.bernie.techariumbotanica.machine.interfaces.IWidgetProvider;
+import software.bernie.techarium.machine.interfaces.IFactory;
+import software.bernie.techarium.client.screen.draw.IDrawable;
+import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
+import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
+import software.bernie.techarium.machine.interfaces.IWidgetProvider;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import static software.bernie.techariumbotanica.client.screen.draw.GuiAddonTextures.BOTARIUM_BASE_TIER_1;
+import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.BOTARIUM_BASE_TIER_1;
 
 public class MachineController implements IWidgetProvider, IContainerComponentProvider {
 

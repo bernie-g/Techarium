@@ -1,9 +1,9 @@
-package software.bernie.techariumbotanica.machine.screen.widget;
+package software.bernie.techarium.machine.screen.widget;
 
 import javafx.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.Widget;
-import software.bernie.techariumbotanica.machine.addon.energy.EnergyStorageAddon;
+import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
 
 public class EnergyAutoWidget extends Widget {
 

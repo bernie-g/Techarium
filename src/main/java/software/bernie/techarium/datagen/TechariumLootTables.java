@@ -1,8 +1,7 @@
-package software.bernie.techariumbotanica.datagen;
+package software.bernie.techarium.datagen;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.LootTableProvider;
 import net.minecraft.util.ResourceLocation;
@@ -16,7 +15,6 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public class TechariumLootTables extends LootTableProvider
 {

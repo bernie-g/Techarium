@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.machine.interfaces;
+package software.bernie.techarium.machine.interfaces;
 
 import net.minecraft.inventory.container.Slot;
 

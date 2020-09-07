@@ -1,11 +1,11 @@
-package software.bernie.techariumbotanica.registry;
+package software.bernie.techarium.registry;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import software.bernie.techariumbotanica.TechariumBotanica;
+import software.bernie.techarium.TechariumBotanica;
 
 @Mod.EventBusSubscriber(modid = TechariumBotanica.ModID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModelRegistry

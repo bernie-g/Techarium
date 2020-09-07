@@ -1,12 +1,12 @@
-package software.bernie.techariumbotanica.machine.addon.inventory;
+package software.bernie.techarium.machine.addon.inventory;
 
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
 import net.minecraftforge.common.util.LazyOptional;
-import software.bernie.techariumbotanica.machine.interfaces.IContainerComponentProvider;
-import software.bernie.techariumbotanica.machine.interfaces.IFactory;
-import software.bernie.techariumbotanica.machine.interfaces.IWidgetProvider;
-import software.bernie.techariumbotanica.machine.sideness.Side;
+import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
+import software.bernie.techarium.machine.interfaces.IFactory;
+import software.bernie.techarium.machine.interfaces.IWidgetProvider;
+import software.bernie.techarium.machine.sideness.Side;
 
 import javax.annotation.Nonnull;
 import java.util.*;

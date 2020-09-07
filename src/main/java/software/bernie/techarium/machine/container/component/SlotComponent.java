@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.machine.container.component;
+package software.bernie.techarium.machine.container.component;
 
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;

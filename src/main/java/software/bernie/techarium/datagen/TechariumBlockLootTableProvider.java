@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.datagen;
+package software.bernie.techarium.datagen;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.loot.BlockLootTables;

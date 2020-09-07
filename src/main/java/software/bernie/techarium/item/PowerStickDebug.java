@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.item;
+package software.bernie.techarium.item;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUseContext;
@@ -7,10 +7,10 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
-import software.bernie.techariumbotanica.block.base.MachineBlock;
-import software.bernie.techariumbotanica.tile.base.MachineTile;
+import software.bernie.techarium.block.base.MachineBlock;
+import software.bernie.techarium.tile.base.MachineTile;
 
-import static software.bernie.techariumbotanica.registry.ItemGroupRegistry.TECHARIUMS;
+import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUMS;
 
 public class PowerStickDebug extends Item {
 

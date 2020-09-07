@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.block;
+package software.bernie.techarium.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;

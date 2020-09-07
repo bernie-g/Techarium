@@ -1,9 +1,9 @@
-package software.bernie.techariumbotanica.machine.screen;
+package software.bernie.techarium.machine.screen;
 
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
-import software.bernie.techariumbotanica.machine.container.AutomaticContainer;
+import software.bernie.techarium.machine.container.AutomaticContainer;
 
 
 public class AutomaticContainerScreen extends ContainerScreen<AutomaticContainer> {

@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.machine.addon.inventory;
+package software.bernie.techarium.machine.addon.inventory;
 
 import com.google.common.collect.Lists;
 import net.minecraft.inventory.container.Slot;
@@ -7,9 +7,9 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import org.apache.commons.lang3.tuple.Pair;
-import software.bernie.techariumbotanica.machine.interfaces.IContainerComponentProvider;
-import software.bernie.techariumbotanica.machine.interfaces.IFactory;
-import software.bernie.techariumbotanica.tile.base.MachineTile;
+import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
+import software.bernie.techarium.machine.interfaces.IFactory;
+import software.bernie.techarium.tile.base.MachineTile;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;

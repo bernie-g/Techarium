@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.machine.addon.inventory;
+package software.bernie.techarium.machine.addon.inventory;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;

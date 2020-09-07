@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.machine.sideness;
+package software.bernie.techarium.machine.sideness;
 
 public enum Side {
 

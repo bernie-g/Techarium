@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.machine.controller;
+package software.bernie.techarium.machine.controller;
 
 import java.util.ArrayList;
 import java.util.List;

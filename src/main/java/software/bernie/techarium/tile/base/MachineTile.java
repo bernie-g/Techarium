@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.tile.base;
+package software.bernie.techarium.tile.base;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -14,9 +14,9 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
-import software.bernie.techariumbotanica.machine.container.AutomaticContainer;
-import software.bernie.techariumbotanica.machine.controller.MachineController;
-import software.bernie.techariumbotanica.machine.controller.MultiController;
+import software.bernie.techarium.machine.container.AutomaticContainer;
+import software.bernie.techarium.machine.controller.MachineController;
+import software.bernie.techarium.machine.controller.MultiController;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

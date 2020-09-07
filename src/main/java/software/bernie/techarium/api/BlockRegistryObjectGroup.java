@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.api;
+package software.bernie.techarium.api;
 
 
 import net.minecraft.block.Block;

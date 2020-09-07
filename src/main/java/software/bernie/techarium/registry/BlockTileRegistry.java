@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.registry;
+package software.bernie.techarium.registry;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
@@ -8,15 +8,15 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import software.bernie.techariumbotanica.TechariumBotanica;
-import software.bernie.techariumbotanica.api.BlockRegistryObjectGroup;
-import software.bernie.techariumbotanica.block.BotariumTop;
-import software.bernie.techariumbotanica.block.BotaniumMaster;
-import software.bernie.techariumbotanica.tile.BotaniumTile;
+import software.bernie.techarium.TechariumBotanica;
+import software.bernie.techarium.api.BlockRegistryObjectGroup;
+import software.bernie.techarium.block.BotariumTop;
+import software.bernie.techarium.block.BotaniumMaster;
+import software.bernie.techarium.tile.BotaniumTile;
 
 import java.util.function.Function;
 
-import static software.bernie.techariumbotanica.registry.ItemGroupRegistry.TECHARIUMS;
+import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUMS;
 @SuppressWarnings("unused")
 public class BlockTileRegistry {
     public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES,

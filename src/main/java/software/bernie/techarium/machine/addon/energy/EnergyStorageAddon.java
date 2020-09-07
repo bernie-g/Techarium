@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.machine.addon.energy;
+package software.bernie.techarium.machine.addon.energy;
 
 import com.google.common.collect.Lists;
 import javafx.util.Pair;
@@ -6,14 +6,14 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.energy.EnergyStorage;
-import software.bernie.techariumbotanica.machine.interfaces.IFactory;
-import software.bernie.techariumbotanica.client.screen.draw.IDrawable;
-import software.bernie.techariumbotanica.machine.interfaces.IWidgetProvider;
-import software.bernie.techariumbotanica.machine.screen.widget.EnergyAutoWidget;
+import software.bernie.techarium.machine.interfaces.IFactory;
+import software.bernie.techarium.client.screen.draw.IDrawable;
+import software.bernie.techarium.machine.interfaces.IWidgetProvider;
+import software.bernie.techarium.machine.screen.widget.EnergyAutoWidget;
 
 import java.util.List;
 
-import static software.bernie.techariumbotanica.client.screen.draw.GuiAddonTextures.DEFAULT_ENERGY_BAR;
+import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.DEFAULT_ENERGY_BAR;
 
 public class EnergyStorageAddon extends EnergyStorage implements IWidgetProvider, INBTSerializable<CompoundNBT> {
 

@@ -1,4 +1,4 @@
-package software.bernie.techariumbotanica.client.screen.draw;
+package software.bernie.techarium.client.screen.draw;
 
 public interface IDrawable {
 
