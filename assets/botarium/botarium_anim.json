@@ -623,6 +623,21 @@
 					}
 				}
 			}
+		},
+		"Botarium.anim.box": {
+			"animation_length": 1,
+			"bones": {
+				"Machine": {
+					"scale": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			}
 		}
 	}
 }

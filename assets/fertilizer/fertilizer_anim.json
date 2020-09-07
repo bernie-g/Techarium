@@ -740,7 +740,21 @@
 					}
 				}
 			}
+		},
+		"fertilizer.animation.box": {
+			"animation_length": 1,
+			"bones": {
+				"machine": {
+					"scale": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			}
 		}
-	},
-	"geckolib_format_version": 2
+	}
 }
