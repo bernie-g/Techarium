@@ -49,7 +49,7 @@ public abstract class MachineBlock<T extends MachineTile> extends Block {
     @ParametersAreNonnullByDefault
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         ActionResultType result = ActionResultType.FAIL;
-        if(player instanceof ServerPlayerEntity && !player.getActiveItemStack().getItem().equals(DEBUGSTICK.get())) {
+        if(player instanceof ServerPlayerEntity) {
             handleTileEntity(world, pos, (ServerPlayerEntity) player);
             result = ActionResultType.PASS;
         }

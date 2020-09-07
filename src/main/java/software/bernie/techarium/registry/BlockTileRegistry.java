@@ -27,7 +27,7 @@ public class BlockTileRegistry {
 
     //Tile
     public static final BlockRegistryObjectGroup<BotaniumMaster, BlockItem, BotaniumTile> BOTANIUM =
-            new BlockRegistryObjectGroup<>("botanium", BotaniumMaster::new, blockItemCreator(), BotaniumTile::new).register(BLOCKS, ITEMS, TILES);
+            new BlockRegistryObjectGroup<>("botarium", BotaniumMaster::new, blockItemCreator(), BotaniumTile::new).register(BLOCKS, ITEMS, TILES);
 
 
     //Blocks

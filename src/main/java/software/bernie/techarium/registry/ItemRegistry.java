@@ -13,7 +13,7 @@ public class ItemRegistry
 {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Techarium.ModID);
 
-	public static final RegistryObject<PowerStickDebug> DEBUGSTICK = ITEMS.register("power_stick",() -> new PowerStickDebug());
+	public static final RegistryObject<PowerStickDebug> DEBUGSTICK = ITEMS.register("pipe_stick", PowerStickDebug::new);
 
 	public static void register(IEventBus bus){
 		ITEMS.register(bus);
