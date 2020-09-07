@@ -8,7 +8,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import software.bernie.techarium.TechariumBotanica;
+import software.bernie.techarium.Techarium;
 import software.bernie.techarium.api.BlockRegistryObjectGroup;
 import software.bernie.techarium.block.BotariumTop;
 import software.bernie.techarium.block.BotaniumMaster;
@@ -20,10 +20,10 @@ import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUMS;
 @SuppressWarnings("unused")
 public class BlockTileRegistry {
     public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES,
-            TechariumBotanica.ModID);
+            Techarium.ModID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
-            TechariumBotanica.ModID);
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, TechariumBotanica.ModID);
+            Techarium.ModID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Techarium.ModID);
 
     //Tile
     public static final BlockRegistryObjectGroup<BotaniumMaster, BlockItem, BotaniumTile> BOTANIUM =

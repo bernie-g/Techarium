@@ -34,7 +34,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                techariumbotanica {
+                techarium {
                     source sourceSets.main
                 }
             }
@@ -48,7 +48,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                techariumbotanica {
+                techarium {
                     source sourceSets.main
                 }
             }
@@ -65,7 +65,7 @@ minecraft {
 
             args '--mod', 'techarium', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             mods {
-                techariumbotanica {
+                techarium {
                     source sourceSets.main
                 }
             }

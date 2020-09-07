@@ -3,9 +3,9 @@ package software.bernie.techarium.client;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import software.bernie.techarium.TechariumBotanica;
+import software.bernie.techarium.Techarium;
 
-@Mod.EventBusSubscriber(modid = TechariumBotanica.ModID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = Techarium.ModID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientEvents
 {
 	@SubscribeEvent

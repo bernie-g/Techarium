@@ -15,13 +15,13 @@ import software.bernie.techarium.machine.screen.AutomaticContainerScreen;
 
 import static software.bernie.techarium.registry.ContainerRegistry.AUTO_CONTAINER;
 
-@Mod(TechariumBotanica.ModID)
-public class TechariumBotanica
+@Mod(Techarium.ModID)
+public class Techarium
 {
 	public final static String ModID = "techarium";
 	public static Logger LOGGER;
 
-	public TechariumBotanica()
+	public Techarium()
 	{
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 		LOGGER = LogManager.getLogger();

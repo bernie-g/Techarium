@@ -2,7 +2,7 @@ package software.bernie.techarium.client.screen.draw;
 
 import net.minecraft.util.ResourceLocation;
 
-import static software.bernie.techarium.TechariumBotanica.ModID;
+import static software.bernie.techarium.Techarium.ModID;
 
 public class GuiAddonTextures {
 
