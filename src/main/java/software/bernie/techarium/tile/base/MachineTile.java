@@ -55,13 +55,13 @@ public abstract class MachineTile extends TileEntity implements INamedContainerP
 
     @Nonnull
     @Override
-    public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap, @Nullable Direction side) {
+    public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap) {
         if (cap == CapabilityEnergy.ENERGY && isPowered()) {
             return getActiveController().getLazyEnergyStorage().cast();
         } else if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
 
         }
-        return super.getCapability(cap, side);
+        return super.getCapability(cap);
     }
 
 }

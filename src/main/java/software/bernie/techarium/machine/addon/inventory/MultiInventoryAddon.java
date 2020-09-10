@@ -14,51 +14,15 @@ import java.util.*;
 public class MultiInventoryAddon implements IWidgetProvider, IContainerComponentProvider {
 
     private final List<InventoryAddon> inventories = new ArrayList<>();
-    private final Map<Side, LazyOptional<MultiItemCapHandler>> lazyOptionals = new HashMap<>();
+    private final List<LazyOptional<MultiItemCapHandler>> lazyOptionals =  new ArrayList<>();
 
     public MultiInventoryAddon() {
-        this.lazyOptionals.put(null, LazyOptional.empty());
-        Side[] sides = Side.values();
-        int length = sides.length;
-
-        for (int x = 0; x < length; ++x) {
-            Side side = sides[x];
-            this.lazyOptionals.put(side, LazyOptional.empty());
-        }
+        this.lazyOptionals.add(LazyOptional.empty());
     }
 
     public void add(@Nonnull InventoryAddon addon) {
         this.inventories.add(addon);
-        this.buildCap(new Side[]{null});
-        this.buildCap(Side.values());
-    }
 
-    private void buildCap(Side[] sides) {
-        int length = sides.length;
-        for (int x = 0; x < length; ++x) {
-            Side side = sides[x];
-            this.lazyOptionals.get(side).invalidate();
-            this.lazyOptionals.put(side,LazyOptional.of(() ->{
-                return new MultiItemCapHandler(this.getSideHandlers(side));
-            }));
-        }
-    }
-
-    private List<InventoryAddon> getSideHandlers(Side side){
-        if(side == null){
-            return new ArrayList(this.inventories);
-        }else{
-            List<InventoryAddon> invList = new ArrayList<>();
-            for (InventoryAddon inventory : this.inventories) {
-                boolean todo = false;
-                if (todo) {
-                    //TODO Add sided handlers for handling In and Out of external Pipes.
-                } else {
-                    inventories.add(inventory);
-                }
-            }
-            return invList;
-        }
     }
 
     @Override
