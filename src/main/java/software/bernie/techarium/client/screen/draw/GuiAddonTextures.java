@@ -26,4 +26,6 @@ public class GuiAddonTextures {
     public static final IDrawable DEFAULT_FLUID_TANK = BOTARIUM_COMPONENTS.getArea(0,50,14,50);
     public static final IDrawable DEFAULT_ENERGY_BAR = BOTARIUM_COMPONENTS.getArea(18,53,12,48);
 
+    public static final IDrawable BOTARIUM_OUTPUT_SLOT = BOTARIUM_COMPONENTS.getArea(49,0,30,46);
+
 }

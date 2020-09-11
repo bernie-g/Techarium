@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
 import software.bernie.techarium.block.base.MachineBlock;
-import software.bernie.techarium.tile.base.MachineTile;
+import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUMS;
 
@@ -24,8 +24,8 @@ public class PowerStickDebug extends Item {
         BlockPos pos = context.getPos();
         if(world.getBlockState(pos).getBlock() instanceof MachineBlock<?>){
            TileEntity tile = world.getTileEntity(pos);
-           if(tile instanceof MachineTile){
-               MachineTile macTile = (MachineTile) tile;
+           if(tile instanceof MachineMasterTile){
+               MachineMasterTile macTile = (MachineMasterTile) tile;
                if(macTile.isPowered()) {
                    macTile.getCapability(CapabilityEnergy.ENERGY).ifPresent(energy -> energy.receiveEnergy(energy.getMaxEnergyStored()/10,false));
                }

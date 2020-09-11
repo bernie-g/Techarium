@@ -7,6 +7,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
+import software.bernie.techarium.machine.addon.inventory.InventoryAddon;
+import software.bernie.techarium.machine.addon.inventory.MultiInventoryAddon;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
@@ -38,7 +40,7 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
     private EnergyStorageAddon energyStorage;
     private final LazyOptional<IEnergyStorage> lazyEnergyStorage = LazyOptional.of(this::getEnergyStorage);
 
-
+    private MultiInventoryAddon multiInventory;
 
     public MachineController(TileEntity tile, Supplier<BlockPos> posSupplier, int tier) {
         this.posSupplier = posSupplier;
@@ -47,6 +49,13 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
         this.backgroundSizeXY = new Pair<>(204, 183);
         this.tier = tier;
         this.isPowered = false;
+    }
+
+    public void addInventory(InventoryAddon invAddon){
+        if(this.multiInventory == null){
+            this.multiInventory = new MultiInventoryAddon();
+        }
+        this.multiInventory.add(invAddon);
     }
 
     @Nonnull
@@ -107,6 +116,10 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
         return playerInvSlotsXY;
     }
 
+    public MultiInventoryAddon getMultiInventory() {
+        return multiInventory;
+    }
+
     public LazyOptional<IEnergyStorage> getLazyEnergyStorage() {
         return lazyEnergyStorage;
     }
@@ -117,6 +130,9 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
         if (isPowered) {
             widgets.addAll(energyStorage.getGuiWidgets());
         }
+        if(getMultiInventory() != null){
+            widgets.addAll(getMultiInventory().getGuiWidgets());
+        }
 
         return widgets;
     }
@@ -124,8 +140,9 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
     @Override
     public List<IFactory<? extends Slot>> getContainerComponents() {
         List<IFactory<? extends Slot>> components = new ArrayList<>();
-
-
+        if(getMultiInventory() != null){
+            components.addAll(getMultiInventory().getContainerComponents());
+        }
         return components;
     }
 }

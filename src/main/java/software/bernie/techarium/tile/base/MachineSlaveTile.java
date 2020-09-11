@@ -1,5 +1,6 @@
 package software.bernie.techarium.tile.base;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
@@ -27,9 +28,9 @@ public class MachineSlaveTile extends MachineTileBase {
     }
 
     @Override
-    public ActionResultType onTileActicated() {
+    public ActionResultType onTileActicated(PlayerEntity player) {
         assert world != null;
-        return ((MachineTileBase) Objects.requireNonNull(world.getTileEntity(masterPos))).onTileActicated();
+        return ((MachineTileBase) Objects.requireNonNull(world.getTileEntity(masterPos))).onTileActicated(player);
     }
 
     public BlockPos getMasterPos() {

@@ -1,5 +1,6 @@
 package software.bernie.techarium.tile.base;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
@@ -29,5 +30,5 @@ public abstract class MachineTileBase extends TileEntity {
         return sideFaceConfigs;
     }
 
-    public abstract ActionResultType onTileActicated();
+    public abstract ActionResultType onTileActicated(PlayerEntity player);
 }

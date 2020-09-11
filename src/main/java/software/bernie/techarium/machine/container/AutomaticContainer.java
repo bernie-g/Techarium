@@ -10,13 +10,13 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import software.bernie.techarium.machine.controller.MachineController;
-import software.bernie.techarium.tile.base.MachineTile;
+import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import static software.bernie.techarium.registry.ContainerRegistry.AUTO_CONTAINER;
 
 public class AutomaticContainer extends Container {
 
-    protected MachineTile tile;
+    protected MachineMasterTile tile;
 
     private PlayerInventory inv;
 
@@ -24,7 +24,7 @@ public class AutomaticContainer extends Container {
 
     private final BlockPos tileLocation;
 
-    public AutomaticContainer(MachineTile tile, PlayerInventory inv, int id, ITextComponent containerName) {
+    public AutomaticContainer(MachineMasterTile tile, PlayerInventory inv, int id, ITextComponent containerName) {
         super(AUTO_CONTAINER.get(), id);
         this.inv = inv;
         this.name = containerName;
@@ -36,7 +36,7 @@ public class AutomaticContainer extends Container {
         super(AUTO_CONTAINER.get(), id);
         tileLocation = packetBuffer.readBlockPos();
         this.name = packetBuffer.readTextComponent();
-        this.tile = (MachineTile) inv.player.world.getTileEntity(tileLocation);
+        this.tile = (MachineMasterTile) inv.player.world.getTileEntity(tileLocation);
 
         getMachineController().getContainerComponents().forEach(component -> this.addSlot(component.create()));
 

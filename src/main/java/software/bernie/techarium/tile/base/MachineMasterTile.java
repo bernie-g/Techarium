@@ -2,10 +2,12 @@ package software.bernie.techarium.tile.base;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -13,6 +15,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import software.bernie.techarium.machine.container.AutomaticContainer;
 import software.bernie.techarium.machine.controller.MachineController;
@@ -21,11 +24,11 @@ import software.bernie.techarium.machine.controller.MultiController;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public abstract class MachineTile extends TileEntity implements INamedContainerProvider {
+public abstract class MachineMasterTile extends MachineTileBase implements INamedContainerProvider {
 
     private MultiController controller;
 
-    public MachineTile(TileEntityType<?> tileEntityTypeIn) {
+    public MachineMasterTile(TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);
         this.controller = new MultiController();
     }
@@ -59,9 +62,18 @@ public abstract class MachineTile extends TileEntity implements INamedContainerP
         if (cap == CapabilityEnergy.ENERGY && isPowered()) {
             return getActiveController().getLazyEnergyStorage().cast();
         } else if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
-
+            return getActiveController().getMultiInventory().getInvOptional().cast();
         }
         return super.getCapability(cap);
+    }
+
+    @Override
+    public ActionResultType onTileActicated(PlayerEntity player) {
+        NetworkHooks.openGui((ServerPlayerEntity) player, this, packetBuffer -> {
+            packetBuffer.writeBlockPos(this.getPos());
+            packetBuffer.writeTextComponent(this.getDisplayName());
+        });
+        return ActionResultType.SUCCESS;
     }
 
 }
