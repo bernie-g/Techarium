@@ -50,11 +50,6 @@ public class MachineSlaveTile extends MachineTileBase {
         return super.getCapability(cap, side);
     }
 
-    public Direction getFacingDirection() {
-        assert this.world != null;
-        return this.world.getBlockState(this.pos).has(FACING) ? this.world.getBlockState(this.pos).get(FACING) : Direction.NORTH;
-    }
-
     @Override
     public void read(CompoundNBT compound) {
         masterPos = BlockPos.fromLong(compound.getLong("masterPos"));

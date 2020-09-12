@@ -15,6 +15,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import software.bernie.techarium.machine.container.AutomaticContainer;
@@ -23,6 +24,9 @@ import software.bernie.techarium.machine.controller.MultiController;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Objects;
+
+import static software.bernie.techarium.util.StaticHandler.getSideFromDirection;
 
 public abstract class MachineMasterTile extends MachineTileBase implements INamedContainerProvider {
 
@@ -58,11 +62,24 @@ public abstract class MachineMasterTile extends MachineTileBase implements IName
 
     @Nonnull
     @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        if (cap == CapabilityEnergy.ENERGY || cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            if (world != null && getFaceConfigs().get(getSideFromDirection(side,getFacingDirection())).allowsConnection()) {
+                return this.getCapability(cap);
+            }
+        }
+        return super.getCapability(cap, side);
+    }
+
+    @Nonnull
+    @Override
     public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap) {
         if (cap == CapabilityEnergy.ENERGY && isPowered()) {
             return getActiveController().getLazyEnergyStorage().cast();
         } else if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
             return getActiveController().getMultiInventory().getInvOptional().cast();
+        } else if(cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY){
+            return getActiveController().getMultiTank().getTankOptional().cast();
         }
         return super.getCapability(cap);
     }

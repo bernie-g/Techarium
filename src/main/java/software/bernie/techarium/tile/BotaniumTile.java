@@ -5,6 +5,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.item.UpgradeItem;
+import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
 import software.bernie.techarium.machine.addon.inventory.DrawableInventoryAddon;
 import software.bernie.techarium.machine.addon.inventory.InventoryAddon;
 import software.bernie.techarium.machine.controller.MachineController;
@@ -38,19 +39,20 @@ public class BotaniumTile extends MachineMasterTile {
         controller1.setBackground(background, sizeX, sizeY);
         controller1.setPowered(true);
         controller1.setEnergyStorage(10000, 10000, 8, 35);
+        controller1.addTank(new FluidTankAddon(this, "waterIn", 10000 * tier, 29, 28));
         controller1.addInventory(new InventoryAddon(this, "cropInput", 48, 34, 1)
                 .setInputFilter((itemStack, integer) -> itemStack.getItem() instanceof BlockItem &&
                         ((BlockItem) itemStack.getItem()).getBlock() instanceof CropsBlock
                 )
         );
         controller1.addInventory(new InventoryAddon(this, "soilInput", 48, 66, 1)
-        .setInputFilter((itemStack, integer) -> itemStack.getItem().equals(Items.DIRT)));
+                .setInputFilter((itemStack, integer) -> itemStack.getItem().equals(Items.DIRT)));
 
 
         controller1.addInventory(new InventoryAddon(this, "upgradeSlot", 83, 81, 1 + (tier - 1))
                 .setInputFilter((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem));
 
-        controller1.addInventory(new DrawableInventoryAddon(this, "output", 183, 49,BOTARIUM_OUTPUT_SLOT,178,34,30,46,1)
+        controller1.addInventory(new DrawableInventoryAddon(this, "output", 183, 49, BOTARIUM_OUTPUT_SLOT, 178, 34, 30, 46, 1)
                 .setInputFilter((itemStack, integer) -> false));
         return controller1;
     }
@@ -62,7 +64,7 @@ public class BotaniumTile extends MachineMasterTile {
         for (Side side : Side.values()) {
             if (side == Side.FRONT || side == Side.UP) {
                 faceMap.put(side, FaceConfig.NONE);
-            } else{
+            } else {
                 faceMap.put(side, FaceConfig.ENABLED);
             }
         }

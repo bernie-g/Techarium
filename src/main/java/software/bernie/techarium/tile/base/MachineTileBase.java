@@ -4,11 +4,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import software.bernie.techarium.machine.sideness.FaceConfig;
 import software.bernie.techarium.machine.sideness.Side;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static software.bernie.techarium.block.base.RotatableBlock.FACING;
 
 public abstract class MachineTileBase extends TileEntity {
 
@@ -24,6 +27,11 @@ public abstract class MachineTileBase extends TileEntity {
             defaultSetUp.put(side,FaceConfig.NONE);
         }
         return defaultSetUp;
+    }
+
+    public Direction getFacingDirection() {
+        assert this.world != null;
+        return this.world.getBlockState(this.pos).has(FACING) ? this.world.getBlockState(this.pos).get(FACING) : Direction.NORTH;
     }
 
     public Map<Side, FaceConfig> getFaceConfigs() {
