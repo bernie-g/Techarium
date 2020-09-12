@@ -8,16 +8,18 @@ import software.bernie.techarium.machine.controller.MachineController;
 
 public class DrawableWidget extends Widget {
 
-    private IDrawable drawable;
-    private final int sizeX;
-    private final int sizeY;
-    private MachineController controller;
+    private final IDrawable drawable;
+    private final MachineController controller;
 
-    public DrawableWidget(MachineController controller, IDrawable drawable, int xIn, int yIn, int sizeX, int sizeY, String msg) {
+    public DrawableWidget(MachineController controller, IDrawable drawable, int xIn, int yIn, String msg) {
         super(xIn, yIn, msg);
         this.drawable = drawable;
-        this.sizeX = sizeX;
-        this.sizeY = sizeY;
+        this.controller = controller;
+    }
+
+    public DrawableWidget(MachineController controller, IDrawable drawable,int xIn, int yIn, int widthIn, int heightIn, String msg) {
+        super(xIn, yIn, widthIn, heightIn, msg);
+        this.drawable = drawable;
         this.controller = controller;
     }
 
@@ -30,6 +32,6 @@ public class DrawableWidget extends Widget {
         Minecraft minecraft = Minecraft.getInstance();
         int screenY = minecraft.getMainWindow().getScaledHeight() / 2;
         int screenX = minecraft.getMainWindow().getScaledWidth() / 2;
-        drawable.draw(screenX - getBackgroundSize().getValue() / 2 + x, screenY - getBackgroundSize().getKey() / 2 + y, sizeX, sizeY);
+        drawable.draw(screenX - getBackgroundSize().getValue() / 2 + x, screenY - getBackgroundSize().getKey() / 2 + y, getWidth(), getHeight());
     }
 }

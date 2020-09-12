@@ -1,5 +1,6 @@
 package software.bernie.techarium.machine.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mult;
 import javafx.util.Pair;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
@@ -7,6 +8,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
+import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
+import software.bernie.techarium.machine.addon.fluid.MultiFluidTankAddon;
 import software.bernie.techarium.machine.addon.inventory.InventoryAddon;
 import software.bernie.techarium.machine.addon.inventory.MultiInventoryAddon;
 import software.bernie.techarium.machine.interfaces.IFactory;
@@ -41,6 +44,7 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
     private final LazyOptional<IEnergyStorage> lazyEnergyStorage = LazyOptional.of(this::getEnergyStorage);
 
     private MultiInventoryAddon multiInventory;
+    private MultiFluidTankAddon multiTank;
 
     public MachineController(TileEntity tile, Supplier<BlockPos> posSupplier, int tier) {
         this.posSupplier = posSupplier;
@@ -51,11 +55,18 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
         this.isPowered = false;
     }
 
-    public void addInventory(InventoryAddon invAddon){
-        if(this.multiInventory == null){
+    public void addInventory(InventoryAddon invAddon) {
+        if (this.multiInventory == null) {
             this.multiInventory = new MultiInventoryAddon();
         }
         this.multiInventory.add(invAddon);
+    }
+
+    public void addTank(FluidTankAddon fluidAddon) {
+        if (this.multiTank == null) {
+            this.multiTank = new MultiFluidTankAddon();
+        }
+        this.multiTank.add(fluidAddon);
     }
 
     @Nonnull
@@ -81,8 +92,8 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
 
     public void setEnergyStorage(int capacity, int maxIO, int xPos, int yPos) {
         int newX = xPos;
-        if(backgroundSizeXY.getKey() % 2 != 0){
-            newX ++;
+        if (backgroundSizeXY.getKey() % 2 != 0) {
+            newX++;
         }
         energyStorage = new EnergyStorageAddon(tier * capacity, tier * maxIO, newX, yPos, backgroundSizeXY);
     }
@@ -120,6 +131,10 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
         return multiInventory;
     }
 
+    public MultiFluidTankAddon getMultiTank() {
+        return multiTank;
+    }
+
     public LazyOptional<IEnergyStorage> getLazyEnergyStorage() {
         return lazyEnergyStorage;
     }
@@ -130,18 +145,23 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
         if (isPowered) {
             widgets.addAll(energyStorage.getGuiWidgets());
         }
-        if(getMultiInventory() != null){
+        if (getMultiInventory() != null) {
             widgets.addAll(getMultiInventory().getGuiWidgets());
         }
-
+        if (getMultiTank() != null) {
+            widgets.addAll(getMultiTank().getGuiWidgets());
+        }
         return widgets;
     }
 
     @Override
     public List<IFactory<? extends Slot>> getContainerComponents() {
         List<IFactory<? extends Slot>> components = new ArrayList<>();
-        if(getMultiInventory() != null){
+        if (getMultiInventory() != null) {
             components.addAll(getMultiInventory().getContainerComponents());
+        }
+        if (getMultiTank() != null) {
+            components.addAll(getMultiTank().getContainerComponents());
         }
         return components;
     }
