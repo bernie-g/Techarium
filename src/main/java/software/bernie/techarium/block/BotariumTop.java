@@ -8,8 +8,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import software.bernie.techarium.block.base.RotatableBlock;
 
-public class BotariumTop extends Block
+public class BotariumTop extends RotatableBlock
 {
 	public BotariumTop()
 	{

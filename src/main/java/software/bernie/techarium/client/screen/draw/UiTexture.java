@@ -1,8 +1,10 @@
 package software.bernie.techarium.client.screen.draw;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -51,14 +53,15 @@ public class UiTexture {
             float ui = u + du * x1, uf = u + du * x2, vi = v + dv * y1, vf = v + dv * y2;
 
             Tessellator tesselator = Tessellator.getInstance();
-            BufferBuilder buffbuilder = tesselator.getBuffer();
-            buffbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-            buffbuilder.pos(xi, yi, 0D).tex(ui, vi).endVertex();
-            buffbuilder.pos(xi, yf, 0D).tex(ui, vf).endVertex();
-            buffbuilder.pos(xf, yf, 0D).tex(uf, vf).endVertex();
-            buffbuilder.pos(xf, yi, 0D).tex(uf, vi).endVertex();
-            tesselator.draw();
-
+            BufferBuilder buf = tesselator.getBuffer();
+            RenderSystem.enableAlphaTest();
+            buf.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+            buf.pos(xi, yi, 0D).tex(ui, vi).endVertex();
+            buf.pos(xi, yf, 0D).tex(ui, vf).endVertex();
+            buf.pos(xf, yf, 0D).tex(uf, vf).endVertex();
+            buf.pos(xf, yi, 0D).tex(uf, vi).endVertex();
+            buf.finishDrawing();
+            WorldVertexBufferUploader.draw(buf);
         }
 
     }

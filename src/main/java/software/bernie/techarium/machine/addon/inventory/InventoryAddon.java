@@ -1,6 +1,7 @@
 package software.bernie.techarium.machine.addon.inventory;
 
 import com.google.common.collect.Lists;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -9,9 +10,11 @@ import net.minecraftforge.items.SlotItemHandler;
 import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
-import software.bernie.techarium.tile.base.MachineTile;
+import software.bernie.techarium.machine.interfaces.IWidgetProvider;
+import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +22,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 
-public class InventoryAddon extends ItemStackHandler implements IContainerComponentProvider {
+public class InventoryAddon extends ItemStackHandler implements IContainerComponentProvider, IWidgetProvider {
 
     private final String name;
     private int xPos;
@@ -35,24 +38,24 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
 
     private Function<Integer, Pair<Integer, Integer>> slotPosition;
 
-    private MachineTile tile;
+    private MachineMasterTile tile;
 
     private int slotLimit;
 
-    public InventoryAddon(MachineTile tile, String name, int xPos, int yPos, int slots){
+    public InventoryAddon(MachineMasterTile tile, String name, int xPos, int yPos, int slots) {
         this.name = name;
         this.xPos = xPos;
         this.yPos = yPos;
-        this.insertPredicate = (stack,integer) -> true;
-        this.extractPredicate = (stack,integer) -> true;
-        this.onSlotChanged = (stack,integer) -> {
+        this.insertPredicate = (stack, integer) -> true;
+        this.extractPredicate = (stack, integer) -> true;
+        this.onSlotChanged = (stack, integer) -> {
         };
         this.slotAmountFilter = new HashMap<>();
         this.slotToStackRenderMap = new HashMap<>();
         this.slotLimit = 64;
         this.tile = tile;
         setSize(slots);
-        setRange(slots,1);
+        setRange(slots, 1);
         this.slotPosition = integer -> Pair.of(18 * (integer % xSize), 18 * (integer / xSize));
     }
 
@@ -98,7 +101,7 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
         return this;
     }
 
-    public MachineTile getMachineTile() {
+    public MachineMasterTile getMachineTile() {
         return tile;
     }
 
@@ -132,7 +135,7 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
         return extractPredicate;
     }
 
-    public InventoryAddon setSlotAmount(int amount){
+    public InventoryAddon setSlotAmount(int amount) {
         slotLimit = amount;
         return this;
     }
@@ -150,7 +153,15 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
     @Override
     public List<IFactory<? extends Slot>> getContainerComponents() {
         return Lists.newArrayList(() -> {
-            return new SlotItemHandler(this,0,getXPos(),getYPos());
+            return new SlotItemHandler(this, 0, getXPos(), getYPos());
         });
     }
+
+    @Override
+    public List<IFactory<? extends Widget>> getGuiWidgets() {
+        List<IFactory<? extends Widget>> widgets = new ArrayList<>();
+
+        return widgets;
+    }
+
 }

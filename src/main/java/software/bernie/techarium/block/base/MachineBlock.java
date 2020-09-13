@@ -12,8 +12,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
-import software.bernie.techarium.tile.base.MachineTile;
+import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -21,9 +20,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import static software.bernie.techarium.registry.ItemRegistry.DEBUGSTICK;
-
-public abstract class MachineBlock<T extends MachineTile> extends Block {
+public abstract class MachineBlock<T extends MachineMasterTile> extends RotatableBlock {
 
     private final Supplier<T> tileSupplier;
 
@@ -53,17 +50,14 @@ public abstract class MachineBlock<T extends MachineTile> extends Block {
             handleTileEntity(world, pos, (ServerPlayerEntity) player);
             result = ActionResultType.PASS;
         }
-
         return result;
     }
 
     protected void handleTileEntity(IWorld world, BlockPos pos, ServerPlayerEntity player) {
         Optional.ofNullable(world.getTileEntity(pos))
-                .filter(tileEntity -> tileEntity instanceof MachineTile)
-                .map(tileEntity -> (MachineTile)tileEntity)
-                .ifPresent(tile -> NetworkHooks.openGui(player,tile,packetBuffer -> {
-                    packetBuffer.writeBlockPos(tile.getPos());
-                    packetBuffer.writeTextComponent(tile.getDisplayName());
-                }));
+                .filter(tileEntity -> tileEntity instanceof MachineMasterTile)
+                .map(tileEntity -> (MachineMasterTile)tileEntity)
+                .ifPresent(tile -> tile.onTileActicated(player));
     }
+
 }
