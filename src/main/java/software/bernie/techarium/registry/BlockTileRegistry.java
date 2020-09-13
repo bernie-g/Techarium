@@ -12,7 +12,7 @@ import software.bernie.techarium.Techarium;
 import software.bernie.techarium.api.BlockRegistryObjectGroup;
 import software.bernie.techarium.block.BotariumTop;
 import software.bernie.techarium.block.BotaniumMaster;
-import software.bernie.techarium.tile.BotaniumTile;
+import software.bernie.techarium.tile.BotariumTile;
 
 import java.util.function.Function;
 
@@ -26,8 +26,8 @@ public class BlockTileRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Techarium.ModID);
 
     //Tile
-    public static final BlockRegistryObjectGroup<BotaniumMaster, BlockItem, BotaniumTile> BOTANIUM =
-            new BlockRegistryObjectGroup<>("botarium", BotaniumMaster::new, blockItemCreator(), BotaniumTile::new).register(BLOCKS, ITEMS, TILES);
+    public static final BlockRegistryObjectGroup<BotaniumMaster, BlockItem, BotariumTile> BOTARIUM =
+            new BlockRegistryObjectGroup<>("botarium", BotaniumMaster::new, blockItemCreator(), BotariumTile::new).register(BLOCKS, ITEMS, TILES);
 
 
     //Blocks

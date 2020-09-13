@@ -3,6 +3,11 @@ package software.bernie.techarium.tile;
 import net.minecraft.block.CropsBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Items;
+import software.bernie.geckolib.animation.builder.AnimationBuilder;
+import software.bernie.geckolib.block.SpecialAnimationController;
+import software.bernie.geckolib.entity.IAnimatable;
+import software.bernie.geckolib.event.predicate.SpecialAnimationPredicate;
+import software.bernie.geckolib.manager.AnimationManager;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.item.UpgradeItem;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
@@ -18,47 +23,64 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.*;
-import static software.bernie.techarium.registry.BlockTileRegistry.BOTANIUM;
+import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM;
 
-public class BotaniumTile extends MachineMasterTile {
-
+public class BotariumTile extends MachineMasterTile implements IAnimatable
+{
     private final int sizeX = 172;
     private final int sizeY = 184;
+    private AnimationManager manager = new AnimationManager();
+    private SpecialAnimationController controller = new SpecialAnimationController(this, "controller", 0, this::animationPredicate);
 
-    public BotaniumTile() {
-        super(BOTANIUM.getTileEntityType());
+    public boolean isOpening = false;
+
+    private <E extends IAnimatable> boolean animationPredicate(SpecialAnimationPredicate<E> event)
+    {
+        if(isOpening)
+        {
+            this.controller.setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.deploy", false).addAnimation("Botarium.anim.idle", true));
+        }
+        else {
+            this.controller.setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.idle", true));
+        }
+        return true;
+    }
+
+    public BotariumTile() {
+        super(BOTARIUM.getTileEntityType());
         getController().addController(machineController(1, BOTARIUM_BASE_TIER_1));
         getController().addController(machineController(2, BOTARIUM_BASE_TIER_2));
         getController().addController(machineController(3, BOTARIUM_BASE_TIER_3));
         getController().addController(machineController(4, BOTARIUM_BASE_TIER_4));
         getController().addController(machineController(5, BOTARIUM_BASE_TIER_5));
+        this.manager.addAnimationController(controller);
     }
 
 
     private MachineController machineController(int tier, IDrawable background) {
-        MachineController controller1 = createController(tier);
-        controller1.setBackground(background, sizeX, sizeY);
-        controller1.setPowered(true);
-        controller1.setEnergyStorage(10000, 10000, 8, 35);
+        MachineController controller = createController(tier);
+        controller.setBackground(background, sizeX, sizeY);
+        controller.setPowered(true);
+        controller.setEnergyStorage(10000, 10000, 8, 35);
 
-        controller1.addProgressBar(new ProgressBarAddon(this,8,26,500,"techarium.gui.mainProgress"));
+        controller.addProgressBar(new ProgressBarAddon(this,8,26,500,"techarium.gui.mainProgress"));
 
-        controller1.addTank(new FluidTankAddon(this, "waterIn", 10000 * tier, 29, 28));
-        controller1.addInventory(new InventoryAddon(this, "cropInput", 49, 35, 1)
+        controller.addTank(new FluidTankAddon(this, "waterIn", 10000 * tier, 29, 28));
+        controller.addInventory(new InventoryAddon(this, "cropInput", 49, 35, 1)
                 .setInputFilter((itemStack, integer) -> itemStack.getItem() instanceof BlockItem &&
                         ((BlockItem) itemStack.getItem()).getBlock() instanceof CropsBlock
                 )
         );
-        controller1.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
+        controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
                 .setInputFilter((itemStack, integer) -> itemStack.getItem().equals(Items.DIRT)));
 
 
-        controller1.addInventory(new InventoryAddon(this, "upgradeSlot", 83, 81, 1 + (tier - 1))
+        controller.addInventory(new InventoryAddon(this, "upgradeSlot", 83, 81, 1 + (tier - 1))
                 .setInputFilter((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem));
 
-        controller1.addInventory(new DrawableInventoryAddon(this, "output", 183, 49, BOTARIUM_OUTPUT_SLOT, 178, 34, 30, 46, 1)
+        controller.addInventory(new DrawableInventoryAddon(this, "output", 183, 49, BOTARIUM_OUTPUT_SLOT, 178, 34, 30, 46, 1)
                 .setInputFilter((itemStack, integer) -> false));
-        return controller1;
+        return controller;
     }
 
 
@@ -79,4 +101,9 @@ public class BotaniumTile extends MachineMasterTile {
         return new MachineController(this, () -> this.pos, tier);
     }
 
+    @Override
+    public AnimationManager getAnimationManager()
+    {
+        return this.manager;
+    }
 }
