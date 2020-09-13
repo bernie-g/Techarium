@@ -20,7 +20,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public abstract class MachineBlock<T extends MachineMasterTile> extends Block {
+public abstract class MachineBlock<T extends MachineMasterTile> extends RotatableBlock {
 
     private final Supplier<T> tileSupplier;
 
