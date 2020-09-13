@@ -8,6 +8,7 @@ import software.bernie.techarium.item.UpgradeItem;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
 import software.bernie.techarium.machine.addon.inventory.DrawableInventoryAddon;
 import software.bernie.techarium.machine.addon.inventory.InventoryAddon;
+import software.bernie.techarium.machine.addon.progressbar.ProgressBarAddon;
 import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.machine.sideness.FaceConfig;
 import software.bernie.techarium.machine.sideness.Side;
@@ -39,13 +40,16 @@ public class BotaniumTile extends MachineMasterTile {
         controller1.setBackground(background, sizeX, sizeY);
         controller1.setPowered(true);
         controller1.setEnergyStorage(10000, 10000, 8, 35);
+
+        controller1.addProgressBar(new ProgressBarAddon(this,8,26,500,"techarium.gui.mainProgress"));
+
         controller1.addTank(new FluidTankAddon(this, "waterIn", 10000 * tier, 29, 28));
-        controller1.addInventory(new InventoryAddon(this, "cropInput", 48, 34, 1)
+        controller1.addInventory(new InventoryAddon(this, "cropInput", 49, 35, 1)
                 .setInputFilter((itemStack, integer) -> itemStack.getItem() instanceof BlockItem &&
                         ((BlockItem) itemStack.getItem()).getBlock() instanceof CropsBlock
                 )
         );
-        controller1.addInventory(new InventoryAddon(this, "soilInput", 48, 66, 1)
+        controller1.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
                 .setInputFilter((itemStack, integer) -> itemStack.getItem().equals(Items.DIRT)));
 
 

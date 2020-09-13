@@ -40,6 +40,11 @@ public class AutomaticContainer extends Container {
 
         getMachineController().getContainerComponents().forEach(component -> this.addSlot(component.create()));
 
+        for (Integer slot : getMachineController().getPlayerHotBarSlotsXY().keySet()) {
+            Pair<Integer, Integer> slotXY = getMachineController().getPlayerHotBarSlotsXY().get(slot);
+            this.addSlot(new Slot(inv, slot, slotXY.getKey(), slotXY.getValue()));
+        }
+
         for (Integer slot : getMachineController().getPlayerInvSlotsXY().keySet()) {
             Pair<Integer, Integer> slotXY = getMachineController().getPlayerInvSlotsXY().get(slot);
             this.addSlot(new Slot(inv, slot, slotXY.getKey(), slotXY.getValue()));

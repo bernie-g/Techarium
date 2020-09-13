@@ -12,6 +12,8 @@ import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
 import software.bernie.techarium.machine.addon.fluid.MultiFluidTankAddon;
 import software.bernie.techarium.machine.addon.inventory.InventoryAddon;
 import software.bernie.techarium.machine.addon.inventory.MultiInventoryAddon;
+import software.bernie.techarium.machine.addon.progressbar.MultiProgressBarAddon;
+import software.bernie.techarium.machine.addon.progressbar.ProgressBarAddon;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
@@ -38,13 +40,14 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
     private IDrawable background;
 
     private Map<Integer, Pair<Integer, Integer>> playerInvSlotsXY = new HashMap<>();
-
+    private Map<Integer, Pair<Integer, Integer>> playerHotbarSlotsXY = new HashMap<>();
     private boolean isPowered;
     private EnergyStorageAddon energyStorage;
     private final LazyOptional<IEnergyStorage> lazyEnergyStorage = LazyOptional.of(this::getEnergyStorage);
 
     private MultiInventoryAddon multiInventory;
     private MultiFluidTankAddon multiTank;
+    private MultiProgressBarAddon multiPogressBar;
 
     public MachineController(TileEntity tile, Supplier<BlockPos> posSupplier, int tier) {
         this.posSupplier = posSupplier;
@@ -67,6 +70,13 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
             this.multiTank = new MultiFluidTankAddon();
         }
         this.multiTank.add(fluidAddon);
+    }
+
+    public void addProgressBar(ProgressBarAddon progressBarAddon) {
+        if (this.multiPogressBar == null) {
+            this.multiPogressBar = new MultiProgressBarAddon();
+        }
+        this.multiPogressBar.add(progressBarAddon);
     }
 
     @Nonnull
@@ -114,6 +124,13 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
         return playerInvSlotsXY;
     }
 
+    public Map<Integer, Pair<Integer, Integer>> getPlayerHotBarSlotsXY() {
+        if (playerHotbarSlotsXY.isEmpty()) {
+            return getNormalHotBarLocations();
+        }
+        return playerHotbarSlotsXY;
+    }
+
     public void setPlayerInvSlotsXY(Map<Integer, Pair<Integer, Integer>> playerInvSlotsXY) {
         this.playerInvSlotsXY = playerInvSlotsXY;
     }
@@ -125,6 +142,14 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
             }
         }
         return playerInvSlotsXY;
+    }
+
+
+    private Map<Integer, Pair<Integer, Integer>> getNormalHotBarLocations() {
+        for (int i1 = 0; i1 < 9; ++i1) {
+            playerHotbarSlotsXY.put(i1, new Pair<>(7 + i1 * 18, 160));
+        }
+        return playerHotbarSlotsXY;
     }
 
     public MultiInventoryAddon getMultiInventory() {
@@ -139,6 +164,10 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
         return lazyEnergyStorage;
     }
 
+    public MultiProgressBarAddon getMultiPogressBar() {
+        return multiPogressBar;
+    }
+
     @Override
     public List<IFactory<? extends Widget>> getGuiWidgets() {
         List<IFactory<? extends Widget>> widgets = new ArrayList<>();
@@ -150,6 +179,9 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
         }
         if (getMultiTank() != null) {
             widgets.addAll(getMultiTank().getGuiWidgets());
+        }
+        if (getMultiPogressBar() != null) {
+            widgets.addAll(getMultiPogressBar().getGuiWidgets());
         }
         return widgets;
     }
@@ -163,6 +195,15 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
         if (getMultiTank() != null) {
             components.addAll(getMultiTank().getContainerComponents());
         }
+        if (getMultiPogressBar() != null) {
+            components.addAll(getMultiPogressBar().getContainerComponents());
+        }
         return components;
+    }
+
+    public void tick() {
+        if (multiPogressBar != null) {
+            this.multiPogressBar.attemptTickAllBars();
+        }
     }
 }

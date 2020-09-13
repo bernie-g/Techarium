@@ -34,7 +34,7 @@ public class MultiInventoryAddon implements IWidgetProvider, IContainerComponent
 
     @Override
     public List<IFactory<? extends Slot>> getContainerComponents() {
-        List<IFactory<? extends Slot>> components = new ArrayList();
+        List<IFactory<? extends Slot>> components = new ArrayList<>();
         inventories.forEach(posInv -> {
             components.addAll(posInv.getContainerComponents());
         });

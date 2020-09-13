@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
@@ -28,7 +29,7 @@ import java.util.Objects;
 
 import static software.bernie.techarium.util.StaticHandler.getSideFromDirection;
 
-public abstract class MachineMasterTile extends MachineTileBase implements INamedContainerProvider {
+public abstract class MachineMasterTile extends MachineTileBase implements INamedContainerProvider, ITickableTileEntity {
 
     private MultiController controller;
 
@@ -93,4 +94,8 @@ public abstract class MachineMasterTile extends MachineTileBase implements IName
         return ActionResultType.SUCCESS;
     }
 
+    @Override
+    public void tick() {
+        this.getActiveController().tick();
+    }
 }
