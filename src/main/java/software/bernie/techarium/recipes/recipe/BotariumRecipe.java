@@ -11,6 +11,8 @@ import net.minecraftforge.fluids.FluidStack;
 import software.bernie.techarium.api.CropType;
 import software.bernie.techarium.recipes.AbstractMachineRecipe;
 
+import java.util.List;
+
 import static software.bernie.techarium.registry.RecipeSerializerRegistry.BOTARIUM_RECIPE_TYPE;
 import static software.bernie.techarium.registry.RecipeSerializerRegistry.BOTARIUM_SERIALIZER;
 
@@ -41,27 +43,9 @@ public class BotariumRecipe extends AbstractMachineRecipe {
     }
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
-        return false;
-    }
-
-    @Override
-    public ItemStack getCraftingResult(IInventory inv) {
-        return null;
-    }
-
-    @Override
-    public boolean canFit(int width, int height) {
-        return false;
-    }
-
-    @Override
-    public ItemStack getRecipeOutput() {
-        return null;
-    }
-
-    @Override
     public IRecipeSerializer<?> getSerializer() {
         return BOTARIUM_SERIALIZER.get();
     }
+
+
 }

@@ -1,10 +1,8 @@
 package software.bernie.techarium.machine.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Mult;
 import javafx.util.Pair;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -18,21 +16,28 @@ import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
+import software.bernie.techarium.machine.interfaces.IMachineRecipe;
 import software.bernie.techarium.machine.interfaces.IWidgetProvider;
+import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.BOTARIUM_BASE_TIER_1;
 
-public class MachineController implements IWidgetProvider, IContainerComponentProvider {
+public class MachineController<T extends IMachineRecipe> implements IWidgetProvider, IContainerComponentProvider {
 
     protected final Supplier<BlockPos> posSupplier;
-    protected final TileEntity tile;
+    protected final MachineMasterTile<T> tile;
+
+    private T currentRecipe;
+    private boolean shouldCheckRecipe;
+    private int recipeCheckTimer;
 
     private final int tier;
     private Pair<Integer, Integer> backgroundSizeXY;
@@ -49,7 +54,7 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
     private MultiFluidTankAddon multiTank;
     private MultiProgressBarAddon multiPogressBar;
 
-    public MachineController(TileEntity tile, Supplier<BlockPos> posSupplier, int tier) {
+    public MachineController(MachineMasterTile<T> tile, Supplier<BlockPos> posSupplier, int tier) {
         this.posSupplier = posSupplier;
         this.tile = tile;
         this.background = BOTARIUM_BASE_TIER_1;
@@ -77,6 +82,10 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
             this.multiPogressBar = new MultiProgressBarAddon();
         }
         this.multiPogressBar.add(progressBarAddon);
+    }
+
+    public T getCurrentRecipe() {
+        return currentRecipe;
     }
 
     @Nonnull
@@ -204,6 +213,35 @@ public class MachineController implements IWidgetProvider, IContainerComponentPr
     public void tick() {
         if (multiPogressBar != null) {
             this.multiPogressBar.attemptTickAllBars();
+        }
+
+        if (currentRecipe == null) {
+            handleRecipeNull(shouldCheckRecipe);
+        }
+        shouldCheckRecipe = false;
+    }
+
+    private void handleRecipeNull(boolean shouldCheckRecipe){
+        if(recipeCheckTimer -- <= 0 || shouldCheckRecipe){
+            recipeCheckTimer = 50;
+            if(tile.shouldCheckForRecipe()){
+                currentRecipe = tile.getWorld().getRecipeManager()
+                        .getRecipes()
+                        .stream()
+                        .filter(tile::checkRecipe)
+                        .map(tile::castRecipe)
+                        .filter(tile::matchRecipe)
+                        .findFirst()
+                        .orElse(null);
+                this.getMultiPogressBar().getProgressBarAddons().forEach(bar -> bar.setProgress(0));
+                if (currentRecipe != null) {
+                    AtomicInteger x = new AtomicInteger();
+                    this.getMultiPogressBar().getProgressBarAddons().forEach(bar -> {
+                        bar.setMaxProgress(currentRecipe.getMaxProgressTimes().get(x.get()));
+                        x.incrementAndGet();
+                    });
+                }
+            }
         }
     }
 }

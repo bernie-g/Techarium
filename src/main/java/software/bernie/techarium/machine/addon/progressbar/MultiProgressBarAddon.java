@@ -40,6 +40,10 @@ public class MultiProgressBarAddon implements IWidgetProvider, IContainerCompone
         }
     }
 
+    public List<ProgressBarAddon> getProgressBarAddons() {
+        return progressBarAddons;
+    }
+
     @Override
     public List<IFactory<? extends Slot>> getContainerComponents() {
         List<IFactory<? extends Slot>> components = new ArrayList<>();

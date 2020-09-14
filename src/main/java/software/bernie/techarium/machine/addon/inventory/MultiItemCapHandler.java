@@ -72,6 +72,10 @@ public class MultiItemCapHandler extends ItemStackHandler {
         super.setStackInSlot(slot, stack);
     }
 
+    public List<InventoryAddon> getInventories() {
+        return inventories;
+    }
+
     public InventoryAddon getInvFromSlot(int slot) {
         for (InventoryAddon inventory : this.inventories) {
             slot -= inventory.getSlots();

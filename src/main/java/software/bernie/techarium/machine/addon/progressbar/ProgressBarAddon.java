@@ -91,6 +91,10 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IWidgetP
         return this;
     }
 
+    public void setMaxProgress(int maxProgress) {
+        this.maxProgress = maxProgress;
+    }
+
     public MachineMasterTile getTile() {
         return tile;
     }

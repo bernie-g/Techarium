@@ -16,7 +16,7 @@ import static software.bernie.techarium.registry.ContainerRegistry.AUTO_CONTAINE
 
 public class AutomaticContainer extends Container {
 
-    protected MachineMasterTile tile;
+    protected MachineMasterTile<?> tile;
 
     private PlayerInventory inv;
 
@@ -24,19 +24,12 @@ public class AutomaticContainer extends Container {
 
     private final BlockPos tileLocation;
 
-    public AutomaticContainer(MachineMasterTile tile, PlayerInventory inv, int id, ITextComponent containerName) {
+    public AutomaticContainer(MachineMasterTile<?> tile, PlayerInventory inv, int id, ITextComponent containerName) {
         super(AUTO_CONTAINER.get(), id);
         this.inv = inv;
         this.name = containerName;
         this.tile = tile;
         this.tileLocation = tile.getPos();
-    }
-
-    public AutomaticContainer(int id, PlayerInventory inv, PacketBuffer packetBuffer) {
-        super(AUTO_CONTAINER.get(), id);
-        tileLocation = packetBuffer.readBlockPos();
-        this.name = packetBuffer.readTextComponent();
-        this.tile = (MachineMasterTile) inv.player.world.getTileEntity(tileLocation);
 
         getMachineController().getContainerComponents().forEach(component -> this.addSlot(component.create()));
 
@@ -51,7 +44,29 @@ public class AutomaticContainer extends Container {
         }
     }
 
-    public MachineController getMachineController() {
+    public AutomaticContainer(int id, PlayerInventory inv, PacketBuffer packetBuffer) {
+        super(AUTO_CONTAINER.get(), id);
+        tileLocation = packetBuffer.readBlockPos();
+        this.name = packetBuffer.readTextComponent();
+        this.tile = (MachineMasterTile<?>) inv.player.world.getTileEntity(tileLocation);
+        getMachineController().getContainerComponents().forEach(component -> this.addSlot(component.create()));
+
+        for (Integer slot : getMachineController().getPlayerHotBarSlotsXY().keySet()) {
+            Pair<Integer, Integer> slotXY = getMachineController().getPlayerHotBarSlotsXY().get(slot);
+            this.addSlot(new Slot(inv, slot, slotXY.getKey(), slotXY.getValue()));
+        }
+
+        for (Integer slot : getMachineController().getPlayerInvSlotsXY().keySet()) {
+            Pair<Integer, Integer> slotXY = getMachineController().getPlayerInvSlotsXY().get(slot);
+            this.addSlot(new Slot(inv, slot, slotXY.getKey(), slotXY.getValue()));
+        }
+    }
+
+    private void addPlayerInventories(){
+
+    }
+
+    public MachineController<?> getMachineController() {
         return tile.getController().getActiveController();
     }
 

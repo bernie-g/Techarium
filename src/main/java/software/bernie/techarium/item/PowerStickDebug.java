@@ -29,7 +29,7 @@ public class PowerStickDebug extends Item {
         if(world.getBlockState(pos).getBlock() instanceof MachineBlock<?>){
            TileEntity tile = world.getTileEntity(pos);
            if(tile instanceof MachineMasterTile){
-               MachineMasterTile macTile = (MachineMasterTile) tile;
+               MachineMasterTile<?> macTile = (MachineMasterTile<?>) tile;
                if(macTile.isPowered()) {
                    macTile.getCapability(CapabilityEnergy.ENERGY).ifPresent(energy -> energy.receiveEnergy(energy.getMaxEnergyStored()/10,false));
                    macTile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluid -> fluid.fill(new FluidStack(Fluids.WATER,1500), IFluidHandler.FluidAction.EXECUTE));

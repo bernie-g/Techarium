@@ -3,13 +3,16 @@ package software.bernie.techarium.tile.base;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -22,6 +25,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import software.bernie.techarium.machine.container.AutomaticContainer;
 import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.machine.controller.MultiController;
+import software.bernie.techarium.machine.interfaces.IRecipeMachine;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,7 +33,7 @@ import java.util.Objects;
 
 import static software.bernie.techarium.util.StaticHandler.getSideFromDirection;
 
-public abstract class MachineMasterTile extends MachineTileBase implements INamedContainerProvider, ITickableTileEntity {
+public abstract class MachineMasterTile<T extends IRecipe<IInventory>> extends MachineTileBase implements INamedContainerProvider, ITickableTileEntity, IRecipeMachine<T> {
 
     private MultiController controller;
 
@@ -95,7 +99,15 @@ public abstract class MachineMasterTile extends MachineTileBase implements IName
     }
 
     @Override
+    public AxisAlignedBB getRenderBoundingBox() {
+        return INFINITE_EXTENT_AABB;
+    }
+
+
+
+    @Override
     public void tick() {
         this.getActiveController().tick();
     }
+
 }

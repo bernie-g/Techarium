@@ -19,7 +19,9 @@ public class MultiTankCapHandler implements IFluidHandler {
         return this.tanks.isEmpty();
     }
 
-
+    public List<FluidTankAddon> getFluidTanks(){
+        return tanks;
+    }
 
     @Override
     public int getTanks() {
