@@ -1,6 +1,7 @@
 package software.bernie.techarium.registry;
 
 import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.IRecipeType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -17,6 +18,7 @@ public class RecipeSerializerRegistry {
     public static final RegistryObject<IRecipeSerializer<BotariumRecipe>> BOTARIUM_SERIALIZER =
             RECIPE_SERIALIZER.register("botarium",BotariumRecipeSerializer::new);
 
+    public static IRecipeType<BotariumRecipe> BOTARIUM_RECIPE_TYPE = IRecipeType.register("botarium");
 
     public static void register(IEventBus bus){
         RECIPE_SERIALIZER.register(bus);

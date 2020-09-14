@@ -1,4 +1,4 @@
-package software.bernie.techarium.recipes;
+package software.bernie.techarium.recipes.recipe;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -9,8 +9,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import software.bernie.techarium.api.CropType;
+import software.bernie.techarium.recipes.AbstractMachineRecipe;
 
-import static software.bernie.techarium.recipes.TechariumRecipeTypes.BOTARIUM_RECIPE_TYPE;
+import static software.bernie.techarium.registry.RecipeSerializerRegistry.BOTARIUM_RECIPE_TYPE;
+import static software.bernie.techarium.registry.RecipeSerializerRegistry.BOTARIUM_SERIALIZER;
 
 public class BotariumRecipe extends AbstractMachineRecipe {
 
@@ -19,11 +21,23 @@ public class BotariumRecipe extends AbstractMachineRecipe {
     private final Ingredient soilIn;
 
 
-    protected BotariumRecipe(ResourceLocation id, CropType type, FluidStack fluidIn, Ingredient soilIn, int maxProgress, int energyCost) {
+    public BotariumRecipe(ResourceLocation id, CropType type, FluidStack fluidIn, Ingredient soilIn, int maxProgress, int energyCost) {
         super(id, BOTARIUM_RECIPE_TYPE, maxProgress, energyCost);
         this.type = type;
         this.fluidIn = fluidIn;
         this.soilIn = soilIn;
+    }
+
+    public CropType getCropType(){
+        return type;
+    }
+
+    public FluidStack getFluidIn() {
+        return fluidIn;
+    }
+
+    public Ingredient getSoilIn() {
+        return soilIn;
     }
 
     @Override
@@ -48,6 +62,6 @@ public class BotariumRecipe extends AbstractMachineRecipe {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return null;
+        return BOTARIUM_SERIALIZER.get();
     }
 }
