@@ -1,0 +1,11 @@
+{
+  "type": "techarium:botarium",
+  "cropType": "techarium:vanilla_crop",
+  "soilIn": {
+    "item": "minecraft:dirt"
+  },
+  "fluidIn": "minecraft:water",
+  "fluidAmount": 1000,
+  "maxProgress": 1000,
+  "energyCost": 1000
+}

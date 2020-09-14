@@ -9,7 +9,7 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.techarium.Techarium;
-import software.bernie.techarium.api.BlockRegistryObjectGroup;
+import software.bernie.techarium.block.BlockRegistryObjectGroup;
 import software.bernie.techarium.block.BotariumTop;
 import software.bernie.techarium.block.BotaniumMaster;
 import software.bernie.techarium.tile.BotariumTile;
