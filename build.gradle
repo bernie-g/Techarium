@@ -70,13 +70,29 @@ minecraft {
 repositories {
     maven { url 'https://repo.repsy.io/mvn/gandiber/geckolib' }
     maven { url 'https://repo.repsy.io/mvn/fadookie/particleman' }
-
+    maven {
+        url = "https://www.cursemaven.com"
+    }
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.k-4u.nl"
+    }
 }
 dependencies {
     minecraft 'net.minecraftforge:forge:1.15.2-31.2.37'
-    implementation fg.deobf('software.bernie.geckolib:forge-1.15.2-geckolib:SNAPSHOT-81')
+    implementation fg.deobf('software.bernie.geckolib:forge-1.15.2-geckolib:SNAPSHOT-83')
     implementation fg.deobf('com.eliotlash.molang:molang:SNAPSHOT.8')
     implementation fg.deobf('com.eliotlash.mclib:mclib:SNAPSHOT.8')
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
+    // at runtime, use the full JEI jar
+    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+    compile fg.deobf("curse.maven:mekanism:2996531")
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.0'
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.9.0'
 }
