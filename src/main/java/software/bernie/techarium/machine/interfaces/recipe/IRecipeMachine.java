@@ -1,4 +1,4 @@
-package software.bernie.techarium.machine.interfaces;
+package software.bernie.techarium.machine.interfaces.recipe;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.crafting.IRecipe;

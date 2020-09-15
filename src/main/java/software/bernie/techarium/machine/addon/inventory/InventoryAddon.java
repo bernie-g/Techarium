@@ -8,6 +8,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import org.apache.commons.lang3.tuple.Pair;
+import software.bernie.techarium.machine.container.component.SlotComponent;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.machine.interfaces.IWidgetProvider;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
@@ -38,11 +40,11 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
 
     private Function<Integer, Pair<Integer, Integer>> slotPosition;
 
-    private MachineMasterTile tile;
+    private MachineMasterTile<?> tile;
 
     private int slotLimit;
 
-    public InventoryAddon(MachineMasterTile tile, String name, int xPos, int yPos, int slots) {
+    public InventoryAddon(MachineMasterTile<?> tile, String name, int xPos, int yPos, int slots) {
         this.name = name;
         this.xPos = xPos;
         this.yPos = yPos;
@@ -57,6 +59,11 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
         setSize(slots);
         setRange(slots, 1);
         this.slotPosition = integer -> Pair.of(18 * (integer % xSize), 18 * (integer / xSize));
+    }
+
+    public InventoryAddon setOnSlotChanged(BiConsumer<ItemStack, Integer> onSlotChanged) {
+        this.onSlotChanged = onSlotChanged;
+        return this;
     }
 
     @Nonnull
@@ -101,7 +108,7 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
         return this;
     }
 
-    public MachineMasterTile getMachineTile() {
+    public MachineMasterTile<?> getMachineTile() {
         return tile;
     }
 
@@ -152,8 +159,9 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
 
     @Override
     public List<IFactory<? extends Slot>> getContainerComponents() {
+        AtomicInteger x = new AtomicInteger();
         return Lists.newArrayList(() -> {
-            return new SlotItemHandler(this, 0, getXPos(), getYPos());
+            return new SlotComponent(this, x.getAndIncrement(), getXPos(), getYPos());
         });
     }
 

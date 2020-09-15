@@ -2,11 +2,10 @@ package software.bernie.techarium.recipes;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import software.bernie.techarium.machine.interfaces.IMachineRecipe;
+import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
 
 import java.util.ArrayList;
 import java.util.List;

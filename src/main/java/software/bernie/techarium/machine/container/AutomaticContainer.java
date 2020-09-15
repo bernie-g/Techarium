@@ -49,7 +49,6 @@ public class AutomaticContainer extends Container {
         tileLocation = packetBuffer.readBlockPos();
         this.name = packetBuffer.readTextComponent();
         this.tile = (MachineMasterTile<?>) inv.player.world.getTileEntity(tileLocation);
-        getMachineController().getContainerComponents().forEach(component -> this.addSlot(component.create()));
 
         for (Integer slot : getMachineController().getPlayerHotBarSlotsXY().keySet()) {
             Pair<Integer, Integer> slotXY = getMachineController().getPlayerHotBarSlotsXY().get(slot);
@@ -60,6 +59,9 @@ public class AutomaticContainer extends Container {
             Pair<Integer, Integer> slotXY = getMachineController().getPlayerInvSlotsXY().get(slot);
             this.addSlot(new Slot(inv, slot, slotXY.getKey(), slotXY.getValue()));
         }
+
+        getMachineController().getContainerComponents().forEach(component -> this.addSlot(component.create()));
+
     }
 
     private void addPlayerInventories(){

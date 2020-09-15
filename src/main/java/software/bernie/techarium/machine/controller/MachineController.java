@@ -3,7 +3,9 @@ package software.bernie.techarium.machine.controller;
 import javafx.util.Pair;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
@@ -16,7 +18,7 @@ import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
-import software.bernie.techarium.machine.interfaces.IMachineRecipe;
+import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
 import software.bernie.techarium.machine.interfaces.IWidgetProvider;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 
@@ -30,7 +32,7 @@ import java.util.function.Supplier;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.BOTARIUM_BASE_TIER_1;
 
-public class MachineController<T extends IMachineRecipe> implements IWidgetProvider, IContainerComponentProvider {
+public class MachineController<T extends IMachineRecipe> implements IWidgetProvider, IContainerComponentProvider, INBTSerializable<CompoundNBT> {
 
     protected final Supplier<BlockPos> posSupplier;
     protected final MachineMasterTile<T> tile;
@@ -195,6 +197,14 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
         return widgets;
     }
 
+    public void resetCurrentRecipe(){
+        this.currentRecipe = null;
+    }
+
+    public void setShouldCheckRecipe(){
+        shouldCheckRecipe = true;
+    }
+
     @Override
     public List<IFactory<? extends Slot>> getContainerComponents() {
         List<IFactory<? extends Slot>> components = new ArrayList<>();
@@ -243,5 +253,19 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
                 }
             }
         }
+    }
+
+    @Override
+    public CompoundNBT serializeNBT() {
+        CompoundNBT nbt = new CompoundNBT();
+        getLazyEnergyStorage().ifPresent(storage -> nbt.put("energy", ((EnergyStorageAddon)storage).serializeNBT()));
+        getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.getFluidTanks().forEach(tank -> tank.writeToNBT(nbt)));
+        return nbt;
+    }
+
+    @Override
+    public void deserializeNBT(CompoundNBT nbt) {
+        getLazyEnergyStorage().ifPresent(storage -> ((EnergyStorageAddon)storage).deserializeNBT(nbt.getCompound("energy")));
+        getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.getFluidTanks().forEach(tank -> tank.readFromNBT(nbt)));
     }
 }
