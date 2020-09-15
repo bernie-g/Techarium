@@ -262,6 +262,7 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
         getLazyEnergyStorage().ifPresent(storage -> nbt.put("energy", ((EnergyStorageAddon)storage).serializeNBT()));
         getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.getFluidTanks().forEach(tank -> nbt.put(tank.getName(),tank.writeToNBT(new CompoundNBT()))));
         getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(inv -> nbt.put(inv.getName(),inv.serializeNBT())));
+        getMultiPogressBar().getProgressBarAddons().forEach(bar-> nbt.put(bar.getName(),bar.serializeNBT()));
         return nbt;
     }
 
@@ -270,5 +271,6 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
         getLazyEnergyStorage().ifPresent(storage -> ((EnergyStorageAddon)storage).deserializeNBT(nbt.getCompound("energy")));
         getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.getFluidTanks().forEach(tank -> tank.readFromNBT(nbt.getCompound(tank.getName()))));
         getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(inv -> inv.deserializeNBT(nbt.getCompound(inv.getName()))));
+        getMultiPogressBar().getProgressBarAddons().forEach(bar-> bar.deserializeNBT(nbt.getCompound(bar.getName())));
     }
 }

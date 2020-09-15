@@ -48,7 +48,7 @@ public abstract class MachineBlock<T extends MachineMasterTile> extends Rotatabl
         ActionResultType result = ActionResultType.FAIL;
         if(player instanceof ServerPlayerEntity) {
             handleTileEntity(world, pos, (ServerPlayerEntity) player);
-            result = ActionResultType.PASS;
+            result = ActionResultType.SUCCESS;
         }
         return result;
     }
@@ -56,7 +56,7 @@ public abstract class MachineBlock<T extends MachineMasterTile> extends Rotatabl
     protected void handleTileEntity(IWorld world, BlockPos pos, ServerPlayerEntity player) {
         Optional.ofNullable(world.getTileEntity(pos))
                 .filter(tileEntity -> tileEntity instanceof MachineMasterTile)
-                .map(tileEntity -> (MachineMasterTile)tileEntity)
+                .map(tileEntity -> (MachineMasterTile<?>)tileEntity)
                 .ifPresent(tile -> tile.onTileActicated(player));
     }
 
