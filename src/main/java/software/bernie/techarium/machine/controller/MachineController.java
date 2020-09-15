@@ -261,7 +261,7 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
         CompoundNBT nbt = new CompoundNBT();
         getLazyEnergyStorage().ifPresent(storage -> nbt.put("energy", ((EnergyStorageAddon)storage).serializeNBT()));
         getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.getFluidTanks().forEach(tank -> nbt.put(tank.getName(),tank.writeToNBT(new CompoundNBT()))));
-        //getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(inv -> nbt.put(inv.getName(),inv.serializeNBT())));
+        getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(inv -> nbt.put(inv.getName(),inv.serializeNBT())));
         return nbt;
     }
 
@@ -269,6 +269,6 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
     public void deserializeNBT(CompoundNBT nbt) {
         getLazyEnergyStorage().ifPresent(storage -> ((EnergyStorageAddon)storage).deserializeNBT(nbt.getCompound("energy")));
         getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.getFluidTanks().forEach(tank -> tank.readFromNBT(nbt.getCompound(tank.getName()))));
-        //getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(inv -> inv.deserializeNBT(nbt.getCompound(inv.getName()))));
+        getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(inv -> inv.deserializeNBT(nbt.getCompound(inv.getName()))));
     }
 }
