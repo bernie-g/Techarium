@@ -12,6 +12,7 @@ import software.bernie.techarium.Techarium;
 import software.bernie.techarium.block.BlockRegistryObjectGroup;
 import software.bernie.techarium.block.BotariumTop;
 import software.bernie.techarium.block.BotaniumMaster;
+import software.bernie.techarium.item.MachineItem;
 import software.bernie.techarium.tile.BotariumTile;
 
 import java.util.function.Function;
@@ -27,7 +28,7 @@ public class BlockTileRegistry {
 
     //Tile
     public static final BlockRegistryObjectGroup<BotaniumMaster, BlockItem, BotariumTile> BOTARIUM =
-            new BlockRegistryObjectGroup<>("botarium", BotaniumMaster::new, blockItemCreator(), BotariumTile::new).register(BLOCKS, ITEMS, TILES);
+            new BlockRegistryObjectGroup<>("botarium", BotaniumMaster::new, machineItemCreator(5), BotariumTile::new).register(BLOCKS, ITEMS, TILES);
 
 
     //Blocks
@@ -35,6 +36,10 @@ public class BlockTileRegistry {
 
     public static <B extends Block> Function<B, BlockItem> blockItemCreator() {
         return block -> new BlockItem(block, new Item.Properties().group(TECHARIUMS));
+    }
+
+    public static <B extends Block> Function<B, BlockItem> machineItemCreator(int tier) {
+        return block -> new MachineItem(tier,block, new Item.Properties().group(TECHARIUMS));
     }
 
     public static void register(IEventBus bus){

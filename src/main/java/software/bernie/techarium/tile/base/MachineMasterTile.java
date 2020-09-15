@@ -174,4 +174,3 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     }
 
 }
-    
