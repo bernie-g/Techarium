@@ -5,14 +5,12 @@ import javafx.util.Pair;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.INBTSerializable;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.machine.interfaces.IWidgetProvider;
 import software.bernie.techarium.machine.screen.widget.ProgressBarWidget;
-import software.bernie.techarium.machine.screen.widget.TankWidget;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import java.util.ArrayList;
@@ -36,20 +34,20 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IWidgetP
     private int progress;
     private int maxProgress;
     private int progressToAdd;
-    private Predicate<MachineMasterTile> canProgress;
-    private Predicate<MachineMasterTile> canReset;
+    private Predicate<MachineMasterTile<?>> canProgress;
+    private Predicate<MachineMasterTile<?>> canReset;
 
     private Runnable onProgressFull;
     private Runnable onProgressTick;
     private Runnable onProgressStart;
 
-    private MachineMasterTile tile;
+    private MachineMasterTile<?> tile;
 
     private int tickingTime;
 
     private boolean progressUp;
 
-    public ProgressBarAddon(MachineMasterTile tile, int posX, int posY, int maxProgress, String name) {
+    public ProgressBarAddon(MachineMasterTile<?> tile, int posX, int posY, int maxProgress, String name) {
         this.tile = tile;
         this.posX = posX;
         this.posY = posY;
@@ -95,7 +93,7 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IWidgetP
         this.maxProgress = maxProgress;
     }
 
-    public MachineMasterTile getTile() {
+    public MachineMasterTile<?> getTile() {
         return tile;
     }
 
@@ -107,20 +105,20 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IWidgetP
         return onProgressStart;
     }
 
-    public Predicate<MachineMasterTile> getCanReset() {
+    public Predicate<MachineMasterTile<?>> getCanReset() {
         return canReset;
     }
 
-    public Predicate<MachineMasterTile> getCanProgress() {
+    public Predicate<MachineMasterTile<?>> getCanProgress() {
         return canProgress;
     }
 
-    public ProgressBarAddon setCanReset(Predicate<MachineMasterTile> canReset) {
+    public ProgressBarAddon setCanReset(Predicate<MachineMasterTile<?>> canReset) {
         this.canReset = canReset;
         return this;
     }
 
-    public ProgressBarAddon setCanProgress(Predicate<MachineMasterTile> canProgress) {
+    public ProgressBarAddon setCanProgress(Predicate<MachineMasterTile<?>> canProgress) {
         this.canProgress = canProgress;
         return this;
     }

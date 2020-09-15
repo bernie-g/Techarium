@@ -81,14 +81,18 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
 		);
 
 		controller.addTank(new FluidTankAddon(this, "waterIn", 10000 * tier, 29, 28));
+
 		controller.addInventory(new InventoryAddon(this, "cropInput", 49, 35, 1)
-				.setInputFilter((itemStack, integer) -> itemStack.getItem() instanceof BlockItem &&
-						((BlockItem) itemStack.getItem()).getBlock() instanceof CropsBlock
-				)
+				.setInputFilter((itemStack, integer) -> world.getRecipeManager().getRecipes()
+						.stream()
+						.filter(this::checkRecipe)
+						.map(this::castRecipe).anyMatch(recipe -> recipe.getCropType().getIsCropAcceptable().test(itemStack))
+				).setOnSlotChanged((itemStack, integer) -> forceCheckRecipe())
 		);
 
 		controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
-				.setInputFilter((itemStack, integer) -> itemStack.getItem().equals(Items.DIRT)));
+				.setInputFilter((itemStack, integer) -> itemStack.getItem().equals(Items.DIRT))
+				.setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()));
 
 		controller.addInventory(new InventoryAddon(this, "upgradeSlot", 83, 81, 1 + (tier - 1))
 				.setInputFilter((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem));
@@ -183,4 +187,17 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
 	{
 
 	}
+
+	@Override
+	public void forceCheckRecipe() {
+		if (getActiveController().getCurrentRecipe() != null) {
+			if (!matchRecipe(castRecipe(getActiveController().getCurrentRecipe()))) {
+				getActiveController().resetCurrentRecipe();
+			}
+		} else {
+			getActiveController().setShouldCheckRecipe();
+		}
+		updateMachineTile();
+	}
+
 }
