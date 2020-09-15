@@ -1,9 +1,13 @@
 package software.bernie.techarium.tile;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.CropsBlock;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fluids.FluidStack;
 import software.bernie.geckolib.animation.builder.AnimationBuilder;
 import software.bernie.geckolib.block.SpecialAnimationController;
@@ -27,8 +31,11 @@ import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static net.minecraft.block.Block.getDrops;
+import static net.minecraft.block.CropsBlock.AGE;
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.*;
 import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM;
 
@@ -108,6 +115,11 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
 		return getActiveController().getMultiInventory().getInvOptional().map(inv -> inv).orElse(new MultiItemCapHandler(new ArrayList<>())).getInventories().stream().filter(addon -> addon.getName().contains("cropInput")).findFirst().orElseThrow(NullPointerException::new);
 	}
 
+	public InventoryAddon getOutputInventory()
+	{
+		return getActiveController().getMultiInventory().getInvOptional().map(inv -> inv).orElse(new MultiItemCapHandler(new ArrayList<>())).getInventories().stream().filter(addon -> addon.getName().contains("output")).findFirst().orElseThrow(NullPointerException::new);
+	}
+
 	public InventoryAddon getSoilInventory()
 	{
 		return getActiveController().getMultiInventory().getInvOptional().map(inv -> inv).orElse(new MultiItemCapHandler(new ArrayList<>())).getInventories().stream().filter(addon -> addon.getName().contains("soilInput")).findFirst().orElseThrow(NullPointerException::new);
@@ -185,7 +197,25 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
 	@Override
 	public void handleProgressFinish(BotariumRecipe currentRecipe)
 	{
-
+		if(!world.isRemote()) {
+			Block block = ((BlockItem) getCropInventory().getStackInSlot(0).getItem()).getBlock();
+			if(block instanceof CropsBlock) {
+				CropsBlock crop = (CropsBlock) block;
+				IntegerProperty cropProperty = crop.getAgeProperty();
+				List<ItemStack> itemStacks = getDrops(block.getDefaultState().with(cropProperty, crop.getMaxAge()), (ServerWorld) world, pos, this);
+				ItemStack currentOut = getOutputInventory().getStackInSlot(0);
+				if (currentOut.isEmpty()) {
+					getOutputInventory().insertItem(0, itemStacks.get(0), false);
+				} else {
+					for (ItemStack stack : itemStacks) {
+						if (stack.isItemEqual(currentOut)) {
+							getOutputInventory().insertItem(0, stack, false);
+							break;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override

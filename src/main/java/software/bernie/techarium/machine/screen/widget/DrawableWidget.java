@@ -9,15 +9,15 @@ import software.bernie.techarium.machine.controller.MachineController;
 public class DrawableWidget extends Widget {
 
     private final IDrawable drawable;
-    private final MachineController controller;
+    private final MachineController<?> controller;
 
-    public DrawableWidget(MachineController controller, IDrawable drawable, int xIn, int yIn, String msg) {
+    public DrawableWidget(MachineController<?> controller, IDrawable drawable, int xIn, int yIn, String msg) {
         super(xIn, yIn, msg);
         this.drawable = drawable;
         this.controller = controller;
     }
 
-    public DrawableWidget(MachineController controller, IDrawable drawable,int xIn, int yIn, int widthIn, int heightIn, String msg) {
+    public DrawableWidget(MachineController<?> controller, IDrawable drawable,int xIn, int yIn, int widthIn, int heightIn, String msg) {
         super(xIn, yIn, widthIn, heightIn, msg);
         this.drawable = drawable;
         this.controller = controller;
