@@ -31,17 +31,18 @@ public class AutomaticContainer extends Container {
         this.tile = tile;
         this.tileLocation = tile.getPos();
 
-        getMachineController().getContainerComponents().forEach(component -> this.addSlot(component.create()));
+        for (Integer slot : getMachineController().getPlayerInvSlotsXY().keySet()) {
+            Pair<Integer, Integer> slotXY = getMachineController().getPlayerInvSlotsXY().get(slot);
+            this.addSlot(new Slot(inv, slot, slotXY.getKey(), slotXY.getValue()));
+        }
 
         for (Integer slot : getMachineController().getPlayerHotBarSlotsXY().keySet()) {
             Pair<Integer, Integer> slotXY = getMachineController().getPlayerHotBarSlotsXY().get(slot);
             this.addSlot(new Slot(inv, slot, slotXY.getKey(), slotXY.getValue()));
         }
 
-        for (Integer slot : getMachineController().getPlayerInvSlotsXY().keySet()) {
-            Pair<Integer, Integer> slotXY = getMachineController().getPlayerInvSlotsXY().get(slot);
-            this.addSlot(new Slot(inv, slot, slotXY.getKey(), slotXY.getValue()));
-        }
+        getMachineController().getContainerComponents().forEach(component -> this.addSlot(component.create()));
+
     }
 
     public AutomaticContainer(int id, PlayerInventory inv, PacketBuffer packetBuffer) {
@@ -50,13 +51,13 @@ public class AutomaticContainer extends Container {
         this.name = packetBuffer.readTextComponent();
         this.tile = (MachineMasterTile<?>) inv.player.world.getTileEntity(tileLocation);
 
-        for (Integer slot : getMachineController().getPlayerHotBarSlotsXY().keySet()) {
-            Pair<Integer, Integer> slotXY = getMachineController().getPlayerHotBarSlotsXY().get(slot);
+        for (Integer slot : getMachineController().getPlayerInvSlotsXY().keySet()) {
+            Pair<Integer, Integer> slotXY = getMachineController().getPlayerInvSlotsXY().get(slot);
             this.addSlot(new Slot(inv, slot, slotXY.getKey(), slotXY.getValue()));
         }
 
-        for (Integer slot : getMachineController().getPlayerInvSlotsXY().keySet()) {
-            Pair<Integer, Integer> slotXY = getMachineController().getPlayerInvSlotsXY().get(slot);
+        for (Integer slot : getMachineController().getPlayerHotBarSlotsXY().keySet()) {
+            Pair<Integer, Integer> slotXY = getMachineController().getPlayerHotBarSlotsXY().get(slot);
             this.addSlot(new Slot(inv, slot, slotXY.getKey(), slotXY.getValue()));
         }
 

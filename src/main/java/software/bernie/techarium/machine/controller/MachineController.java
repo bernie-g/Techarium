@@ -8,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.items.ItemStackHandler;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
 import software.bernie.techarium.machine.addon.fluid.MultiFluidTankAddon;
 import software.bernie.techarium.machine.addon.inventory.InventoryAddon;
@@ -259,13 +260,15 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
     public CompoundNBT serializeNBT() {
         CompoundNBT nbt = new CompoundNBT();
         getLazyEnergyStorage().ifPresent(storage -> nbt.put("energy", ((EnergyStorageAddon)storage).serializeNBT()));
-        getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.getFluidTanks().forEach(tank -> tank.writeToNBT(nbt)));
+        getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.getFluidTanks().forEach(tank -> nbt.put(tank.getName(),tank.writeToNBT(new CompoundNBT()))));
+        //getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(inv -> nbt.put(inv.getName(),inv.serializeNBT())));
         return nbt;
     }
 
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
         getLazyEnergyStorage().ifPresent(storage -> ((EnergyStorageAddon)storage).deserializeNBT(nbt.getCompound("energy")));
-        getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.getFluidTanks().forEach(tank -> tank.readFromNBT(nbt)));
+        getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.getFluidTanks().forEach(tank -> tank.readFromNBT(nbt.getCompound(tank.getName()))));
+        //getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(inv -> inv.deserializeNBT(nbt.getCompound(inv.getName()))));
     }
 }
