@@ -32,8 +32,4 @@ public class EnergyAutoWidget extends Widget {
         addon.getAsset().drawPartial(screenX - getGuiXY().getKey()/2 + x,screenY - getGuiXY().getValue()/2 +y + offset,getAssetSizeXY().getKey(), getAssetSizeXY().getValue(),1,(float)addon.getEnergyStored()/addon.getMaxEnergyStored(),0,0);
     }
 
-    @Override
-    public void renderToolTip(int p_renderToolTip_1_, int p_renderToolTip_2_) {
-        super.renderToolTip(p_renderToolTip_1_, p_renderToolTip_2_);
-    }
 }

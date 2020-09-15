@@ -3,6 +3,7 @@ package software.bernie.techarium.machine.screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
+import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
 import software.bernie.techarium.machine.container.AutomaticContainer;
 
 
@@ -32,4 +33,8 @@ public class AutomaticContainerScreen extends ContainerScreen<AutomaticContainer
         this.container.getMachineController().getBackground().draw(getGuiLeft(), getGuiTop(),getXSize(),getYSize());
     }
 
+    @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        this.container.getMachineController().getLazyEnergyStorage().ifPresent(storage -> ((EnergyStorageAddon)storage).renderToolTip(this,guiLeft,guiTop,mouseX,mouseY));
+    }
 }
