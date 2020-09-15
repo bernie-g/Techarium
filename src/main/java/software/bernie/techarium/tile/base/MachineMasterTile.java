@@ -1,5 +1,6 @@
 package software.bernie.techarium.tile.base;
 
+import mekanism.common.util.InventoryUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -36,7 +37,9 @@ import software.bernie.techarium.machine.interfaces.recipe.IRecipeMachine;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static software.bernie.techarium.util.StaticHandler.getSideFromDirection;
+import java.util.Random;
+
+import static software.bernie.techarium.util.StaticHandler.*;
 
 public abstract class MachineMasterTile<T extends IMachineRecipe> extends MachineTileBase implements INamedContainerProvider, ITickableTileEntity, IRecipeMachine<T>, IForcedRecipe {
 
@@ -166,4 +169,9 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
         updateMachineTile();
     }
 
+    public void masterHandleDestruction(){
+        getActiveController().getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(inv -> getItemStackStream(inv).forEach(stack -> spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack,world.rand))));
+    }
+
 }
+    

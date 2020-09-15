@@ -12,7 +12,9 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import software.bernie.techarium.block.MachineSlave;
 import software.bernie.techarium.tile.base.MachineMasterTile;
+import software.bernie.techarium.tile.base.MachineSlaveTile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -60,4 +62,24 @@ public abstract class MachineBlock<T extends MachineMasterTile> extends Rotatabl
                 .ifPresent(tile -> tile.onTileActicated(player));
     }
 
+    @Deprecated
+    @Override
+    @SuppressWarnings("deprecared")
+    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (state.getBlock() != newState.getBlock()) {
+            TileEntity tileentity = worldIn.getTileEntity(pos);
+            if(tileentity instanceof MachineMasterTile){
+                MachineMasterTile<?> master = (MachineMasterTile<?>) tileentity;
+                master.masterHandleDestruction();
+            } else if(tileentity instanceof MachineSlaveTile){
+                MachineSlaveTile slave = (MachineSlaveTile) tileentity;
+                TileEntity masterT = worldIn.getTileEntity(slave.getMasterPos());
+                if(masterT instanceof MachineMasterTile){
+                    MachineMasterTile<?> master = (MachineMasterTile<?>) masterT;
+                    master.masterHandleDestruction();
+                }
+            }
+        }
+        super.onReplaced(state, worldIn, pos, newState, isMoving);
+    }
 }
