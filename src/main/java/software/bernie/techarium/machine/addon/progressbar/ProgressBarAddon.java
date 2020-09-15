@@ -203,6 +203,10 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IWidgetP
         return progressToAdd;
     }
 
+    public void setProgressToAdd(int progressToAdd) {
+        this.progressToAdd = progressToAdd;
+    }
+
     @Override
     public CompoundNBT serializeNBT() {
         CompoundNBT compound = new CompoundNBT();

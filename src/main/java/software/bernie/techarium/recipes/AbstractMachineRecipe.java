@@ -14,14 +14,18 @@ public abstract class AbstractMachineRecipe implements IMachineRecipe {
 
     protected final ResourceLocation id;
     protected final IRecipeType<?> type;
+    protected final int tier;
+    protected final int tickRate;
     protected final int maxProgress;
     protected final int energyCost;
 
-    protected AbstractMachineRecipe(ResourceLocation id, IRecipeType<?> type, int maxProgress, int energyCost) {
+    protected AbstractMachineRecipe(ResourceLocation id, IRecipeType<?> type, int tier,int tickRate,int maxProgress, int energyCost) {
         this.id = id;
         this.type = type;
         this.maxProgress = maxProgress;
         this.energyCost = energyCost;
+        this.tier = tier;
+        this.tickRate = tickRate;
     }
 
     @Override
@@ -36,6 +40,14 @@ public abstract class AbstractMachineRecipe implements IMachineRecipe {
 
     public int getMaxProgress() {
         return maxProgress;
+    }
+
+    public int getTier() {
+        return tier;
+    }
+
+    public int getTickRate() {
+        return tickRate;
     }
 
     @Override

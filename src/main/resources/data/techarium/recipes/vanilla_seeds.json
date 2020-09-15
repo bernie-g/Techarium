@@ -1,5 +1,6 @@
 {
   "type": "techarium:botarium",
+  "machineTier": 1,
   "cropType": "techarium:vanilla_crop",
   "soilIn": {
     "item": "minecraft:dirt"
@@ -7,5 +8,6 @@
   "fluidIn": "minecraft:water",
   "fluidAmount": 1000,
   "maxProgress": 1000,
+  "ticksPerProgress": 1,
   "energyCost": 1000
 }

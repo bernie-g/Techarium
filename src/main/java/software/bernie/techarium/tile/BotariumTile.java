@@ -78,7 +78,7 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
 
         controller.addProgressBar(new ProgressBarAddon(this, 8, 26, 500, "techarium.gui.mainprogress")
                 .setCanProgress((value) -> getActiveController().getCurrentRecipe() != null)
-                .setOnProgressFull(() -> handleProgressFinish((BotariumRecipe) getActiveController().getCurrentRecipe()))
+                .setOnProgressFull(() -> handleProgressFinish(getActiveController().getCurrentRecipe()))
         );
 
         controller.addTank(new FluidTankAddon(this, "waterIn", 10000 * tier, 23, 35));
@@ -159,17 +159,19 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
 
     @Override
     public boolean matchRecipe(BotariumRecipe currentRecipe) {
-        if (currentRecipe.getCropType().getIsCropAcceptable().test(getCropInventory().getStackInSlot(0))) {
-            if (currentRecipe.getSoilIn().test(getSoilInventory().getStackInSlot(0))) {
-                if (getActiveController().getEnergyStorage().getEnergyStored() >= currentRecipe.getEnergyCost()) {
-                    FluidStack fluidIn = getWaterInventory().getFluid();
-                    if (fluidIn.isFluidEqual(currentRecipe.getFluidIn()) && fluidIn.getAmount() >= currentRecipe.getFluidIn().getAmount()) {
-                        if (getOutputInventory().getStackInSlot(0).isEmpty()) {
-                            return true;
-                        } else {
-                            if (getOutputInventory().getStackInSlot(0).getCount() != getOutputInventory().getStackInSlot(0).getMaxStackSize()) {
-                                Block block = ((BlockItem) getCropInventory().getStackInSlot(0).getItem()).getBlock();
-                                return getOutputInventory().getStackInSlot(0).isItemEqual(getCropFromGecko(block));
+        if (currentRecipe.getTier() == getActiveController().getTier()) {
+            if (currentRecipe.getCropType().getIsCropAcceptable().test(getCropInventory().getStackInSlot(0))) {
+                if (currentRecipe.getSoilIn().test(getSoilInventory().getStackInSlot(0))) {
+                    if (getActiveController().getEnergyStorage().getEnergyStored() >= currentRecipe.getEnergyCost()) {
+                        FluidStack fluidIn = getWaterInventory().getFluid();
+                        if (fluidIn.isFluidEqual(currentRecipe.getFluidIn()) && fluidIn.getAmount() >= currentRecipe.getFluidIn().getAmount()) {
+                            if (getOutputInventory().getStackInSlot(0).isEmpty()) {
+                                return true;
+                            } else {
+                                if (getOutputInventory().getStackInSlot(0).getCount() != getOutputInventory().getStackInSlot(0).getMaxStackSize()) {
+                                    Block block = ((BlockItem) getCropInventory().getStackInSlot(0).getItem()).getBlock();
+                                    return getOutputInventory().getStackInSlot(0).isItemEqual(getCropFromGecko(block));
+                                }
                             }
                         }
                     }
@@ -181,7 +183,7 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
 
     @Override
     public void handleProgressFinish(BotariumRecipe currentRecipe) {
-        if(world!= null) {
+        if (world != null) {
             if (!world.isRemote()) {
                 getActiveController().getLazyEnergyStorage().ifPresent(energy -> energy.extractEnergy(currentRecipe.getEnergyCost(), false));
                 getActiveController().getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.drain(currentRecipe.getFluidIn().getAmount(), IFluidHandler.FluidAction.EXECUTE));
@@ -198,7 +200,6 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
                 getCropInventory().extractItem(0, 1, false);
             }
         }
-        forceCheckRecipe();
     }
 
     @Override
@@ -214,11 +215,13 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
     }
 
     public ItemStack getCropFromGecko(Block block) {
-        if (block instanceof CropsBlock) {
-            CropsBlock crop = (CropsBlock) block;
-            IntegerProperty cropProperty = crop.getAgeProperty();
-            List<ItemStack> itemStacks = getDrops(block.getDefaultState().with(cropProperty, crop.getMaxAge()), (ServerWorld) world, pos, this);
-            return itemStacks.get(0);
+        if (!world.isRemote()) {
+            if (block instanceof CropsBlock) {
+                CropsBlock crop = (CropsBlock) block;
+                IntegerProperty cropProperty = crop.getAgeProperty();
+                List<ItemStack> itemStacks = getDrops(block.getDefaultState().with(cropProperty, crop.getMaxAge()), (ServerWorld) world, pos, this);
+                return itemStacks.get(0);
+            }
         }
         return new ItemStack(getCropInventory().getStackInSlot(0).getItem());
     }

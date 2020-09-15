@@ -9,5 +9,6 @@ public interface IMachineRecipe extends IRecipe<IInventory> {
 
     List<Integer> getMaxProgressTimes();
 
+    int getTickRate();
 
 }

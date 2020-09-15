@@ -249,6 +249,7 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
                     AtomicInteger x = new AtomicInteger();
                     this.getMultiPogressBar().getProgressBarAddons().forEach(bar -> {
                         bar.setMaxProgress(currentRecipe.getMaxProgressTimes().get(x.get()));
+                        bar.setProgressToAdd(currentRecipe.getTickRate());
                         x.incrementAndGet();
                     });
                 }
