@@ -2,26 +2,32 @@ package software.bernie.techarium.machine.addon.fluid;
 
 import com.google.common.collect.Lists;
 import javafx.util.Pair;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.SlotItemHandler;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
+import software.bernie.techarium.machine.interfaces.IToolTippedAddon;
 import software.bernie.techarium.machine.interfaces.IWidgetProvider;
 import software.bernie.techarium.machine.screen.widget.TankWidget;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import javax.annotation.Nonnull;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.DEFAULT_FLUID_TANK;
 
-public class FluidTankAddon extends FluidTank implements IWidgetProvider, IContainerComponentProvider {
+public class FluidTankAddon extends FluidTank implements IWidgetProvider, IContainerComponentProvider, IToolTippedAddon {
 
     private final String name;
     private final int posX;
@@ -191,5 +197,18 @@ public class FluidTankAddon extends FluidTank implements IWidgetProvider, IConta
         return Lists.newArrayList(() -> {
             return new TankWidget(this, getTankDrawable(), getPosX(), getPosY(), getSizeX(), getSizeY(), getName());
         });
+    }
+
+    @Override
+    public void renderToolTip(Screen screen, int x, int y, int mouseX, int mouseY) {
+        if (mouseX >= x + getPosX() && mouseX <= x + getPosX() + sizeX) {
+            if (mouseY >= y + getPosY() && mouseY <= y + getPosY() + sizeY) {
+                screen.renderTooltip(getTooltip(), mouseX, mouseY);
+            }
+        }
+    }
+
+    public List<String> getTooltip() {
+        return Arrays.asList(TextFormatting.GOLD + "Fluid: " + TextFormatting.WHITE + (this.getFluid().isEmpty() ? "Empty" : (new TranslationTextComponent(this.getFluid().getFluid().getAttributes().getTranslationKey(this.getFluid()), new Object[0])).getFormattedText()), TextFormatting.GOLD + "Amount: " + TextFormatting.WHITE + (new DecimalFormat()).format((long)this.getFluidAmount()) + TextFormatting.GOLD + "/" + TextFormatting.WHITE + (new DecimalFormat()).format((long)this.getCapacity()) + TextFormatting.DARK_AQUA + "mb");
     }
 }

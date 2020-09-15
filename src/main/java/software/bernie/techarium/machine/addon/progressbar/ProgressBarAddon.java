@@ -2,25 +2,30 @@ package software.bernie.techarium.machine.addon.progressbar;
 
 import com.google.common.collect.Lists;
 import javafx.util.Pair;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.INBTSerializable;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
+import software.bernie.techarium.machine.interfaces.IToolTippedAddon;
 import software.bernie.techarium.machine.interfaces.IWidgetProvider;
 import software.bernie.techarium.machine.screen.widget.ProgressBarWidget;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.DEFAULT_PROGRESS_BAR;
 
-public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IWidgetProvider, IContainerComponentProvider {
+public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IWidgetProvider, IContainerComponentProvider, IToolTippedAddon {
 
     private final String name;
 
@@ -71,7 +76,7 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IWidgetP
         this.tickingTime = 1;
         this.drawable = DEFAULT_PROGRESS_BAR;
         this.sizeX = 28;
-        this.sizeY = 2 ;
+        this.sizeY = 2;
     }
 
     public ProgressBarAddon setOnProgressFull(Runnable onProgressFull) {
@@ -97,7 +102,7 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IWidgetP
         return tile;
     }
 
-    public boolean canProgressUp(){
+    public boolean canProgressUp() {
         return progressUp;
     }
 
@@ -190,6 +195,13 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IWidgetP
         }
     }
 
+    public int getTickingTime() {
+        return tickingTime;
+    }
+
+    public int getProgressToAdd() {
+        return progressToAdd;
+    }
 
     @Override
     public CompoundNBT serializeNBT() {
@@ -215,5 +227,26 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IWidgetP
         return Lists.newArrayList(() -> {
             return new ProgressBarWidget(this, getPosX(), getPosY(), getSizeX(), getSizeY(), getName());
         });
+    }
+
+    @Override
+    public void renderToolTip(Screen screen, int x, int y, int mouseX, int mouseY) {
+        if (mouseX >= x + getPosX() && mouseX <= x + getPosX() + sizeX) {
+            if (mouseY >= y + getPosY() && mouseY <= y + getPosY() + sizeY) {
+                screen.renderTooltip(getTooltip(), mouseX, mouseY);
+            }
+        }
+    }
+
+    public List<String> getTooltip() {
+        List<String> tooltip = new ArrayList<>();
+        tooltip.add(TextFormatting.GOLD + "Progress: " + TextFormatting.WHITE + (new DecimalFormat()).format((long) this.getProgress()) + TextFormatting.GOLD + "/" + TextFormatting.WHITE + (new DecimalFormat()).format((long) this.getMaxProgress()));
+        int progress = (this.getMaxProgress() - this.getProgress()) / this.getProgressToAdd();
+        if (!this.canProgressUp()) {
+            progress = this.getMaxProgress() - progress;
+        }
+
+        tooltip.add(TextFormatting.GOLD + "ETA: " + TextFormatting.WHITE + (new DecimalFormat()).format(Math.ceil((double) (progress * this.getTickingTime()) / 20.0D)) + TextFormatting.DARK_AQUA + "s");
+        return tooltip;
     }
 }

@@ -44,8 +44,8 @@ public class TankWidget extends Widget {
         Minecraft minecraft = Minecraft.getInstance();
         int screenY = minecraft.getMainWindow().getScaledHeight() / 2;
         int screenX = minecraft.getMainWindow().getScaledWidth() / 2;
-        int guiLeft = getBackgroundSize().getValue() / 2;
-        int guiTop = getBackgroundSize().getKey() / 2;
+        int guiLeft = getBackgroundSize().getKey() / 2;
+        int guiTop = getBackgroundSize().getValue() / 2;
 
         int x = screenX - guiLeft + this.x;
         int y = screenY - guiTop + this.y;

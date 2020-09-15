@@ -66,7 +66,7 @@ public abstract class AbstractMachineRecipe implements IMachineRecipe {
 
     @Override
     public ItemStack getRecipeOutput() {
-        return null;
+        return ItemStack.EMPTY;
     }
 
 }

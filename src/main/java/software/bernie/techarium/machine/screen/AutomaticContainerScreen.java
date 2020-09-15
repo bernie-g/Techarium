@@ -36,5 +36,7 @@ public class AutomaticContainerScreen extends ContainerScreen<AutomaticContainer
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         this.container.getMachineController().getLazyEnergyStorage().ifPresent(storage -> ((EnergyStorageAddon)storage).renderToolTip(this,guiLeft,guiTop,mouseX,mouseY));
+        this.container.getMachineController().getMultiPogressBar().getProgressBarAddons().forEach(bar -> bar.renderToolTip(this,guiLeft,guiTop,mouseX,mouseY));
+        this.container.getMachineController().getMultiTank().getFluidTanks().forEach(tank -> tank.renderToolTip(this,guiLeft,guiTop,mouseX,mouseY));
     }
 }

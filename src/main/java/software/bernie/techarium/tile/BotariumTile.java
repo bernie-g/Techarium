@@ -80,7 +80,11 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
 				.setOnProgressFull(() -> handleProgressFinish((BotariumRecipe) getActiveController().getCurrentRecipe()))
 		);
 
-		controller.addTank(new FluidTankAddon(this, "waterIn", 10000 * tier, 29, 28));
+		controller.addTank(new FluidTankAddon(this, "waterIn", 10000 * tier, 23, 35));
+
+		controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
+				.setInputFilter((itemStack, integer) -> itemStack.getItem().equals(Items.DIRT))
+				.setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()));
 
 		controller.addInventory(new InventoryAddon(this, "cropInput", 49, 35, 1)
 				.setInputFilter((itemStack, integer) -> world.getRecipeManager().getRecipes()
@@ -89,10 +93,6 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
 						.map(this::castRecipe).anyMatch(recipe -> recipe.getCropType().getIsCropAcceptable().test(itemStack))
 				).setOnSlotChanged((itemStack, integer) -> forceCheckRecipe())
 		);
-
-		controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
-				.setInputFilter((itemStack, integer) -> itemStack.getItem().equals(Items.DIRT))
-				.setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()));
 
 		controller.addInventory(new InventoryAddon(this, "upgradeSlot", 83, 81, 1 + (tier - 1))
 				.setInputFilter((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem));
