@@ -35,7 +35,7 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
     private BiPredicate<ItemStack, Integer> extractPredicate;
     private BiConsumer<ItemStack, Integer> onSlotChanged;
 
-    private Map<Integer, Integer> slotAmountFilter;
+    private Map<Integer, Integer> slotStackSizes;
     private Map<Integer, ItemStack> slotToStackRenderMap;
 
     private Function<Integer, Pair<Integer, Integer>> slotPosition;
@@ -52,7 +52,7 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
         this.extractPredicate = (stack, integer) -> true;
         this.onSlotChanged = (stack, integer) -> {
         };
-        this.slotAmountFilter = new HashMap<>();
+        this.slotStackSizes = new HashMap<>();
         this.slotToStackRenderMap = new HashMap<>();
         this.slotLimit = 64;
         this.tile = tile;
@@ -142,14 +142,23 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
         return extractPredicate;
     }
 
-    public InventoryAddon setSlotAmount(int amount) {
+    public InventoryAddon setMaxSlots(int amount) {
         slotLimit = amount;
         return this;
     }
 
-    public InventoryAddon setSlotLimit(int slot, int limit) {
-        this.slotAmountFilter.put(slot, limit);
+    public InventoryAddon setSlotStackSize(int slot, int limit) {
+        this.slotStackSizes.put(slot, limit);
         return this;
+    }
+
+    public int getSlotStackSize(int slot){
+        return slotStackSizes.getOrDefault(slot,this.slotLimit);
+    }
+
+    @Override
+    public int getSlotLimit(int slot) {
+        return getSlotStackSize(slot);
     }
 
     @Override

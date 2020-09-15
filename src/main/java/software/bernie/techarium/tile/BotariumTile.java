@@ -9,6 +9,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import software.bernie.geckolib.animation.builder.AnimationBuilder;
 import software.bernie.geckolib.block.SpecialAnimationController;
 import software.bernie.geckolib.entity.IAnimatable;
@@ -39,195 +40,188 @@ import static net.minecraft.block.CropsBlock.AGE;
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.*;
 import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM;
 
-public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements IAnimatable
-{
+public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements IAnimatable {
 
-	private final int sizeX = 172;
-	private final int sizeY = 184;
+    private final int sizeX = 172;
+    private final int sizeY = 184;
 
-	private AnimationManager manager = new AnimationManager();
-	private SpecialAnimationController controller = new SpecialAnimationController(this, "controller", 0, this::animationPredicate);
+    private AnimationManager manager = new AnimationManager();
+    private SpecialAnimationController controller = new SpecialAnimationController(this, "controller", 0, this::animationPredicate);
 
-	public boolean isOpening = false;
+    public boolean isOpening = false;
 
-	private <E extends IAnimatable> boolean animationPredicate(SpecialAnimationPredicate<E> event)
-	{
-		if (isOpening)
-		{
-			this.controller.setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.deploy", false).addAnimation("Botarium.anim.idle", true));
-		}
-		else
-		{
-			this.controller.setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.idle", true));
-		}
-		return true;
-	}
+    private <E extends IAnimatable> boolean animationPredicate(SpecialAnimationPredicate<E> event) {
+        if (isOpening) {
+            this.controller.setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.deploy", false).addAnimation("Botarium.anim.idle", true));
+        } else {
+            this.controller.setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.idle", true));
+        }
+        return true;
+    }
 
-	public BotariumTile()
-	{
-		super(BOTARIUM.getTileEntityType());
-		getController().addController(machineController(1, BOTARIUM_BASE_TIER_1));
-		getController().addController(machineController(2, BOTARIUM_BASE_TIER_2));
-		getController().addController(machineController(3, BOTARIUM_BASE_TIER_3));
-		getController().addController(machineController(4, BOTARIUM_BASE_TIER_4));
-		getController().addController(machineController(5, BOTARIUM_BASE_TIER_5));
-		this.manager.addAnimationController(controller);
-	}
+    public BotariumTile() {
+        super(BOTARIUM.getTileEntityType());
+        getController().addController(machineController(1, BOTARIUM_BASE_TIER_1));
+        getController().addController(machineController(2, BOTARIUM_BASE_TIER_2));
+        getController().addController(machineController(3, BOTARIUM_BASE_TIER_3));
+        getController().addController(machineController(4, BOTARIUM_BASE_TIER_4));
+        getController().addController(machineController(5, BOTARIUM_BASE_TIER_5));
+        this.manager.addAnimationController(controller);
+    }
 
 
-	private MachineController<BotariumRecipe> machineController(int tier, IDrawable background)
-	{
-		MachineController<BotariumRecipe> controller = createController(tier);
-		controller.setBackground(background, sizeX, sizeY);
-		controller.setPowered(true);
-		controller.setEnergyStorage(10000, 10000, 8, 35);
+    private MachineController<BotariumRecipe> machineController(int tier, IDrawable background) {
+        MachineController<BotariumRecipe> controller = createController(tier);
+        controller.setBackground(background, sizeX, sizeY);
+        controller.setPowered(true);
+        controller.setEnergyStorage(10000, 10000, 8, 35);
 
-		controller.addProgressBar(new ProgressBarAddon(this, 8, 26, 500, "techarium.gui.mainprogress")
-				.setCanProgress((value) -> getActiveController().getCurrentRecipe() != null)
-				.setOnProgressFull(() -> handleProgressFinish((BotariumRecipe) getActiveController().getCurrentRecipe()))
-		);
+        controller.addProgressBar(new ProgressBarAddon(this, 8, 26, 500, "techarium.gui.mainprogress")
+                .setCanProgress((value) -> getActiveController().getCurrentRecipe() != null)
+                .setOnProgressFull(() -> handleProgressFinish((BotariumRecipe) getActiveController().getCurrentRecipe()))
+        );
 
-		controller.addTank(new FluidTankAddon(this, "waterIn", 10000 * tier, 23, 35));
+        controller.addTank(new FluidTankAddon(this, "waterIn", 10000 * tier, 23, 35));
 
-		controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
-				.setInputFilter((itemStack, integer) -> itemStack.getItem().equals(Items.DIRT))
-				.setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()));
+        controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
+                .setInputFilter((itemStack, integer) -> itemStack.getItem().equals(Items.DIRT))
+                .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 1));
 
-		controller.addInventory(new InventoryAddon(this, "cropInput", 49, 35, 1)
-				.setInputFilter((itemStack, integer) -> world.getRecipeManager().getRecipes()
-						.stream()
-						.filter(this::checkRecipe)
-						.map(this::castRecipe).anyMatch(recipe -> recipe.getCropType().getIsCropAcceptable().test(itemStack))
-				).setOnSlotChanged((itemStack, integer) -> forceCheckRecipe())
-		);
+        controller.addInventory(new InventoryAddon(this, "cropInput", 49, 35, 1)
+                .setInputFilter((itemStack, integer) -> world.getRecipeManager().getRecipes()
+                        .stream()
+                        .filter(this::checkRecipe)
+                        .map(this::castRecipe).anyMatch(recipe -> recipe.getCropType().getIsCropAcceptable().test(itemStack))
+                ).setOnSlotChanged((itemStack, integer) -> forceCheckRecipe())
+        );
 
-		controller.addInventory(new InventoryAddon(this, "upgradeSlot", 83, 81, 1 + (tier - 1))
-				.setInputFilter((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem));
+        controller.addInventory(new InventoryAddon(this, "upgradeSlot", 83, 81, 1 + (tier - 1))
+                .setInputFilter((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem));
 
-		controller.addInventory(new DrawableInventoryAddon(this, "output", 183, 49, BOTARIUM_OUTPUT_SLOT, 178, 34, 30, 46, 1)
-				.setInputFilter((itemStack, integer) -> false));
+        controller.addInventory(new DrawableInventoryAddon(this, "output", 183, 49, BOTARIUM_OUTPUT_SLOT, 178, 34, 30, 46, 1)
+                .setInputFilter((itemStack, integer) -> false));
 
-		return controller;
-	}
+        return controller;
+    }
 
-	public InventoryAddon getCropInventory()
-	{
-		return getActiveController().getMultiInventory().getInvOptional().map(inv -> inv).orElse(new MultiItemCapHandler(new ArrayList<>())).getInventories().stream().filter(addon -> addon.getName().contains("cropInput")).findFirst().orElseThrow(NullPointerException::new);
-	}
+    public InventoryAddon getCropInventory() {
+        return getActiveController().getMultiInventory().getInvOptional().map(inv -> inv).orElse(new MultiItemCapHandler(new ArrayList<>())).getInventories().stream().filter(addon -> addon.getName().contains("cropInput")).findFirst().orElseThrow(NullPointerException::new);
+    }
 
-	public InventoryAddon getOutputInventory()
-	{
-		return getActiveController().getMultiInventory().getInvOptional().map(inv -> inv).orElse(new MultiItemCapHandler(new ArrayList<>())).getInventories().stream().filter(addon -> addon.getName().contains("output")).findFirst().orElseThrow(NullPointerException::new);
-	}
+    public InventoryAddon getOutputInventory() {
+        return getActiveController().getMultiInventory().getInvOptional().map(inv -> inv).orElse(new MultiItemCapHandler(new ArrayList<>())).getInventories().stream().filter(addon -> addon.getName().contains("output")).findFirst().orElseThrow(NullPointerException::new);
+    }
 
-	public InventoryAddon getSoilInventory()
-	{
-		return getActiveController().getMultiInventory().getInvOptional().map(inv -> inv).orElse(new MultiItemCapHandler(new ArrayList<>())).getInventories().stream().filter(addon -> addon.getName().contains("soilInput")).findFirst().orElseThrow(NullPointerException::new);
-	}
+    public InventoryAddon getSoilInventory() {
+        return getActiveController().getMultiInventory().getInvOptional().map(inv -> inv).orElse(new MultiItemCapHandler(new ArrayList<>())).getInventories().stream().filter(addon -> addon.getName().contains("soilInput")).findFirst().orElseThrow(NullPointerException::new);
+    }
 
-	public FluidTankAddon getWaterInventory()
-	{
-		return getActiveController().getMultiTank().getTankOptional().map(tank -> tank).orElse(new MultiTankCapHandler(new ArrayList<>())).getFluidTanks().stream().filter(addon -> addon.getName().contains("waterIn")).findFirst().orElseThrow(NullPointerException::new);
-	}
+    public FluidTankAddon getWaterInventory() {
+        return getActiveController().getMultiTank().getTankOptional().map(tank -> tank).orElse(new MultiTankCapHandler(new ArrayList<>())).getFluidTanks().stream().filter(addon -> addon.getName().contains("waterIn")).findFirst().orElseThrow(NullPointerException::new);
+    }
 
-	@Override
-	protected Map<Side, FaceConfig> setFaceControl()
-	{
-		Map<Side, FaceConfig> faceMap = new HashMap<>();
-		for (Side side : Side.values())
-		{
-			if (side == Side.FRONT || side == Side.UP)
-			{
-				faceMap.put(side, FaceConfig.NONE);
-			}
-			else
-			{
-				faceMap.put(side, FaceConfig.ENABLED);
-			}
-		}
-		return faceMap;
-	}
+    @Override
+    protected Map<Side, FaceConfig> setFaceControl() {
+        Map<Side, FaceConfig> faceMap = new HashMap<>();
+        for (Side side : Side.values()) {
+            if (side == Side.FRONT || side == Side.UP) {
+                faceMap.put(side, FaceConfig.NONE);
+            } else {
+                faceMap.put(side, FaceConfig.ENABLED);
+            }
+        }
+        return faceMap;
+    }
 
-	private MachineController<BotariumRecipe> createController(int tier)
-	{
-		return new MachineController<>(this, () -> this.pos, tier);
-	}
+    private MachineController<BotariumRecipe> createController(int tier) {
+        return new MachineController<>(this, () -> this.pos, tier);
+    }
 
-	@Override
-	public AnimationManager getAnimationManager()
-	{
-		return this.manager;
-	}
+    @Override
+    public AnimationManager getAnimationManager() {
+        return this.manager;
+    }
 
-	@Override
-	public boolean shouldCheckForRecipe()
-	{
-		return !getCropInventory().getStackInSlot(0).isEmpty();
-	}
+    @Override
+    public boolean shouldCheckForRecipe() {
+        return !getCropInventory().getStackInSlot(0).isEmpty();
+    }
 
-	@Override
-	public boolean checkRecipe(IRecipe<?> recipe)
-	{
-		return recipe.getType() == RecipeSerializerRegistry.BOTARIUM_RECIPE_TYPE && recipe instanceof BotariumRecipe;
-	}
+    @Override
+    public boolean checkRecipe(IRecipe<?> recipe) {
+        return recipe.getType() == RecipeSerializerRegistry.BOTARIUM_RECIPE_TYPE && recipe instanceof BotariumRecipe;
+    }
 
-	@Override
-	public BotariumRecipe castRecipe(IRecipe<?> iRecipe)
-	{
-		return (BotariumRecipe) iRecipe;
-	}
+    @Override
+    public BotariumRecipe castRecipe(IRecipe<?> iRecipe) {
+        return (BotariumRecipe) iRecipe;
+    }
 
-	@Override
-	public boolean matchRecipe(BotariumRecipe currentRecipe)
-	{
-		if (currentRecipe.getCropType().getIsCropAcceptable().test(getCropInventory().getStackInSlot(0)))
-		{
-			if (currentRecipe.getSoilIn().test(getSoilInventory().getStackInSlot(0)))
-			{
-				if (getActiveController().getEnergyStorage().getEnergyStored() >= currentRecipe.getEnergyCost())
-				{
-					FluidStack fluidIn = getWaterInventory().getFluid();
-					return fluidIn.isFluidEqual(currentRecipe.getFluidIn()) && fluidIn.getAmount() >= currentRecipe.getFluidIn().getAmount();
-				}
-			}
-		}
-		return false;
-	}
+    @Override
+    public boolean matchRecipe(BotariumRecipe currentRecipe) {
+        if (currentRecipe.getCropType().getIsCropAcceptable().test(getCropInventory().getStackInSlot(0))) {
+            if (currentRecipe.getSoilIn().test(getSoilInventory().getStackInSlot(0))) {
+                if (getActiveController().getEnergyStorage().getEnergyStored() >= currentRecipe.getEnergyCost()) {
+                    FluidStack fluidIn = getWaterInventory().getFluid();
+                    if (fluidIn.isFluidEqual(currentRecipe.getFluidIn()) && fluidIn.getAmount() >= currentRecipe.getFluidIn().getAmount()) {
+                        if (getOutputInventory().getStackInSlot(0).isEmpty()) {
+                            return true;
+                        } else {
+                            if (getOutputInventory().getStackInSlot(0).getCount() != getOutputInventory().getStackInSlot(0).getMaxStackSize()) {
+                                Block block = ((BlockItem) getCropInventory().getStackInSlot(0).getItem()).getBlock();
+                                return getOutputInventory().getStackInSlot(0).isItemEqual(getCropFromGecko(block));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
-	@Override
-	public void handleProgressFinish(BotariumRecipe currentRecipe)
-	{
-		if(!world.isRemote()) {
-			Block block = ((BlockItem) getCropInventory().getStackInSlot(0).getItem()).getBlock();
-			if(block instanceof CropsBlock) {
-				CropsBlock crop = (CropsBlock) block;
-				IntegerProperty cropProperty = crop.getAgeProperty();
-				List<ItemStack> itemStacks = getDrops(block.getDefaultState().with(cropProperty, crop.getMaxAge()), (ServerWorld) world, pos, this);
-				ItemStack currentOut = getOutputInventory().getStackInSlot(0);
-				if (currentOut.isEmpty()) {
-					getOutputInventory().insertItem(0, itemStacks.get(0), false);
-				} else {
-					for (ItemStack stack : itemStacks) {
-						if (stack.isItemEqual(currentOut)) {
-							getOutputInventory().insertItem(0, stack, false);
-							break;
-						}
-					}
-				}
-			}
-		}
-	}
+    @Override
+    public void handleProgressFinish(BotariumRecipe currentRecipe) {
+        if(world!= null) {
+            if (!world.isRemote()) {
+                getActiveController().getLazyEnergyStorage().ifPresent(energy -> energy.extractEnergy(currentRecipe.getEnergyCost(), false));
+                getActiveController().getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.drain(currentRecipe.getFluidIn().getAmount(), IFluidHandler.FluidAction.EXECUTE));
+                ItemStack currentOut = getOutputInventory().getStackInSlot(0);
+                Block block = ((BlockItem) getCropInventory().getStackInSlot(0).getItem()).getBlock();
+                ItemStack stackIn = getCropFromGecko(block);
+                if (currentOut.isEmpty()) {
+                    getOutputInventory().insertItem(0, stackIn, false);
+                } else {
+                    if (stackIn.isItemEqual(currentOut)) {
+                        getOutputInventory().insertItem(0, stackIn, false);
+                    }
+                }
+                getCropInventory().extractItem(0, 1, false);
+            }
+        }
+        forceCheckRecipe();
+    }
 
-	@Override
-	public void forceCheckRecipe() {
-		if (getActiveController().getCurrentRecipe() != null) {
-			if (!matchRecipe(castRecipe(getActiveController().getCurrentRecipe()))) {
-				getActiveController().resetCurrentRecipe();
-			}
-		} else {
-			getActiveController().setShouldCheckRecipe();
-		}
-		updateMachineTile();
-	}
+    @Override
+    public void forceCheckRecipe() {
+        if (getActiveController().getCurrentRecipe() != null) {
+            if (!matchRecipe(castRecipe(getActiveController().getCurrentRecipe()))) {
+                getActiveController().resetCurrentRecipe();
+            }
+        } else {
+            getActiveController().setShouldCheckRecipe();
+        }
+        updateMachineTile();
+    }
+
+    public ItemStack getCropFromGecko(Block block) {
+        if (block instanceof CropsBlock) {
+            CropsBlock crop = (CropsBlock) block;
+            IntegerProperty cropProperty = crop.getAgeProperty();
+            List<ItemStack> itemStacks = getDrops(block.getDefaultState().with(cropProperty, crop.getMaxAge()), (ServerWorld) world, pos, this);
+            return itemStacks.get(0);
+        }
+        return new ItemStack(getCropInventory().getStackInSlot(0).getItem());
+    }
 
 }
+

@@ -47,11 +47,10 @@ public abstract class MachineBlock<T extends MachineMasterTile> extends Rotatabl
     @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        ActionResultType result = ActionResultType.PASS;
+        ActionResultType result = ActionResultType.SUCCESS;
         if(!world.isRemote()) {
             if (player instanceof ServerPlayerEntity) {
                 handleTileEntity(world, pos, (ServerPlayerEntity) player);
-                result = ActionResultType.SUCCESS;
             }
         }
         return result;
