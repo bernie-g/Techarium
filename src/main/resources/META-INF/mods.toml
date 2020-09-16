@@ -6,7 +6,7 @@ modId = "techarium"
 version = "${file.jarVersion}"
 displayName = "Techarium"
 displayURL = "https://github.com/bernie-g/Techarium"
-authors = "Gecko (Dev) + Drizzs (Dev) + Ycar (Artist)"
+authors = "Gecko + Drizzs"
 description = '''
 Techarium is a mod centered around farming tech'''
 

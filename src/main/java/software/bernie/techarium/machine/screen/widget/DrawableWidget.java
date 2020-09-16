@@ -10,10 +10,6 @@ public class DrawableWidget extends Widget {
 
     private final IDrawable drawable;
     private final MachineController<?> controller;
-    public int xOffset = 0;
-    public int yOffset = 0;
-    public int xSizeOffset = 0;
-    public int ySizeOffset = 0;
 
     public DrawableWidget(MachineController<?> controller, IDrawable drawable, int xIn, int yIn, String msg) {
         super(xIn, yIn, msg);
