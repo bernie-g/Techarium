@@ -96,7 +96,7 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
                         .stream()
                         .filter(this::checkRecipe)
                         .map(this::castRecipe).anyMatch(recipe -> recipe.getCropType().getIsCropAcceptable().test(itemStack))
-                ).setOnSlotChanged((itemStack, integer) -> forceCheckRecipe())
+                ).setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0,1)
         );
 
         controller.addInventory(new InventoryAddon(this, "upgradeSlot", 83, 81, 1 + (tier - 1))
@@ -199,7 +199,6 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
                         getOutputInventory().insertItem(0, stackIn, false);
                     }
                 }
-                getCropInventory().extractItem(0, 1, false);
             }
         }
     }
