@@ -234,10 +234,10 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IWidgetP
     }
 
     @Override
-    public void renderToolTip(Screen screen, int x, int y, int mouseX, int mouseY) {
+    public void renderToolTip(Screen screen, int x, int y, int xCenter,int yCenter,int mouseX, int mouseY) {
         if (mouseX >= x + getPosX() && mouseX <= x + getPosX() + sizeX) {
             if (mouseY >= y + getPosY() && mouseY <= y + getPosY() + sizeY) {
-                screen.renderTooltip(getTooltip(), mouseX, mouseY);
+                screen.renderTooltip(getTooltip(), mouseX - xCenter, mouseY - yCenter);
             }
         }
     }
