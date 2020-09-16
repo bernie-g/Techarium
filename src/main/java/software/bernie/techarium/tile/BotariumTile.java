@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.CropsBlock;
 import net.minecraft.block.StemBlock;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
@@ -225,6 +226,7 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
                 return itemStacks.get(0);
             } else if(block instanceof StemBlock){
                 StemBlock crop = (StemBlock) block;
+                return Item.getItemFromBlock(crop.getCrop()).getDefaultInstance();
             }
         }
         return ItemStack.EMPTY;
