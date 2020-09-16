@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.state.IntegerProperty;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fluids.FluidStack;
@@ -171,7 +172,7 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
                                 return true;
                             } else {
                                 if (getOutputInventory().getStackInSlot(0).getCount() != getOutputInventory().getStackInSlot(0).getMaxStackSize()) {
-                                    return getOutputInventory().getStackInSlot(0).isItemEqual(getCropFromGecko(getCropInventory().getStackInSlot(0)));
+                                    return getOutputInventory().getStackInSlot(0).isItemEqual(getCropFromGecko(world,getCropInventory().getStackInSlot(0)));
                                 }
                             }
                         }
@@ -189,7 +190,7 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
                 getActiveController().getLazyEnergyStorage().ifPresent(energy -> energy.extractEnergy(currentRecipe.getEnergyCost(), false));
                 getActiveController().getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.drain(currentRecipe.getFluidIn().getAmount(), IFluidHandler.FluidAction.EXECUTE));
                 ItemStack currentOut = getOutputInventory().getStackInSlot(0);
-                ItemStack stackIn = getCropFromGecko(getCropInventory().getStackInSlot(0));
+                ItemStack stackIn = getCropFromGecko(world,getCropInventory().getStackInSlot(0));
                 if (currentOut.isEmpty()) {
                     getOutputInventory().insertItem(0, stackIn, false);
                 } else {
@@ -220,7 +221,7 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
             if (block instanceof CropsBlock) {
                 CropsBlock crop = (CropsBlock) block;
                 IntegerProperty cropProperty = crop.getAgeProperty();
-                List<ItemStack> itemStacks = getDrops(block.getDefaultState().with(cropProperty, crop.getMaxAge()), (ServerWorld) world, pos, this);
+                List<ItemStack> itemStacks = getDrops(block.getDefaultState().with(cropProperty, crop.getMaxAge()), (ServerWorld) world, BlockPos.ZERO, null);
                 return itemStacks.get(0);
             } else if(block instanceof StemBlock){
                 StemBlock crop = (StemBlock) block;
