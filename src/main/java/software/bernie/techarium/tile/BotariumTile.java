@@ -2,11 +2,13 @@ package software.bernie.techarium.tile;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.CropsBlock;
+import net.minecraft.block.StemBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.state.IntegerProperty;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -211,7 +213,7 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
         updateMachineTile();
     }
 
-    public ItemStack getCrop(ItemStack stack) {
+    public static ItemStack getCrop(World world, ItemStack stack) {
         Block block = ((BlockItem) stack.getItem()).getBlock();
         if (!world.isRemote()) {
             if (block instanceof CropsBlock) {
@@ -219,9 +221,11 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
                 IntegerProperty cropProperty = crop.getAgeProperty();
                 List<ItemStack> itemStacks = getDrops(block.getDefaultState().with(cropProperty, crop.getMaxAge()), (ServerWorld) world, pos, this);
                 return itemStacks.get(0);
+            } else if(block instanceof StemBlock){
+                StemBlock crop = (StemBlock) block;
             }
         }
-        return new ItemStack(getCropInventory().getStackInSlot(0).getItem());
+        return ItemStack.EMPTY;
     }
 }
 
