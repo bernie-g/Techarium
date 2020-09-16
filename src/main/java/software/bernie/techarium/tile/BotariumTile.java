@@ -169,8 +169,7 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
                                 return true;
                             } else {
                                 if (getOutputInventory().getStackInSlot(0).getCount() != getOutputInventory().getStackInSlot(0).getMaxStackSize()) {
-                                    Block block = ((BlockItem) getCropInventory().getStackInSlot(0).getItem()).getBlock();
-                                    return getOutputInventory().getStackInSlot(0).isItemEqual(getCropFromGecko(block));
+                                    return getOutputInventory().getStackInSlot(0).isItemEqual(getCropFromGecko(getCropInventory().getStackInSlot(0)));
                                 }
                             }
                         }
@@ -188,8 +187,7 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
                 getActiveController().getLazyEnergyStorage().ifPresent(energy -> energy.extractEnergy(currentRecipe.getEnergyCost(), false));
                 getActiveController().getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.drain(currentRecipe.getFluidIn().getAmount(), IFluidHandler.FluidAction.EXECUTE));
                 ItemStack currentOut = getOutputInventory().getStackInSlot(0);
-                Block block = ((BlockItem) getCropInventory().getStackInSlot(0).getItem()).getBlock();
-                ItemStack stackIn = getCropFromGecko(block);
+                ItemStack stackIn = getCropFromGecko(getCropInventory().getStackInSlot(0));
                 if (currentOut.isEmpty()) {
                     getOutputInventory().insertItem(0, stackIn, false);
                 } else {
@@ -214,7 +212,8 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
         updateMachineTile();
     }
 
-    public ItemStack getCropFromGecko(Block block) {
+    public ItemStack getCropFromGecko(ItemStack stack) {
+        Block block = ((BlockItem) stack.getItem()).getBlock();
         if (!world.isRemote()) {
             if (block instanceof CropsBlock) {
                 CropsBlock crop = (CropsBlock) block;
