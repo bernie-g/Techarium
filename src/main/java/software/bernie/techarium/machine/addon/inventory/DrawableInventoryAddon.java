@@ -18,6 +18,10 @@ public class DrawableInventoryAddon extends InventoryAddon {
     private final int backgroundYPos;
     private final int backgroundXSize;
     private final int backgroundYSize;
+    public int xOffset = 0;
+    public int yOffset = 0;
+    public int xSizeOffset = 0;
+    public int ySizeOffset = 0;
 
     public DrawableInventoryAddon(MachineMasterTile tile, String name, int xPos, int yPos, IDrawable bg,int bgX,int bgY, int bgSX, int bgSY, int slots) {
         super(tile, name, xPos, yPos, slots);
@@ -51,7 +55,12 @@ public class DrawableInventoryAddon extends InventoryAddon {
     @Override
     public List<IFactory<? extends Widget>> getGuiWidgets() {
         return Lists.newArrayList(() -> {
-            return new DrawableWidget(getMachineTile().getActiveController(),getBackground(),getBackgroundXPos(),getBackgroundYPos(),getBackgroundXSize(),getBackgroundYSize(),"inventory");
+            DrawableWidget widget = new DrawableWidget(getMachineTile().getActiveController(), getBackground(), getBackgroundXPos(), getBackgroundYPos(), getBackgroundXSize(), getBackgroundYSize(), "inventory");
+            widget.xOffset = xOffset;
+            widget.yOffset = yOffset;
+            widget.xSizeOffset = xSizeOffset;
+            widget.ySizeOffset = ySizeOffset;
+            return widget;
         });
     }
 }

@@ -9,7 +9,6 @@ public class CropType extends ForgeRegistryEntry<CropType> {
 
     private final Predicate<ItemStack> isCropAcceptable;
 
-
     public CropType(Predicate<ItemStack> isCropAcceptable) {
         this.isCropAcceptable = isCropAcceptable;
     }
@@ -17,5 +16,4 @@ public class CropType extends ForgeRegistryEntry<CropType> {
     public Predicate<ItemStack> getIsCropAcceptable() {
         return isCropAcceptable;
     }
-
 }
