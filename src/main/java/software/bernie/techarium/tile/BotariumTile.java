@@ -19,6 +19,7 @@ import software.bernie.geckolib.block.SpecialAnimationController;
 import software.bernie.geckolib.entity.IAnimatable;
 import software.bernie.geckolib.event.predicate.SpecialAnimationPredicate;
 import software.bernie.geckolib.manager.AnimationManager;
+import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.item.UpgradeItem;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
@@ -33,6 +34,7 @@ import software.bernie.techarium.machine.sideness.Side;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.RecipeSerializerRegistry;
 import software.bernie.techarium.tile.base.MachineMasterTile;
+import software.bernie.techarium.tile.base.MultiblockMasterTile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,8 +45,9 @@ import static net.minecraft.block.Block.getDrops;
 import static net.minecraft.block.CropsBlock.AGE;
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.*;
 import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM;
+import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM_TOP;
 
-public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements IAnimatable {
+public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implements IAnimatable {
 
     private final int sizeX = 172;
     private final int sizeY = 184;
@@ -231,5 +234,11 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
         return ItemStack.EMPTY;
     }
 
+    @Override
+    public Map<BlockPos, MachineBlock<?>> getMachineSlaveLocations() {
+        Map<BlockPos, MachineBlock<?>> map = super.getMachineSlaveLocations();
+        map.put(pos.up(), BOTARIUM_TOP.get());
+        return map;
+    }
 }
 

@@ -86,6 +86,7 @@ repositories {
     }
 }
 dependencies {
+    minecraft 'net.minecraftforge:forge:1.15.2-31.2.41'
     minecraft 'net.minecraftforge:forge:1.15.2-31.2.37'
 
     //Geckolib stuff

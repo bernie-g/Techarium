@@ -27,6 +27,7 @@ public class MachineSlaveTile extends MachineTileBase {
         super(tileEntityTypeIn);
     }
 
+
     @Override
     public ActionResultType onTileActicated(PlayerEntity player) {
         assert world != null;
@@ -35,6 +36,10 @@ public class MachineSlaveTile extends MachineTileBase {
 
     public BlockPos getMasterPos() {
         return masterPos;
+    }
+
+    public void setMasterPos(BlockPos masterPos) {
+        this.masterPos = masterPos;
     }
 
     @Nonnull
