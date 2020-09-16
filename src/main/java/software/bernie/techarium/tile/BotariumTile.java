@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 
 import static net.minecraft.block.Block.getDrops;
-import static net.minecraft.block.CropsBlock.AGE;
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.*;
 import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM;
 
@@ -170,7 +169,7 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
                             } else {
                                 if (getOutputInventory().getStackInSlot(0).getCount() != getOutputInventory().getStackInSlot(0).getMaxStackSize()) {
                                     Block block = ((BlockItem) getCropInventory().getStackInSlot(0).getItem()).getBlock();
-                                    return getOutputInventory().getStackInSlot(0).isItemEqual(getCropFromGecko(block));
+                                    return getOutputInventory().getStackInSlot(0).isItemEqual(getCrop(block));
                                 }
                             }
                         }
@@ -189,7 +188,7 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
                 getActiveController().getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.drain(currentRecipe.getFluidIn().getAmount(), IFluidHandler.FluidAction.EXECUTE));
                 ItemStack currentOut = getOutputInventory().getStackInSlot(0);
                 Block block = ((BlockItem) getCropInventory().getStackInSlot(0).getItem()).getBlock();
-                ItemStack stackIn = getCropFromGecko(block);
+                ItemStack stackIn = getCrop(block);
                 if (currentOut.isEmpty()) {
                     getOutputInventory().insertItem(0, stackIn, false);
                 } else {
@@ -214,7 +213,7 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
         updateMachineTile();
     }
 
-    public ItemStack getCropFromGecko(Block block) {
+    public ItemStack getCrop(Block block) {
         if (!world.isRemote()) {
             if (block instanceof CropsBlock) {
                 CropsBlock crop = (CropsBlock) block;
@@ -225,6 +224,5 @@ public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements I
         }
         return new ItemStack(getCropInventory().getStackInSlot(0).getItem());
     }
-
 }
 
