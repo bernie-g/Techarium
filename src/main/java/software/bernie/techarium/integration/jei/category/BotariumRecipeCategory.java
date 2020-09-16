@@ -16,6 +16,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.BlockTileRegistry;
+import software.bernie.techarium.tile.BotariumTile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -97,6 +98,12 @@ public class BotariumRecipeCategory implements IRecipeCategory<BotariumRecipe>
 		itemStackGroup.init(1, true, 70, 30);
 
 		itemStackGroup.set(0, Arrays.asList(recipe.getSoilIn().getMatchingStacks()));
-		List<List<ItemStack>> inputs = ingredients.getInputs(VanillaTypes.ITEM);
+		List<ItemStack> inputs = ingredients.getInputs(VanillaTypes.ITEM).get(0);
+		List<ItemStack> outputs = new ArrayList<>();
+
+		for(ItemStack input : inputs)
+		{
+
+		}
 	}
 }
