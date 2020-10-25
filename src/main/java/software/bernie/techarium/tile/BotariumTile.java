@@ -14,11 +14,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import software.bernie.geckolib.animation.builder.AnimationBuilder;
-import software.bernie.geckolib.block.SpecialAnimationController;
-import software.bernie.geckolib.entity.IAnimatable;
-import software.bernie.geckolib.event.predicate.SpecialAnimationPredicate;
-import software.bernie.geckolib.manager.AnimationManager;
+import software.bernie.geckolib.core.IAnimatable;
+import software.bernie.geckolib.core.PlayState;
+import software.bernie.geckolib.core.builder.AnimationBuilder;
+import software.bernie.geckolib.core.controller.AnimationController;
+import software.bernie.geckolib.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib.core.manager.AnimationData;
+import software.bernie.geckolib.core.manager.AnimationFactory;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.item.UpgradeItem;
@@ -33,7 +35,6 @@ import software.bernie.techarium.machine.sideness.FaceConfig;
 import software.bernie.techarium.machine.sideness.Side;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.RecipeSerializerRegistry;
-import software.bernie.techarium.tile.base.MachineMasterTile;
 import software.bernie.techarium.tile.base.MultiblockMasterTile;
 
 import java.util.ArrayList;
@@ -42,29 +43,27 @@ import java.util.List;
 import java.util.Map;
 
 import static net.minecraft.block.Block.getDrops;
-import static net.minecraft.block.CropsBlock.AGE;
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.*;
 import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM;
 import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM_TOP;
-
-public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implements IAnimatable {
-
+public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implements IAnimatable
+{
     private final int sizeX = 172;
     private final int sizeY = 184;
 
-    private AnimationManager manager = new AnimationManager();
-    private SpecialAnimationController controller = new SpecialAnimationController(this, "controller", 0, this::animationPredicate);
+    private AnimationFactory factory = new AnimationFactory(this);
 
     public boolean isOpening = false;
 
-    private <E extends IAnimatable> boolean animationPredicate(SpecialAnimationPredicate<E> event) {
+    private <E extends IAnimatable> PlayState animationPredicate(AnimationEvent<E> event) {
         if (isOpening) {
-            this.controller.setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.deploy", false).addAnimation("Botarium.anim.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.deploy", false).addAnimation("Botarium.anim.idle", true));
         } else {
-            this.controller.setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.idle", true));
         }
-        return true;
+        return PlayState.CONTINUE;
     }
+
 
     public BotariumTile() {
         super(BOTARIUM.getTileEntityType());
@@ -73,7 +72,6 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
         getController().addController(machineController(3, BOTARIUM_BASE_TIER_3));
         getController().addController(machineController(4, BOTARIUM_BASE_TIER_4));
         getController().addController(machineController(5, BOTARIUM_BASE_TIER_5));
-        this.manager.addAnimationController(controller);
     }
 
 
@@ -142,11 +140,6 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
 
     private MachineController<BotariumRecipe> createController(int tier) {
         return new MachineController<>(this, () -> this.pos, tier);
-    }
-
-    @Override
-    public AnimationManager getAnimationManager() {
-        return this.manager;
     }
 
     @Override
@@ -239,6 +232,21 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
         Map<BlockPos, MachineBlock<?>> map = super.getMachineSlaveLocations();
         map.put(pos.up(), BOTARIUM_TOP.get());
         return map;
+    }
+
+    @Override
+    public void registerControllers(AnimationData animationData)
+    {
+        animationData.addAnimationController(new AnimationController(this, "controller", 0, this::animationPredicate));
+    }
+
+
+
+
+    @Override
+    public AnimationFactory getFactory()
+    {
+        return this.factory;
     }
 }
 

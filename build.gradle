@@ -6,11 +6,13 @@ buildscript {
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 version = '1.0'
 group = 'software.bernie.techarium'
@@ -86,23 +88,29 @@ repositories {
     }
 }
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.15.2-31.2.41'
     minecraft 'net.minecraftforge:forge:1.15.2-31.2.37'
 
     //Geckolib stuff
-    implementation fg.deobf('software.bernie.geckolib:forge-1.15.2-geckolib:SNAPSHOT-85')
-    implementation fg.deobf('com.eliotlash.molang:molang:SNAPSHOT.8')
-    implementation fg.deobf('com.eliotlash.mclib:mclib:SNAPSHOT.8')
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.0'
-    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.9.0'
+    compile fg.deobf('software.bernie.geckolib:forge-1.15.2-geckolib:3.0.0-alpha.3')
+
 
     //Test integration mods, runtime only
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     compile fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
     compile fg.deobf("curse.maven:mekanism:2996531")
     runtimeOnly fg.deobf("curse.maven:theoneprobe:3035056")
-
 }
+
+shadowJar {
+    dependencies {
+        include(dependency('software.bernie.geckolib:.*'))
+    }
+
+    relocate 'software.bernie.geckolib', 'software.bernie.shadowed.geckolib'
+
+    classifier ''
+}
+
 sourceSets.main.resources {
     srcDir 'src/generated/resources'
 }
@@ -119,6 +127,10 @@ jar {
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+}
+
+reobf{
+    shadowJar{}
 }
 
 jar.finalizedBy('reobfJar')

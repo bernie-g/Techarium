@@ -1,6 +1,5 @@
 package software.bernie.techarium.machine.controller;
 
-import javafx.util.Pair;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.nbt.CompoundNBT;
@@ -8,19 +7,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.ItemStackHandler;
+import org.apache.commons.lang3.tuple.Pair;
+import software.bernie.techarium.client.screen.draw.IDrawable;
+import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
 import software.bernie.techarium.machine.addon.fluid.MultiFluidTankAddon;
 import software.bernie.techarium.machine.addon.inventory.InventoryAddon;
 import software.bernie.techarium.machine.addon.inventory.MultiInventoryAddon;
 import software.bernie.techarium.machine.addon.progressbar.MultiProgressBarAddon;
 import software.bernie.techarium.machine.addon.progressbar.ProgressBarAddon;
-import software.bernie.techarium.machine.interfaces.IFactory;
-import software.bernie.techarium.client.screen.draw.IDrawable;
-import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
-import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
+import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.machine.interfaces.IWidgetProvider;
+import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import javax.annotation.Nonnull;
@@ -61,7 +60,7 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
         this.posSupplier = posSupplier;
         this.tile = tile;
         this.background = BOTARIUM_BASE_TIER_1;
-        this.backgroundSizeXY = new Pair<>(204, 183);
+        this.backgroundSizeXY = Pair.of(204, 183);
         this.tier = tier;
         this.isPowered = false;
     }
@@ -125,7 +124,7 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
     }
 
     public void setBackground(IDrawable background, int sizeX, int sizeY) {
-        this.backgroundSizeXY = new Pair<>(sizeX, sizeY);
+        this.backgroundSizeXY = Pair.of(sizeX, sizeY);
         this.background = background;
     }
 
@@ -150,7 +149,7 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
     private Map<Integer, Pair<Integer, Integer>> getNormalSlotLocations() {
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                playerInvSlotsXY.put(j + i * 9 + 9, new Pair<>(7 + j * 18, 103 + i * 18));
+                playerInvSlotsXY.put(j + i * 9 + 9, Pair.of(7 + j * 18, 103 + i * 18));
             }
         }
         return playerInvSlotsXY;
@@ -159,7 +158,7 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
 
     private Map<Integer, Pair<Integer, Integer>> getNormalHotBarLocations() {
         for (int i1 = 0; i1 < 9; ++i1) {
-            playerHotbarSlotsXY.put(i1, new Pair<>(7 + i1 * 18, 160));
+            playerHotbarSlotsXY.put(i1, Pair.of(7 + i1 * 18, 160));
         }
         return playerHotbarSlotsXY;
     }

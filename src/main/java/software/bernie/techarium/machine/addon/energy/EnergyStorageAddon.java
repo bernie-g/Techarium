@@ -1,15 +1,15 @@
 package software.bernie.techarium.machine.addon.energy;
 
 import com.google.common.collect.Lists;
-import javafx.util.Pair;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.energy.EnergyStorage;
-import software.bernie.techarium.machine.interfaces.IFactory;
+import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.client.screen.draw.IDrawable;
+import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.machine.interfaces.IToolTippedAddon;
 import software.bernie.techarium.machine.interfaces.IWidgetProvider;
 import software.bernie.techarium.machine.screen.widget.EnergyAutoWidget;
@@ -40,7 +40,7 @@ public class EnergyStorageAddon extends EnergyStorage implements IWidgetProvider
         super(totalEnergy, maxIn, maxOut);
         this.yPos = yPos;
         this.xPos = xPos;
-        this.assetSizeXY = new Pair<>(12, 48);
+        this.assetSizeXY = Pair.of(12, 48);
         this.guiXY = guiXY;
     }
 
@@ -68,7 +68,7 @@ public class EnergyStorageAddon extends EnergyStorage implements IWidgetProvider
     }
 
     public EnergyStorageAddon setAsset(IDrawable asset, int sizeX, int sizeY) {
-        this.assetSizeXY = new Pair<>(sizeX, sizeY);
+        this.assetSizeXY = Pair.of(sizeX, sizeY);
         this.asset = asset;
         return this;
     }

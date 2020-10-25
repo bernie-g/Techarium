@@ -1,6 +1,5 @@
 package software.bernie.techarium.machine.container;
 
-import javafx.util.Pair;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -9,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 

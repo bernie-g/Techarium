@@ -1,7 +1,6 @@
 package software.bernie.techarium.machine.screen.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import javafx.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
@@ -12,6 +11,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
+import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.client.screen.draw.UiTexture;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;

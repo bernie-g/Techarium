@@ -14,7 +14,7 @@ Techarium is a mod centered around farming tech'''
 modId = "forge"
 mandatory = true
 versionRange = "[31,)"
-ordering = "NONE"
+ordering = "BEFORE"
 side = "BOTH"
 [[dependencies.techarium]]
 modId = "minecraft"

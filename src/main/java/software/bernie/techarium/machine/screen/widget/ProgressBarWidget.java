@@ -1,8 +1,8 @@
 package software.bernie.techarium.machine.screen.widget;
 
-import javafx.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.Widget;
+import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.machine.addon.progressbar.ProgressBarAddon;
 
 public class ProgressBarWidget extends Widget {
