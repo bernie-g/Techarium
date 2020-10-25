@@ -93,10 +93,10 @@ public class EnergyStorageAddon extends EnergyStorage implements IWidgetProvider
     }
 
     @Override
-    public void renderToolTip(Screen screen, int x, int y, int mouseX, int mouseY) {
+    public void renderToolTip(Screen screen, int x, int y, int xCenter,int yCenter,int mouseX, int mouseY) {
         if (mouseX >= x + getXPos() && mouseX <= x + getXPos() + getAssetSizeXY().getKey()) {
             if (mouseY >= y + getYPos() && mouseY <= y + getYPos() + getAssetSizeXY().getValue()) {
-                screen.renderTooltip(Arrays.asList(TextFormatting.GOLD + "Power:", (new DecimalFormat()).format(getEnergyStored()) + TextFormatting.GOLD + "/" + TextFormatting.WHITE + (new DecimalFormat()).format(getMaxEnergyStored()) + TextFormatting.DARK_AQUA + " FE"), mouseX, mouseY);
+                screen.renderTooltip(Arrays.asList(TextFormatting.GOLD + "Power:", (new DecimalFormat()).format(getEnergyStored()) + TextFormatting.GOLD + "/" + TextFormatting.WHITE + (new DecimalFormat()).format(getMaxEnergyStored()) + TextFormatting.DARK_AQUA + " FE"), mouseX - xCenter, mouseY- yCenter);
             }
         }
     }

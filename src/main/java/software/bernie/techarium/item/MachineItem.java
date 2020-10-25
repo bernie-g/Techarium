@@ -33,7 +33,10 @@ public class MachineItem extends BlockItem {
         TileEntity tile = context.getWorld().getTileEntity(context.getPos());
         if(tile instanceof MachineMasterTile<?>){
             MachineMasterTile<?> master = (MachineMasterTile<?>) tile;
-            master.getController().setActiveTier(context.getItem().getTag().getInt("tier"));
+            ItemStack stack = context.getItem();
+            if(stack.hasTag() && stack.getTag() != null) {
+                master.getController().setActiveTier(stack.getTag().getInt("tier"));
+            }
         }
         return result;
     }

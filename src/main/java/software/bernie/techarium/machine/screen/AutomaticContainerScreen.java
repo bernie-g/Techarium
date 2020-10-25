@@ -38,13 +38,15 @@ public class AutomaticContainerScreen extends ContainerScreen<AutomaticContainer
         this.container.getMachineController().getBackground().draw(getGuiLeft(), getGuiTop(),getXSize(),getYSize());
     }
 
-	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
-	{
-		this.container.getMachineController().getLazyEnergyStorage().ifPresent(storage -> ((EnergyStorageAddon) storage).renderToolTip(this, guiLeft, guiTop, mouseX, mouseY));
-		this.container.getMachineController().getMultiPogressBar().getProgressBarAddons().forEach(bar -> bar.renderToolTip(this, guiLeft, guiTop, mouseX, mouseY));
-		this.container.getMachineController().getMultiTank().getFluidTanks().forEach(tank -> tank.renderToolTip(this, guiLeft, guiTop, mouseX, mouseY));
-	}
+    @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        int xCenter = (width - xSize) / 2;
+        int  yCenter = (height - ySize) / 2;
+        this.container.getMachineController().getLazyEnergyStorage().ifPresent(storage -> ((EnergyStorageAddon)storage).renderToolTip(this,guiLeft,guiTop,xCenter,yCenter,mouseX,mouseY));
+        this.container.getMachineController().getMultiPogressBar().getProgressBarAddons().forEach(bar -> bar.renderToolTip(this,guiLeft,guiTop,xCenter,yCenter,mouseX,mouseY));
+        this.container.getMachineController().getMultiTank().getFluidTanks().forEach(tank -> tank.renderToolTip(this,guiLeft,guiTop,xCenter,yCenter,mouseX,mouseY));
+        renderHoveredToolTip(mouseX - xCenter,mouseY- yCenter);
+    }
 
 	public List<Rectangle2d> getPanelBounds()
 	{
