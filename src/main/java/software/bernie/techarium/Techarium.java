@@ -11,6 +11,7 @@ import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import software.bernie.geckolib.GeckoLib;
 import software.bernie.geckolib.resource.ResourceListener;
 import software.bernie.techarium.datagen.TechariumLootTables;
 import software.bernie.techarium.machine.screen.AutomaticContainerScreen;
@@ -27,8 +28,8 @@ public class Techarium
 	public Techarium()
 	{
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ResourceListener::registerReloadListener);
 
+        GeckoLib.initialize();
         LOGGER = LogManager.getLogger();
 		ItemRegistry.register(bus);
 		BlockTileRegistry.register(bus);

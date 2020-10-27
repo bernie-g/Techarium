@@ -91,13 +91,12 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.15.2-31.2.37'
 
     //Geckolib stuff
-    compile fg.deobf('software.bernie.geckolib:forge-1.15.2-geckolib:3.0.0-alpha.3')
+    compile fg.deobf('software.bernie.geckolib:forge-1.15.2-geckolib:3.0.0-beta.1')
 
 
     //Test integration mods, runtime only
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     compile fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
-    compile fg.deobf("curse.maven:mekanism:2996531")
     runtimeOnly fg.deobf("curse.maven:theoneprobe:3035056")
 }
 
