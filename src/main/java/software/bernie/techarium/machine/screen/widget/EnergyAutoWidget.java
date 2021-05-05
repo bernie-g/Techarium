@@ -1,7 +1,9 @@
 package software.bernie.techarium.machine.screen.widget;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.util.text.StringTextComponent;
 import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
 
@@ -10,7 +12,7 @@ public class EnergyAutoWidget extends Widget {
     private final EnergyStorageAddon addon;
 
     public EnergyAutoWidget(EnergyStorageAddon addon) {
-        super(addon.getXPos(), addon.getYPos(), "Power");
+        super(addon.getXPos(), addon.getYPos(), 200, 20, new StringTextComponent("Power"));
         this.addon = addon;
     }
 
@@ -23,7 +25,7 @@ public class EnergyAutoWidget extends Widget {
     }
 
     @Override
-    public void renderButton(int p_renderButton_1_, int p_renderButton_2_, float p_renderButton_3_) {
+    public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         Minecraft minecraft = Minecraft.getInstance();
         int screenY = minecraft.getMainWindow().getScaledHeight()/2;
         int screenX = minecraft.getMainWindow().getScaledWidth()/2;

@@ -1,24 +1,25 @@
 modLoader = "javafml"
-loaderVersion = "[31,)"
+loaderVersion = "[36,)"
 issueTrackerURL = "https://github.com/bernie-g/Techarium/issues"
+license = "Don't Be a Jerk License by CoFH"
 [[mods]]
 modId = "techarium"
 version = "${file.jarVersion}"
 displayName = "Techarium"
 displayURL = "https://github.com/bernie-g/Techarium"
-authors = "Gecko + Drizzs"
+authors = "Gecko + Drizzs + Ycar"
 description = '''
 Techarium is a mod centered around farming tech'''
 
 [[dependencies.techarium]]
 modId = "forge"
 mandatory = true
-versionRange = "[31,)"
+versionRange = "[36,)"
 ordering = "BEFORE"
 side = "BOTH"
 [[dependencies.techarium]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.15.2]"
+versionRange = "[1.16.5,1.17)"
 ordering = "NONE"
 side = "BOTH"

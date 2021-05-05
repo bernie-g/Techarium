@@ -1,5 +1,6 @@
 package software.bernie.techarium.machine.screen;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.renderer.Rectangle2d;
@@ -28,35 +29,34 @@ public class AutomaticContainerScreen extends ContainerScreen<AutomaticContainer
     @Override
     protected void init() {
         super.init();
-        if(!container.getMachineController().getGuiWidgets().isEmpty())
-        container.getMachineController().getGuiWidgets().forEach(widget -> this.addButton(widget.create()));
+        if (!container.getMachineController().getGuiWidgets().isEmpty())
+            container.getMachineController().getGuiWidgets().forEach(widget -> this.addButton(widget.create()));
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        this.renderBackground();
-        this.container.getMachineController().getBackground().draw(getGuiLeft(), getGuiTop(),getXSize(),getYSize());
+    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
+        this.renderBackground(matrixStack);
+        this.container.getMachineController().getBackground().draw(getGuiLeft(), getGuiTop(), getXSize(), getYSize());
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
         int xCenter = (width - xSize) / 2;
-        int  yCenter = (height - ySize) / 2;
-        this.container.getMachineController().getLazyEnergyStorage().ifPresent(storage -> ((EnergyStorageAddon)storage).renderToolTip(this,guiLeft,guiTop,xCenter,yCenter,mouseX,mouseY));
-        this.container.getMachineController().getMultiPogressBar().getProgressBarAddons().forEach(bar -> bar.renderToolTip(this,guiLeft,guiTop,xCenter,yCenter,mouseX,mouseY));
-        this.container.getMachineController().getMultiTank().getFluidTanks().forEach(tank -> tank.renderToolTip(this,guiLeft,guiTop,xCenter,yCenter,mouseX,mouseY));
-        renderHoveredToolTip(mouseX - xCenter,mouseY- yCenter);
+        int yCenter = (height - ySize) / 2;
+        this.container.getMachineController().getLazyEnergyStorage().ifPresent(storage -> ((EnergyStorageAddon) storage).renderToolTip(this, guiLeft, guiTop, xCenter, yCenter, mouseX, mouseY));
+        this.container.getMachineController().getMultiPogressBar().getProgressBarAddons().forEach(bar -> bar.renderToolTip(this, guiLeft, guiTop, xCenter, yCenter, mouseX, mouseY));
+        this.container.getMachineController().getMultiTank().getFluidTanks().forEach(tank -> tank.renderToolTip(this, guiLeft, guiTop, xCenter, yCenter, mouseX, mouseY));
+        renderHoveredTooltip(matrixStack, mouseX - xCenter, mouseY - yCenter);
     }
 
-	public List<Rectangle2d> getPanelBounds()
-	{
-		List<Rectangle2d> panels = new ArrayList<>();
-		panels.add(new Rectangle2d(this.guiLeft, this.guiTop, this.xSize, this.ySize));
-		container.getMachineController().getGuiWidgets().forEach(widgetFactory ->
-		{
-			Widget widget = widgetFactory.create();
-			panels.add(new Rectangle2d(this.guiLeft + widget.x, this.guiTop + widget.y + 10, widget.getWidth() - 10, widget.getHeight()));
-		});
-		return panels;
-	}
+    public List<Rectangle2d> getPanelBounds() {
+        List<Rectangle2d> panels = new ArrayList<>();
+        panels.add(new Rectangle2d(this.guiLeft, this.guiTop, this.xSize, this.ySize));
+        container.getMachineController().getGuiWidgets().forEach(widgetFactory ->
+        {
+            Widget widget = widgetFactory.create();
+            panels.add(new Rectangle2d(this.guiLeft + widget.x, this.guiTop + widget.y + 10, widget.getWidth(), widget.getHeightRealms()));
+        });
+        return panels;
+    }
 }

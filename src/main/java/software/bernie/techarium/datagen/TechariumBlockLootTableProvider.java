@@ -3,8 +3,8 @@ package software.bernie.techarium.datagen;
 import net.minecraft.block.Block;
 import net.minecraft.data.loot.BlockLootTables;
 import net.minecraft.item.Item;
+import net.minecraft.loot.LootTable;
 import net.minecraft.util.IItemProvider;
-import net.minecraft.world.storage.loot.LootTable;
 
 import java.util.function.Function;
 import java.util.function.Supplier;

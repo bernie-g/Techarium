@@ -1,5 +1,6 @@
 package software.bernie.techarium.tile.base;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -14,6 +15,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
@@ -57,7 +59,9 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
 
     @Override
     public ITextComponent getDisplayName() {
-        return new TranslationTextComponent(this.getBlockState().getBlock().getTranslationKey() + "_" + getController().getActiveTier()).applyTextStyle(TextFormatting.BLACK);
+        TranslationTextComponent component = new TranslationTextComponent(this.getBlockState().getBlock().getTranslationKey() + "_" + getController().getActiveTier());
+        component.getStyle().applyFormatting(TextFormatting.BLACK);
+        return component;
     }
 
     @Nullable
@@ -120,10 +124,11 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     }
 
     @Override
-    public void read(CompoundNBT compound) {
-        getActiveController().deserializeNBT(compound.getCompound("activeMachine"));
-        super.read(compound);
+    public void read(BlockState state, CompoundNBT nbt) {
+        getActiveController().deserializeNBT(nbt.getCompound("activeMachine"));
+        super.read(state, nbt);
     }
+
 
     @Override
     public CompoundNBT write(CompoundNBT compound) {
@@ -147,7 +152,7 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        handleUpdateTag(pkt.getNbtCompound());
+        handleUpdateTag(this.getBlockState(), pkt.getNbtCompound());
     }
 
     @Override
@@ -157,7 +162,7 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     }
 
     @Override
-    public void handleUpdateTag(CompoundNBT tag) {
+    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
         this.deserializeNBT(tag);
         updateMachineTile();
     }

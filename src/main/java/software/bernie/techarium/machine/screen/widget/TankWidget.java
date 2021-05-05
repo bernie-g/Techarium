@@ -1,5 +1,6 @@
 package software.bernie.techarium.machine.screen.widget;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.Widget;
@@ -7,6 +8,7 @@ import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.Texture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.client.screen.draw.IDrawable;
@@ -22,15 +24,9 @@ public class TankWidget extends Widget {
 
     private final FluidTankAddon tank;
 
-    public TankWidget(FluidTankAddon tank, IDrawable drawable, int xIn, int yIn, String msg) {
-        super(xIn, yIn, msg);
-        this.drawable = drawable;
-        this.tank = tank;
-    }
-
     public TankWidget(FluidTankAddon tank, IDrawable drawable, int xIn, int yIn, int widthIn, int heightIn,
                       String msg) {
-        super(xIn, yIn, widthIn, heightIn, msg);
+        super(xIn, yIn, widthIn, heightIn, ITextComponent.getTextComponentOrEmpty(msg));
         this.drawable = drawable;
         this.tank = tank;
     }
@@ -40,7 +36,7 @@ public class TankWidget extends Widget {
     }
 
     @Override
-    public void renderButton(int p_renderButton_1_, int p_renderButton_2_, float p_renderButton_3_) {
+    public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         Minecraft minecraft = Minecraft.getInstance();
         int screenY = minecraft.getMainWindow().getScaledHeight() / 2;
         int screenX = minecraft.getMainWindow().getScaledWidth() / 2;
@@ -56,8 +52,8 @@ public class TankWidget extends Widget {
             int capacity = this.tank.getCapacity();
 
             float start = 1 - (float) stored / capacity;
-            float offset = ((getHeight() - tank.getBottomOffset() - tank.getTopOffset()) * start);
-            int height = stored * (getHeight() - tank.getBottomOffset() - tank.getTopOffset()) / capacity;
+            float offset = ((getHeightRealms() - tank.getBottomOffset() - tank.getTopOffset()) * start);
+            int height = stored * (getHeightRealms() - tank.getBottomOffset() - tank.getTopOffset()) / capacity;
 
             ResourceLocation flowing = stack.getFluid().getAttributes().getStillTexture(stack);
             if (flowing != null) {
@@ -70,7 +66,7 @@ public class TankWidget extends Widget {
                                          (float) color.getBlue() / 255.0F, (float) color.getAlpha() / 255.0F);
                     RenderSystem.enableBlend();
                     BlitUtil.blit(x + tank.getLeftOffset(), (int) (y + tank.getTopOffset() + offset), 0,
-                                  getWidth() - tank.getLeftOffset() - tank.getRightOffset() + 40, height, sprite.getMinU(),
+                                  getWidth() - tank.getLeftOffset() - tank.getRightOffset(), height, sprite.getMinU(),
                                   sprite.getMaxU(), sprite.getMinV(), sprite.getMaxV());
                     /*BlitUtil.blit(x + tank.getLeftOffset(), (int) (y + tank.getTopOffset() + offset),
                                   tank.getLeftOffset(), tank.getTopOffset(), getWidth(), height, 1, 1);*/
@@ -79,7 +75,7 @@ public class TankWidget extends Widget {
                 }
             }
         }
-        drawable.draw(x, y, getWidth(), getHeight());
+        drawable.draw(x, y, getWidth(), getHeightRealms());
     }
 
     private IDrawable getFluidTexture(ResourceLocation location) {

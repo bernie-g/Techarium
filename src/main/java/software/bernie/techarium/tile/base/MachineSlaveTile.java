@@ -1,5 +1,6 @@
 package software.bernie.techarium.tile.base;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
@@ -56,9 +57,9 @@ public class MachineSlaveTile extends MachineTileBase {
     }
 
     @Override
-    public void read(CompoundNBT compound) {
-        masterPos = BlockPos.fromLong(compound.getLong("masterPos"));
-        super.read(compound);
+    public void read(BlockState state, CompoundNBT nbt) {
+        masterPos = BlockPos.fromLong(nbt.getLong("masterPos"));
+        super.read(state, nbt);
     }
 
     @Override

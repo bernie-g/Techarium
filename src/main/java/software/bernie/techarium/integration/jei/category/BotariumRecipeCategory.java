@@ -47,7 +47,7 @@ public class BotariumRecipeCategory implements IRecipeCategory<BotariumRecipe>
 	@Override
 	public String getTitle()
 	{
-		return new TranslationTextComponent("techarium.botarium.recipe_catory.name").getFormattedText();
+		return new TranslationTextComponent("techarium.botarium.recipe_catory.name").getString();
 	}
 
 	@Override

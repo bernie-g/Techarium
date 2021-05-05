@@ -2,13 +2,12 @@ package software.bernie.techarium.machine.addon.inventory;
 
 import com.google.common.collect.Lists;
 import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.util.text.StringTextComponent;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.machine.screen.widget.DrawableWidget;
-import software.bernie.techarium.machine.screen.widget.EnergyAutoWidget;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DrawableInventoryAddon extends InventoryAddon {
@@ -19,7 +18,7 @@ public class DrawableInventoryAddon extends InventoryAddon {
     private final int backgroundXSize;
     private final int backgroundYSize;
 
-    public DrawableInventoryAddon(MachineMasterTile tile, String name, int xPos, int yPos, IDrawable bg,int bgX,int bgY, int bgSX, int bgSY, int slots) {
+    public DrawableInventoryAddon(MachineMasterTile tile, String name, int xPos, int yPos, IDrawable bg, int bgX, int bgY, int bgSX, int bgSY, int slots) {
         super(tile, name, xPos, yPos, slots);
         this.background = bg;
         this.backgroundXPos = bgX;
@@ -51,7 +50,7 @@ public class DrawableInventoryAddon extends InventoryAddon {
     @Override
     public List<IFactory<? extends Widget>> getGuiWidgets() {
         return Lists.newArrayList(() -> {
-            return new DrawableWidget(getMachineTile().getActiveController(),getBackground(),getBackgroundXPos(),getBackgroundYPos(),getBackgroundXSize(),getBackgroundYSize(),"inventory");
+            return new DrawableWidget(getMachineTile().getActiveController(), getBackground(), getBackgroundXPos(), getBackgroundYPos(), getBackgroundXSize(), getBackgroundYSize(), new StringTextComponent("inventory"));
         });
     }
 }

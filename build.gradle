@@ -1,11 +1,11 @@
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = 'https://maven.minecraftforge.net' }
         jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
         classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
     }
 }
@@ -21,8 +21,7 @@ archivesBaseName = 'techarium'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-
-    mappings channel: 'snapshot', version: '20200904-1.15.1'
+    mappings channel: 'snapshot', version: '20201028-1.16.3'
 
       runs {
         client {
@@ -76,24 +75,30 @@ repositories {
     }
 }
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.15.2-31.2.37'
+    minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
 
     //Geckolib stuff
-    compile fg.deobf('software.bernie.geckolib:geckolib-forge-1.15.2:3.0.32')
+    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.33')
+
+    //adventure
+    compile "net.kyori:adventure-api:$adventureVersion"
+    compile "net.kyori:adventure-text-serializer-gson:$adventureVersion"
+    compile "net.kyori:adventure-text-serializer-legacy:$adventureVersion"
+    compile "net.kyori:adventure-text-serializer-plain:$adventureVersion"
 
     //Test integration mods, runtime only
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     compile fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
-    implementation fg.deobf("curse.maven:mekanism-268560:2996531")
-    runtimeOnly fg.deobf("curse.maven:theoneprobe-245211:3035056")
+    implementation fg.deobf("curse.maven:mekanism-268560:3206392")
+    runtimeOnly fg.deobf("curse.maven:theoneprobe-245211:3157997")
 }
 
 shadowJar {
     dependencies {
-        include(dependency('software.bernie.geckolib:.*'))
+        include(dependency('software.bernie.geckolib3:.*'))
     }
 
-    relocate 'software.bernie.geckolib', 'software.bernie.shadowed.geckolib'
+    relocate 'software.bernie.geckolib3', 'software.bernie.shadowed.geckolib'
 
     classifier ''
 }

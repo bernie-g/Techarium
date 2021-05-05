@@ -1,10 +1,15 @@
 package software.bernie.techarium.machine.addon.progressbar;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.INBTSerializable;
 import org.apache.commons.lang3.tuple.Pair;
@@ -15,6 +20,7 @@ import software.bernie.techarium.machine.interfaces.IToolTippedAddon;
 import software.bernie.techarium.machine.interfaces.IWidgetProvider;
 import software.bernie.techarium.machine.screen.widget.ProgressBarWidget;
 import software.bernie.techarium.tile.base.MachineMasterTile;
+import software.bernie.techarium.util.Utils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -228,7 +234,7 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IWidgetP
     @Override
     public List<IFactory<? extends Widget>> getGuiWidgets() {
         return Lists.newArrayList(() -> {
-            return new ProgressBarWidget(this, getPosX(), getPosY(), getSizeX(), getSizeY(), getName());
+            return new ProgressBarWidget(this, getPosX(), getPosY(), getSizeX(), getSizeY(), new StringTextComponent(getName()));
         });
     }
 
@@ -236,20 +242,36 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IWidgetP
     public void renderToolTip(Screen screen, int x, int y, int xCenter,int yCenter,int mouseX, int mouseY) {
         if (mouseX >= x + getPosX() && mouseX <= x + getPosX() + sizeX) {
             if (mouseY >= y + getPosY() && mouseY <= y + getPosY() + sizeY) {
-                screen.renderTooltip(getTooltip(), mouseX - xCenter, mouseY - yCenter);
+                DecimalFormat decimalFormat = new DecimalFormat();
+                int progress = (this.getMaxProgress() - this.getProgress()) / this.getProgressToAdd();
+                if (!this.canProgressUp()) {
+                    progress = this.getMaxProgress() - progress;
+                }
+
+                TextComponent component = Component.text("Progress: ", NamedTextColor.GOLD)
+                        .append(Component.text(decimalFormat.format(this.getProgress()), NamedTextColor.WHITE))
+                        .append(Component.text("/", NamedTextColor.WHITE))
+                        .append(Component.text(decimalFormat.format(this.getMaxProgress()), NamedTextColor.WHITE));
+
+                TextComponent progressComponent = Component.text("ETA: ", NamedTextColor.GOLD)
+                        .append(Component.text(decimalFormat.format(Math.ceil((double) (progress * this.getTickingTime()) / 20.0D)), NamedTextColor.WHITE))
+                        .append(Component.text("s", NamedTextColor.DARK_AQUA));
+
+                screen.func_243308_b(new MatrixStack(), Utils.wrapText(component, progressComponent), mouseX - xCenter, mouseY - yCenter);
             }
         }
     }
 
     public List<String> getTooltip() {
         List<String> tooltip = new ArrayList<>();
-        tooltip.add(TextFormatting.GOLD + "Progress: " + TextFormatting.WHITE + (new DecimalFormat()).format((long) this.getProgress()) + TextFormatting.GOLD + "/" + TextFormatting.WHITE + (new DecimalFormat()).format((long) this.getMaxProgress()));
+        DecimalFormat decimalFormat = new DecimalFormat();
+        tooltip.add(TextFormatting.GOLD + "Progress: " + TextFormatting.WHITE + decimalFormat.format((long) this.getProgress()) + TextFormatting.GOLD + "/" + TextFormatting.WHITE + decimalFormat.format((long) this.getMaxProgress()));
         int progress = (this.getMaxProgress() - this.getProgress()) / this.getProgressToAdd();
         if (!this.canProgressUp()) {
             progress = this.getMaxProgress() - progress;
         }
 
-        tooltip.add(TextFormatting.GOLD + "ETA: " + TextFormatting.WHITE + (new DecimalFormat()).format(Math.ceil((double) (progress * this.getTickingTime()) / 20.0D)) + TextFormatting.DARK_AQUA + "s");
+        tooltip.add(TextFormatting.GOLD + "ETA: " + TextFormatting.WHITE + decimalFormat.format(Math.ceil((double) (progress * this.getTickingTime()) / 20.0D)) + TextFormatting.DARK_AQUA + "s");
         return tooltip;
     }
 }

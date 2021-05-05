@@ -46,9 +46,7 @@ public class StaticHandler {
 
     public static FluidStack deserializeFluid(JsonObject object) {
         String s = JSONUtils.getString(object, "fluidIn");
-        Fluid fluid = Registry.FLUID.getValue(new ResourceLocation(s)).orElseThrow(() -> {
-            return new JsonSyntaxException("Unknown fluid '" + s + "'");
-        });
+        Fluid fluid = Registry.FLUID.getOptional(new ResourceLocation(s)).orElseThrow(() -> new JsonSyntaxException("Unknown fluid '" + s + "'"));
         int i = JSONUtils.getInt(object, "fluidAmount", 100);
         return new FluidStack(fluid, i);
     }

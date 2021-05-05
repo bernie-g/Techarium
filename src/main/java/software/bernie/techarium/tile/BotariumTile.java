@@ -3,6 +3,7 @@ package software.bernie.techarium.tile;
 import net.minecraft.block.Block;
 import net.minecraft.block.CropsBlock;
 import net.minecraft.block.StemBlock;
+import net.minecraft.fluid.WaterFluid;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -86,7 +87,7 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
                 .setOnProgressFull(() -> handleProgressFinish(getActiveController().getCurrentRecipe()))
         );
 
-        controller.addTank(new FluidTankAddon(this, "waterIn", 10000 * tier, 23, 35));
+        controller.addTank(new FluidTankAddon(this, "waterIn", 10000 * tier, 23, 35, (fluidStack -> fluidStack.getFluid() instanceof WaterFluid)));
 
         controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
                 .setInputFilter((itemStack, integer) -> itemStack.getItem().equals(Items.DIRT))
@@ -159,7 +160,7 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
 
     @Override
     public boolean matchRecipe(BotariumRecipe currentRecipe) {
-        if (currentRecipe.getTier() == getActiveController().getTier()) {
+        if (currentRecipe.getTier() <= getActiveController().getTier()) {
             if (currentRecipe.getCropType().getIsCropAcceptable().test(getCropInventory().getStackInSlot(0))) {
                 if (currentRecipe.getSoilIn().test(getSoilInventory().getStackInSlot(0))) {
                     if (getActiveController().getEnergyStorage().getEnergyStored() >= currentRecipe.getEnergyCost()) {

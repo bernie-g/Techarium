@@ -53,7 +53,7 @@ public abstract class BaseRecipeCategory<T extends IRecipe> implements IRecipeCa
 	@Override
 	public String getTitle()
 	{
-		return new TranslationTextComponent(unlocalizedTitle).getFormattedText();
+		return new TranslationTextComponent(unlocalizedTitle).getString();
 	}
 
 	@Override
