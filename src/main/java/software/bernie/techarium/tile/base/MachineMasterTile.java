@@ -127,6 +127,7 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     public void read(BlockState state, CompoundNBT nbt) {
         getActiveController().deserializeNBT(nbt.getCompound("activeMachine"));
         super.read(state, nbt);
+        updateMachineTile();
     }
 
 

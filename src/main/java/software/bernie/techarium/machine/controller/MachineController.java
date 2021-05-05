@@ -3,6 +3,7 @@ package software.bernie.techarium.machine.controller;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -55,6 +56,8 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
     private MultiInventoryAddon multiInventory;
     private MultiFluidTankAddon multiTank;
     private MultiProgressBarAddon multiPogressBar;
+
+    private ResourceLocation currentRecipeLocation = null;
 
     public MachineController(MachineMasterTile<T> tile, Supplier<BlockPos> posSupplier, int tier) {
         this.posSupplier = posSupplier;
@@ -197,11 +200,11 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
         return widgets;
     }
 
-    public void resetCurrentRecipe(){
+    public void resetCurrentRecipe() {
         this.currentRecipe = null;
     }
 
-    public void setShouldCheckRecipe(){
+    public void setShouldCheckRecipe() {
         shouldCheckRecipe = true;
     }
 
@@ -225,16 +228,21 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
             this.multiPogressBar.attemptTickAllBars();
         }
 
+        if(currentRecipe == null && currentRecipeLocation != null)
+        {
+            this.currentRecipe = (T) this.tile.getWorld().getRecipeManager().getRecipe(currentRecipeLocation).get();
+        }
+
         if (currentRecipe == null) {
             handleRecipeNull(shouldCheckRecipe);
         }
         shouldCheckRecipe = false;
     }
 
-    private void handleRecipeNull(boolean shouldCheckRecipe){
-        if(recipeCheckTimer -- <= 0 || shouldCheckRecipe){
+    private void handleRecipeNull(boolean shouldCheckRecipe) {
+        if (recipeCheckTimer-- <= 0 || shouldCheckRecipe) {
             recipeCheckTimer = 50;
-            if(tile.shouldCheckForRecipe()){
+            if (tile.shouldCheckForRecipe()) {
                 currentRecipe = tile.getWorld().getRecipeManager()
                         .getRecipes()
                         .stream()
@@ -259,18 +267,27 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
     @Override
     public CompoundNBT serializeNBT() {
         CompoundNBT nbt = new CompoundNBT();
-        getLazyEnergyStorage().ifPresent(storage -> nbt.put("energy", ((EnergyStorageAddon)storage).serializeNBT()));
-        getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.getFluidTanks().forEach(tank -> nbt.put(tank.getName(),tank.writeToNBT(new CompoundNBT()))));
-        getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(inv -> nbt.put(inv.getName(),inv.serializeNBT())));
-        getMultiPogressBar().getProgressBarAddons().forEach(bar-> nbt.put(bar.getName(),bar.serializeNBT()));
+        getLazyEnergyStorage().ifPresent(storage -> nbt.put("energy", ((EnergyStorageAddon) storage).serializeNBT()));
+        getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.getFluidTanks().forEach(
+                tank -> nbt.put(tank.getName(), tank.writeToNBT(new CompoundNBT()))));
+        getMultiInventory().getInvOptional().ifPresent(
+                multiInv -> multiInv.getInventories().forEach(inv -> nbt.put(inv.getName(), inv.serializeNBT())));
+        getMultiPogressBar().getProgressBarAddons().forEach(bar -> nbt.put(bar.getName(), bar.serializeNBT()));
+        if (currentRecipe != null)
+            nbt.putString("currentRecipe", currentRecipe.getId().toString());
         return nbt;
     }
 
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
-        getLazyEnergyStorage().ifPresent(storage -> ((EnergyStorageAddon)storage).deserializeNBT(nbt.getCompound("energy")));
-        getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.getFluidTanks().forEach(tank -> tank.readFromNBT(nbt.getCompound(tank.getName()))));
-        getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(inv -> inv.deserializeNBT(nbt.getCompound(inv.getName()))));
-        getMultiPogressBar().getProgressBarAddons().forEach(bar-> bar.deserializeNBT(nbt.getCompound(bar.getName())));
+        getLazyEnergyStorage().ifPresent(
+                storage -> ((EnergyStorageAddon) storage).deserializeNBT(nbt.getCompound("energy")));
+        getMultiTank().getTankOptional().ifPresent(multiTank -> multiTank.getFluidTanks().forEach(
+                tank -> tank.readFromNBT(nbt.getCompound(tank.getName()))));
+        getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(
+                inv -> inv.deserializeNBT(nbt.getCompound(inv.getName()))));
+        getMultiPogressBar().getProgressBarAddons().forEach(bar -> bar.deserializeNBT(nbt.getCompound(bar.getName())));
+        if (nbt.contains("currentRecipe"))
+            this.currentRecipeLocation = new ResourceLocation(nbt.getString("currentRecipe"));
     }
 }

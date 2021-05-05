@@ -15,6 +15,8 @@ import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.client.screen.draw.UiTexture;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
 import software.bernie.techarium.util.BlitUtil;
+import software.bernie.techarium.util.GuiUtils;
+import software.bernie.techarium.util.TilingDirection;
 
 import java.awt.*;
 
@@ -63,11 +65,22 @@ public class TankWidget extends Widget {
                     minecraft.getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
                     Color color = new Color(stack.getFluid().getAttributes().getColor());
                     RenderSystem.color4f((float) color.getRed() / 255.0F, (float) color.getGreen() / 255.0F,
-                                         (float) color.getBlue() / 255.0F, (float) color.getAlpha() / 255.0F);
+                            (float) color.getBlue() / 255.0F, (float) color.getAlpha() / 255.0F);
                     RenderSystem.enableBlend();
-                    BlitUtil.blit(x + tank.getLeftOffset(), (int) (y + tank.getTopOffset() + offset), 0,
-                                  getWidth() - tank.getLeftOffset() - tank.getRightOffset(), height, sprite.getMinU(),
-                                  sprite.getMaxU(), sprite.getMinV(), sprite.getMaxV());
+                    matrixStack.push();
+                    int yPosition = (int) (y + tank.getTopOffset() + offset) + height;
+                    GuiUtils.drawTiledSprite(matrixStack, x + tank.getLeftOffset(),
+                            yPosition, 1,
+                            getWidth() - tank.getLeftOffset() - tank.getRightOffset(), height, sprite, 16, 16, 0,
+                            TilingDirection.DOWN_RIGHT);
+/*                    GuiUtils.drawTiledSprite(matrixStack, x + tank.getLeftOffset(),
+                            (int) (y + tank.getTopOffset()), 1,
+                            getWidth() - tank.getLeftOffset() - tank.getRightOffset(), height, sprite, 16, 16, 10000,
+                            TilingDirection.DOWN_RIGHT);*/
+                    matrixStack.pop();
+                    /*BlitUtil.blit(x + tank.getLeftOffset(), (int) (y + tank.getTopOffset() + offset), 0,
+                            getWidth() - tank.getLeftOffset() - tank.getRightOffset(), height, sprite.getMinU(),
+                            sprite.getMaxU(), sprite.getMinV(), sprite.getMaxV());*/
                     /*BlitUtil.blit(x + tank.getLeftOffset(), (int) (y + tank.getTopOffset() + offset),
                                   tank.getLeftOffset(), tank.getTopOffset(), getWidth(), height, 1, 1);*/
                     RenderSystem.disableBlend();
