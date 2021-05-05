@@ -21,6 +21,7 @@ import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.machine.interfaces.IWidgetProvider;
 import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
+import software.bernie.techarium.recipes.AbstractMachineRecipe;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import javax.annotation.Nonnull;
@@ -119,7 +120,7 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
         if (backgroundSizeXY.getKey() % 2 != 0) {
             newX++;
         }
-        energyStorage = new EnergyStorageAddon(tier * capacity, tier * maxIO, newX, yPos, backgroundSizeXY);
+        energyStorage = new EnergyStorageAddon((MachineController<? extends AbstractMachineRecipe>) this, tier * capacity, tier * maxIO, newX, yPos, backgroundSizeXY);
     }
 
     public Pair<Integer, Integer> getBackgroundSizeXY() {
@@ -178,7 +179,7 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
         return lazyEnergyStorage;
     }
 
-    public MultiProgressBarAddon getMultiPogressBar() {
+    public MultiProgressBarAddon getMultiProgressBar() {
         return multiPogressBar;
     }
 
@@ -194,8 +195,8 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
         if (getMultiTank() != null) {
             widgets.addAll(getMultiTank().getGuiWidgets());
         }
-        if (getMultiPogressBar() != null) {
-            widgets.addAll(getMultiPogressBar().getGuiWidgets());
+        if (getMultiProgressBar() != null) {
+            widgets.addAll(getMultiProgressBar().getGuiWidgets());
         }
         return widgets;
     }
@@ -217,8 +218,8 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
         if (getMultiTank() != null) {
             components.addAll(getMultiTank().getContainerComponents());
         }
-        if (getMultiPogressBar() != null) {
-            components.addAll(getMultiPogressBar().getContainerComponents());
+        if (getMultiProgressBar() != null) {
+            components.addAll(getMultiProgressBar().getContainerComponents());
         }
         return components;
     }
@@ -231,6 +232,7 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
         if(currentRecipe == null && currentRecipeLocation != null)
         {
             this.currentRecipe = (T) this.tile.getWorld().getRecipeManager().getRecipe(currentRecipeLocation).get();
+            currentRecipeLocation = null;
         }
 
         if (currentRecipe == null) {
@@ -251,10 +253,10 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
                         .filter(tile::matchRecipe)
                         .findFirst()
                         .orElse(null);
-                this.getMultiPogressBar().getProgressBarAddons().forEach(bar -> bar.setProgress(0));
+                this.getMultiProgressBar().getProgressBarAddons().forEach(bar -> bar.setProgress(0));
                 if (currentRecipe != null) {
                     AtomicInteger x = new AtomicInteger();
-                    this.getMultiPogressBar().getProgressBarAddons().forEach(bar -> {
+                    this.getMultiProgressBar().getProgressBarAddons().forEach(bar -> {
                         bar.setMaxProgress(currentRecipe.getMaxProgressTimes().get(x.get()));
                         bar.setProgressToAdd(currentRecipe.getTickRate());
                         x.incrementAndGet();
@@ -272,7 +274,7 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
                 tank -> nbt.put(tank.getName(), tank.writeToNBT(new CompoundNBT()))));
         getMultiInventory().getInvOptional().ifPresent(
                 multiInv -> multiInv.getInventories().forEach(inv -> nbt.put(inv.getName(), inv.serializeNBT())));
-        getMultiPogressBar().getProgressBarAddons().forEach(bar -> nbt.put(bar.getName(), bar.serializeNBT()));
+        getMultiProgressBar().getProgressBarAddons().forEach(bar -> nbt.put(bar.getName(), bar.serializeNBT()));
         if (currentRecipe != null)
             nbt.putString("currentRecipe", currentRecipe.getId().toString());
         return nbt;
@@ -286,7 +288,7 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
                 tank -> tank.readFromNBT(nbt.getCompound(tank.getName()))));
         getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(
                 inv -> inv.deserializeNBT(nbt.getCompound(inv.getName()))));
-        getMultiPogressBar().getProgressBarAddons().forEach(bar -> bar.deserializeNBT(nbt.getCompound(bar.getName())));
+        getMultiProgressBar().getProgressBarAddons().forEach(bar -> bar.deserializeNBT(nbt.getCompound(bar.getName())));
         if (nbt.contains("currentRecipe"))
             this.currentRecipeLocation = new ResourceLocation(nbt.getString("currentRecipe"));
     }

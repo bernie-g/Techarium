@@ -44,7 +44,7 @@ public class AutomaticContainerScreen extends ContainerScreen<AutomaticContainer
         int xCenter = (width - xSize) / 2;
         int yCenter = (height - ySize) / 2;
         this.container.getMachineController().getLazyEnergyStorage().ifPresent(storage -> ((EnergyStorageAddon) storage).renderToolTip(this, guiLeft, guiTop, xCenter, yCenter, mouseX, mouseY));
-        this.container.getMachineController().getMultiPogressBar().getProgressBarAddons().forEach(bar -> bar.renderToolTip(this, guiLeft, guiTop, xCenter, yCenter, mouseX, mouseY));
+        this.container.getMachineController().getMultiProgressBar().getProgressBarAddons().forEach(bar -> bar.renderToolTip(this, guiLeft, guiTop, xCenter, yCenter, mouseX, mouseY));
         this.container.getMachineController().getMultiTank().getFluidTanks().forEach(tank -> tank.renderToolTip(this, guiLeft, guiTop, xCenter, yCenter, mouseX, mouseY));
         renderHoveredTooltip(matrixStack, mouseX - xCenter, mouseY - yCenter);
     }

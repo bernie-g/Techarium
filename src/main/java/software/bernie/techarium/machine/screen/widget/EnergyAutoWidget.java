@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.text.StringTextComponent;
 import org.apache.commons.lang3.tuple.Pair;
+import org.lwjgl.opengl.GL11;
 import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
 
 public class EnergyAutoWidget extends Widget {
@@ -27,11 +28,15 @@ public class EnergyAutoWidget extends Widget {
     @Override
     public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         Minecraft minecraft = Minecraft.getInstance();
-        int screenY = minecraft.getMainWindow().getScaledHeight()/2;
-        int screenX = minecraft.getMainWindow().getScaledWidth()/2;
-        float start = 1 - (float)addon.getEnergyStored()/addon.getMaxEnergyStored();
+        int screenY = minecraft.getMainWindow().getScaledHeight() / 2;
+        int screenX = minecraft.getMainWindow().getScaledWidth() / 2;
+        float start = 1 - (float) addon.getEnergyStored() / addon.getMaxEnergyStored();
         float offset = (getAssetSizeXY().getValue() * start);
-        addon.getAsset().drawPartial(screenX - getGuiXY().getKey()/2 + x,screenY - getGuiXY().getValue()/2 +y + offset,getAssetSizeXY().getKey(), getAssetSizeXY().getValue(),1,(float)addon.getEnergyStored()/addon.getMaxEnergyStored(),0,0);
+        addon.getAsset().drawPartial(screenX - getGuiXY().getKey() / 2 + x,
+                screenY - getGuiXY().getValue() / 2 + y + offset, getAssetSizeXY().getKey(),
+                getAssetSizeXY().getValue(), 1, (float) addon.getEnergyStored() / addon.getMaxEnergyStored(), 0, 0);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
     }
 
 }
