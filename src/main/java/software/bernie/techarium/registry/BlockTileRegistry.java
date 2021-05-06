@@ -51,7 +51,6 @@ public class BlockTileRegistry {
         BLOCKS.register(bus);
         ITEMS.register(bus);
         TILES.register(bus);
-
     }
 
 }

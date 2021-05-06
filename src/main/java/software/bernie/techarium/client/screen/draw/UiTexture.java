@@ -1,17 +1,13 @@
 package software.bernie.techarium.client.screen.draw;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-
-import java.util.logging.Logger;
 
 public class UiTexture {
     private final ResourceLocation TEXTURE;
@@ -29,24 +25,26 @@ public class UiTexture {
     }
 
     public IDrawable getFullArea() {
-        return new Area(0, 0, 1, 1);
+        return new Area(0, 0, 1, 1, x, y);
     }
 
     public IDrawable getArea(int x, int y, int w, int h) {
-        return new Area((float)x / this.x, (float)y / this.y, w / this.x, h / this.y);
-
+        return new Area((float)x / this.x, (float)y / this.y, (float)w / this.x, h / this.y, w, h);
     }
 
     private class Area implements IDrawable {
 
         private final float v, u;
         private final float dv, du;
+        private final float width, height;
 
-        public Area(float u, float v, float du, float dv) {
+        public Area(float u, float v, float du, float dv, float width, float height) {
             this.v = v;
             this.u = u;
             this.du = du;
             this.dv = dv;
+            this.width = width;
+            this.height = height;
         }
 
         @Override
@@ -62,6 +60,11 @@ public class UiTexture {
             float uf = (u + du * x2);
             float vi = (v + dv * y1);
             float vf = (v + dv * y2);
+
+            //ui = (float) Math.round(ui * this.width) / this.width;
+            //uf = (float) Math.round(uf * this.width) / this.width;
+            //vi = (float) Math.floor(vi * this.height) / this.height;
+            //vf = (float) Math.floor(vf * this.height)   / this.height;
             Tessellator tesselator = Tessellator.getInstance();
             BufferBuilder buf = tesselator.getBuffer();
             RenderSystem.enableAlphaTest();
