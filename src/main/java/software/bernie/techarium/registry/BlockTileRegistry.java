@@ -29,7 +29,7 @@ public class BlockTileRegistry {
 
     //Tile
     public static final BlockRegistryObjectGroup<BotaniumMaster, BlockItem, BotariumTile> BOTARIUM =
-            new BlockRegistryObjectGroup<>("botarium", BotaniumMaster::new, machineItemCreator(5), BotariumTile::new).register(BLOCKS, ITEMS, TILES);
+            new BlockRegistryObjectGroup<>("botarium", BotaniumMaster::new, machineItemCreator(), BotariumTile::new).register(BLOCKS, ITEMS, TILES);
 
     public static final RegistryObject<BotariumTop> BOTARIUM_TOP = BLOCKS.register("botarium_top", BotariumTop::new);
 
@@ -40,8 +40,8 @@ public class BlockTileRegistry {
         return block -> new BlockItem(block, new Item.Properties().group(TECHARIUMS));
     }
 
-    public static <B extends Block> Function<B, BlockItem> machineItemCreator(int tier) {
-        return block -> new MachineItem(tier,block, new Item.Properties().group(TECHARIUMS));
+    public static <B extends Block> Function<B, BlockItem> machineItemCreator() {
+        return block -> new MachineItem(block, new Item.Properties().group(TECHARIUMS));
     }
 
     public static void register(IEventBus bus){

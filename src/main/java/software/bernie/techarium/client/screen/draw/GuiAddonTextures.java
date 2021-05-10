@@ -16,24 +16,10 @@ public class GuiAddonTextures {
     );
 
     //Botanium Gui Background
-    public static final IDrawable BOTARIUM_BASE_TIER_1 = new UiTexture(
+    public static final IDrawable BOTARIUM_DRAWABLE = new UiTexture(
             new ResourceLocation(ModID, "textures/gui/botarium/botarium_tier1_main.png"), 203, 184
     ).getFullArea();
-    public static final IDrawable BOTARIUM_BASE_TIER_2 = new UiTexture(
-            new ResourceLocation(ModID, "textures/gui/botarium/botarium_tier2_main.png"), 203, 184
-    ).getFullArea();
-    public static final IDrawable BOTARIUM_BASE_TIER_3 = new UiTexture(
-            new ResourceLocation(ModID, "textures/gui/botarium/botarium_tier3_main.png"), 203, 184
-    ).getFullArea();
-    public static final IDrawable BOTARIUM_BASE_TIER_4 = new UiTexture(
-            new ResourceLocation(ModID, "textures/gui/botarium/botarium_tier4_main.png"), 203, 184
-    ).getFullArea();
-    public static final IDrawable BOTARIUM_BASE_TIER_5 = new UiTexture(
-            new ResourceLocation(ModID, "textures/gui/botarium/botarium_tier5_main.png"), 203, 184
-    ).getFullArea();
-    public static final IDrawable BOTARIUM_BASE_TIER_6 = new UiTexture(
-            new ResourceLocation(ModID, "textures/gui/botarium/botarium_tier6_main.png"), 203, 184
-    ).getFullArea();
+
 
 
     //Defaults

@@ -8,7 +8,6 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import software.bernie.techarium.api.CropType;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
@@ -32,7 +31,7 @@ public class BotariumRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializ
         int ticksPerProgress = JSONUtils.getInt(json,"ticksPerProgress");
         int tier = JSONUtils.getInt(json,"machineTier");
         int energy = JSONUtils.getInt(json,"energyCost");
-        return new BotariumRecipe(recipeId,tier,type,fluidIn,ingredient,ticksPerProgress,maxProgress,energy);
+        return new BotariumRecipe(recipeId, type, fluidIn, ingredient, ticksPerProgress, maxProgress, energy);
     }
 
     @Nullable
@@ -41,11 +40,10 @@ public class BotariumRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializ
         CropType type = TechariumCustomRegistries.CROP_TYPE.getValue(new ResourceLocation(buffer.readString()));
         FluidStack fluidIn = buffer.readFluidStack();
         Ingredient ingredient = Ingredient.read(buffer);
-        int tier = buffer.readInt();
         int maxProgress = buffer.readInt();
         int ticksPerProgress = buffer.readInt();
         int energy = buffer.readInt();
-        return new BotariumRecipe(recipeId,tier,type,fluidIn,ingredient,ticksPerProgress,maxProgress,energy);
+        return new BotariumRecipe(recipeId, type, fluidIn, ingredient, ticksPerProgress, maxProgress, energy);
     }
 
     @Override
@@ -53,7 +51,6 @@ public class BotariumRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializ
         buffer.writeString(Objects.requireNonNull(recipe.getCropType().getRegistryName()).toString());
         buffer.writeFluidStack(recipe.getFluidIn());
         recipe.getSoilIn().write(buffer);
-        buffer.writeInt(recipe.getTier());
         buffer.writeInt(recipe.getMaxProgress());
         buffer.writeInt(recipe.getTickRate());
         buffer.writeInt(recipe.getEnergyCost());

@@ -54,7 +54,7 @@ public class WidgetProvider {
     private static List<IFactory<? extends Widget>> getInventoryAddonWidgets(InventoryAddon inventoryAddon) {
         if (inventoryAddon instanceof DrawableInventoryAddon) {
             DrawableInventoryAddon drawableInventoryAddon = (DrawableInventoryAddon) inventoryAddon;
-            return Lists.newArrayList(() -> new DrawableWidget(drawableInventoryAddon.getMachineTile().getActiveController(), drawableInventoryAddon.getBackground(), drawableInventoryAddon.getBackgroundXPos(), drawableInventoryAddon.getBackgroundYPos(), drawableInventoryAddon.getBackgroundXSize(), drawableInventoryAddon.getBackgroundYSize(), new StringTextComponent("inventory")));
+            return Lists.newArrayList(() -> new DrawableWidget(drawableInventoryAddon.getMachineTile().getController(), drawableInventoryAddon.getBackground(), drawableInventoryAddon.getBackgroundXPos(), drawableInventoryAddon.getBackgroundYPos(), drawableInventoryAddon.getBackgroundXSize(), drawableInventoryAddon.getBackgroundYSize(), new StringTextComponent("inventory")));
         }
         return new ArrayList<>();
     }

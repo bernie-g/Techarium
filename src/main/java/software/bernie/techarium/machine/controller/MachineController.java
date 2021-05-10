@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
-import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.BOTARIUM_BASE_TIER_1;
+import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.BOTARIUM_DRAWABLE;
 
 public class MachineController<T extends IMachineRecipe> implements IContainerComponentProvider, INBTSerializable<CompoundNBT> {
 
@@ -41,7 +41,6 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
     private boolean shouldCheckRecipe;
     private int recipeCheckTimer;
 
-    private final int tier;
     private Pair<Integer, Integer> backgroundSizeXY;
 
     private IDrawable background;
@@ -58,12 +57,11 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
 
     private ResourceLocation currentRecipeLocation = null;
 
-    public MachineController(MachineMasterTile<T> tile, Supplier<BlockPos> posSupplier, int tier) {
+    public MachineController(MachineMasterTile<T> tile, Supplier<BlockPos> posSupplier) {
         this.posSupplier = posSupplier;
         this.tile = tile;
-        this.background = BOTARIUM_BASE_TIER_1;
+        this.background = BOTARIUM_DRAWABLE;
         this.backgroundSizeXY = Pair.of(204, 183);
-        this.tier = tier;
         this.isPowered = false;
     }
 
@@ -97,10 +95,6 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
         return energyStorage;
     }
 
-    public int getTier() {
-        return tier;
-    }
-
     public IDrawable getBackground() {
         return background;
     }
@@ -118,7 +112,7 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
         if (backgroundSizeXY.getKey() % 2 != 0) {
             newX++;
         }
-        energyStorage = new EnergyStorageAddon((MachineController<? extends AbstractMachineRecipe>) this, tier * capacity, tier * maxIO, newX, yPos, backgroundSizeXY);
+        energyStorage = new EnergyStorageAddon((MachineController<? extends AbstractMachineRecipe>) this, capacity, maxIO, newX, yPos, backgroundSizeXY);
     }
 
     public Pair<Integer, Integer> getBackgroundSizeXY() {
