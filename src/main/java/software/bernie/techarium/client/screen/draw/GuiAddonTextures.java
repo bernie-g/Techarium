@@ -17,7 +17,7 @@ public class GuiAddonTextures {
 
     //Botanium Gui Background
     public static final IDrawable BOTARIUM_DRAWABLE = new UiTexture(
-            new ResourceLocation(ModID, "textures/gui/botarium/botarium_tier1_main.png"), 203, 184
+            new ResourceLocation(ModID, "textures/gui/botarium/botarium.png"), 203, 184
     ).getFullArea();
 
 
