@@ -165,7 +165,7 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
     }
 
     private MachineController<BotariumRecipe> createController() {
-        return new MachineController<>(this, () -> this.pos);
+        return new MachineController<>(this, () -> this.pos, BOTARIUM_DRAWABLE);
     }
 
     @Override

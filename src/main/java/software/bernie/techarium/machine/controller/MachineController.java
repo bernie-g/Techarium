@@ -30,7 +30,6 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
-import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.BOTARIUM_DRAWABLE;
 
 public class MachineController<T extends IMachineRecipe> implements IContainerComponentProvider, INBTSerializable<CompoundNBT> {
 
@@ -57,10 +56,10 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
 
     private ResourceLocation currentRecipeLocation = null;
 
-    public MachineController(MachineMasterTile<T> tile, Supplier<BlockPos> posSupplier) {
+    public MachineController(MachineMasterTile<T> tile, Supplier<BlockPos> posSupplier, IDrawable background) {
         this.posSupplier = posSupplier;
         this.tile = tile;
-        this.background = BOTARIUM_DRAWABLE;
+        this.background = background;
         this.backgroundSizeXY = Pair.of(204, 183);
         this.isPowered = false;
     }
