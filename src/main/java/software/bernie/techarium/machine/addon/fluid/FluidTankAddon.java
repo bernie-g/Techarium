@@ -1,14 +1,11 @@
 package software.bernie.techarium.machine.addon.fluid;
 
-import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
@@ -17,21 +14,17 @@ import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.machine.interfaces.IToolTippedAddon;
-import software.bernie.techarium.machine.interfaces.IWidgetProvider;
-import software.bernie.techarium.machine.screen.widget.TankWidget;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 import software.bernie.techarium.util.Utils;
-
 import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.DEFAULT_FLUID_TANK;
 
-public class FluidTankAddon extends FluidTank implements IWidgetProvider, IContainerComponentProvider, IToolTippedAddon {
+public class FluidTankAddon extends FluidTank implements IContainerComponentProvider, IToolTippedAddon {
 
     private final String name;
 
@@ -207,13 +200,6 @@ public class FluidTankAddon extends FluidTank implements IWidgetProvider, IConta
     @Override
     public List<IFactory<? extends Slot>> getContainerComponents() {
         return new ArrayList<>();
-    }
-
-    @Override
-    public List<IFactory<? extends Widget>> getGuiWidgets() {
-        return Lists.newArrayList(() -> {
-            return new TankWidget(this, getTankDrawable(), getPosX(), getPosY(), getSizeX(), getSizeY(), getName());
-        });
     }
 
     @Override

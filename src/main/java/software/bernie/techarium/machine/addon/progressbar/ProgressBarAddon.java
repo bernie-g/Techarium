@@ -1,15 +1,12 @@
 package software.bernie.techarium.machine.addon.progressbar;
 
-import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.INBTSerializable;
 import org.apache.commons.lang3.tuple.Pair;
@@ -17,8 +14,6 @@ import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.machine.interfaces.IToolTippedAddon;
-import software.bernie.techarium.machine.interfaces.IWidgetProvider;
-import software.bernie.techarium.machine.screen.widget.ProgressBarWidget;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 import software.bernie.techarium.util.Utils;
 
@@ -30,7 +25,7 @@ import java.util.function.Predicate;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.DEFAULT_PROGRESS_BAR;
 
-public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IWidgetProvider, IContainerComponentProvider, IToolTippedAddon {
+public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IContainerComponentProvider, IToolTippedAddon {
 
     private final String name;
 
@@ -229,13 +224,6 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IWidgetP
     @Override
     public List<IFactory<? extends Slot>> getContainerComponents() {
         return new ArrayList<>();
-    }
-
-    @Override
-    public List<IFactory<? extends Widget>> getGuiWidgets() {
-        return Lists.newArrayList(() -> {
-            return new ProgressBarWidget(this, getPosX(), getPosY(), getSizeX(), getSizeY(), new StringTextComponent(getName()));
-        });
     }
 
     @Override

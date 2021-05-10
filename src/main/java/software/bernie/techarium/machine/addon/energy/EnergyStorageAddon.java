@@ -6,26 +6,21 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.energy.EnergyStorage;
 import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.controller.MachineController;
-import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.machine.interfaces.IToolTippedAddon;
-import software.bernie.techarium.machine.interfaces.IWidgetProvider;
-import software.bernie.techarium.machine.screen.widget.EnergyAutoWidget;
 import software.bernie.techarium.recipes.AbstractMachineRecipe;
 import software.bernie.techarium.util.Utils;
 
 import java.text.DecimalFormat;
-import java.util.List;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.DEFAULT_ENERGY_BAR;
 
-public class EnergyStorageAddon extends EnergyStorage implements IWidgetProvider, INBTSerializable<CompoundNBT>, IToolTippedAddon {
+public class EnergyStorageAddon extends EnergyStorage implements INBTSerializable<CompoundNBT>, IToolTippedAddon {
 
     private final int xPos;
 
@@ -95,13 +90,6 @@ public class EnergyStorageAddon extends EnergyStorage implements IWidgetProvider
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
         this.energy = nbt.getInt("energy");
-    }
-
-    @Override
-    public List<IFactory<? extends Widget>> getGuiWidgets() {
-        return Lists.newArrayList(() -> {
-            return new EnergyAutoWidget(this);
-        });
     }
 
     @Override

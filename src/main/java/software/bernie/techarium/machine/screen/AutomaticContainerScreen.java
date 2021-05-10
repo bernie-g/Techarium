@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
 import software.bernie.techarium.machine.container.AutomaticContainer;
+import software.bernie.techarium.machine.interfaces.IFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +30,9 @@ public class AutomaticContainerScreen extends ContainerScreen<AutomaticContainer
     @Override
     protected void init() {
         super.init();
-        if (!container.getMachineController().getGuiWidgets().isEmpty())
-            container.getMachineController().getGuiWidgets().forEach(widget -> this.addButton(widget.create()));
+        List<IFactory<? extends Widget>> widgets = WidgetProvider.getWidgets(container.getMachineController());
+        if (!widgets.isEmpty())
+            widgets.forEach(widget -> this.addButton(widget.create()));
     }
 
     @Override
@@ -52,7 +54,7 @@ public class AutomaticContainerScreen extends ContainerScreen<AutomaticContainer
     public List<Rectangle2d> getPanelBounds() {
         List<Rectangle2d> panels = new ArrayList<>();
         panels.add(new Rectangle2d(this.guiLeft, this.guiTop, this.xSize, this.ySize));
-        container.getMachineController().getGuiWidgets().forEach(widgetFactory ->
+        WidgetProvider.getWidgets(container.getMachineController()).forEach(widgetFactory ->
         {
             Widget widget = widgetFactory.create();
             panels.add(new Rectangle2d(this.guiLeft + widget.x, this.guiTop + widget.y + 10, widget.getWidth(), widget.getHeightRealms()));
