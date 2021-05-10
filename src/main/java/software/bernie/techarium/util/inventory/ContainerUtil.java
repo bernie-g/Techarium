@@ -109,8 +109,12 @@ public final class ContainerUtil
 		while (target.hasNext()) {
 			Slot targetSlot = slots.get(target.next());
 			if (targetSlot.inventory != playerInv && !targetSlot.getHasStack() && targetSlot.isItemValid(sourceStack)) {
-				targetSlot.putStack(sourceStack);
-				sourceSlot.putStack(ItemStack.EMPTY);
+				int toPut = Math.min(targetSlot.getSlotStackLimit(), sourceStack.getCount());
+				ItemStack newStack = sourceStack.copy();
+				newStack.setCount(toPut);
+				targetSlot.putStack(newStack);
+				sourceStack.setCount(sourceStack.getCount() - toPut);
+				sourceSlot.putStack(sourceStack);
 				return true;
 			}
 		}
@@ -169,8 +173,12 @@ public final class ContainerUtil
 			Slot targetSlot = slots.get(idx);
 			if ((targetSlot.inventory == playerInv) == mergeIntoPlayer
 					&& !targetSlot.getHasStack() && targetSlot.isItemValid(sourceStack)) {
-				targetSlot.putStack(sourceStack);
-				sourceSlot.putStack(ItemStack.EMPTY);
+				int toPut = Math.min(targetSlot.getSlotStackLimit(), sourceStack.getCount());
+				ItemStack newStack = sourceStack.copy();
+				newStack.setCount(toPut);
+				targetSlot.putStack(newStack);
+				sourceStack.setCount(sourceStack.getCount() - toPut);
+				sourceSlot.putStack(sourceStack);
 				return true;
 			}
 
