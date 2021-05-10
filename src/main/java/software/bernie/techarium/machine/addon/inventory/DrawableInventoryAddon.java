@@ -47,10 +47,4 @@ public class DrawableInventoryAddon extends InventoryAddon {
         return backgroundYSize;
     }
 
-    @Override
-    public List<IFactory<? extends Widget>> getGuiWidgets() {
-        return Lists.newArrayList(() -> {
-            return new DrawableWidget(getMachineTile().getActiveController(), getBackground(), getBackgroundXPos(), getBackgroundYPos(), getBackgroundXSize(), getBackgroundYSize(), new StringTextComponent("inventory"));
-        });
-    }
 }

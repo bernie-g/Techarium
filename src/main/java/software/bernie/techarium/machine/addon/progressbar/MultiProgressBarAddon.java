@@ -1,15 +1,12 @@
 package software.bernie.techarium.machine.addon.progressbar;
 
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
-import software.bernie.techarium.machine.interfaces.IWidgetProvider;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultiProgressBarAddon implements IWidgetProvider, IContainerComponentProvider {
+public class MultiProgressBarAddon implements IContainerComponentProvider {
 
     private final List<ProgressBarAddon> progressBarAddons = new ArrayList<>();
 
@@ -51,14 +48,5 @@ public class MultiProgressBarAddon implements IWidgetProvider, IContainerCompone
             components.addAll(posPBar.getContainerComponents());
         });
         return components;
-    }
-
-    @Override
-    public List<IFactory<? extends Widget>> getGuiWidgets() {
-        List<IFactory<? extends Widget>> widgets = new ArrayList<>();
-        progressBarAddons.forEach(posPBar -> {
-            widgets.addAll(posPBar.getGuiWidgets());
-        });
-        return widgets;
     }
 }

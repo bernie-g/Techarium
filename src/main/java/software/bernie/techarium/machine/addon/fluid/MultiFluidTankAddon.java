@@ -1,17 +1,15 @@
 package software.bernie.techarium.machine.addon.fluid;
 
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
 import net.minecraftforge.common.util.LazyOptional;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
-import software.bernie.techarium.machine.interfaces.IWidgetProvider;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultiFluidTankAddon implements IWidgetProvider, IContainerComponentProvider {
+public class MultiFluidTankAddon implements IContainerComponentProvider {
 
     private final List<FluidTankAddon> fluidTanks = new ArrayList<>();
     private LazyOptional<MultiTankCapHandler> tankOptional;
@@ -45,14 +43,5 @@ public class MultiFluidTankAddon implements IWidgetProvider, IContainerComponent
             components.addAll(posInv.getContainerComponents());
         });
         return components;
-    }
-
-    @Override
-    public List<IFactory<? extends Widget>> getGuiWidgets() {
-        List<IFactory<? extends Widget>> widgets = new ArrayList<>();
-        fluidTanks.forEach(posInv -> {
-            widgets.addAll(posInv.getGuiWidgets());
-        });
-        return widgets;
     }
 }
