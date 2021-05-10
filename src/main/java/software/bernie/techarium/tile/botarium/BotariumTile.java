@@ -1,4 +1,4 @@
-package software.bernie.techarium.tile;
+package software.bernie.techarium.tile.botarium;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.CropsBlock;

@@ -16,7 +16,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.BlockTileRegistry;
-import software.bernie.techarium.tile.BotariumTile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
