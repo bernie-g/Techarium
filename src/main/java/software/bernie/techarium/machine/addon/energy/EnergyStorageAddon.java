@@ -13,10 +13,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.machine.interfaces.IToolTippedAddon;
-import software.bernie.techarium.machine.interfaces.IFactory;
-import software.bernie.techarium.machine.interfaces.IToolTippedAddon;
-import software.bernie.techarium.machine.interfaces.IWidgetProvider;
-import software.bernie.techarium.machine.screen.widget.EnergyAutoWidget;
 import software.bernie.techarium.recipes.AbstractMachineRecipe;
 import software.bernie.techarium.util.Utils;
 

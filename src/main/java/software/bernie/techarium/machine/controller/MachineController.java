@@ -181,24 +181,6 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
         return multiProgressBar;
     }
 
-    @Override
-    public List<IFactory<? extends Widget>> getGuiWidgets() {
-        List<IFactory<? extends Widget>> widgets = new ArrayList<>();
-        if (isPowered) {
-            widgets.addAll(energyStorage.getGuiWidgets());
-        }
-        if (getMultiInventory() != null) {
-            widgets.addAll(getMultiInventory().getGuiWidgets());
-        }
-        if (getMultiTank() != null) {
-            widgets.addAll(getMultiTank().getGuiWidgets());
-        }
-        if (getMultiProgressBar() != null) {
-            widgets.addAll(getMultiProgressBar().getGuiWidgets());
-        }
-        return widgets;
-    }
-
     public void resetCurrentRecipe() {
         this.currentRecipe = null;
     }
