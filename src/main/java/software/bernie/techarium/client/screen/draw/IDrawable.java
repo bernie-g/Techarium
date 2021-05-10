@@ -2,7 +2,7 @@ package software.bernie.techarium.client.screen.draw;
 
 public interface IDrawable {
 
-    default void draw(double x, double y, double width, double height) {
+    default void draw(double x, double y, int width, int height) {
         drawPartial(x, y, width, height, 0, 0, 1, 1);
     }
 

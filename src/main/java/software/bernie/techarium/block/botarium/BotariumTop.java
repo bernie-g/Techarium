@@ -1,4 +1,4 @@
-package software.bernie.techarium.block;
+package software.bernie.techarium.block.botarium;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

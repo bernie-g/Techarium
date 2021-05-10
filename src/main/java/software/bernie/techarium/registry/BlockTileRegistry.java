@@ -1,7 +1,6 @@
 package software.bernie.techarium.registry;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
@@ -11,12 +10,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.block.BlockRegistryObjectGroup;
-import software.bernie.techarium.block.BotariumTop;
-import software.bernie.techarium.block.BotaniumMaster;
-import software.bernie.techarium.block.base.MachineBlock;
+import software.bernie.techarium.block.botarium.BotariumTop;
+import software.bernie.techarium.block.botarium.BotaniumMaster;
 import software.bernie.techarium.item.MachineItem;
-import software.bernie.techarium.tile.BotariumTile;
-import software.bernie.techarium.tile.base.MachineSlaveTile;
+import software.bernie.techarium.tile.botarium.BotariumTile;
 import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
 
 import java.util.function.Function;
@@ -51,7 +48,6 @@ public class BlockTileRegistry {
         BLOCKS.register(bus);
         ITEMS.register(bus);
         TILES.register(bus);
-
     }
 
 }

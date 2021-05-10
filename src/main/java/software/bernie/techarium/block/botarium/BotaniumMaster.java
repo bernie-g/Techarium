@@ -1,7 +1,6 @@
-package software.bernie.techarium.block;
+package software.bernie.techarium.block.botarium;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
@@ -14,7 +13,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import software.bernie.techarium.block.base.MachineBlock;
-import software.bernie.techarium.tile.BotariumTile;
+import software.bernie.techarium.tile.botarium.BotariumTile;
 
 import javax.annotation.Nonnull;
 

@@ -11,7 +11,13 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.energy.EnergyStorage;
 import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.client.screen.draw.IDrawable;
+import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.machine.interfaces.IToolTippedAddon;
+import software.bernie.techarium.machine.interfaces.IFactory;
+import software.bernie.techarium.machine.interfaces.IToolTippedAddon;
+import software.bernie.techarium.machine.interfaces.IWidgetProvider;
+import software.bernie.techarium.machine.screen.widget.EnergyAutoWidget;
+import software.bernie.techarium.recipes.AbstractMachineRecipe;
 import software.bernie.techarium.util.Utils;
 
 import java.text.DecimalFormat;
@@ -22,6 +28,7 @@ public class EnergyStorageAddon extends EnergyStorage implements INBTSerializabl
 
     private final int xPos;
 
+    private MachineController<? extends AbstractMachineRecipe> controller;
     private final int yPos;
 
     private IDrawable asset;
@@ -30,17 +37,18 @@ public class EnergyStorageAddon extends EnergyStorage implements INBTSerializabl
 
     private Pair<Integer, Integer> guiXY;
 
-    public EnergyStorageAddon(int totalEnergy, int xPos, int yPos, Pair<Integer, Integer> guiXY) {
-        this(totalEnergy, totalEnergy, xPos, yPos, guiXY);
+    public EnergyStorageAddon(MachineController<? extends AbstractMachineRecipe> controller, int totalEnergy, int xPos, int yPos, Pair<Integer, Integer> guiXY) {
+        this(controller, totalEnergy, totalEnergy, xPos, yPos, guiXY);
     }
 
-    public EnergyStorageAddon(int totalEnergy, int maxIO, int xPos, int yPos, Pair<Integer, Integer> guiXY) {
-        this(totalEnergy, maxIO, maxIO, xPos, yPos, guiXY);
+    public EnergyStorageAddon(MachineController<? extends AbstractMachineRecipe> controller, int totalEnergy, int maxIO, int xPos, int yPos, Pair<Integer, Integer> guiXY) {
+        this(controller, totalEnergy, maxIO, maxIO, xPos, yPos, guiXY);
     }
 
-    public EnergyStorageAddon(int totalEnergy, int maxIn, int maxOut, int xPos, int yPos,
+    public EnergyStorageAddon(MachineController<? extends AbstractMachineRecipe> controller, int totalEnergy, int maxIn, int maxOut, int xPos, int yPos,
                               Pair<Integer, Integer> guiXY) {
         super(totalEnergy, maxIn, maxOut);
+        this.controller = controller;
         this.yPos = yPos;
         this.xPos = xPos;
         this.assetSizeXY = Pair.of(12, 48);
@@ -99,7 +107,13 @@ public class EnergyStorageAddon extends EnergyStorage implements INBTSerializabl
                         .append(Component.text(decimalFormat.format(getMaxEnergyStored()), NamedTextColor.GOLD))
                         .append(Component.text(" FE", NamedTextColor.DARK_AQUA));
 
-                screen.renderTooltip(new MatrixStack(), Utils.wrapText(component), mouseX - xCenter, mouseY - yCenter);
+                int energyCost = controller.getCurrentRecipe()  == null || controller.getEnergyStorage().getEnergyStored() == 0 ? 0 : controller.getCurrentRecipe().getEnergyCost() / controller.getCurrentRecipe().getMaxProgress();
+                TextComponent usage = Component.text("Using: ", NamedTextColor.GOLD)
+                        .append(Component.text(
+                                energyCost,
+                                NamedTextColor.GOLD))
+                        .append(Component.text(" FE/t", NamedTextColor.DARK_AQUA));
+                screen.func_243308_b(new MatrixStack(), Utils.wrapText(component, usage), mouseX - xCenter, mouseY - yCenter);
             }
         }
     }

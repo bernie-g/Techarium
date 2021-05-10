@@ -19,6 +19,7 @@ import software.bernie.techarium.machine.addon.progressbar.ProgressBarAddon;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
+import software.bernie.techarium.recipes.AbstractMachineRecipe;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import javax.annotation.Nonnull;
@@ -117,7 +118,7 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
         if (backgroundSizeXY.getKey() % 2 != 0) {
             newX++;
         }
-        energyStorage = new EnergyStorageAddon(tier * capacity, tier * maxIO, newX, yPos, backgroundSizeXY);
+        energyStorage = new EnergyStorageAddon((MachineController<? extends AbstractMachineRecipe>) this, tier * capacity, tier * maxIO, newX, yPos, backgroundSizeXY);
     }
 
     public Pair<Integer, Integer> getBackgroundSizeXY() {
@@ -180,6 +181,24 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
         return multiProgressBar;
     }
 
+    @Override
+    public List<IFactory<? extends Widget>> getGuiWidgets() {
+        List<IFactory<? extends Widget>> widgets = new ArrayList<>();
+        if (isPowered) {
+            widgets.addAll(energyStorage.getGuiWidgets());
+        }
+        if (getMultiInventory() != null) {
+            widgets.addAll(getMultiInventory().getGuiWidgets());
+        }
+        if (getMultiTank() != null) {
+            widgets.addAll(getMultiTank().getGuiWidgets());
+        }
+        if (getMultiProgressBar() != null) {
+            widgets.addAll(getMultiProgressBar().getGuiWidgets());
+        }
+        return widgets;
+    }
+
     public void resetCurrentRecipe() {
         this.currentRecipe = null;
     }
@@ -211,6 +230,7 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
         if(currentRecipe == null && currentRecipeLocation != null)
         {
             this.currentRecipe = (T) this.tile.getWorld().getRecipeManager().getRecipe(currentRecipeLocation).get();
+            currentRecipeLocation = null;
         }
 
         if (currentRecipe == null) {
