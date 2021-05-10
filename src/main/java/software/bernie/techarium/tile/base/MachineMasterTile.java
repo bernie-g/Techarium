@@ -15,7 +15,6 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
@@ -26,7 +25,6 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import software.bernie.techarium.machine.container.AutomaticContainer;
 import software.bernie.techarium.machine.controller.MachineController;
-import software.bernie.techarium.machine.controller.MultiController;
 import software.bernie.techarium.machine.interfaces.recipe.IForcedRecipe;
 import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
 import software.bernie.techarium.machine.interfaces.recipe.IRecipeMachine;
@@ -38,28 +36,24 @@ import static software.bernie.techarium.util.StaticHandler.*;
 
 public abstract class MachineMasterTile<T extends IMachineRecipe> extends MachineTileBase implements INamedContainerProvider, ITickableTileEntity, IRecipeMachine<T>, IForcedRecipe {
 
-    private final MultiController controller;
+    private final MachineController<T> controller;
 
     public MachineMasterTile(TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);
-        this.controller = new MultiController();
+        controller = createMachineController();
     }
 
-    public MultiController getController() {
+    public MachineController<T> getController() {
         return controller;
     }
 
-    public MachineController<T> getActiveController() {
-        return (MachineController<T>) getController().getActiveController();
-    }
-
     public boolean isPowered() {
-        return getActiveController().isPowered();
+        return getController().isPowered();
     }
 
     @Override
     public ITextComponent getDisplayName() {
-        TranslationTextComponent component = new TranslationTextComponent(this.getBlockState().getBlock().getTranslationKey() + "_" + getController().getActiveTier());
+        TranslationTextComponent component = new TranslationTextComponent(this.getBlockState().getBlock().getTranslationKey());
         component.getStyle().applyFormatting(TextFormatting.BLACK);
         return component;
     }
@@ -85,11 +79,11 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     @Override
     public <U> LazyOptional<U> getCapability(@Nonnull Capability<U> cap) {
         if (cap == CapabilityEnergy.ENERGY && isPowered()) {
-            return getActiveController().getLazyEnergyStorage().cast();
+            return getController().getLazyEnergyStorage().cast();
         } else if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return getActiveController().getMultiInventory().getInvOptional().cast();
+            return getController().getMultiInventory().getInvOptional().cast();
         } else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            return getActiveController().getMultiTank().getTankOptional().cast();
+            return getController().getMultiTank().getTankOptional().cast();
         }
         return super.getCapability(cap);
     }
@@ -112,7 +106,7 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
 
     @Override
     public void tick() {
-        this.getActiveController().tick();
+        this.getController().tick();
         if (!world.isRemote()) {
             if(isFirstLoad) {
                 updateMachineTile();
@@ -125,7 +119,7 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
 
     @Override
     public void read(BlockState state, CompoundNBT nbt) {
-        getActiveController().deserializeNBT(nbt.getCompound("activeMachine"));
+        getController().deserializeNBT(nbt.getCompound("activeMachine"));
         super.read(state, nbt);
         updateMachineTile();
     }
@@ -133,7 +127,7 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
 
     @Override
     public CompoundNBT write(CompoundNBT compound) {
-        compound.put("activeMachine", getActiveController().serializeNBT());
+        compound.put("activeMachine", getController().serializeNBT());
         return super.write(compound);
     }
 
@@ -169,7 +163,8 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     }
 
     public void masterHandleDestruction(){
-        getActiveController().getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(inv -> getItemStackStream(inv).forEach(stack -> spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack,world.rand))));
+        getController().getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(inv -> getItemStackStream(inv).forEach(stack -> spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack,world.rand))));
     }
 
+    protected abstract MachineController<T> createMachineController();
 }

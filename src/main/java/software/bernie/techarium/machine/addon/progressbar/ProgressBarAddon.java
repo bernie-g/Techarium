@@ -151,7 +151,7 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IContain
     }
 
     public Pair<Integer, Integer> getBackgroundSizeXY() {
-        return tile.getActiveController().getBackgroundSizeXY();
+        return tile.getController().getBackgroundSizeXY();
     }
 
     public int getSizeX() {

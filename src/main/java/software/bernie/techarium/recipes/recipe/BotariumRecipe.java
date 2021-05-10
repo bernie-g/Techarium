@@ -20,8 +20,8 @@ public class BotariumRecipe extends AbstractMachineRecipe {
     private final FluidStack fluidIn;
     private final Ingredient soilIn;
 
-    public BotariumRecipe(ResourceLocation id, int tier, CropType cropType, FluidStack fluidIn,Ingredient soilIn, int tickRate, int maxProgress, int energyCost) {
-        super(id, BOTARIUM_RECIPE_TYPE, tier, tickRate, maxProgress, energyCost);
+    public BotariumRecipe(ResourceLocation id, CropType cropType, FluidStack fluidIn,Ingredient soilIn, int tickRate, int maxProgress, int energyCost) {
+        super(id, BOTARIUM_RECIPE_TYPE, tickRate, maxProgress, energyCost);
         this.cropType = cropType;
         this.fluidIn = fluidIn;
         this.soilIn = soilIn;

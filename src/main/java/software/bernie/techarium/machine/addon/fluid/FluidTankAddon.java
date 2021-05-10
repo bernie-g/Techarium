@@ -194,7 +194,7 @@ public class FluidTankAddon extends FluidTank implements IContainerComponentProv
     }
 
     public Pair<Integer, Integer> getBackgroundSizeXY() {
-        return tile.getActiveController().getBackgroundSizeXY();
+        return tile.getController().getBackgroundSizeXY();
     }
 
     @Override

@@ -71,7 +71,7 @@ public class AutomaticContainer extends Container {
     }
 
     public MachineController<?> getMachineController() {
-        return tile.getController().getActiveController();
+        return tile.getController();
     }
 
     public ITextComponent getContainerName() {
