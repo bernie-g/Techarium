@@ -5,7 +5,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -17,6 +19,7 @@ import software.bernie.techarium.tile.base.MachineMasterTile;
 import software.bernie.techarium.tile.base.MachineSlaveTile;
 import software.bernie.techarium.tile.base.MachineTileBase;
 import software.bernie.techarium.tile.base.MultiblockMasterTile;
+import software.bernie.techarium.util.BlockRegion;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -87,4 +90,21 @@ public abstract class MachineBlock<T extends MachineTileBase> extends BaseTileBl
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
+    public boolean canBePlaced(BlockItemUseContext context) {
+        BlockRegion region = getBlockSize(context);
+        for (int x = region.xOff; x < region.xSize - region.xOff; x++) {
+            for (int y = region.yOff; y < region.ySize - region.yOff; y++) {
+                for (int z = region.zOff; z < region.zSize - region.zOff; z++) {
+                    if (!context.getWorld().getBlockState(context.getPos().add(x,y,z)).getMaterial().isReplaceable()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public BlockRegion getBlockSize(ItemUseContext context) {
+        return BlockRegion.FULL_BLOCK;
+    }
 }
