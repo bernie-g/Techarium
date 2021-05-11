@@ -7,7 +7,7 @@ public class ModIntegrations {
     private static final Integration.Wrapper<MekanismIntegration> MEKANISM = Integration.Wrapper.of("mekanism",
             MekanismIntegration::new);
 
-    public LazyOptional<MekanismIntegration> getMekanism() {
+    public static LazyOptional<MekanismIntegration> getMekanism() {
         return MEKANISM.get();
     }
 }
