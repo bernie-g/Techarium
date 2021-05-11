@@ -14,7 +14,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.client.screen.draw.UiTexture;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
-import software.bernie.techarium.util.BlitUtil;
 import software.bernie.techarium.util.GuiUtils;
 import software.bernie.techarium.util.TilingDirection;
 

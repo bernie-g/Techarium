@@ -1,21 +1,17 @@
 package software.bernie.techarium.machine.addon.inventory;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.SlotItemHandler;
 import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.machine.container.component.SlotComponent;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
-import software.bernie.techarium.machine.interfaces.IWidgetProvider;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +20,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 
-public class InventoryAddon extends ItemStackHandler implements IContainerComponentProvider, IWidgetProvider {
+public class InventoryAddon extends ItemStackHandler implements IContainerComponentProvider {
 
     private final String name;
     private int xPos;
@@ -173,12 +169,4 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
             return new SlotComponent(this, x.getAndIncrement(), getXPos(), getYPos());
         });
     }
-
-    @Override
-    public List<IFactory<? extends Widget>> getGuiWidgets() {
-        List<IFactory<? extends Widget>> widgets = new ArrayList<>();
-
-        return widgets;
-    }
-
 }

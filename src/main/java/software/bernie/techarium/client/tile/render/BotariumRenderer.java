@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 import software.bernie.techarium.client.tile.model.BotariumModel;
-import software.bernie.techarium.tile.BotariumTile;
+import software.bernie.techarium.tile.botarium.BotariumTile;
 
 import javax.annotation.Nullable;
 

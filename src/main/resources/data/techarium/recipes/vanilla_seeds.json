@@ -9,5 +9,5 @@
   "fluidAmount": 1000,
   "maxProgress": 1000,
   "ticksPerProgress": 1,
-  "energyCost": 1000
+  "energyCost": 5000
 }

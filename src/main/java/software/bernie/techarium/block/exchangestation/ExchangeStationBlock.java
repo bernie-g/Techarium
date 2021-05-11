@@ -1,7 +1,6 @@
-package software.bernie.techarium.block;
+package software.bernie.techarium.block.exchangestation;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
@@ -14,14 +13,14 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import software.bernie.techarium.block.base.MachineBlock;
-import software.bernie.techarium.tile.BotariumTile;
+import software.bernie.techarium.tile.botarium.BotariumTile;
 
 import javax.annotation.Nonnull;
 
-public class BotaniumMaster extends MachineBlock<BotariumTile> {
+public class ExchangeStationBlock extends MachineBlock<BotariumTile> {
 
-    public BotaniumMaster() {
-        super(Block.Properties.create(Material.IRON).hardnessAndResistance(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).notSolid(), BotariumTile::new);
+    public ExchangeStationBlock() {
+        super(Properties.create(Material.IRON).hardnessAndResistance(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).notSolid(), BotariumTile::new);
     }
 
     @Override

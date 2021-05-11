@@ -1,6 +1,5 @@
 package software.bernie.techarium.machine.controller;
 
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
@@ -19,8 +18,8 @@ import software.bernie.techarium.machine.addon.progressbar.MultiProgressBarAddon
 import software.bernie.techarium.machine.addon.progressbar.ProgressBarAddon;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
-import software.bernie.techarium.machine.interfaces.IWidgetProvider;
 import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
+import software.bernie.techarium.recipes.AbstractMachineRecipe;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import javax.annotation.Nonnull;
@@ -31,9 +30,8 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
-import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.BOTARIUM_BASE_TIER_1;
 
-public class MachineController<T extends IMachineRecipe> implements IWidgetProvider, IContainerComponentProvider, INBTSerializable<CompoundNBT> {
+public class MachineController<T extends IMachineRecipe> implements IContainerComponentProvider, INBTSerializable<CompoundNBT> {
 
     protected final Supplier<BlockPos> posSupplier;
     protected final MachineMasterTile<T> tile;
@@ -42,7 +40,6 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
     private boolean shouldCheckRecipe;
     private int recipeCheckTimer;
 
-    private final int tier;
     private Pair<Integer, Integer> backgroundSizeXY;
 
     private IDrawable background;
@@ -55,16 +52,15 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
 
     private MultiInventoryAddon multiInventory;
     private MultiFluidTankAddon multiTank;
-    private MultiProgressBarAddon multiPogressBar;
+    private MultiProgressBarAddon multiProgressBar;
 
     private ResourceLocation currentRecipeLocation = null;
 
-    public MachineController(MachineMasterTile<T> tile, Supplier<BlockPos> posSupplier, int tier) {
+    public MachineController(MachineMasterTile<T> tile, Supplier<BlockPos> posSupplier, IDrawable background) {
         this.posSupplier = posSupplier;
         this.tile = tile;
-        this.background = BOTARIUM_BASE_TIER_1;
+        this.background = background;
         this.backgroundSizeXY = Pair.of(204, 183);
-        this.tier = tier;
         this.isPowered = false;
     }
 
@@ -83,10 +79,10 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
     }
 
     public void addProgressBar(ProgressBarAddon progressBarAddon) {
-        if (this.multiPogressBar == null) {
-            this.multiPogressBar = new MultiProgressBarAddon();
+        if (this.multiProgressBar == null) {
+            this.multiProgressBar = new MultiProgressBarAddon();
         }
-        this.multiPogressBar.add(progressBarAddon);
+        this.multiProgressBar.add(progressBarAddon);
     }
 
     public T getCurrentRecipe() {
@@ -96,10 +92,6 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
     @Nonnull
     public EnergyStorageAddon getEnergyStorage() {
         return energyStorage;
-    }
-
-    public int getTier() {
-        return tier;
     }
 
     public IDrawable getBackground() {
@@ -119,7 +111,7 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
         if (backgroundSizeXY.getKey() % 2 != 0) {
             newX++;
         }
-        energyStorage = new EnergyStorageAddon(tier * capacity, tier * maxIO, newX, yPos, backgroundSizeXY);
+        energyStorage = new EnergyStorageAddon((MachineController<? extends AbstractMachineRecipe>) this, capacity, maxIO, newX, yPos, backgroundSizeXY);
     }
 
     public Pair<Integer, Integer> getBackgroundSizeXY() {
@@ -178,26 +170,8 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
         return lazyEnergyStorage;
     }
 
-    public MultiProgressBarAddon getMultiPogressBar() {
-        return multiPogressBar;
-    }
-
-    @Override
-    public List<IFactory<? extends Widget>> getGuiWidgets() {
-        List<IFactory<? extends Widget>> widgets = new ArrayList<>();
-        if (isPowered) {
-            widgets.addAll(energyStorage.getGuiWidgets());
-        }
-        if (getMultiInventory() != null) {
-            widgets.addAll(getMultiInventory().getGuiWidgets());
-        }
-        if (getMultiTank() != null) {
-            widgets.addAll(getMultiTank().getGuiWidgets());
-        }
-        if (getMultiPogressBar() != null) {
-            widgets.addAll(getMultiPogressBar().getGuiWidgets());
-        }
-        return widgets;
+    public MultiProgressBarAddon getMultiProgressBar() {
+        return multiProgressBar;
     }
 
     public void resetCurrentRecipe() {
@@ -217,20 +191,21 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
         if (getMultiTank() != null) {
             components.addAll(getMultiTank().getContainerComponents());
         }
-        if (getMultiPogressBar() != null) {
-            components.addAll(getMultiPogressBar().getContainerComponents());
+        if (getMultiProgressBar() != null) {
+            components.addAll(getMultiProgressBar().getContainerComponents());
         }
         return components;
     }
 
     public void tick() {
-        if (multiPogressBar != null) {
-            this.multiPogressBar.attemptTickAllBars();
+        if (multiProgressBar != null) {
+            this.multiProgressBar.attemptTickAllBars();
         }
 
         if(currentRecipe == null && currentRecipeLocation != null)
         {
             this.currentRecipe = (T) this.tile.getWorld().getRecipeManager().getRecipe(currentRecipeLocation).get();
+            currentRecipeLocation = null;
         }
 
         if (currentRecipe == null) {
@@ -251,10 +226,10 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
                         .filter(tile::matchRecipe)
                         .findFirst()
                         .orElse(null);
-                this.getMultiPogressBar().getProgressBarAddons().forEach(bar -> bar.setProgress(0));
+                this.getMultiProgressBar().getProgressBarAddons().forEach(bar -> bar.setProgress(0));
                 if (currentRecipe != null) {
                     AtomicInteger x = new AtomicInteger();
-                    this.getMultiPogressBar().getProgressBarAddons().forEach(bar -> {
+                    this.getMultiProgressBar().getProgressBarAddons().forEach(bar -> {
                         bar.setMaxProgress(currentRecipe.getMaxProgressTimes().get(x.get()));
                         bar.setProgressToAdd(currentRecipe.getTickRate());
                         x.incrementAndGet();
@@ -272,7 +247,7 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
                 tank -> nbt.put(tank.getName(), tank.writeToNBT(new CompoundNBT()))));
         getMultiInventory().getInvOptional().ifPresent(
                 multiInv -> multiInv.getInventories().forEach(inv -> nbt.put(inv.getName(), inv.serializeNBT())));
-        getMultiPogressBar().getProgressBarAddons().forEach(bar -> nbt.put(bar.getName(), bar.serializeNBT()));
+        getMultiProgressBar().getProgressBarAddons().forEach(bar -> nbt.put(bar.getName(), bar.serializeNBT()));
         if (currentRecipe != null)
             nbt.putString("currentRecipe", currentRecipe.getId().toString());
         return nbt;
@@ -286,7 +261,7 @@ public class MachineController<T extends IMachineRecipe> implements IWidgetProvi
                 tank -> tank.readFromNBT(nbt.getCompound(tank.getName()))));
         getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(
                 inv -> inv.deserializeNBT(nbt.getCompound(inv.getName()))));
-        getMultiPogressBar().getProgressBarAddons().forEach(bar -> bar.deserializeNBT(nbt.getCompound(bar.getName())));
+        getMultiProgressBar().getProgressBarAddons().forEach(bar -> bar.deserializeNBT(nbt.getCompound(bar.getName())));
         if (nbt.contains("currentRecipe"))
             this.currentRecipeLocation = new ResourceLocation(nbt.getString("currentRecipe"));
     }

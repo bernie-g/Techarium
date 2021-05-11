@@ -49,7 +49,7 @@ public class BlockRegistryObjectGroup<B extends Block, I extends Item, T extends
         return Objects.requireNonNull(tileEntity).get();
     }
 
-    public BlockRegistryObjectGroup<B, I, ?> register(DeferredRegister<Block> blockRegistry, DeferredRegister<Item> itemRegistry) {
+    public BlockRegistryObjectGroup<B, I, T> register(DeferredRegister<Block> blockRegistry, DeferredRegister<Item> itemRegistry) {
         block = blockRegistry.register(name, blockCreator);
         item = itemRegistry.register(name, () -> itemCreator.apply(this.getBlock()));
         return this;

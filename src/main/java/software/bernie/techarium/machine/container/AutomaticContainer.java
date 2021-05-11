@@ -11,6 +11,7 @@ import net.minecraft.util.text.ITextComponent;
 import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.tile.base.MachineMasterTile;
+import software.bernie.techarium.util.inventory.ContainerUtil;
 
 import static software.bernie.techarium.registry.ContainerRegistry.AUTO_CONTAINER;
 
@@ -70,7 +71,7 @@ public class AutomaticContainer extends Container {
     }
 
     public MachineController<?> getMachineController() {
-        return tile.getController().getActiveController();
+        return tile.getController();
     }
 
     public ITextComponent getContainerName() {
@@ -79,34 +80,7 @@ public class AutomaticContainer extends Container {
 
     @Override
     public ItemStack transferStackInSlot(PlayerEntity player, int index) {
-        ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
-            itemstack = itemstack1.copy();
-            int containerSlots = this.inventorySlots.size() - player.inventory.mainInventory.size();
-            if (index < containerSlots) {
-                if (!this.mergeItemStack(itemstack1, containerSlots, this.inventorySlots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (!this.mergeItemStack(itemstack1, 0, containerSlots, false)) {
-                return ItemStack.EMPTY;
-            }
-
-            if (itemstack1.getCount() == 0) {
-                slot.putStack(ItemStack.EMPTY);
-            } else {
-                slot.onSlotChanged();
-            }
-
-            if (itemstack1.getCount() == itemstack.getCount()) {
-                return ItemStack.EMPTY;
-            }
-
-            slot.onTake(player, itemstack1);
-        }
-
-        return itemstack;
+        return ContainerUtil.handleShiftClick(this, player, index);
     }
 
     @Override
