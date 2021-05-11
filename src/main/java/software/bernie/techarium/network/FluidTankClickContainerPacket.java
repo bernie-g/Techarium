@@ -10,6 +10,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.network.NetworkEvent;
+import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
 import software.bernie.techarium.machine.addon.fluid.MultiFluidTankAddon;
 import software.bernie.techarium.machine.container.AutomaticContainer;
@@ -86,6 +87,24 @@ public class FluidTankClickContainerPacket extends ClientToServerContainerPacket
                         context.getSender().inventory.setItemStack(new ItemStack(Items.BUCKET));
                         context.getSender().updateHeldItem();
                     }
+                } else if (ModIntegrations.getMekanism().isPresent() && ModIntegrations.getMekanism().orElseThrow(NullPointerException::new).isGauge(stack.getItem())) {
+                    ModIntegrations.getMekanism().ifPresent(mekanismIntegration -> {
+                        if (button == LEFT) {
+                            if (shift) {
+                                singleTank.setFluid(FluidStack.EMPTY);
+                            } else {
+                                FluidStack tank = singleTank.getFluid().copy();
+                                tank.setAmount(Math.min(singleTank.getFluidAmount(), 16000));
+                                int filled = mekanismIntegration.fillGauge(stack, tank);
+                                singleTank.drain(filled, FluidAction.EXECUTE);
+                            }
+                        } else if (button == RIGHT) {
+                            FluidStack gauge = mekanismIntegration.readFluidStackFromGauge(stack);
+                            int filled = singleTank.fill(gauge, FluidAction.EXECUTE);
+                            mekanismIntegration.drainGauge(filled, stack);
+                        }
+                        context.getSender().updateHeldItem();
+                    });
                 } else {
                     LazyOptional<IFluidHandlerItem> fluidCapability = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
                     fluidCapability.ifPresent(iFluidHandlerItem -> {
