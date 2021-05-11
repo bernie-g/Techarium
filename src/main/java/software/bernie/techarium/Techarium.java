@@ -15,6 +15,7 @@ import software.bernie.geckolib3.GeckoLib;
 import software.bernie.geckolib3.resource.ResourceListener;
 import software.bernie.techarium.datagen.TechariumLootTables;
 import software.bernie.techarium.machine.screen.AutomaticContainerScreen;
+import software.bernie.techarium.network.NetworkConnection;
 import software.bernie.techarium.registry.*;
 
 import static software.bernie.techarium.registry.ContainerRegistry.AUTO_CONTAINER;
@@ -38,6 +39,8 @@ public class Techarium
 		RecipeSerializerRegistry.register(bus);
 		bus.addListener(this::onClientSetup);
 		bus.addListener(this::gatherData);
+
+		NetworkConnection.registerMessages();
 	}
 
 	private void gatherData(GatherDataEvent event)
