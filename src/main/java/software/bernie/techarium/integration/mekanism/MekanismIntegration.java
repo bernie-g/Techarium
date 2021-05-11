@@ -1,6 +1,5 @@
 package software.bernie.techarium.integration.mekanism;
 
-import lombok.extern.slf4j.Slf4j;
 import mekanism.common.registries.MekanismItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
