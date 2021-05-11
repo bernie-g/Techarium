@@ -2,6 +2,7 @@ package software.bernie.techarium.integration;
 
 import lombok.Getter;
 import net.minecraftforge.common.util.Lazy;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.ModList;
 
 import java.util.function.Supplier;
@@ -10,15 +11,16 @@ public abstract class Integration {
 
     public static class Wrapper<T extends Integration> {
         @Getter
-        private static String modID;
+        private final String modID;
         private final Lazy<T> integration;
+        private LazyOptional<T> optionalIntegration = LazyOptional.empty();
 
         public static <T extends Integration> Wrapper<T> of(String modID, Supplier<T> integration) {
-            Wrapper.modID = modID;
-            return new Wrapper(Lazy.of(integration));
+            return new Wrapper<T>(modID, Lazy.of(integration));
         }
 
-        public Wrapper(Lazy<T> integration) {
+        public Wrapper(String modID, Lazy<T> integration) {
+            this.modID = modID;
             this.integration = integration;
         }
 
@@ -26,12 +28,11 @@ public abstract class Integration {
             return ModList.get().isLoaded(this.getModID());
         }
 
-        public T get() {
+        public LazyOptional<T> get() {
             if (isPresent()) {
-                return this.integration.get();
-            } else {
-                throw new ModIntegrationException(this.getModID());
+                optionalIntegration = LazyOptional.of(integration::get);
             }
+            return optionalIntegration;
         }
     }
 }
