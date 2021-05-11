@@ -6,9 +6,13 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.renderer.Rectangle2d;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
+import org.lwjgl.system.CallbackI;
 import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
+import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
 import software.bernie.techarium.machine.container.AutomaticContainer;
 import software.bernie.techarium.machine.interfaces.IFactory;
+import software.bernie.techarium.network.FluidTankClickContainerPacket;
+import software.bernie.techarium.network.NetworkConnection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +53,18 @@ public class AutomaticContainerScreen extends ContainerScreen<AutomaticContainer
         this.container.getMachineController().getMultiProgressBar().getProgressBarAddons().forEach(bar -> bar.renderToolTip(this, guiLeft, guiTop, xCenter, yCenter, mouseX, mouseY));
         this.container.getMachineController().getMultiTank().getFluidTanks().forEach(tank -> tank.renderToolTip(this, guiLeft, guiTop, xCenter, yCenter, mouseX, mouseY));
         renderHoveredTooltip(matrixStack, mouseX - xCenter, mouseY - yCenter);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        for (int i = 0; i < container.getMachineController().getMultiTank().getFluidTanks().size(); i++) {
+            FluidTankAddon fluidTankAddon = container.getMachineController().getMultiTank().getFluidTanks().get(i);
+            if (isPointInRegion(fluidTankAddon.getPosX(), fluidTankAddon.getPosY(), fluidTankAddon.getSizeX(), fluidTankAddon.getSizeY(), mouseX, mouseY)) {
+                NetworkConnection.INSTANCE.sendToServer(new FluidTankClickContainerPacket(this.getContainer(), button, hasShiftDown(), i));
+                return true;
+            }
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     public List<Rectangle2d> getPanelBounds() {
