@@ -7,7 +7,12 @@
 			"bones": {
 				"hazardline": {
 					"rotation": {
-						"vector": [0, "query.anim_time*180", 0]
+						"0.0": {
+							"vector": [0, "query.anim_time*180", 0]
+						},
+						"2.56": {
+							"vector": [0, "query.anim_time*180", 0]
+						}
 					},
 					"position": {
 						"0.0": {
