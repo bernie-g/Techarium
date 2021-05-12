@@ -50,9 +50,9 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
     private EnergyStorageAddon energyStorage;
     private final LazyOptional<IEnergyStorage> lazyEnergyStorage = LazyOptional.of(this::getEnergyStorage);
 
-    private MultiInventoryAddon multiInventory;
-    private MultiFluidTankAddon multiTank;
-    private MultiProgressBarAddon multiProgressBar;
+    private MultiInventoryAddon multiInventory = new MultiInventoryAddon();
+    private MultiFluidTankAddon multiTank = new MultiFluidTankAddon();
+    private MultiProgressBarAddon multiProgressBar = new MultiProgressBarAddon();
 
     private ResourceLocation currentRecipeLocation = null;
 
@@ -65,23 +65,14 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
     }
 
     public void addInventory(InventoryAddon invAddon) {
-        if (this.multiInventory == null) {
-            this.multiInventory = new MultiInventoryAddon();
-        }
         this.multiInventory.add(invAddon);
     }
 
     public void addTank(FluidTankAddon fluidAddon) {
-        if (this.multiTank == null) {
-            this.multiTank = new MultiFluidTankAddon();
-        }
         this.multiTank.add(fluidAddon);
     }
 
     public void addProgressBar(ProgressBarAddon progressBarAddon) {
-        if (this.multiProgressBar == null) {
-            this.multiProgressBar = new MultiProgressBarAddon();
-        }
         this.multiProgressBar.add(progressBarAddon);
     }
 
