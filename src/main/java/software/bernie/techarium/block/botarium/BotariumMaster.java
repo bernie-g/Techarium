@@ -22,7 +22,7 @@ import javax.annotation.Nonnull;
 public class BotariumMaster extends MachineBlock<BotariumTile> {
 
     public BotariumMaster() {
-        super(Block.Properties.create(Material.IRON).hardnessAndResistance(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).notSolid(), BotariumTile::new);
+        super(Block.Properties.create(Material.IRON).hardnessAndResistance(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).notSolid().setRequiresTool(), BotariumTile::new);
     }
 
     @Override
