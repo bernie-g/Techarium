@@ -2,6 +2,8 @@
   "block.techarium.botarium": "Botarium",
   "block.techarium.botarium_top": "Botarium",
   "block.techarium.arboratorium": "Arboratorium",
+  "block.techarium.exchange_station": "Exchange Station",
+  "item.techarium.pipe_stick": "Pipe Stick",
 
   "itemGroup.techarium": "Techarium"
 }
