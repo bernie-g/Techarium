@@ -212,6 +212,7 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IContain
         CompoundNBT compound = new CompoundNBT();
         compound.putInt("progress", this.progress);
         compound.putInt("maxProgress", this.maxProgress);
+        compound.putInt("progressToAdd", this.progressToAdd);
         return compound;
     }
 
@@ -219,6 +220,7 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IContain
     public void deserializeNBT(CompoundNBT nbt) {
         this.progress = nbt.getInt("progress");
         this.maxProgress = nbt.getInt("maxProgress");
+        this.progressToAdd = nbt.getInt("progressToAdd");
     }
 
     @Override
@@ -242,24 +244,12 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IContain
                         .append(Component.text(decimalFormat.format(this.getMaxProgress()), NamedTextColor.WHITE));
 
                 TextComponent progressComponent = Component.text("ETA: ", NamedTextColor.GOLD)
-                        .append(Component.text(decimalFormat.format(Math.ceil((double) (progress * this.getTickingTime()) / 20.0D)), NamedTextColor.WHITE))
+                        .append(Component.text(decimalFormat.format(Math.ceil(
+                                (progress * this.getTickingTime() / 20.0D))), NamedTextColor.WHITE))
                         .append(Component.text("s", NamedTextColor.DARK_AQUA));
 
                 screen.func_243308_b(new MatrixStack(), Utils.wrapText(component, progressComponent), mouseX - xCenter, mouseY - yCenter);
             }
         }
-    }
-
-    public List<String> getTooltip() {
-        List<String> tooltip = new ArrayList<>();
-        DecimalFormat decimalFormat = new DecimalFormat();
-        tooltip.add(TextFormatting.GOLD + "Progress: " + TextFormatting.WHITE + decimalFormat.format((long) this.getProgress()) + TextFormatting.GOLD + "/" + TextFormatting.WHITE + decimalFormat.format((long) this.getMaxProgress()));
-        int progress = (this.getMaxProgress() - this.getProgress()) / this.getProgressToAdd();
-        if (!this.canProgressUp()) {
-            progress = this.getMaxProgress() - progress;
-        }
-
-        tooltip.add(TextFormatting.GOLD + "ETA: " + TextFormatting.WHITE + decimalFormat.format(Math.ceil((double) (progress * this.getTickingTime()) / 20.0D)) + TextFormatting.DARK_AQUA + "s");
-        return tooltip;
     }
 }
