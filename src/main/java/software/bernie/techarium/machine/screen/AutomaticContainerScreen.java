@@ -6,11 +6,11 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.renderer.Rectangle2d;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
-import org.lwjgl.system.CallbackI;
 import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
 import software.bernie.techarium.machine.container.AutomaticContainer;
 import software.bernie.techarium.machine.interfaces.IFactory;
+import software.bernie.techarium.network.EnergyBarClickContainerPacket;
 import software.bernie.techarium.network.FluidTankClickContainerPacket;
 import software.bernie.techarium.network.NetworkConnection;
 
@@ -63,6 +63,11 @@ public class AutomaticContainerScreen extends ContainerScreen<AutomaticContainer
                 NetworkConnection.INSTANCE.sendToServer(new FluidTankClickContainerPacket(this.getContainer(), button, hasShiftDown(), i));
                 return true;
             }
+        }
+        EnergyStorageAddon energy = container.getMachineController().getEnergyStorage();
+        if (isPointInRegion(energy.getPosX(), energy.getPosY(), energy.getSizeX(), energy.getSizeY(), mouseX, mouseY)) {
+            NetworkConnection.INSTANCE.sendToServer(new EnergyBarClickContainerPacket(this.getContainer(), button));
+            return true;
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }

@@ -7,12 +7,16 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import software.bernie.techarium.machine.container.AutomaticContainer;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 public abstract class ClientToServerContainerPacket<MSG extends ClientToServerContainerPacket<MSG>> extends Packet<MSG> {
 
     private int containerID = 0;
-    //Empty dummy constructor
-    protected ClientToServerContainerPacket() {}
+    private Function<PacketBuffer,MSG> packetCreator;
+    //Handler Constructor
+    protected ClientToServerContainerPacket(Function<PacketBuffer,MSG> packetCreator) {
+        this.packetCreator = packetCreator;
+    }
 
     protected ClientToServerContainerPacket(AutomaticContainer container) {
         this.containerID = container.windowId;
@@ -42,5 +46,9 @@ public abstract class ClientToServerContainerPacket<MSG extends ClientToServerCo
     @Override
     final Optional<NetworkDirection> getDirection() {
         return Optional.of(NetworkDirection.PLAY_TO_SERVER);
+    }
+
+    MSG create(PacketBuffer readFrom) {
+        return packetCreator.apply(readFrom);
     }
 }
