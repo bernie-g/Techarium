@@ -23,7 +23,7 @@ public abstract class MachineTileBase extends TileEntity {
 
     protected Map<Side, FaceConfig> setFaceControl(){
         Map<Side, FaceConfig> defaultSetUp = new HashMap<>();
-        for(Side side: Side.values()){
+        for (Side side: Side.values()){
             defaultSetUp.put(side,FaceConfig.NONE);
         }
         return defaultSetUp;
@@ -38,5 +38,5 @@ public abstract class MachineTileBase extends TileEntity {
         return sideFaceConfigs;
     }
 
-    public abstract ActionResultType onTileActicated(PlayerEntity player);
+    public abstract ActionResultType onTileActivated(PlayerEntity player);
 }

@@ -9,8 +9,6 @@ import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
 import java.util.HashMap;
 import java.util.Map;
 
-import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM_TOP;
-
 
 public abstract class MultiblockMasterTile<T extends IMachineRecipe> extends MachineMasterTile<T> {
 
