@@ -14,11 +14,8 @@ public class ModelRegistry
 	public static void registerModels(ModelRegistryEvent event)
 	{
 		ModelLoader.addSpecialModel(new ResourceLocation(Techarium.ModID, "block/botarium_tier_1"));
-		ModelLoader.addSpecialModel(new ResourceLocation(Techarium.ModID, "block/botarium_tier_2"));
-		ModelLoader.addSpecialModel(new ResourceLocation(Techarium.ModID, "block/botarium_tier_3"));
-		ModelLoader.addSpecialModel(new ResourceLocation(Techarium.ModID, "block/botarium_tier_4"));
-		ModelLoader.addSpecialModel(new ResourceLocation(Techarium.ModID, "block/botarium_tier_5"));
 		ModelLoader.addSpecialModel(new ResourceLocation(Techarium.ModID, "block/arboratorium"));
+		ModelLoader.addSpecialModel(new ResourceLocation(Techarium.ModID, "block/exchange_station"));
 
 	}
 }

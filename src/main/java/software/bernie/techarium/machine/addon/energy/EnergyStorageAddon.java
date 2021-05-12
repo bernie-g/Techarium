@@ -1,6 +1,5 @@
 package software.bernie.techarium.machine.addon.energy;
 
-import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -13,7 +12,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.machine.interfaces.IToolTippedAddon;
-import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
 import software.bernie.techarium.recipes.AbstractMachineRecipe;
 import software.bernie.techarium.util.Utils;
 
@@ -23,10 +21,10 @@ import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.DEFA
 
 public class EnergyStorageAddon extends EnergyStorage implements INBTSerializable<CompoundNBT>, IToolTippedAddon {
 
-    private final int xPos;
+    private final int posX;
+    private final int posY;
 
     private MachineController<? extends AbstractMachineRecipe> controller;
-    private final int yPos;
 
     private IDrawable asset;
 
@@ -34,30 +32,38 @@ public class EnergyStorageAddon extends EnergyStorage implements INBTSerializabl
 
     private Pair<Integer, Integer> guiXY;
 
-    public EnergyStorageAddon(MachineController<? extends AbstractMachineRecipe> controller, int totalEnergy, int xPos, int yPos, Pair<Integer, Integer> guiXY) {
-        this(controller, totalEnergy, totalEnergy, xPos, yPos, guiXY);
+    public EnergyStorageAddon(MachineController<? extends AbstractMachineRecipe> controller, int totalEnergy, int posX, int posY, Pair<Integer, Integer> guiXY) {
+        this(controller, totalEnergy, totalEnergy, posX, posY, guiXY);
     }
 
-    public EnergyStorageAddon(MachineController<? extends AbstractMachineRecipe> controller, int totalEnergy, int maxIO, int xPos, int yPos, Pair<Integer, Integer> guiXY) {
-        this(controller, totalEnergy, maxIO, maxIO, xPos, yPos, guiXY);
+    public EnergyStorageAddon(MachineController<? extends AbstractMachineRecipe> controller, int totalEnergy, int maxIO, int posX, int posY, Pair<Integer, Integer> guiXY) {
+        this(controller, totalEnergy, maxIO, maxIO, posX, posY, guiXY);
     }
 
-    public EnergyStorageAddon(MachineController<? extends AbstractMachineRecipe> controller, int totalEnergy, int maxIn, int maxOut, int xPos, int yPos,
+    public EnergyStorageAddon(MachineController<? extends AbstractMachineRecipe> controller, int totalEnergy, int maxIn, int maxOut, int posX, int posY,
                               Pair<Integer, Integer> guiXY) {
         super(totalEnergy, maxIn, maxOut);
         this.controller = controller;
-        this.yPos = yPos;
-        this.xPos = xPos;
+        this.posY = posY;
+        this.posX = posX;
         this.assetSizeXY = Pair.of(12, 48);
         this.guiXY = guiXY;
     }
 
-    public int getYPos() {
-        return yPos;
+    public int getPosY() {
+        return posY;
     }
 
-    public int getXPos() {
-        return xPos;
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getSizeX() {
+        return assetSizeXY.getLeft();
+    }
+
+    public int getSizeY() {
+        return assetSizeXY.getRight();
     }
 
     public Pair<Integer, Integer> getAssetSizeXY() {
@@ -95,8 +101,8 @@ public class EnergyStorageAddon extends EnergyStorage implements INBTSerializabl
 
     @Override
     public void renderToolTip(Screen screen, int x, int y, int xCenter, int yCenter, int mouseX, int mouseY) {
-        if (mouseX >= x + getXPos() && mouseX <= x + getXPos() + getAssetSizeXY().getKey()) {
-            if (mouseY >= y + getYPos() && mouseY <= y + getYPos() + getAssetSizeXY().getValue()) {
+        if (mouseX >= x + getPosX() && mouseX <= x + getPosX() + getAssetSizeXY().getKey()) {
+            if (mouseY >= y + getPosY() && mouseY <= y + getPosY() + getAssetSizeXY().getValue()) {
                 DecimalFormat decimalFormat = new DecimalFormat();
                 TextComponent component = Component.text("Power: ", NamedTextColor.GOLD)
                         .append(Component.text(decimalFormat.format(getEnergyStored()), NamedTextColor.GOLD))

@@ -12,7 +12,7 @@ public class EnergyAutoWidget extends Widget {
     private final EnergyStorageAddon addon;
 
     public EnergyAutoWidget(EnergyStorageAddon addon) {
-        super(addon.getXPos(), addon.getYPos(), 200, 20, new StringTextComponent("Power"));
+        super(addon.getPosX(), addon.getPosY(), 200, 20, new StringTextComponent("Power"));
         this.addon = addon;
     }
 

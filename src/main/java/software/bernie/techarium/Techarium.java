@@ -14,6 +14,7 @@ import software.bernie.techarium.datagen.TechariumLootTables;
 import software.bernie.techarium.datagen.TechariumRecipeProvider;
 import software.bernie.techarium.machine.screen.AutomaticContainerScreen;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
+import software.bernie.techarium.network.NetworkConnection;
 import software.bernie.techarium.registry.*;
 
 import static software.bernie.techarium.registry.ContainerRegistry.AUTO_CONTAINER;
@@ -36,6 +37,8 @@ public class Techarium
 		RecipeRegistry.register(bus);
 		bus.addListener(this::onClientSetup);
 		bus.addListener(this::gatherData);
+
+		NetworkConnection.registerMessages();
 	}
 
 	private void gatherData(GatherDataEvent event)
