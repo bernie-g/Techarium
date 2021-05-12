@@ -1,0 +1,24 @@
+{
+  "type": "techarium:botarium",
+  "conditions": [
+    {
+      "modid": "mysticalagriculture",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "ticksPerProgress": 2,
+  "maxProgress": 1000,
+  "energyCost": 5000,
+  "cropIn": {
+    "item": "mysticalagriculture:refined_obsidian_seeds"
+  },
+  "fluidIn": "minecraft:water",
+  "fluidAmount": 1000,
+  "soilIn": {
+    "tag": "forge:dirt"
+  },
+  "output": {
+    "id": "mysticalagriculture:refined_obsidian_essence",
+    "Count": 1
+  }
+}

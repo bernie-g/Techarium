@@ -2,9 +2,7 @@ package software.bernie.techarium;
 
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.data.DataGenerator;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
@@ -12,9 +10,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
-import software.bernie.geckolib3.resource.ResourceListener;
 import software.bernie.techarium.datagen.TechariumLootTables;
+import software.bernie.techarium.datagen.TechariumRecipeProvider;
 import software.bernie.techarium.machine.screen.AutomaticContainerScreen;
+import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.network.NetworkConnection;
 import software.bernie.techarium.registry.*;
 
@@ -35,8 +34,7 @@ public class Techarium
 		ItemRegistry.register(bus);
 		BlockTileRegistry.register(bus);
 		ContainerRegistry.register(bus);
-		CropTypeRegistry.register(bus);
-		RecipeSerializerRegistry.register(bus);
+		RecipeRegistry.register(bus);
 		bus.addListener(this::onClientSetup);
 		bus.addListener(this::gatherData);
 
@@ -46,7 +44,8 @@ public class Techarium
 	private void gatherData(GatherDataEvent event)
 	{
 		DataGenerator generator = event.getGenerator();
-		generator.addProvider(new TechariumLootTables(generator));
+		//generator.addProvider(new TechariumLootTables(generator));
+		generator.addProvider(new TechariumRecipeProvider(generator));
 	}
 
 	public void onClientSetup(FMLClientSetupEvent event)
