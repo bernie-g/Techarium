@@ -28,7 +28,7 @@ public class FluidTankClickContainerPacket extends ClientToServerContainerPacket
 
     //Empty dummy constructor
     public FluidTankClickContainerPacket() {
-        super();
+        super(FluidTankClickContainerPacket::new);
     }
 
     public FluidTankClickContainerPacket(AutomaticContainer container, int button, boolean shift, int fluidSlot) {
@@ -51,11 +51,6 @@ public class FluidTankClickContainerPacket extends ClientToServerContainerPacket
         writeInto.writeInt(button);
         writeInto.writeBoolean(shift);
         writeInto.writeInt(fluidSlot);
-    }
-
-    @Override
-    FluidTankClickContainerPacket create(PacketBuffer readFrom) {
-        return new FluidTankClickContainerPacket(readFrom);
     }
 
     @Override

@@ -17,6 +17,7 @@ public class NetworkConnection {
 
     public static void registerMessages() {
         registerMessage(new FluidTankClickContainerPacket());
+        registerMessage(new EnergyBarClickContainerPacket());
     }
     public static <MSG extends Packet<MSG>> void registerMessage(MSG dummyPacket) {
         INSTANCE.registerMessage(getAndUpdateIndex(),
