@@ -13,24 +13,22 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import software.bernie.techarium.block.base.MachineBlock;
-import software.bernie.techarium.tile.botarium.BotariumTile;
+import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
 
 import javax.annotation.Nonnull;
 
-public class ExchangeStationBlock extends MachineBlock<BotariumTile> {
+public class ExchangeStationBlock extends MachineBlock<ExchangeStationTile> {
 
     public ExchangeStationBlock() {
-        super(Properties.create(Material.IRON).hardnessAndResistance(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).notSolid(), BotariumTile::new);
+        super(Properties.create(Material.IRON).hardnessAndResistance(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).notSolid().setRequiresTool(), ExchangeStationTile::new);
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack)
-    {
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
         TileEntity tile = worldIn.getTileEntity(pos);
-        if(tile instanceof BotariumTile)
-        {
-            ((BotariumTile) tile).isOpening = true;
+        if(tile instanceof ExchangeStationTile) {
+            ((ExchangeStationTile) tile).isOpening = true;
         }
     }
 
@@ -38,6 +36,6 @@ public class ExchangeStationBlock extends MachineBlock<BotariumTile> {
     @Nonnull
     @SuppressWarnings("deprecation")
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 32.0D, 16.0D);
+        return Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
     }
 }
