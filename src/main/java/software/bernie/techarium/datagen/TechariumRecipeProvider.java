@@ -14,7 +14,6 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
 
     @Override
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
-        super.registerRecipes(consumer);
 
         ModIntegrations.getIntegrations().forEach(wrapper -> wrapper.get().ifPresent(o -> o.generateRecipes(consumer)));
     }
