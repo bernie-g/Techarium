@@ -12,12 +12,12 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-import static software.bernie.techarium.block.base.RotatableBlock.FACING;
 import static software.bernie.techarium.util.StaticHandler.getSideFromDirection;
 
 public class MachineSlaveTile extends MachineTileBase {
@@ -30,9 +30,9 @@ public class MachineSlaveTile extends MachineTileBase {
 
 
     @Override
-    public ActionResultType onTileActicated(PlayerEntity player) {
+    public ActionResultType onTileActivated(PlayerEntity player) {
         assert world != null;
-        return ((MachineTileBase) Objects.requireNonNull(world.getTileEntity(masterPos))).onTileActicated(player);
+        return ((MachineTileBase) Objects.requireNonNull(world.getTileEntity(masterPos))).onTileActivated(player);
     }
 
     public BlockPos getMasterPos() {
@@ -46,14 +46,21 @@ public class MachineSlaveTile extends MachineTileBase {
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if(getMasterPos() != BlockPos.ZERO) {
-            if (cap == CapabilityEnergy.ENERGY || cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-                if (world != null && getFaceConfigs().get(getSideFromDirection(side,getFacingDirection())).allowsConnection()) {
-                    return Objects.requireNonNull(world.getTileEntity(masterPos)).getCapability(cap);
-                }
-            }
-        }
+        if (shouldGetCapabilityFromMaster(cap) && world != null && getFaceConfigs().get(getSideFromDirection(side,getFacingDirection())).allowsConnection())
+            return Objects.requireNonNull(world.getTileEntity(masterPos)).getCapability(cap);
         return super.getCapability(cap, side);
+    }
+
+    @NotNull
+    @Override
+    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
+        if (shouldGetCapabilityFromMaster(cap))
+            return Objects.requireNonNull(world.getTileEntity(masterPos)).getCapability(cap);
+        return super.getCapability(cap);
+    }
+
+    private boolean shouldGetCapabilityFromMaster(@NotNull Capability<?> cap) {
+        return getMasterPos() != BlockPos.ZERO && (cap == CapabilityEnergy.ENERGY || cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
     }
 
     @Override

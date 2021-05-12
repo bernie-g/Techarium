@@ -51,7 +51,7 @@ public abstract class MachineBlock<T extends MachineTileBase> extends BaseTileBl
         Optional.ofNullable(world.getTileEntity(pos))
                 .filter(tileEntity -> tileEntity instanceof MachineTileBase)
                 .map(tileEntity -> (MachineTileBase)tileEntity)
-                .ifPresent(tile -> tile.onTileActicated(player));
+                .ifPresent(tile -> tile.onTileActivated(player));
     }
 
     @Deprecated

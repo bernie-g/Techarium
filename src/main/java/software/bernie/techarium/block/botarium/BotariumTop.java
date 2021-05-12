@@ -7,6 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
+import net.minecraftforge.common.ToolType;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
 
@@ -15,7 +16,7 @@ import javax.annotation.Nonnull;
 public class BotariumTop extends MachineBlock<TopEnabledOnlySlave> {
 
     public BotariumTop() {
-        super(Block.Properties.create(Material.IRON).hardnessAndResistance(3.5f).notSolid().noDrops(),TopEnabledOnlySlave::new);
+        super(Block.Properties.create(Material.IRON).hardnessAndResistance(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).notSolid().setRequiresTool().noDrops(),TopEnabledOnlySlave::new);
     }
 
     @Override

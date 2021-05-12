@@ -89,7 +89,7 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     }
 
     @Override
-    public ActionResultType onTileActicated(PlayerEntity player) {
+    public ActionResultType onTileActivated(PlayerEntity player) {
         NetworkHooks.openGui((ServerPlayerEntity) player, this, packetBuffer -> {
             packetBuffer.writeBlockPos(this.getPos());
             packetBuffer.writeTextComponent(this.getDisplayName());
