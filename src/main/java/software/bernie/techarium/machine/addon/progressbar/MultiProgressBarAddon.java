@@ -3,6 +3,7 @@ package software.bernie.techarium.machine.addon.progressbar;
 import net.minecraft.inventory.container.Slot;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +14,12 @@ public class MultiProgressBarAddon implements IContainerComponentProvider {
     public MultiProgressBarAddon() {
     }
 
-    public void add(ProgressBarAddon progressBarAddon){
+    public void add(ProgressBarAddon progressBarAddon) {
         this.progressBarAddons.add(progressBarAddon);
     }
 
     public void attemptTickAllBars() {
-        if(!progressBarAddons.isEmpty()) {
+        if (!progressBarAddons.isEmpty()) {
             this.progressBarAddons.forEach(progressBarAddon -> {
                         if (progressBarAddon.getCanProgress().test(progressBarAddon.getTile())) {
                             if (progressBarAddon.canProgressUp() && progressBarAddon.getProgress() == 0) {

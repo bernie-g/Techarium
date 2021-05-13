@@ -74,7 +74,7 @@ public class BotariumRecipeCategory implements IRecipeCategory<BotariumRecipe>
 		for (Item item : allItems)
 		{
 			ItemStack stack = new ItemStack(item);
-			if (recipe.getCropType().getIsCropAcceptable().test(stack))
+			if (recipe.getCropType().test(stack))
 			{
 				validIngredients.add(stack);
 			}

@@ -1,0 +1,26 @@
+{
+  "type": "techarium:botarium",
+  "conditions": [
+    {
+      "modid": "mysticalagriculture",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "progressPerTick": 1,
+  "maxProgress": 2000,
+  "rfPerTick": 30,
+  "cropIn": {
+    "item": "mysticalagriculture:spirited_crystal_seeds"
+  },
+  "soilIn": {
+    "tag": "forge:dirt"
+  },
+  "fluidIn": {
+    "FluidName": "minecraft:water",
+    "Amount": 1000
+  },
+  "output": {
+    "id": "mysticalagriculture:spirited_crystal_essence",
+    "Count": 1
+  }
+}

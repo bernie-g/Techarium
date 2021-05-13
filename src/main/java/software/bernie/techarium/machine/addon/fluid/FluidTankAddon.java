@@ -231,15 +231,4 @@ public class FluidTankAddon extends FluidTank implements IContainerComponentProv
         return new TranslationTextComponent(stack.getFluid().getAttributes().getTranslationKey(stack)).getString();
     }
 
-    public List<String> getTooltip() {
-        /*return Arrays.asList(TextFormatting.GOLD + "Fluid: " + TextFormatting.WHITE + (this.getFluid().isEmpty() ? "Empty" : (new TranslationTextComponent(
-                        this.getFluid()
-                                .),
-                TextFormatting.GOLD + "Amount: " + TextFormatting.WHITE + (new DecimalFormat())
-                        .format((long) this.getFluidAmount()) + TextFormatting.GOLD + "/"
-                        + TextFormatting.WHITE + (new DecimalFormat()).format((long) this.getCapacity())
-                        + TextFormatting.DARK_AQUA + "mb");*/
-        return null;
-    }
-
 }
