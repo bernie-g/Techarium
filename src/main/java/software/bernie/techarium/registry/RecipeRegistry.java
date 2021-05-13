@@ -13,16 +13,16 @@ import static software.bernie.techarium.Techarium.ModID;
 
 public class RecipeRegistry {
 
-    public static final DeferredRegister<IRecipeSerializer<?>> RECIPE_SERIALIZER = DeferredRegister.create(
+    public static final DeferredRegister<IRecipeSerializer<?>> RECIPE_SERIALIZER_REGISTRY = DeferredRegister.create(
             ForgeRegistries.RECIPE_SERIALIZERS, ModID);
 
     public static final RegistryObject<IRecipeSerializer<BotariumRecipe>> BOTARIUM_SERIALIZER =
-            RECIPE_SERIALIZER.register("botarium", BotariumRecipeSerializer::new);
+            RECIPE_SERIALIZER_REGISTRY.register("botarium", BotariumRecipeSerializer::new);
 
-    public static IRecipeType<BotariumRecipe> BOTARIUM_RECIPE_TYPE = IRecipeType.register("botarium");
+    public static IRecipeType<BotariumRecipe> BOTARIUM_RECIPE_TYPE = IRecipeType.register("techarium:botarium");
 
     public static void register(IEventBus bus) {
-        RECIPE_SERIALIZER.register(bus);
+        RECIPE_SERIALIZER_REGISTRY.register(bus);
     }
 
 }

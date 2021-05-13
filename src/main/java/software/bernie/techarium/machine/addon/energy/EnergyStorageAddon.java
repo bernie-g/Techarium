@@ -110,7 +110,7 @@ public class EnergyStorageAddon extends EnergyStorage implements INBTSerializabl
                         .append(Component.text(decimalFormat.format(getMaxEnergyStored()), NamedTextColor.GOLD))
                         .append(Component.text(" FE", NamedTextColor.DARK_AQUA));
 
-                int energyCost = controller.getCurrentRecipe() == null || controller.getEnergyStorage().getEnergyStored() == 0 ? 0 : controller.getCurrentRecipe().getEnergyCost() / controller.getCurrentRecipe().getMaxProgress();
+                int energyCost = controller.getCurrentRecipe() == null || controller.getEnergyStorage().getEnergyStored() == 0 ? 0 : controller.getCurrentRecipe().getRfPerTick();
                 TextComponent usage = Component.text("Using: ", NamedTextColor.GOLD)
                         .append(Component.text(
                                 energyCost,
@@ -120,5 +120,4 @@ public class EnergyStorageAddon extends EnergyStorage implements INBTSerializabl
             }
         }
     }
-
 }

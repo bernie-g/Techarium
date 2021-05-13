@@ -11,7 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
-import pam.pamhc2crops.items.ItemPamGrain;
 import pam.pamhc2crops.items.ItemPamSeed;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.integration.Integration;
@@ -34,8 +33,8 @@ public class PamsHarvestCraftIntegration extends Integration {
                         .soilIn(Ingredient.fromTag(TagRegistry.DIRT))
                         .fluidIn(new FluidStack(Fluids.WATER, 1000))
                         .maxProgress(1000)
-                        .tickRate(2)
-                        .energyCost(5000)
+                        .rfPerTick(10)
+                        .progressPerTick(1)
                         .output(new ItemStack(drop, 1))
                         .construct()
                         .addCondition(new ModLoadedCondition(ModIntegrations.MYSTICAL.getModID()))

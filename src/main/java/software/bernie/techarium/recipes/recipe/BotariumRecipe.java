@@ -1,7 +1,6 @@
 package software.bernie.techarium.recipes.recipe;
 
 import com.google.gson.JsonObject;
-import com.mojang.serialization.JsonOps;
 import lombok.Builder;
 import lombok.Getter;
 import net.minecraft.item.ItemStack;
@@ -10,6 +9,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import software.bernie.techarium.recipes.AbstractMachineRecipe;
+import software.bernie.techarium.util.JsonCodecUtils;
 
 import static software.bernie.techarium.registry.RecipeRegistry.BOTARIUM_RECIPE_TYPE;
 import static software.bernie.techarium.registry.RecipeRegistry.BOTARIUM_SERIALIZER;
@@ -25,8 +25,8 @@ public class BotariumRecipe extends AbstractMachineRecipe {
     private final ItemStack output;
 
     @Builder(buildMethodName = "construct")
-    public BotariumRecipe(ResourceLocation id, Ingredient cropType, FluidStack fluidIn, Ingredient soilIn, ItemStack output, int tickRate, int maxProgress, int energyCost) {
-        super(id, BOTARIUM_RECIPE_TYPE, tickRate, maxProgress, energyCost);
+    public BotariumRecipe(ResourceLocation id, Ingredient cropType, FluidStack fluidIn, Ingredient soilIn, ItemStack output, int progressPerTick, int maxProgress, int rfPerTick) {
+        super(id, BOTARIUM_RECIPE_TYPE, progressPerTick, maxProgress, rfPerTick);
         this.cropType = cropType;
         this.fluidIn = fluidIn;
         this.soilIn = soilIn;
@@ -57,11 +57,9 @@ public class BotariumRecipe extends AbstractMachineRecipe {
         public void serialize(JsonObject json) {
             super.serialize(json);
             json.add("cropIn", getCropType().serialize());
-            json.addProperty("fluidIn", getFluidIn().getFluid().getRegistryName().toString());
-            json.addProperty("fluidAmount", getFluidIn().getAmount());
             json.add("soilIn", getSoilIn().serialize());
-            json.add("output", ItemStack.CODEC.encodeStart(JsonOps.INSTANCE, getRecipeOutput()).result().orElseThrow(
-                    () -> new IllegalStateException("Could not encode output itemstack")));
+            json.add("fluidIn", JsonCodecUtils.serialize(getFluidIn()));
+            json.add("output", JsonCodecUtils.serialize(getRecipeOutput()));
         }
     }
 

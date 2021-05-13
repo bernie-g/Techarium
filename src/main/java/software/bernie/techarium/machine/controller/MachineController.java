@@ -193,9 +193,9 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
             this.multiProgressBar.attemptTickAllBars();
         }
 
-        if(currentRecipe == null && currentRecipeLocation != null)
+        if(currentRecipeLocation != null)
         {
-            this.currentRecipe = (T) this.tile.getWorld().getRecipeManager().getRecipe(currentRecipeLocation).get();
+            this.currentRecipe = (T) this.tile.getWorld().getRecipeManager().getRecipe(currentRecipeLocation).orElse(null);
             currentRecipeLocation = null;
         }
 
@@ -222,7 +222,7 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
                     AtomicInteger x = new AtomicInteger();
                     this.getMultiProgressBar().getProgressBarAddons().forEach(bar -> {
                         bar.setMaxProgress(currentRecipe.getMaxProgressTimes().get(x.get()));
-                        bar.setProgressToAdd(currentRecipe.getTickRate());
+                        bar.setProgressToAdd(currentRecipe.getProgressPerTick());
                         x.incrementAndGet();
                     });
                 }

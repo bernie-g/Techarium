@@ -6,16 +6,18 @@
       "type": "forge:mod_loaded"
     }
   ],
-  "ticksPerProgress": 2,
-  "maxProgress": 1000,
-  "energyCost": 5000,
+  "progressPerTick": 1,
+  "maxProgress": 2000,
+  "rfPerTick": 30,
   "cropIn": {
     "item": "mysticalagriculture:redstone_seeds"
   },
-  "fluidIn": "minecraft:water",
-  "fluidAmount": 1000,
   "soilIn": {
     "tag": "forge:dirt"
+  },
+  "fluidIn": {
+    "FluidName": "minecraft:water",
+    "Amount": 1000
   },
   "output": {
     "id": "mysticalagriculture:redstone_essence",

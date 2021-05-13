@@ -2,18 +2,10 @@ package software.bernie.techarium.tile.botarium;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.CropsBlock;
-import net.minecraft.block.StemBlock;
 import net.minecraft.fluid.WaterFluid;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.state.IntegerProperty;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -41,10 +33,8 @@ import software.bernie.techarium.tile.base.MultiblockMasterTile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static net.minecraft.block.Block.getDrops;
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.BOTARIUM_DRAWABLE;
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.BOTARIUM_OUTPUT_SLOT;
 import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM;
@@ -87,19 +77,17 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
 
         ProgressBarAddon progressBarAddon = new ProgressBarAddon(this, 8, 26, 500, "techarium.gui.mainprogress");
         controller.addProgressBar(progressBarAddon
-                .setCanProgress(
-                        (value) -> {
-                            BotariumRecipe recipe = getController().getCurrentRecipe();
-                            FluidStack fluid = controller.getMultiTank().getFluidTanks().get(0).getFluid();
-                            InventoryAddon output = controller.getMultiInventory().getInventoryByName("output").get();
-                            return recipe != null && output.getStackInSlot(0).getCount() + recipe.getRecipeOutput().getCount() <= output.getSlotLimit(0) && getController().getEnergyStorage().getEnergyStored() > 0 && fluid.getAmount() >= recipe.getFluidIn().getAmount();
-                        })
+                .setCanProgress((value) -> {
+                    BotariumRecipe recipe = getController().getCurrentRecipe();
+                    FluidStack fluid = controller.getMultiTank().getFluidTanks().get(0).getFluid();
+                    InventoryAddon output = controller.getMultiInventory().getInventoryByName("output").get();
+                    return recipe != null && output.getStackInSlot(0).getCount() + recipe.getRecipeOutput().getCount() <= output.getSlotLimit(0) && getController().getEnergyStorage().getEnergyStored() > 0 && fluid.getAmount() >= recipe.getFluidIn().getAmount();
+                })
                 .setOnProgressFull(() -> handleProgressFinish(getController().getCurrentRecipe()))
                 .setOnProgressTick(() -> {
-                    if (controller.getCurrentRecipe() != null)
-                        controller.getLazyEnergyStorage().ifPresent(iEnergyStorage -> iEnergyStorage.extractEnergy(
-                                controller.getCurrentRecipe().getEnergyCost() / controller.getCurrentRecipe().getMaxProgress(),
-                                false));
+                    if (controller.getCurrentRecipe() != null) {
+                        controller.getLazyEnergyStorage().ifPresent(iEnergyStorage -> iEnergyStorage.extractEnergy(controller.getCurrentRecipe().getRfPerTick(), false));
+                    }
                 })
         );
 
@@ -190,7 +178,7 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
     public boolean matchRecipe(BotariumRecipe currentRecipe) {
         if (currentRecipe.getCropType().test(getCropInventory().getStackInSlot(0))) {
             if (currentRecipe.getSoilIn().test(getSoilInventory().getStackInSlot(0))) {
-                if (getController().getEnergyStorage().getEnergyStored() >= currentRecipe.getEnergyCost()) {
+                if (getController().getEnergyStorage().getEnergyStored() >= currentRecipe.getRfPerTick()) {
                     FluidStack fluidIn = getWaterInventory().getFluid();
                     if (fluidIn.isFluidEqual(
                             currentRecipe.getFluidIn()) && fluidIn.getAmount() >= currentRecipe.getFluidIn().getAmount()) {

@@ -20,18 +20,18 @@ public abstract class AbstractMachineRecipe extends TechariumRecipeBuilder<Abstr
     @Getter
     protected final IRecipeType<?> type;
     @Getter
-    protected final int tickRate;
+    protected final int progressPerTick;
     @Getter
     protected final int maxProgress;
     @Getter
-    protected final int energyCost;
+    protected final int rfPerTick;
 
-    protected AbstractMachineRecipe(ResourceLocation id, IRecipeType<?> type, int tickRate, int maxProgress, int energyCost) {
+    protected AbstractMachineRecipe(ResourceLocation id, IRecipeType<?> type, int progressPerTick, int maxProgress, int rfPerTick) {
         this.id = id;
         this.type = type;
         this.maxProgress = maxProgress;
-        this.energyCost = energyCost;
-        this.tickRate = tickRate;
+        this.rfPerTick = rfPerTick;
+        this.progressPerTick = progressPerTick;
     }
 
 
@@ -69,9 +69,9 @@ public abstract class AbstractMachineRecipe extends TechariumRecipeBuilder<Abstr
 
         @Override
         public void serialize(JsonObject json) {
-            json.addProperty("ticksPerProgress", AbstractMachineRecipe.this.tickRate);
+            json.addProperty("progressPerTick", AbstractMachineRecipe.this.progressPerTick);
             json.addProperty("maxProgress", AbstractMachineRecipe.this.maxProgress);
-            json.addProperty("energyCost", AbstractMachineRecipe.this.energyCost);
+            json.addProperty("rfPerTick", AbstractMachineRecipe.this.rfPerTick);
         }
     }
 
