@@ -5,5 +5,7 @@
   "block.techarium.exchange_station": "Exchange Station",
   "item.techarium.pipe_stick": "Pipe Stick",
 
+  "top.progress.eta": "ETA: ",
+
   "itemGroup.techarium": "Techarium"
 }
