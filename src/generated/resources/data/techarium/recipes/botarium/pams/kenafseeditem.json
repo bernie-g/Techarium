@@ -6,16 +6,18 @@
       "type": "forge:mod_loaded"
     }
   ],
-  "ticksPerProgress": 2,
+  "progressPerTick": 1,
   "maxProgress": 1000,
-  "energyCost": 5000,
+  "rfPerTick": 10,
   "cropIn": {
     "item": "pamhc2crops:kenafseeditem"
   },
-  "fluidIn": "minecraft:water",
-  "fluidAmount": 1000,
   "soilIn": {
     "tag": "forge:dirt"
+  },
+  "fluidIn": {
+    "FluidName": "minecraft:water",
+    "Amount": 1000
   },
   "output": {
     "id": "pamhc2crops:kenafitem",

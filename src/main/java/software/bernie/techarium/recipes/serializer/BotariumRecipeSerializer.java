@@ -1,7 +1,6 @@
 package software.bernie.techarium.recipes.serializer;
 
 import com.google.gson.JsonObject;
-import com.mojang.serialization.JsonOps;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
@@ -11,24 +10,22 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
+import software.bernie.techarium.util.JsonCodecUtils;
 import software.bernie.techarium.util.Utils;
 
 import javax.annotation.Nullable;
-
-import static software.bernie.techarium.util.StaticHandler.deserializeFluid;
 
 public class BotariumRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<BotariumRecipe> {
 
     @Override
     public BotariumRecipe read(ResourceLocation recipeId, JsonObject json) {
         Ingredient crop = Utils.deserializeIngredient(json, "cropIn");
-        FluidStack fluidIn = deserializeFluid(json);
+        FluidStack fluidIn = JsonCodecUtils.deserializeFluidStack(json.get("fluidIn"));
         Ingredient soil = Utils.deserializeIngredient(json, "soilIn");
-        ItemStack output = ItemStack.CODEC.parse(JsonOps.INSTANCE, json.get("output")).result().orElseThrow(
-                () -> new IllegalStateException("Could not parse recipe output"));
+        ItemStack output = JsonCodecUtils.deserializeItemStack(json.get("output"));
         int maxProgress = JSONUtils.getInt(json, "maxProgress");
-        int ticksPerProgress = JSONUtils.getInt(json, "ticksPerProgress");
-        int energy = JSONUtils.getInt(json, "energyCost");
+        int ticksPerProgress = JSONUtils.getInt(json, "progressPerTick");
+        int energy = JSONUtils.getInt(json, "rfPerTick");
         return new BotariumRecipe(recipeId, crop, fluidIn, soil, output, ticksPerProgress, maxProgress, energy);
     }
 
@@ -52,7 +49,7 @@ public class BotariumRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializ
         recipe.getSoilIn().write(buffer);
         buffer.writeItemStack(recipe.getRecipeOutput());
         buffer.writeInt(recipe.getMaxProgress());
-        buffer.writeInt(recipe.getTickRate());
-        buffer.writeInt(recipe.getEnergyCost());
+        buffer.writeInt(recipe.getProgressPerTick());
+        buffer.writeInt(recipe.getRfPerTick());
     }
 }

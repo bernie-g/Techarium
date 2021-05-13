@@ -1,13 +1,10 @@
 package software.bernie.techarium.integration.thermal.cultivation;
 
 import cofh.lib.block.impl.crops.CropsBlockCoFH;
-import com.blakebr0.mysticalagriculture.item.MysticalSeedsItem;
 import lombok.SneakyThrows;
 import net.minecraft.block.Block;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.IItemProvider;
@@ -44,8 +41,8 @@ public class ThermalCultivationIntegration extends Integration {
                         .soilIn(Ingredient.fromTag(TagRegistry.DIRT))
                         .fluidIn(new FluidStack(Fluids.WATER, 1000))
                         .maxProgress(1000)
-                        .tickRate(2)
-                        .energyCost(5000)
+                        .rfPerTick(10)
+                        .progressPerTick(1)
                         .output(new ItemStack(cropProvider.asItem(), 1))
                         .construct()
                         .addCondition(new ModLoadedCondition(ModIntegrations.MYSTICAL.getModID()))
