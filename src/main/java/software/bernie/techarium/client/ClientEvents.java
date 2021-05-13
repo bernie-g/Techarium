@@ -8,7 +8,6 @@ import software.bernie.techarium.Techarium;
 import software.bernie.techarium.client.tile.render.BotariumRenderer;
 import software.bernie.techarium.client.tile.render.ExchangeStationRenderer;
 import software.bernie.techarium.registry.BlockTileRegistry;
-import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
 
 @Mod.EventBusSubscriber(modid = Techarium.ModID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientEvents

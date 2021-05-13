@@ -1,5 +1,8 @@
 package software.bernie.techarium.util;
 
+import net.minecraft.block.Block;
+import net.minecraft.util.math.shapes.VoxelShape;
+
 public class BlockRegion {
     public static BlockRegion FULL_BLOCK = new BlockRegion(1,1,1);
 
@@ -21,5 +24,9 @@ public class BlockRegion {
         this.xSize = xSize;
         this.ySize = ySize;
         this.zSize = zSize;
+    }
+
+    public VoxelShape toVoxelShape() {
+        return Block.makeCuboidShape(xOff*16, yOff*16, zOff*16, (xOff+xSize)*16, (yOff+ySize)*16, (zOff+zSize)*16);
     }
 }
