@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "software.bernie.techarium.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "techarium.refmap.json",
+  "client": [
+    "WorldRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

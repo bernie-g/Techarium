@@ -3,8 +3,6 @@ package software.bernie.techarium.client;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.LecternBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -17,14 +15,12 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.opengl.GL11;
-import software.bernie.shadowed.eliotlash.mclib.math.functions.limit.Min;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.item.MachineItem;
@@ -66,8 +62,8 @@ public class RenderUtils
 		BlockRegion region = block.getBlockSize();
 		MatrixStack matrixStack = event.getMatrixStack();
 		GlStateManager.pushMatrix();
-		GlStateManager.disableDepthTest();
-		GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
+		//GlStateManager.disableDepthTest();
+		//GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
 		matrixStack.push();
 		matrixStack.translate(bottomCenter.getX(), bottomCenter.getY(), bottomCenter.getZ());
 		matrixStack.translate(region.xOff, region.yOff, region.zOff);
@@ -82,6 +78,7 @@ public class RenderUtils
 		} else {
 			color = new Vector3f(1f, 0f, 0f);
 		}
+		GL11.glLineWidth(50);
 		WorldRenderer.drawShape(matrixStack, builder, region.toVoxelShape().simplify(), 0,0,0,color.getX(),color.getY(),color.getZ(),1);
 		buffer.finish(RenderType.LINES);
 		matrixStack.pop();
