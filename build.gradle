@@ -107,10 +107,13 @@ dependencies {
 
 shadowJar {
     dependencies {
-        include(dependency('software.bernie.geckolib3:.*'))
+        include(dependency('software.bernie.geckolib:.*'))
+        include(dependency('net.kyori:.*'))
     }
-
+    exclude 'software/bernie/example/**'
+    exclude 'assets/geckolib3/**'
     relocate 'software.bernie.geckolib3', 'software.bernie.shadowed.geckolib'
+    relocate 'net.kyori', 'software.bernie.shadowed.net.kyori'
 
     classifier ''
 }
