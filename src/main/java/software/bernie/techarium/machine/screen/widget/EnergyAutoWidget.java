@@ -29,11 +29,8 @@ public class EnergyAutoWidget extends Widget {
         Minecraft minecraft = Minecraft.getInstance();
         int screenY = minecraft.getMainWindow().getScaledHeight() / 2;
         int screenX = minecraft.getMainWindow().getScaledWidth() / 2;
-        float start = 1 - (float) addon.getEnergyStored() / addon.getMaxEnergyStored();
-        float offset = (getAssetSizeXY().getValue() * start);
 
         float drawHeight = 1- ((float) addon.getEnergyStored()) / addon.getMaxEnergyStored();
-        drawHeight = Math.round(drawHeight * getAssetSizeXY().getValue()) / (float)getAssetSizeXY().getValue();
 
         addon.getAsset().drawPartial(screenX - getGuiXY().getKey() / 2 + x,
                 screenY - getGuiXY().getValue() / 2 + y, getAssetSizeXY().getKey(),
