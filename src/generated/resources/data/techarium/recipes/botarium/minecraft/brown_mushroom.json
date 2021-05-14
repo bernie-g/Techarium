@@ -10,8 +10,8 @@
     "item": "minecraft:stone"
   },
   "fluidIn": {
-    "FluidName": "minecraft:empty",
-    "Amount": 0
+    "FluidName": "minecraft:water",
+    "Amount": 50
   },
   "output": {
     "id": "minecraft:brown_mushroom",
