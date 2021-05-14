@@ -6,7 +6,7 @@ import software.bernie.techarium.integration.Integration;
 
 import java.util.function.Function;
 
-public class TheOneProbeIntegration extends Integration{
+public class TheOneProbeIntegration extends Integration {
 
     public void requestTheOneProbe() {
         new ProbeHandler().requestTheOneProbe();

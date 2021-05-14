@@ -100,6 +100,10 @@ dependencies {
     compile fg.deobf("curse.maven:thermal-foundation-222880:3248150")
     compile fg.deobf("curse.maven:cofh-core-69162:3249453")
 
+    // Compile against the Hwyla API, but run with full mod
+    compileOnly fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}:api")
+    runtimeOnly fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
+
     //lombok
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'

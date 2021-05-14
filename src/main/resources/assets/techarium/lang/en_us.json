@@ -6,6 +6,8 @@
   "item.techarium.pipe_stick": "Pipe Stick",
 
   "top.progress.eta": "ETA: ",
+  "hwyla.progress.eta": "ETA: %s seconds remaining",
+  "hwyla.progress.no_recipe": "ETA: No valid recipe",
 
   "itemGroup.techarium": "Techarium"
 }
