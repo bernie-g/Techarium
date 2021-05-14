@@ -4,22 +4,17 @@
   "maxProgress": 1000,
   "rfPerTick": 10,
   "cropIn": {
-    "item": "minecraft:red_mushroom"
+    "item": "minecraft:red_tulip"
   },
-  "soilIn": [
-    {
-      "item": "minecraft:stone"
-    },
-    {
-      "item": "minecraft:mycelium"
-    }
-  ],
+  "soilIn": {
+    "item": "minecraft:grass_block"
+  },
   "fluidIn": {
     "FluidName": "minecraft:water",
-    "Amount": 50
+    "Amount": 1000
   },
   "output": {
-    "id": "minecraft:red_mushroom",
+    "id": "minecraft:red_tulip",
     "Count": 1
   }
 }

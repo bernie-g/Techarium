@@ -2,6 +2,7 @@ package software.bernie.techarium.datagen;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CropsBlock;
+import net.minecraft.block.FlowerBlock;
 import net.minecraft.block.StemBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
@@ -15,6 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.common.data.ForgeRecipeProvider;
 import net.minecraftforge.fluids.FluidStack;
+import org.checkerframework.checker.units.qual.C;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
@@ -46,11 +48,29 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
 
         buildBotariumRecipe(Items.NETHER_WART, Items.NETHER_WART, Ingredient.fromItems(Blocks.SOUL_SAND), new FluidStack(Fluids.LAVA, 50), 1000, consumer);
 
-        buildBotariumRecipe(Items.RED_MUSHROOM, Items.RED_MUSHROOM, Ingredient.fromItems(Items.STONE), FluidStack.EMPTY, 1000, consumer);
-        buildBotariumRecipe(Items.BROWN_MUSHROOM, Items.BROWN_MUSHROOM, Ingredient.fromItems(Items.STONE), FluidStack.EMPTY, 1000, consumer);
+        buildBotariumRecipe(Items.RED_MUSHROOM, Items.RED_MUSHROOM, Ingredient.fromItems(Items.STONE, Items.MYCELIUM), 50, 1000, consumer);
+        buildBotariumRecipe(Items.BROWN_MUSHROOM, Items.BROWN_MUSHROOM, Ingredient.fromItems(Items.STONE), 50, 1000, consumer);
 
         buildBotariumRecipe(Items.MELON_SEEDS, Items.MELON, 1500, 1200, consumer);
         buildBotariumRecipe(Items.PUMPKIN_SEEDS, Items.PUMPKIN, 1500, 1200, consumer);
+
+        buildBotariumFlowerRecipe((FlowerBlock)Blocks.DANDELION, consumer);
+        buildBotariumFlowerRecipe((FlowerBlock)Blocks.POPPY, consumer);
+        buildBotariumFlowerRecipe((FlowerBlock)Blocks.BLUE_ORCHID, consumer);
+        buildBotariumFlowerRecipe((FlowerBlock)Blocks.ALLIUM, consumer);
+        buildBotariumFlowerRecipe((FlowerBlock)Blocks.AZURE_BLUET, consumer);
+        buildBotariumFlowerRecipe((FlowerBlock)Blocks.RED_TULIP, consumer);
+        buildBotariumFlowerRecipe((FlowerBlock)Blocks.ORANGE_TULIP, consumer);
+        buildBotariumFlowerRecipe((FlowerBlock)Blocks.WHITE_TULIP, consumer);
+        buildBotariumFlowerRecipe((FlowerBlock)Blocks.PINK_TULIP, consumer);
+        buildBotariumFlowerRecipe((FlowerBlock)Blocks.OXEYE_DAISY, consumer);
+        buildBotariumFlowerRecipe((FlowerBlock)Blocks.CORNFLOWER, consumer);
+        buildBotariumFlowerRecipe((FlowerBlock)Blocks.LILY_OF_THE_VALLEY, consumer);
+
+    }
+
+    private static void buildBotariumFlowerRecipe(FlowerBlock flowerBlock, Consumer<IFinishedRecipe> consumer) {
+        buildBotariumRecipe(flowerBlock.asItem(), flowerBlock, Ingredient.fromItems(Blocks.GRASS_BLOCK), 1000, 1000, consumer);
     }
 
     private static void buildBotariumRecipe(Item seed, IItemProvider drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
