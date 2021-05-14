@@ -1,0 +1,25 @@
+{
+  "type": "techarium:botarium",
+  "progressPerTick": 1,
+  "maxProgress": 1000,
+  "rfPerTick": 10,
+  "cropIn": {
+    "item": "minecraft:red_mushroom"
+  },
+  "soilIn": [
+    {
+      "item": "minecraft:stone"
+    },
+    {
+      "item": "minecraft:mycelium"
+    }
+  ],
+  "fluidIn": {
+    "FluidName": "minecraft:water",
+    "Amount": 50
+  },
+  "output": {
+    "id": "minecraft:red_mushroom",
+    "Count": 1
+  }
+}

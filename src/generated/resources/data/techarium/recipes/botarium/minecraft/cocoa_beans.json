@@ -1,0 +1,20 @@
+{
+  "type": "techarium:botarium",
+  "progressPerTick": 1,
+  "maxProgress": 800,
+  "rfPerTick": 10,
+  "cropIn": {
+    "item": "minecraft:cocoa_beans"
+  },
+  "soilIn": {
+    "item": "minecraft:jungle_log"
+  },
+  "fluidIn": {
+    "FluidName": "minecraft:water",
+    "Amount": 1000
+  },
+  "output": {
+    "id": "minecraft:cocoa_beans",
+    "Count": 1
+  }
+}
