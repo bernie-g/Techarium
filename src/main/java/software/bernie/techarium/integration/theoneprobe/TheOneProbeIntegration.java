@@ -6,19 +6,23 @@ import software.bernie.techarium.integration.Integration;
 
 import java.util.function.Function;
 
-public class TheOneProbeIntegration extends Integration implements Function<ITheOneProbe, Void> {
-
-    public static ITheOneProbe probe;
+public class TheOneProbeIntegration extends Integration{
 
     public void requestTheOneProbe() {
-        InterModComms.sendTo("theoneprobe", "getTheOneProbe", () -> this);
+        new ProbeHandler().requestTheOneProbe();
     }
 
-    @Override
-    public Void apply(ITheOneProbe iTheOneProbe) {
-        probe = iTheOneProbe;
-        probe.registerProvider(new ProbeInfoProvider());
 
-        return null;
+    private static class ProbeHandler implements Function<ITheOneProbe, Void> {
+
+        void requestTheOneProbe() {
+            InterModComms.sendTo("theoneprobe", "getTheOneProbe", () -> this);
+        }
+
+        @Override
+        public Void apply(ITheOneProbe iTheOneProbe) {
+            iTheOneProbe.registerProvider(new ProbeInfoProvider());
+            return null;
+        }
     }
 }
