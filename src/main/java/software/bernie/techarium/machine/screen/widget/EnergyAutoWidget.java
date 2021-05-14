@@ -32,9 +32,12 @@ public class EnergyAutoWidget extends Widget {
         float start = 1 - (float) addon.getEnergyStored() / addon.getMaxEnergyStored();
         float offset = (getAssetSizeXY().getValue() * start);
 
+        float drawHeight = 1- ((float) addon.getEnergyStored()) / addon.getMaxEnergyStored();
+        drawHeight = Math.round(drawHeight * getAssetSizeXY().getValue()) / (float)getAssetSizeXY().getValue();
+
         addon.getAsset().drawPartial(screenX - getGuiXY().getKey() / 2 + x,
-                screenY - getGuiXY().getValue() / 2 + y + offset, getAssetSizeXY().getKey(),
-                getAssetSizeXY().getValue(), 1, (float) addon.getEnergyStored() / addon.getMaxEnergyStored(), 0, 0);
+                screenY - getGuiXY().getValue() / 2 + y, getAssetSizeXY().getKey(),
+                getAssetSizeXY().getValue(), 1, 1, 0, drawHeight);
     }
 
 }
