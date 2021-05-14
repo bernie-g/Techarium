@@ -6,12 +6,15 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
 import software.bernie.techarium.datagen.TechariumLootTables;
 import software.bernie.techarium.datagen.TechariumRecipeProvider;
+import software.bernie.techarium.integration.ModIntegrations;
+import software.bernie.techarium.integration.theoneprobe.TheOneProbeIntegration;
 import software.bernie.techarium.machine.screen.AutomaticContainerScreen;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.network.NetworkConnection;
@@ -28,7 +31,6 @@ public class Techarium
 	public Techarium()
 	{
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-
         GeckoLib.initialize();
         LOGGER = LogManager.getLogger();
 		ItemRegistry.register(bus);
@@ -37,6 +39,7 @@ public class Techarium
 		RecipeRegistry.register(bus);
 		bus.addListener(this::onClientSetup);
 		bus.addListener(this::gatherData);
+		bus.addListener(this::enqueueIMC);
 
 		NetworkConnection.registerMessages();
 	}
@@ -46,6 +49,12 @@ public class Techarium
 		DataGenerator generator = event.getGenerator();
 		//generator.addProvider(new TechariumLootTables(generator));
 		generator.addProvider(new TechariumRecipeProvider(generator));
+	}
+
+	public void enqueueIMC(InterModEnqueueEvent event) {
+		ModIntegrations.getTheOneProbe().ifPresent(topIntegration -> {
+			topIntegration.requestTheOneProbe();
+		});
 	}
 
 	public void onClientSetup(FMLClientSetupEvent event)

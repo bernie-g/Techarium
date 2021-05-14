@@ -93,7 +93,7 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     compile fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
     compile fg.deobf("curse.maven:mekanism-268560:3206392")
-    runtimeOnly fg.deobf("curse.maven:theoneprobe-245211:3157997")
+    compile fg.deobf("curse.maven:theoneprobe-245211:3157997")
     compile fg.deobf("com.blamejared.crafttweaker:CraftTweaker-1.16.5:$crafttweaker_version")
     compile fg.deobf("curse.maven:mystical-agriculture-246640:3251398")
     compile fg.deobf("curse.maven:cucumber-272335:3249370")
@@ -102,6 +102,10 @@ dependencies {
     compile fg.deobf("curse.maven:thermal-foundation-222880:3248150")
     compile fg.deobf("curse.maven:cofh-core-69162:3249453")
 
+    // Compile against the Hwyla API, but run with full mod
+    compileOnly fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}:api")
+    runtimeOnly fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
+
     //lombok
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
@@ -109,10 +113,13 @@ dependencies {
 
 shadowJar {
     dependencies {
-        include(dependency('software.bernie.geckolib3:.*'))
+        include(dependency('software.bernie.geckolib:.*'))
+        include(dependency('net.kyori:.*'))
     }
-
+    exclude 'software/bernie/example/**'
+    exclude 'assets/geckolib3/**'
     relocate 'software.bernie.geckolib3', 'software.bernie.shadowed.geckolib'
+    relocate 'net.kyori', 'software.bernie.shadowed.net.kyori'
 
     classifier ''
 }

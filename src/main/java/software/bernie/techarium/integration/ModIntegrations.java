@@ -5,6 +5,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import software.bernie.techarium.integration.mekanism.MekanismIntegration;
 import software.bernie.techarium.integration.mysticalagriculture.MysticalAgricultureIntegration;
 import software.bernie.techarium.integration.pams.PamsHarvestCraftIntegration;
+import software.bernie.techarium.integration.theoneprobe.TheOneProbeIntegration;
 import software.bernie.techarium.integration.thermal.cultivation.ThermalCultivationIntegration;
 
 import java.util.ArrayList;
@@ -27,6 +28,9 @@ public class ModIntegrations {
     public static final Integration.Wrapper<ThermalCultivationIntegration> THERMAL_CULTIVATION = Integration.Wrapper.of("thermal",
             ThermalCultivationIntegration::new).registerSelf();
 
+    public static final Integration.Wrapper<TheOneProbeIntegration> THE_ONE_PROBE = Integration.Wrapper.of("theoneprobe",
+            TheOneProbeIntegration::new).registerSelf();
+
     public static LazyOptional<MekanismIntegration> getMekanism() {
         return MEKANISM.get();
     }
@@ -41,5 +45,9 @@ public class ModIntegrations {
 
     public static LazyOptional<ThermalCultivationIntegration> getThermalCultivation() {
         return THERMAL_CULTIVATION.get();
+    }
+
+    public static LazyOptional<TheOneProbeIntegration> getTheOneProbe() {
+        return THE_ONE_PROBE.get();
     }
 }
