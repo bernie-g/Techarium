@@ -1,0 +1,20 @@
+{
+  "type": "techarium:botarium",
+  "progressPerTick": 1,
+  "maxProgress": 1000,
+  "rfPerTick": 10,
+  "cropIn": {
+    "item": "minecraft:red_tulip"
+  },
+  "soilIn": {
+    "item": "minecraft:grass_block"
+  },
+  "fluidIn": {
+    "FluidName": "minecraft:water",
+    "Amount": 1000
+  },
+  "output": {
+    "id": "minecraft:red_tulip",
+    "Count": 1
+  }
+}
