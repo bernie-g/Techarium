@@ -6,9 +6,14 @@
   "cropIn": {
     "item": "minecraft:brown_mushroom"
   },
-  "soilIn": {
-    "item": "minecraft:stone"
-  },
+  "soilIn": [
+    {
+      "item": "minecraft:stone"
+    },
+    {
+      "item": "minecraft:mycelium"
+    }
+  ],
   "fluidIn": {
     "FluidName": "minecraft:water",
     "Amount": 50

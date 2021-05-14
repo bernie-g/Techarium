@@ -45,7 +45,7 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
         buildBotariumRecipe(Items.NETHER_WART, Items.NETHER_WART, Ingredient.fromItems(Blocks.SOUL_SAND), new FluidStack(Fluids.LAVA, 50), 1000, consumer);
 
         buildBotariumRecipe(Items.RED_MUSHROOM, Items.RED_MUSHROOM, Ingredient.fromItems(Items.STONE, Items.MYCELIUM), 50, 1000, consumer);
-        buildBotariumRecipe(Items.BROWN_MUSHROOM, Items.BROWN_MUSHROOM, Ingredient.fromItems(Items.STONE), 50, 1000, consumer);
+        buildBotariumRecipe(Items.BROWN_MUSHROOM, Items.BROWN_MUSHROOM, Ingredient.fromItems(Items.STONE, Items.MYCELIUM), 50, 1000, consumer);
 
         buildBotariumRecipe(Items.MELON_SEEDS, Items.MELON, 1500, 1200, consumer);
         buildBotariumRecipe(Items.PUMPKIN_SEEDS, Items.PUMPKIN, 1500, 1200, consumer);
