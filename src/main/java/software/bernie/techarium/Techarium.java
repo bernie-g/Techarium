@@ -53,7 +53,6 @@ public class Techarium
 
 	public void enqueueIMC(InterModEnqueueEvent event) {
 		ModIntegrations.getTheOneProbe().ifPresent(topIntegration -> {
-			System.out.println("topIsPresent");
 			topIntegration.requestTheOneProbe();
 		});
 	}

@@ -28,15 +28,9 @@ public class ModIntegrations {
     public static final Integration.Wrapper<ThermalCultivationIntegration> THERMAL_CULTIVATION = Integration.Wrapper.of("thermal",
             ThermalCultivationIntegration::new).registerSelf();
 
-    static {
-        System.out.println("preTheOneProbe");
-    }
-
     public static final Integration.Wrapper<TheOneProbeIntegration> THE_ONE_PROBE = Integration.Wrapper.of("theoneprobe",
             TheOneProbeIntegration::new).registerSelf();
-    static {
-        System.out.println("postTheOneProbe");
-    }
+
     public static LazyOptional<MekanismIntegration> getMekanism() {
         return MEKANISM.get();
     }
@@ -54,7 +48,6 @@ public class ModIntegrations {
     }
 
     public static LazyOptional<TheOneProbeIntegration> getTheOneProbe() {
-        System.out.println("getTheOneProbe");
         return THE_ONE_PROBE.get();
     }
 }
