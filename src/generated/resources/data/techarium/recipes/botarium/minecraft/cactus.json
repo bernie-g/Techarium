@@ -1,0 +1,20 @@
+{
+  "type": "techarium:botarium",
+  "progressPerTick": 1,
+  "maxProgress": 600,
+  "rfPerTick": 10,
+  "cropIn": {
+    "item": "minecraft:cactus"
+  },
+  "soilIn": {
+    "item": "minecraft:sand"
+  },
+  "fluidIn": {
+    "FluidName": "minecraft:water",
+    "Amount": 1000
+  },
+  "output": {
+    "id": "minecraft:cactus",
+    "Count": 1
+  }
+}

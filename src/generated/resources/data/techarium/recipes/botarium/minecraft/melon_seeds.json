@@ -1,0 +1,20 @@
+{
+  "type": "techarium:botarium",
+  "progressPerTick": 1,
+  "maxProgress": 1200,
+  "rfPerTick": 10,
+  "cropIn": {
+    "item": "minecraft:melon_seeds"
+  },
+  "soilIn": {
+    "tag": "forge:dirt"
+  },
+  "fluidIn": {
+    "FluidName": "minecraft:water",
+    "Amount": 1500
+  },
+  "output": {
+    "id": "minecraft:melon",
+    "Count": 1
+  }
+}
