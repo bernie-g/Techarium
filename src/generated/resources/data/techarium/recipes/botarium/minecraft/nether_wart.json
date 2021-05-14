@@ -1,0 +1,20 @@
+{
+  "type": "techarium:botarium",
+  "progressPerTick": 1,
+  "maxProgress": 1000,
+  "rfPerTick": 10,
+  "cropIn": {
+    "item": "minecraft:nether_wart"
+  },
+  "soilIn": {
+    "item": "minecraft:soul_sand"
+  },
+  "fluidIn": {
+    "FluidName": "minecraft:lava",
+    "Amount": 50
+  },
+  "output": {
+    "id": "minecraft:nether_wart",
+    "Count": 1
+  }
+}

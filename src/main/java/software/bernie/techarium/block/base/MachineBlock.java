@@ -90,12 +90,12 @@ public abstract class MachineBlock<T extends MachineTileBase> extends BaseTileBl
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
-    public boolean canBePlaced(BlockItemUseContext context) {
-        BlockRegion region = getBlockSize(context);
+    public boolean canBePlaced(World world, BlockPos pos) {
+        BlockRegion region = getBlockSize();
         for (int x = region.xOff; x < region.xSize - region.xOff; x++) {
             for (int y = region.yOff; y < region.ySize - region.yOff; y++) {
                 for (int z = region.zOff; z < region.zSize - region.zOff; z++) {
-                    if (!context.getWorld().getBlockState(context.getPos().add(x,y,z)).getMaterial().isReplaceable()) {
+                    if (!world.getBlockState(pos.add(x,y,z)).getMaterial().isReplaceable()) {
                         return false;
                     }
                 }
@@ -104,7 +104,7 @@ public abstract class MachineBlock<T extends MachineTileBase> extends BaseTileBl
         return true;
     }
 
-    public BlockRegion getBlockSize(ItemUseContext context) {
+    public BlockRegion getBlockSize() {
         return BlockRegion.FULL_BLOCK;
     }
 }

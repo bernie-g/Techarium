@@ -51,6 +51,14 @@ public class UiTexture {
         public void drawPartial(double x, double y, double width, double height, float x1, float y1, float x2,
                                 float y2) {
             bindTexture();
+
+            x1 = (float)(Math.round(x1*width) / width);
+            x2 = (float)(Math.round(x2*width) / width);
+            y1 = (float)(Math.round(y1*height) / height);
+            y2 = (float)(Math.round(y2*height) / height);
+
+
+
             float xi = (float) (x + width * x1);
             float xf = (float) (x + width * x2);
             float yi = (float) (y + height * y1);

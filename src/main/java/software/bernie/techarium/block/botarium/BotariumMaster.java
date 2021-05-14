@@ -43,7 +43,7 @@ public class BotariumMaster extends MachineBlock<BotariumTile> {
     }
 
     @Override
-    public BlockRegion getBlockSize(ItemUseContext context) {
+    public BlockRegion getBlockSize() {
         return new BlockRegion(1,2,1);
     }
 }
