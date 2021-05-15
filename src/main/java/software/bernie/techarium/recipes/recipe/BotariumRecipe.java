@@ -3,8 +3,6 @@ package software.bernie.techarium.recipes.recipe;
 import com.google.gson.JsonObject;
 import lombok.Builder;
 import lombok.Getter;
-import mezz.jei.api.ingredients.IIngredientHelper;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
