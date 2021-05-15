@@ -91,7 +91,7 @@ dependencies {
 
     //Integration mods
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
-    compile fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
     compile fg.deobf("curse.maven:mekanism-268560:3206392")
     compile fg.deobf("curse.maven:theoneprobe-245211:3157997")
     compile fg.deobf("com.blamejared.crafttweaker:CraftTweaker-1.16.5:$crafttweaker_version")
