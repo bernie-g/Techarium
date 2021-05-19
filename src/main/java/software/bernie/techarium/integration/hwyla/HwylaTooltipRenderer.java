@@ -33,11 +33,11 @@ public class HwylaTooltipRenderer implements IComponentProvider {
 
     private void appendToolTip(List<ITextComponent> tooltip, MachineMasterTile tile) {
         if (tile.getController().getCurrentRecipe() == null) {
-            tooltip.add(new TranslationTextComponent("hwyla.progress.no_recipe"));
+            tooltip.add(new TranslationTextComponent("hwyla.techarium.progress.no_recipe"));
         } else {
             tile.getController().getMultiProgressBar().getProgressBarAddons().forEach(progressBarAddon -> {
                 if (progressBarAddon.getName().equals("techarium.gui.mainprogress")) {
-                    tooltip.add(new TranslationTextComponent("hwyla.progress.eta", (progressBarAddon.getMaxProgress() - progressBarAddon.getProgress()) / 20));
+                    tooltip.add(new TranslationTextComponent("hwyla.techarium.progress.eta", (progressBarAddon.getMaxProgress() - progressBarAddon.getProgress()) / 20));
                 }
             });
         }

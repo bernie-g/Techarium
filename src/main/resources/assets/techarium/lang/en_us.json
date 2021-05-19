@@ -5,9 +5,11 @@
   "block.techarium.exchange_station": "Exchange Station",
   "item.techarium.pipe_stick": "Pipe Stick",
 
-  "top.progress.eta": "ETA: ",
-  "hwyla.progress.eta": "ETA: %s seconds remaining",
-  "hwyla.progress.no_recipe": "ETA: No valid recipe",
+  "top.techarium.progress.eta": "ETA: ",
+  "hwyla.techarium.progress.eta": "ETA: %s seconds remaining",
+  "hwyla.techarium.progress.no_recipe": "ETA: No valid recipe",
+
+  "jei.techarium.botarium.description": "The Botarium allows you to grow crops in exchange for energy and water",
 
   "itemGroup.techarium": "Techarium"
 }

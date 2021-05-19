@@ -1,41 +1,32 @@
 package software.bernie.techarium.integration.jei.category;
 
-import mekanism.client.jei.NOOPDrawable;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.ITextComponent;
 
 public abstract class BaseRecipeCategory<T extends IRecipe> implements IRecipeCategory<T>
 {
 	private final ResourceLocation id;
-	private IRecipeCategoryRegistration registration;
+	protected IRecipeCategoryRegistration registration;
 	private final Class<? extends T> recipeClass;
-	private final String unlocalizedTitle;
+	private final ITextComponent title;
 	private final Object iconItemBlock;
 	private final IDrawable drawable;
-	private final int xOffset;
-	private final int yOffset;
-	private final int width;
-	private final int height;
 	protected IDrawable fluidOverlayLarge;
 	protected IDrawable fluidOverlaySmall;
 
-	public BaseRecipeCategory(ResourceLocation id, IRecipeCategoryRegistration registration, Class<? extends T> recipeClass, String unlocalizedTitle, Object iconItemBlock, IDrawable drawable, int xOffset, int yOffset, int width, int height)
+	public BaseRecipeCategory(ResourceLocation id, IRecipeCategoryRegistration registration, Class<? extends T> recipeClass, ITextComponent title, Object iconItemBlock, ResourceLocation background, int xOffset, int yOffset, int width, int height)
 	{
 		this.id = id;
 		this.registration = registration;
 		this.recipeClass = recipeClass;
-		this.unlocalizedTitle = unlocalizedTitle;
+		this.title = title;
 		this.iconItemBlock = iconItemBlock;
-		this.drawable = drawable;
+		this.drawable = registration.getJeiHelpers().getGuiHelper().createDrawable(background, xOffset, yOffset, width, height);
 
-		this.xOffset = xOffset;
-		this.yOffset = yOffset;
-		this.width = width;
-		this.height = height;
 	}
 
 	@Override
@@ -53,18 +44,18 @@ public abstract class BaseRecipeCategory<T extends IRecipe> implements IRecipeCa
 	@Override
 	public String getTitle()
 	{
-		return new TranslationTextComponent(unlocalizedTitle).getString();
+		return title.getString();
 	}
 
 	@Override
-	public IDrawable getBackground()
-	{
-		return new NOOPDrawable(this.width, this.height);
+	public IDrawable getBackground() {
+		return drawable;
 	}
 
 	@Override
 	public IDrawable getIcon()
 	{
+		if (iconItemBlock == null) return null;
 		return registration.getJeiHelpers().getGuiHelper().createDrawableIngredient(this.iconItemBlock);
 	}
 
