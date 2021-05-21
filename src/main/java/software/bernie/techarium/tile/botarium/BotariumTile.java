@@ -101,7 +101,7 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
                 .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 1));
 
         controller.addInventory(new InventoryAddon(this, "cropInput", 49, 35, 1)
-                .setInsertPredicate((itemStack, integer) -> world.getRecipeManager().getRecipes()
+                .setInsertPredicate((itemStack, integer) -> itemStack.isEmpty() || world.getRecipeManager().getRecipes()
                         .stream()
                         .filter(this::checkRecipe)
                         .map(this::castRecipe).anyMatch(
