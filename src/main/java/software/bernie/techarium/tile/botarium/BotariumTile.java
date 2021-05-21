@@ -6,6 +6,7 @@ import net.minecraft.fluid.WaterFluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -111,7 +112,7 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
                 .setInputFilter((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem));
 
         controller.addInventory(
-                new DrawableInventoryAddon(this, "output", 183, 49, BOTARIUM_OUTPUT_SLOT, 178, 34, 30, 46, 1)
+                new DrawableInventoryAddon(this, "output", 183, 49, BOTARIUM_OUTPUT_SLOT, 178, 34, 65, 46, 1)
                         .setInputFilter((itemStack, integer) -> false)
                         .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 64));
 

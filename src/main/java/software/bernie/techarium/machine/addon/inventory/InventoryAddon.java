@@ -6,12 +6,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import org.apache.commons.lang3.tuple.Pair;
+import org.checkerframework.checker.units.qual.A;
 import software.bernie.techarium.machine.container.component.SlotComponent;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +43,7 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
     private int slotLimit;
 
     public InventoryAddon(MachineMasterTile<?> tile, String name, int xPos, int yPos, int slots) {
+        super(slots);
         this.name = name;
         this.xPos = xPos;
         this.yPos = yPos;
@@ -164,9 +167,14 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
 
     @Override
     public List<IFactory<? extends Slot>> getContainerComponents() {
-        AtomicInteger x = new AtomicInteger();
-        return Lists.newArrayList(() -> {
-            return new SlotComponent(this, x.getAndIncrement(), getXPos(), getYPos());
-        });
+        List<IFactory<? extends Slot>> slots = Lists.newArrayList();
+        for (AtomicInteger x = new AtomicInteger(); x.get() < xSize; x.incrementAndGet()) {
+            for (AtomicInteger y = new AtomicInteger(); y.get() < ySize; y.incrementAndGet()) {
+                int dx = x.get();
+                int dy = y.get();
+                slots.add(() -> new SlotComponent(this,dx + dy*ySize, getXPos()+dx*20, getYPos() + dy*20));
+            }
+        }
+        return slots;
     }
 }
