@@ -33,7 +33,7 @@ public class ProbeInfoProvider implements IProbeInfoProvider {
     public void addProbeInfo(MachineMasterTile tile, IProbeInfo info) {
         tile.getController().getMultiProgressBar().getProgressBarAddons().forEach(progressBarAddon -> {
             if (progressBarAddon.getName().equals("techarium.gui.mainprogress")) {
-                info.progress(progressBarAddon.getProgress()/20, progressBarAddon.getMaxProgress()/20, info.defaultProgressStyle().filledColor(-39424).alternateFilledColor(-39424).suffix("s/" + progressBarAddon.getMaxProgress()/20 + "s").prefix(new TranslationTextComponent("top.progress.eta").getString()));
+                info.progress(progressBarAddon.getProgress()/20, progressBarAddon.getMaxProgress()/20, info.defaultProgressStyle().filledColor(-39424).alternateFilledColor(-39424).suffix("s/" + progressBarAddon.getMaxProgress()/20 + "s").prefix(new TranslationTextComponent("top.techarium.progress.eta").getString()));
             }
         });
     }

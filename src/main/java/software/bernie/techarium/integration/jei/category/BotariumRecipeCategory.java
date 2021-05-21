@@ -6,103 +6,60 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IGuiFluidStackGroup;
 import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.BlockTileRegistry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-public class BotariumRecipeCategory implements IRecipeCategory<BotariumRecipe>
+public class BotariumRecipeCategory extends BaseRecipeCategory<BotariumRecipe>
 {
-	private IRecipeCategoryRegistration registration;
 
-	public BotariumRecipeCategory(IRecipeCategoryRegistration registration)
-	{
-		this.registration = registration;
+	public static final ResourceLocation UID = new ResourceLocation(Techarium.ModID, "botarium");
+
+	public BotariumRecipeCategory(IRecipeCategoryRegistration registration) {
+		super(UID, registration, BotariumRecipe.class, BlockTileRegistry.BOTARIUM.getBlock().getTranslatedName(), BlockTileRegistry.BOTARIUM.getItem(), new ResourceLocation(Techarium.ModID, "textures/gui/botarium/botarium.png"),0,0,256,256);
 	}
-
-	@Override
-	public ResourceLocation getUid()
-	{
-		return new ResourceLocation(Techarium.ModID, "botarium");
-	}
-
-	@Override
-	public Class<BotariumRecipe> getRecipeClass()
-	{
-		return BotariumRecipe.class;
-	}
-
-	@Override
-	public String getTitle()
-	{
-		return new TranslationTextComponent("techarium.botarium.recipe_catory.name").getString();
-	}
-
-	@Override
-	public IDrawable getBackground()
-	{
-		return null;
-	}
-
 
 	@Override
 	public IDrawable getIcon()
 	{
-		return registration.getJeiHelpers().getGuiHelper().createDrawableIngredient(BlockTileRegistry.BOTARIUM.get());
+		return registration.getJeiHelpers().getGuiHelper().createDrawableIngredient(new ItemStack(BlockTileRegistry.BOTARIUM.getItem()));
 	}
 
 	@Override
-	public void setIngredients(BotariumRecipe recipe, IIngredients ingredients)
-	{
-		List<ItemStack> validIngredients = new ArrayList<>();
+	public void setIngredients(BotariumRecipe recipe, IIngredients ingredients) {
 
-		List<Item> allItems = new ArrayList<>();
-		ForgeRegistries.BLOCKS.getValues().forEach(block -> allItems.add(Item.getItemFromBlock(block)));
-		allItems.addAll(ForgeRegistries.ITEMS.getValues());
-
-		for (Item item : allItems)
-		{
-			ItemStack stack = new ItemStack(item);
-			if (recipe.getCropType().test(stack))
-			{
-				validIngredients.add(stack);
-			}
-		}
-
-		ingredients.setInputLists(VanillaTypes.ITEM, Collections.singletonList(validIngredients));
+		List<List<ItemStack>> inputs = new ArrayList<>();
+		inputs.add(Arrays.asList(recipe.getCropType().getMatchingStacks()));
+		inputs.add(Arrays.asList(recipe.getSoilIn().getMatchingStacks()));
+		ingredients.setInputLists(VanillaTypes.ITEM, inputs);
 		ingredients.setInput(VanillaTypes.FLUID, recipe.getFluidIn());
-		ingredients.setInputLists(VanillaTypes.ITEM, Collections.singletonList(Arrays.asList(recipe.getSoilIn().getMatchingStacks())));
+		ingredients.setOutput(VanillaTypes.ITEM, recipe.getRecipeOutput());
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, BotariumRecipe recipe, IIngredients ingredients)
+	public void setRecipe(IRecipeLayout layout, BotariumRecipe recipe, IIngredients ingredients)
 	{
-		IGuiFluidStackGroup fluidStackGroup = recipeLayout.getFluidStacks();
+
+
+		IGuiFluidStackGroup fluidStackGroup = layout.getFluidStacks();
 		fluidStackGroup.init(0, true, 15, 10);
-		fluidStackGroup.set(0, recipe.getFluidIn());
+		fluidStackGroup.set(0, ingredients.getInputs(VanillaTypes.FLUID).get(0));
 
-		IGuiItemStackGroup itemStackGroup = recipeLayout.getItemStacks();
-		itemStackGroup.init(0, true, 40, 30);
-		itemStackGroup.init(1, true, 70, 30);
-
-		itemStackGroup.set(0, Arrays.asList(recipe.getSoilIn().getMatchingStacks()));
-		List<ItemStack> inputs = ingredients.getInputs(VanillaTypes.ITEM).get(0);
-		List<ItemStack> outputs = new ArrayList<>();
-
-		for(ItemStack input : inputs)
-		{
-
-		}
+		IGuiItemStackGroup group = layout.getItemStacks();
+		List<List<ItemStack>> inputs = ingredients.getInputs(VanillaTypes.ITEM);
+		List<List<ItemStack>> outputs = ingredients.getOutputs(VanillaTypes.ITEM);
+		group.init(0, true, 0, 4);
+		group.init(1, true, 30, 4);
+		group.init(2, false, 60, 4);
+		group.set(0, inputs.get(0));
+		group.set(1, inputs.get(1));
+		group.set(2, outputs.get(0));
 	}
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import software.bernie.techarium.recipes.AbstractMachineRecipe;
@@ -38,9 +39,15 @@ public class BotariumRecipe extends AbstractMachineRecipe {
         return output.copy();
     }
 
+
     @Override
     public IRecipeSerializer<?> getSerializer() {
         return BOTARIUM_SERIALIZER.get();
+    }
+
+    @Override
+    public boolean isDynamic() {
+        return true;
     }
 
     @Override
@@ -63,4 +70,12 @@ public class BotariumRecipe extends AbstractMachineRecipe {
         }
     }
 
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        NonNullList<Ingredient> ingredients = super.getIngredients();
+        if (soilIn != null) ingredients.add(soilIn);
+        if (cropType != null) ingredients.add(cropType);
+        if (cropType != null) ingredients.add(cropType);
+        return ingredients;
+    }
 }
