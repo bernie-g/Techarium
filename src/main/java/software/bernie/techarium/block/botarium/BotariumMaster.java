@@ -29,18 +29,10 @@ public class BotariumMaster extends MachineBlock<BotariumTile> {
     public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
         TileEntity tile = worldIn.getTileEntity(pos);
-        if(tile instanceof BotariumTile) {
-            ((BotariumTile) tile).setOpening(true);
+        if(tile instanceof BotariumTile)
+        {
+            ((BotariumTile) tile).isOpening = true;
         }
-    }
-
-    @Override
-    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
-        if (world.getTileEntity(pos) instanceof BotariumTile) {
-            BotariumTile tile = (BotariumTile) world.getTileEntity(pos);
-            return Math.max(tile.getFluidInventory().getFluid().getFluid().getDefaultState().getBlockState().getLightValue(world, pos), super.getLightValue(state, world, pos));
-        }
-        return super.getLightValue(state, world, pos);
     }
 
     @Override

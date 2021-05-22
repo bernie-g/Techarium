@@ -42,6 +42,7 @@ public class RenderUtils
 				Items.DIRT), combinedLightIn, combinedOverlayIn);
 	}
 
+
 	@SubscribeEvent
 	public static void renderEvent(RenderWorldLastEvent event) {
 		ClientPlayerEntity player = Minecraft.getInstance().player;
