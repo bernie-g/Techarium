@@ -50,6 +50,9 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
     private AnimationFactory factory = new AnimationFactory(this);
 
     private int prevLightLevel;
+    @Getter
+    @Setter
+    private int lastRenderedTickProgress = 0;
 
     @Getter
     @Setter

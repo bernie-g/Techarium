@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.StemBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
@@ -21,6 +22,7 @@ import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.Property;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Matrix4f;
@@ -61,21 +63,64 @@ public class BotariumRenderer extends GeoBlockRenderer<BotariumTile> {
 	public void render(TileEntity tile, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn,
 					   int combinedLightIn, int combinedOverlayIn) {
 		this.render((BotariumTile) tile, partialTicks, matrixStackIn, bufferIn, combinedLightIn);
-		renderTile((BotariumTile) tile, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
+		renderTile((BotariumTile) tile, partialTicks, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
 	}
 
-	public void renderTile(BotariumTile tile, MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLightIn, int combinedOverlayIn) {
+	public void renderTile(BotariumTile tile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLightIn, int combinedOverlayIn) {
 		matrixStack.push();
 		matrixStack.translate(4 / 16f, 5 / 16f, 4 / 16f);
+		renderCrop(tile, matrixStack, partialTicks, buffer, packedLightIn, combinedOverlayIn);
+
 		matrixStack.scale(0.5f, 0.5f, 0.5f);
-		Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(getRenderSoilBlock(tile), matrixStack, buffer, packedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
-		matrixStack.translate(0,1, 0);
-		Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(getRenderCropBlock(tile), matrixStack, buffer, packedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
+		matrixStack.translate(0,1,0);
 		if (!tile.getFluidInventory().isEmpty()) {
 			renderFluidInTank(tile.getFluidInventory().getFluid(), matrixStack, buffer, 2/16f);
 		}
 		matrixStack.pop();
+	}
 
+	private void renderCrop(BotariumTile tile, MatrixStack matrixStack, float partialTicks, IRenderTypeBuffer buffer, int packedLightIn, int combinedOverlayIn) {
+		matrixStack.push();
+		matrixStack.scale(0.5f, 0.5f, 0.5f);
+
+		Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(getRenderSoilBlock(tile), matrixStack, buffer, packedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
+		switch (getGrowthType(tile)) {
+			case DEFAULT:
+				matrixStack.translate(0,1, 0);
+				Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(getRenderCropBlock(tile), matrixStack, buffer, packedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
+				break;
+			case FROM_BOTTOM:
+				matrixStack.translate(0,getMachineProgress(tile, partialTicks), 0);
+				Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(getRenderCropBlock(tile), matrixStack, buffer, packedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
+				break;
+			case WITH_STEM:
+				matrixStack.translate(0,1,4/16f);
+				Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(getRenderStemCropBlock(tile), matrixStack, buffer, packedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
+				if (getMachineProgress(tile, 0) > 0.5f) {
+					matrixStack.translate(2/16f, 8.5f/16f, -3/ 16f);
+					int age = getAge(tile, IntegerProperty.create("test",0,14)) - 7;
+					matrixStack.scale(age*0.05f, age*0.05f,age*0.05f);
+					matrixStack.translate(0.5f,-0.5f,0.5f);
+					ItemStack crop = tile.getCropInventory().getStackInSlot(0);
+					StemBlock stem = ((StemBlock) ((BlockItem) crop.getItem()).getBlock());
+					Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(stem.getCrop().getDefaultState(), matrixStack, buffer, packedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
+				}
+		}
+		matrixStack.pop();
+	}
+
+	private GrowthType getGrowthType(BotariumTile tile) {
+		ItemStack stack = tile.getCropInventory().getStackInSlot(0);
+		if (stack.isEmpty()) return GrowthType.DEFAULT;
+		if (stack.getItem() instanceof BlockItem) {
+			Block block = ((BlockItem) stack.getItem()).getBlock();
+			if (block instanceof StemBlock) {
+				return GrowthType.WITH_STEM;
+			} else if (block == Blocks.SUGAR_CANE || block == Blocks.CACTUS) {
+				return GrowthType.FROM_BOTTOM;
+			}
+		}
+		return GrowthType.DEFAULT;
 	}
 
 	private void renderFluidInTank(FluidStack fluidStack, MatrixStack matrix, IRenderTypeBuffer buffer, float proportion) {
@@ -202,6 +247,33 @@ public class BotariumRenderer extends GeoBlockRenderer<BotariumTile> {
 		return state;
 	}
 
+	private BlockState getRenderStemCropBlock(BotariumTile tile) {
+		ItemStack crop = tile.getCropInventory().getStackInSlot(0);
+		if (crop.isEmpty() || !(crop.getItem() instanceof BlockItem))
+			return Blocks.AIR.getDefaultState();
+
+		if (getMachineProgress(tile, 0) > 0.5f) {
+			StemBlock stem = ((StemBlock)((BlockItem) crop.getItem()).getBlock());
+			return stem.getCrop().getAttachedStem().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH);
+		} else {
+			BlockState state = ((BlockItem) crop.getItem()).getBlock().getDefaultState();
+			return withStemAgeProperty(tile, state);
+		}
+	}
+	private static BlockState withStemAgeProperty(BotariumTile tile, BlockState state) {
+		for (Property<?> property : state.getProperties()) {
+			if (property.getName().equals("age") && property instanceof IntegerProperty) {
+				return state.with((IntegerProperty)property, getStemAge(tile, (IntegerProperty) property));
+			}
+		}
+		return state;
+	}
+	private static int getStemAge(BotariumTile tile, IntegerProperty property) {
+		int max = property.getAllowedValues().stream().max(Comparator.comparing(integer -> integer)).orElse(1);
+		int min = property.getAllowedValues().stream().min(Comparator.comparing(integer -> integer)).orElse(0);
+		int allStates = property.getAllowedValues().size();
+		return (int) Math.min(Math.floor(allStates*(getMachineProgress(tile, 0)*2f)) + min, max);
+	}
 	private BlockState getRenderCropBlock(BotariumTile tile) {
 		ItemStack crop = tile.getCropInventory().getStackInSlot(0);
 		if (crop.isEmpty() || !(crop.getItem() instanceof BlockItem))
@@ -224,16 +296,22 @@ public class BotariumRenderer extends GeoBlockRenderer<BotariumTile> {
 		int max = property.getAllowedValues().stream().max(Comparator.comparing(integer -> integer)).orElse(1);
 		int min = property.getAllowedValues().stream().min(Comparator.comparing(integer -> integer)).orElse(0);
 		int allStates = property.getAllowedValues().size();
-		return (int) Math.min(Math.floor(allStates*getMachineProgress(tile)) + min, max);
+		return (int) Math.min(Math.floor(allStates*getMachineProgress(tile, 0)) + min, max);
 	}
 
-	private static float getMachineProgress(BotariumTile tile) {
+	private static float getMachineProgress(BotariumTile tile, float partialTick) {
+		ProgressBarAddon machineProgress = getMachineProgressBarAddon(tile);
+		float realProgress = (machineProgress.getProgress() + partialTick)/ (float)machineProgress.getMaxProgress();
+		return Math.min(1f, realProgress);
+	}
+
+	private static ProgressBarAddon getMachineProgressBarAddon(BotariumTile tile) {
 		for (ProgressBarAddon progressBarAddon : tile.getController().getMultiProgressBar().getProgressBarAddons()) {
 			if (progressBarAddon.getName().equals("techarium.gui.mainprogress")) {
-				return progressBarAddon.getProgress() / (float)progressBarAddon.getMaxProgress();
+				return progressBarAddon;
 			}
 		}
-		return 0f;
+		throw new NullPointerException("No progressbar found");
 	}
 
 	@Override
