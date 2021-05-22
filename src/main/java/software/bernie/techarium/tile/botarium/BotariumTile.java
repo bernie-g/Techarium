@@ -1,11 +1,14 @@
 package software.bernie.techarium.tile.botarium;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.fluid.WaterFluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -41,12 +44,16 @@ import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM;
 import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM_TOP;
 
 public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implements IAnimatable {
-    private final int sizeX = 172;
-    private final int sizeY = 184;
+    private static final int SIZE_X = 172;
+    private static final int SIZE_Y = 184;
 
     private AnimationFactory factory = new AnimationFactory(this);
 
-    public boolean isOpening = false;
+    private int prevLightLevel;
+
+    @Getter
+    @Setter
+    private boolean isOpening = false;
 
     private <E extends IAnimatable> PlayState animationPredicate(AnimationEvent<E> event) {
         if (isOpening) {
@@ -65,19 +72,29 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
     }
 
     @Override
+    public void tick() {
+        super.tick();
+        BlockState state = getFluidInventory().getFluid().getFluid().getDefaultState().getBlockState();
+        if (prevLightLevel != state.getBlock().properties.lightLevel.applyAsInt(state)) {
+            prevLightLevel = state.getBlock().properties.lightLevel.applyAsInt(state);
+            world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 1);
+        }
+    }
+
+    @Override
     protected MachineController<BotariumRecipe> createMachineController() {
         return machineController(BOTARIUM_DRAWABLE);
     }
 
     private MachineController<BotariumRecipe> machineController(IDrawable background) {
         MachineController<BotariumRecipe> controller = createController();
-        controller.setBackground(background, sizeX, sizeY);
+        controller.setBackground(background, SIZE_X, SIZE_Y);
         controller.setPowered(true);
         controller.setEnergyStorage(10000, 10000, 8, 35);
 
         ProgressBarAddon progressBarAddon = new ProgressBarAddon(this, 8, 26, 500, "techarium.gui.mainprogress");
         controller.addProgressBar(progressBarAddon
-                .setCanProgress((value) -> {
+                .setCanProgress(value -> {
                     BotariumRecipe recipe = getController().getCurrentRecipe();
                     FluidStack fluid = controller.getMultiTank().getFluidTanks().get(0).getFluid();
                     InventoryAddon output = controller.getMultiInventory().getInventoryByName("output").get();
@@ -91,8 +108,8 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
                 })
         );
 
-        controller.addTank(new FluidTankAddon(this, "waterIn", 10000, 23, 35,
-                (fluidStack -> fluidStack.getFluid() instanceof WaterFluid)));
+        controller.addTank(new FluidTankAddon(this, "fluidIn", 10000, 23, 35,
+                (fluidStack -> true)));
 
         controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
                 .setInputFilter((itemStack, integer) -> Block.getBlockFromItem(itemStack.getItem()) != Blocks.AIR)
@@ -136,10 +153,10 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
                 addon -> addon.getName().contains("soilInput")).findFirst().orElseThrow(NullPointerException::new);
     }
 
-    public FluidTankAddon getWaterInventory() {
+    public FluidTankAddon getFluidInventory() {
         return getController().getMultiTank().getTankOptional().map(tank -> tank).orElse(
                 new MultiTankCapHandler(new ArrayList<>())).getFluidTanks().stream().filter(
-                addon -> addon.getName().contains("waterIn")).findFirst().orElseThrow(NullPointerException::new);
+                addon -> addon.getName().contains("fluidIn")).findFirst().orElseThrow(NullPointerException::new);
     }
 
     @Override
@@ -179,7 +196,7 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
         if (currentRecipe.getCropType().test(getCropInventory().getStackInSlot(0))) {
             if (currentRecipe.getSoilIn().test(getSoilInventory().getStackInSlot(0))) {
                 if (getController().getEnergyStorage().getEnergyStored() >= currentRecipe.getRfPerTick()) {
-                    FluidStack fluidIn = getWaterInventory().getFluid();
+                    FluidStack fluidIn = getFluidInventory().getFluid();
                     if (fluidIn.isFluidEqual(
                             currentRecipe.getFluidIn()) && fluidIn.getAmount() >= currentRecipe.getFluidIn().getAmount()) {
                         if (getOutputInventory().getStackInSlot(0).isEmpty()) {
