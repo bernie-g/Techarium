@@ -75,9 +75,10 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
     public void tick() {
         super.tick();
         BlockState state = getFluidInventory().getFluid().getFluid().getDefaultState().getBlockState();
-        if (prevLightLevel != state.getBlock().properties.lightLevel.applyAsInt(state)) {
-            prevLightLevel = state.getBlock().properties.lightLevel.applyAsInt(state);
-            world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 1);
+        int newLightLevel = state.getBlock().properties.lightLevel.applyAsInt(state);
+        if (prevLightLevel != newLightLevel) {
+            prevLightLevel = newLightLevel;
+            world.getLightManager().checkBlock(pos);
         }
     }
 
