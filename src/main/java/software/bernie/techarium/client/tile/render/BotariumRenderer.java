@@ -62,12 +62,6 @@ public class BotariumRenderer extends GeoBlockRenderer<BotariumTile>
 		matrixStack.translate(0,1, 0);
 		Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(getRenderCropBlock(tile), matrixStack, buffer, packedLightIn, combinedOverlayIn);
 		matrixStack.pop();
-		if (!tile.getController().getMultiTank().getFluidTanks().get(0).isEmpty()) {
-			Fluid f = tile.getController().getMultiTank().getFluidTanks().get(0).getFluid().getFluid();
-			if (tile.getWorld() != null && tile.getWorld().getGameTime() % 80L == 0L) {
-				tile.getWorld().addParticle(f.getDefaultState().getDripParticleData(), tile.getPos().getX() + 0.5d, tile.getPos().getY() + 1.5d, tile.getPos().getZ() + 0.5d, 0, 0.2f, 0);
-			}
-		}
 	}
 
 	private static boolean testALlDirt(Ingredient ingredient) {
