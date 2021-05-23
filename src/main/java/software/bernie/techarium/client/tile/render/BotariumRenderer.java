@@ -33,6 +33,7 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.FluidStack;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
+import software.bernie.techarium.client.RenderUtils;
 import software.bernie.techarium.client.render.Color;
 import software.bernie.techarium.client.tile.model.BotariumModel;
 import software.bernie.techarium.machine.addon.progressbar.ProgressBarAddon;
@@ -43,7 +44,6 @@ import java.util.Comparator;
 
 public class BotariumRenderer extends GeoBlockRenderer<BotariumTile> {
 
-	private static final float Z_FIGHTING_VALUE = 0.001f;
 
 	public BotariumRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
 		super(rendererDispatcherIn, new BotariumModel());
@@ -69,13 +69,18 @@ public class BotariumRenderer extends GeoBlockRenderer<BotariumTile> {
 	public void renderTile(BotariumTile tile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLightIn, int combinedOverlayIn) {
 		matrixStack.push();
 		matrixStack.translate(4 / 16f, 5 / 16f, 4 / 16f);
-		renderCrop(tile, matrixStack, partialTicks, buffer, packedLightIn, combinedOverlayIn);
-
 		matrixStack.scale(0.5f, 0.5f, 0.5f);
 		matrixStack.translate(0,1,0);
 		if (!tile.getFluidInventory().isEmpty()) {
-			renderFluidInTank(tile.getFluidInventory().getFluid(), matrixStack, buffer, 2/16f);
+			matrixStack.push();
+			matrixStack.translate(-1/16d, -4/16d, -1/16d);
+			matrixStack.scale(18/16f,18/16f,18/16f); //2 voxel more then parent per block
+			RenderUtils.renderFluid(tile.getFluidInventory().getFluid(), 2/16f, matrixStack, buffer);
+			matrixStack.pop();
 		}
+		renderCrop(tile, matrixStack, partialTicks, buffer, packedLightIn, combinedOverlayIn);
+
+
 		matrixStack.pop();
 	}
 
@@ -121,110 +126,6 @@ public class BotariumRenderer extends GeoBlockRenderer<BotariumTile> {
 			}
 		}
 		return GrowthType.DEFAULT;
-	}
-
-	private void renderFluidInTank(FluidStack fluidStack, MatrixStack matrix, IRenderTypeBuffer buffer, float proportion) {
-		matrix.push();
-		matrix.translate(-1/16d, -4/16d, -1/16d);
-		matrix.scale(18/16f,18/16f,18/16f); //2 voxel more then parent per block
-		Matrix4f matrix4f = matrix.getLast().getMatrix();
-		Matrix3f normal = matrix.getLast().getNormal();
-
-		Fluid fluid = fluidStack.getFluid();
-		FluidAttributes fluidAttributes = fluid.getAttributes();
-		TextureAtlasSprite fluidTexture = getFluidStillSprite(fluidAttributes, fluidStack);
-
-		Color color = new Color(fluidAttributes.getColor(fluidStack));
-
-		IVertexBuilder builder = buffer.getBuffer(RenderType.getTranslucent());
-
-		for (int i = 0; i < 4; i++) {
-			renderNorthFluidFace(fluidTexture, matrix4f, normal, builder, color, proportion);
-			//rotate around center)
-			matrix.translate(0.5f,0, 0.5f);
-			matrix.rotate(Vector3f.YP.rotationDegrees(90));
-			matrix.translate(-0.5f,0, -0.5f);
-		}
-
-		renderTopFluidFace(fluidTexture, matrix4f, normal, builder, color, proportion);
-		matrix.pop();
-	}
-
-	private void renderTopFluidFace(TextureAtlasSprite sprite, Matrix4f matrix4f, Matrix3f normalMatrix, IVertexBuilder builder, Color color, float proportion) {
-		float minU = sprite.getInterpolatedU(0);
-		float maxU = sprite.getInterpolatedU(16);
-		float minV = sprite.getInterpolatedV(0);
-		float maxV = sprite.getInterpolatedV(16);
-
-		builder.pos(matrix4f, 0, proportion,0).color(color.getR(), color.getG(), color.getB(), color.getA())
-				.tex(minU, minV)
-				.overlay(OverlayTexture.NO_OVERLAY)
-				.lightmap(15728880)
-				.normal(normalMatrix, 0, 1, 0)
-				.endVertex();
-
-		builder.pos(matrix4f, 0, proportion, 1).color(color.getR(), color.getG(), color.getB(), color.getA())
-				.tex(minU, maxV)
-				.overlay(OverlayTexture.NO_OVERLAY)
-				.lightmap(15728880)
-				.normal(normalMatrix, 0, 1, 0)
-				.endVertex();
-
-		builder.pos(matrix4f, 1, proportion, 1).color(color.getR(), color.getG(), color.getB(), color.getA())
-				.tex(maxU, maxV)
-				.overlay(OverlayTexture.NO_OVERLAY)
-				.lightmap(15728880)
-				.normal(normalMatrix, 0, 1, 0)
-				.endVertex();
-
-		builder.pos(matrix4f, 1, proportion,0).color(color.getR(), color.getG(), color.getB(), color.getA())
-				.tex(maxU, minV)
-				.overlay(OverlayTexture.NO_OVERLAY)
-				.lightmap(15728880)
-				.normal(normalMatrix, 0, 1, 0)
-				.endVertex();
-	}
-
-	private void renderNorthFluidFace(TextureAtlasSprite sprite, Matrix4f matrix4f, Matrix3f normalMatrix, IVertexBuilder builder, Color color, float proportion) {
-
-		float minU = sprite.getInterpolatedU(0);
-		float maxU = sprite.getInterpolatedU(16);
-		float minV = sprite.getInterpolatedV(0);
-		float maxV = sprite.getInterpolatedV(16 * proportion);
-
-		builder.pos(matrix4f, 0, proportion, Z_FIGHTING_VALUE).color(color.getR(), color.getG(), color.getB(), color.getA())
-				.tex(minU, minV)
-				.overlay(OverlayTexture.NO_OVERLAY)
-				.lightmap(15728880)
-				.normal(normalMatrix, 0, 0, 1)
-				.endVertex();
-
-		builder.pos(matrix4f, 1, proportion,  Z_FIGHTING_VALUE).color(color.getR(), color.getG(), color.getB(), color.getA())
-				.tex(maxU, minV)
-				.overlay(OverlayTexture.NO_OVERLAY)
-				.lightmap(15728880)
-				.normal(normalMatrix, 0, 0, 1)
-				.endVertex();
-
-		builder.pos(matrix4f, 1, 0, Z_FIGHTING_VALUE).color(color.getR(), color.getG(), color.getB(), color.getA())
-				.tex(maxU, maxV)
-				.overlay(OverlayTexture.NO_OVERLAY)
-				.lightmap(15728880)
-				.normal(normalMatrix, 0, 0, 1)
-				.endVertex();
-
-		builder.pos(matrix4f, 0, 0, Z_FIGHTING_VALUE).color(color.getR(), color.getG(), color.getB(), color.getA())
-				.tex(minU, maxV)
-				.overlay(OverlayTexture.NO_OVERLAY)
-				.lightmap(15728880)
-				.normal(normalMatrix, 0, 0, 1)
-				.endVertex();
-	}
-
-	private TextureAtlasSprite getFluidStillSprite(FluidAttributes attributes, FluidStack fluidStack) {
-		return Minecraft.getInstance()
-				.getAtlasSpriteGetter(PlayerContainer.LOCATION_BLOCKS_TEXTURE)
-				.apply(attributes.getStillTexture(fluidStack));
 	}
 
 	private static boolean testALlDirt(Ingredient ingredient) {
