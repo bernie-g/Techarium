@@ -5,6 +5,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -24,6 +25,9 @@ public class CapabilityAttacher {
 
     @SubscribeEvent
     public static void attachCapability(AttachCapabilitiesEvent<World> event) {
+        if (!(event.getObject() instanceof ServerWorld))
+            return;
+
         ICapabilityProvider provider = new ICapabilitySerializable<CompoundNBT>() {
             @Override
             public CompoundNBT serializeNBT() {
