@@ -1,6 +1,10 @@
 package software.bernie.techarium.machine.addon.inventory;
 
 import com.google.common.collect.Lists;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -10,7 +14,6 @@ import software.bernie.techarium.machine.container.component.SlotComponent;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.tile.base.MachineMasterTile;
-
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +23,9 @@ import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 
+@Accessors(chain = true)
+@Getter
+@Setter
 public class InventoryAddon extends ItemStackHandler implements IContainerComponentProvider {
 
     private final String name;
@@ -31,8 +37,9 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
     private BiPredicate<ItemStack, Integer> extractPredicate;
     private BiConsumer<ItemStack, Integer> onSlotChanged;
 
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     private Map<Integer, Integer> slotStackSizes;
-    private Map<Integer, ItemStack> slotToStackRenderMap;
 
     private Function<Integer, Pair<Integer, Integer>> slotPosition;
 
@@ -41,6 +48,7 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
     private int slotLimit;
 
     public InventoryAddon(MachineMasterTile<?> tile, String name, int xPos, int yPos, int slots) {
+        super(slots);
         this.name = name;
         this.xPos = xPos;
         this.yPos = yPos;
@@ -49,12 +57,11 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
         this.onSlotChanged = (stack, integer) -> {
         };
         this.slotStackSizes = new HashMap<>();
-        this.slotToStackRenderMap = new HashMap<>();
         this.slotLimit = 64;
         this.tile = tile;
         setSize(slots);
         setRange(slots, 1);
-        this.slotPosition = integer -> Pair.of(18 * (integer % xSize), 18 * (integer / xSize));
+        setSlotPositionWithOffset(18);
     }
 
     public InventoryAddon setOnSlotChanged(BiConsumer<ItemStack, Integer> onSlotChanged) {
@@ -104,43 +111,17 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
         return this;
     }
 
+    public InventoryAddon setSlotPositionWithOffset(int dx, int dy) {
+        setSlotPosition(integer -> Pair.of(dx * (integer % xSize), dy * (integer / xSize)));
+        return this;
+    }
+
+    public InventoryAddon setSlotPositionWithOffset(int combined) {
+        return setSlotPositionWithOffset(combined, combined);
+    }
+
     public MachineMasterTile<?> getMachineTile() {
         return tile;
-    }
-
-    public int getXPos() {
-        return xPos;
-    }
-
-    public int getYPos() {
-        return yPos;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public InventoryAddon setInputFilter(BiPredicate<ItemStack, Integer> predicate) {
-        this.insertPredicate = predicate;
-        return this;
-    }
-
-    public BiPredicate<ItemStack, Integer> getInsertPredicate() {
-        return insertPredicate;
-    }
-
-    public InventoryAddon setExtractFilter(BiPredicate<ItemStack, Integer> predicate) {
-        this.extractPredicate = predicate;
-        return this;
-    }
-
-    public BiPredicate<ItemStack, Integer> getExtractPredicate() {
-        return extractPredicate;
-    }
-
-    public InventoryAddon setMaxSlots(int amount) {
-        slotLimit = amount;
-        return this;
     }
 
     public InventoryAddon setSlotStackSize(int slot, int limit) {
@@ -164,9 +145,14 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
 
     @Override
     public List<IFactory<? extends Slot>> getContainerComponents() {
-        AtomicInteger x = new AtomicInteger();
-        return Lists.newArrayList(() -> {
-            return new SlotComponent(this, x.getAndIncrement(), getXPos(), getYPos());
-        });
+        List<IFactory<? extends Slot>> slots = Lists.newArrayList();
+        for (AtomicInteger x = new AtomicInteger(); x.get() < xSize; x.incrementAndGet()) {
+            for (AtomicInteger y = new AtomicInteger(); y.get() < ySize; y.incrementAndGet()) {
+                int index = x.get() + y.get()*ySize;
+                Pair<Integer, Integer> position = slotPosition.apply(index);
+                slots.add(() -> new SlotComponent(this, index, position.getLeft() + getXPos(), position.getRight() + getYPos()));
+            }
+        }
+        return slots;
     }
 }

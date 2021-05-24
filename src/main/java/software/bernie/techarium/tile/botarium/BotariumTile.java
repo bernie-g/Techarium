@@ -9,8 +9,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -116,11 +118,11 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
                 (fluidStack -> true)));
 
         controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
-                .setInputFilter((itemStack, integer) -> Block.getBlockFromItem(itemStack.getItem()) != Blocks.AIR)
+                .setInsertPredicate((itemStack, integer) -> Block.getBlockFromItem(itemStack.getItem()) != Blocks.AIR)
                 .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 1));
 
         controller.addInventory(new InventoryAddon(this, "cropInput", 49, 35, 1)
-                .setInputFilter((itemStack, integer) -> world.getRecipeManager().getRecipes()
+                .setInsertPredicate((itemStack, integer) -> itemStack.isEmpty() || world.getRecipeManager().getRecipes()
                         .stream()
                         .filter(this::checkRecipe)
                         .map(this::castRecipe).anyMatch(
@@ -129,12 +131,12 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
         );
 
         controller.addInventory(new InventoryAddon(this, "upgradeSlot", 83, 81, 4)
-                .setInputFilter((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem));
+                .setInsertPredicate((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem).setSlotPositionWithOffset(20));
 
         controller.addInventory(
-                new DrawableInventoryAddon(this, "output", 183, 49, BOTARIUM_OUTPUT_SLOT, 178, 34, 30, 46, 1)
-                        .setInputFilter((itemStack, integer) -> false)
-                        .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 64));
+                new DrawableInventoryAddon(this, "output", 182, 49, BOTARIUM_OUTPUT_SLOT, 178, 34, 65, 46, 3)
+                        .setInsertPredicate((itemStack, integer) -> false)
+                        .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotLimit(64));
 
         return controller;
     }
@@ -268,4 +270,3 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
         return this.factory;
     }
 }
-
