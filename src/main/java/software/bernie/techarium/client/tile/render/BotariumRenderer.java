@@ -65,7 +65,7 @@ public class BotariumRenderer extends GeoBlockRenderer<BotariumTile> {
 			matrixStack.push();
 			matrixStack.translate(-1/16d, -4/16d, -1/16d);
 			matrixStack.scale(18/16f,18/16f,18/16f); //2 voxel more then parent per block
-			RenderUtils.renderFluid(tile.getFluidInventory().getFluid(), 2/16f, matrixStack, buffer, packedLightIn);
+			RenderUtils.renderFluid(tile.getFluidInventory().getFluid(), getGrowthType(tile) == GrowthType.AQUA ? 2 : 2/16f, matrixStack, buffer, packedLightIn);
 			matrixStack.pop();
 		}
 
@@ -75,13 +75,12 @@ public class BotariumRenderer extends GeoBlockRenderer<BotariumTile> {
 	private void renderCrop(BotariumTile tile, MatrixStack matrixStack, float partialTicks, IRenderTypeBuffer buffer, int packedLightIn, int combinedOverlayIn) {
 		matrixStack.push();
 		matrixStack.scale(0.5f, 0.5f, 0.5f);
-		if (getGrowthType(tile) == GrowthType.WALL) {
-
-		} else {
+		if (getGrowthType(tile) != GrowthType.WALL) {
 			Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(getRenderSoilBlock(tile), matrixStack, buffer, packedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
 		}
 		switch (getGrowthType(tile)) {
 			case DEFAULT:
+			case AQUA:
 				matrixStack.translate(0,1, 0);
 				Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(getRenderCropBlock(tile), matrixStack, buffer, packedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
 				break;
@@ -116,7 +115,7 @@ public class BotariumRenderer extends GeoBlockRenderer<BotariumTile> {
 				state = getRenderCropBlock(tile);
 				state = state.with(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH);
 				Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(state, matrixStack, buffer, packedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
-
+				break;
 		}
 		matrixStack.pop();
 	}
@@ -130,8 +129,10 @@ public class BotariumRenderer extends GeoBlockRenderer<BotariumTile> {
 				return GrowthType.WITH_STEM;
 			} else if (block == Blocks.COCOA) {
 				return GrowthType.WALL;
-			}else if (block == Blocks.SUGAR_CANE || block == Blocks.CACTUS) {
+			} else if (block == Blocks.SUGAR_CANE || block == Blocks.CACTUS) {
 				return GrowthType.FROM_BOTTOM;
+			} else if (block == Blocks.KELP) {
+				return GrowthType.AQUA;
 			}
 		}
 		return GrowthType.DEFAULT;

@@ -122,16 +122,22 @@ public class RenderUtils {
 		GlStateManager.disableDepthTest();
 
 		int light = calculateGlowLight(combinedLight, fluidStack);
-
+		float renderHeight = Math.min(height, 1);
 		for (int i = 0; i < 4; i++) {
-			renderNorthFluidFace(fluidTexture, matrix4f, normal, builder, color, height, light);
+			renderNorthFluidFace(fluidTexture, matrix4f, normal, builder, color, renderHeight, light);
 			//rotate around center)
 			matrixStack.translate(0.5f,0, 0.5f);
 			matrixStack.rotate(Vector3f.YP.rotationDegrees(90));
 			matrixStack.translate(-0.5f,0, -0.5f);
 		}
 
-		renderTopFluidFace(fluidTexture, matrix4f, normal, builder, color, height, light);
+		if (height > 1) {
+			matrixStack.translate(0,1,0);
+			renderFluid(fluidStack, height - 1, matrixStack, buffer, combinedLight);
+			matrixStack.translate(0, -1, 0);
+		} else {
+			renderTopFluidFace(fluidTexture, matrix4f, normal, builder, color, height, light);
+		}
 		GlStateManager.enableDepthTest();
 	}
 
