@@ -3,12 +3,10 @@ package software.bernie.techarium.client;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.renderer.Atlases;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -16,6 +14,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -26,6 +25,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.FluidStack;
@@ -38,6 +38,7 @@ import software.bernie.techarium.item.MachineItem;
 import software.bernie.techarium.util.BlockRegion;
 
 import javax.annotation.Nonnull;
+import java.util.EnumMap;
 import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = Techarium.ModID)
@@ -120,15 +121,17 @@ public class RenderUtils {
 		IVertexBuilder builder = buffer.getBuffer(Atlases.getTranslucentCullBlockType());
 		GlStateManager.disableDepthTest();
 
+		int light = calculateGlowLight(combinedLight, fluidStack);
+
 		for (int i = 0; i < 4; i++) {
-			renderNorthFluidFace(fluidTexture, matrix4f, normal, builder, color, height);
+			renderNorthFluidFace(fluidTexture, matrix4f, normal, builder, color, height, light);
 			//rotate around center)
 			matrixStack.translate(0.5f,0, 0.5f);
 			matrixStack.rotate(Vector3f.YP.rotationDegrees(90));
 			matrixStack.translate(-0.5f,0, -0.5f);
 		}
 
-		renderTopFluidFace(fluidTexture, matrix4f, normal, builder, color, height);
+		renderTopFluidFace(fluidTexture, matrix4f, normal, builder, color, height, light);
 		GlStateManager.enableDepthTest();
 	}
 
@@ -141,33 +144,33 @@ public class RenderUtils {
 		builder.pos(matrix4f, 0, proportion,0).color(color.getR(), color.getG(), color.getB(), color.getA())
 				.tex(minU, minV)
 				.overlay(OverlayTexture.NO_OVERLAY)
-				.lightmap(15728880)
+				.lightmap(light)
 				.normal(normalMatrix, 0, 1, 0)
 				.endVertex();
 
 		builder.pos(matrix4f, 0, proportion, 1).color(color.getR(), color.getG(), color.getB(), color.getA())
 				.tex(minU, maxV)
 				.overlay(OverlayTexture.NO_OVERLAY)
-				.lightmap(15728880)
+				.lightmap(light)
 				.normal(normalMatrix, 0, 1, 0)
 				.endVertex();
 
 		builder.pos(matrix4f, 1, proportion, 1).color(color.getR(), color.getG(), color.getB(), color.getA())
 				.tex(maxU, maxV)
 				.overlay(OverlayTexture.NO_OVERLAY)
-				.lightmap(15728880)
+				.lightmap(light)
 				.normal(normalMatrix, 0, 1, 0)
 				.endVertex();
 
 		builder.pos(matrix4f, 1, proportion,0).color(color.getR(), color.getG(), color.getB(), color.getA())
 				.tex(maxU, minV)
 				.overlay(OverlayTexture.NO_OVERLAY)
-				.lightmap(15728880)
+				.lightmap(light)
 				.normal(normalMatrix, 0, 1, 0)
 				.endVertex();
 	}
 
-	private static void renderNorthFluidFace(TextureAtlasSprite sprite, Matrix4f matrix4f, Matrix3f normalMatrix, IVertexBuilder builder, Color color, float proportion) {
+	private static void renderNorthFluidFace(TextureAtlasSprite sprite, Matrix4f matrix4f, Matrix3f normalMatrix, IVertexBuilder builder, Color color, float proportion, int light) {
 
 		float minU = sprite.getInterpolatedU(0);
 		float maxU = sprite.getInterpolatedU(16);
@@ -177,28 +180,80 @@ public class RenderUtils {
 		builder.pos(matrix4f, 0, proportion, Z_FIGHTING_VALUE).color(color.getR(), color.getG(), color.getB(), color.getA())
 				.tex(minU, minV)
 				.overlay(OverlayTexture.NO_OVERLAY)
-				.lightmap(15728880)
+				.lightmap(light)
 				.normal(normalMatrix, 0, 0, 1)
 				.endVertex();
 
 		builder.pos(matrix4f, 1, proportion,  Z_FIGHTING_VALUE).color(color.getR(), color.getG(), color.getB(), color.getA())
 				.tex(maxU, minV)
 				.overlay(OverlayTexture.NO_OVERLAY)
-				.lightmap(15728880)
+				.lightmap(light)
 				.normal(normalMatrix, 0, 0, 1)
 				.endVertex();
 
 		builder.pos(matrix4f, 1, 0, Z_FIGHTING_VALUE).color(color.getR(), color.getG(), color.getB(), color.getA())
 				.tex(maxU, maxV)
 				.overlay(OverlayTexture.NO_OVERLAY)
-				.lightmap(15728880)
+				.lightmap(light)
 				.normal(normalMatrix, 0, 0, 1)
 				.endVertex();
 
 		builder.pos(matrix4f, 0, 0, Z_FIGHTING_VALUE).color(color.getR(), color.getG(), color.getB(), color.getA())
 				.tex(minU, maxV)
 				.overlay(OverlayTexture.NO_OVERLAY)
-				.lightmap(15728880)
+				.lightmap(light)
+				.normal(normalMatrix, 0, 0, 1)
+				.endVertex();
+	}
+
+	public static void renderWall(BlockState state, MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLightIn, int thickness) {
+		EnumMap<Direction, TextureAtlasSprite> textures = getSpritesOfBlock(state);
+		if (textures.size() != 6) //Not all textures found
+			return;
+
+		Matrix4f matrix4f = matrixStack.getLast().getMatrix();
+		Matrix3f normal = matrixStack.getLast().getNormal();
+		Color color = new Color(Minecraft.getInstance().getBlockColors().getColor(state, null, null, 0));
+		IVertexBuilder builder = buffer.getBuffer(Atlases.getCutoutBlockType());
+		for (int i = 0; i < 4; i++) {
+			Direction direction = Direction.byHorizontalIndex(i);
+			renderFace(matrix4f, normal, builder,  color, textures.get(direction),packedLightIn, i%2==0 ? 16 : thickness);
+			matrixStack.translate(i%2== 0 ? 1 : thickness/16f,0, 0);
+			matrixStack.rotate(Vector3f.YP.rotationDegrees(270));
+		}
+	}
+
+	private static void renderFace(Matrix4f matrix4f, Matrix3f normalMatrix, IVertexBuilder builder, Color color, TextureAtlasSprite texture, int light, int width) {
+		float minU = texture.getInterpolatedU(0);
+		float maxU = texture.getInterpolatedU(width);
+		float minV = texture.getInterpolatedV(0);
+		float maxV = texture.getInterpolatedV(16);
+
+		builder.pos(matrix4f, 0, 1, Z_FIGHTING_VALUE).color(color.getR(), color.getG(), color.getB(), color.getA())
+				.tex(minU, minV)
+				.overlay(OverlayTexture.NO_OVERLAY)
+				.lightmap(light)
+				.normal(normalMatrix, 0, 0, 1)
+				.endVertex();
+
+		builder.pos(matrix4f, width/16f, 1,  Z_FIGHTING_VALUE).color(color.getR(), color.getG(), color.getB(), color.getA())
+				.tex(maxU, minV)
+				.overlay(OverlayTexture.NO_OVERLAY)
+				.lightmap(light)
+				.normal(normalMatrix, 0, 0, 1)
+				.endVertex();
+
+		builder.pos(matrix4f, width/16f, 0, Z_FIGHTING_VALUE).color(color.getR(), color.getG(), color.getB(), color.getA())
+				.tex(maxU, maxV)
+				.overlay(OverlayTexture.NO_OVERLAY)
+				.lightmap(light)
+				.normal(normalMatrix, 0, 0, 1)
+				.endVertex();
+
+		builder.pos(matrix4f, 0, 0, Z_FIGHTING_VALUE).color(color.getR(), color.getG(), color.getB(), color.getA())
+				.tex(minU, maxV)
+				.overlay(OverlayTexture.NO_OVERLAY)
+				.lightmap(light)
 				.normal(normalMatrix, 0, 0, 1)
 				.endVertex();
 	}
@@ -207,6 +262,20 @@ public class RenderUtils {
 		return Minecraft.getInstance()
 				.getAtlasSpriteGetter(PlayerContainer.LOCATION_BLOCKS_TEXTURE)
 				.apply(attributes.getStillTexture(fluidStack));
+	}
+
+	private static EnumMap<Direction, TextureAtlasSprite> getSpritesOfBlock(BlockState state) {
+		BlockRendererDispatcher dispatcher = Minecraft.getInstance().getBlockRendererDispatcher();
+		IBakedModel model = dispatcher.getModelForState(state);
+		EnumMap<Direction, TextureAtlasSprite> textures = new EnumMap<>(Direction.class);
+		for (Direction d: new Direction[]{Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.UP, Direction.DOWN}) {
+			if (model.getQuads(state, d, new Random(), EmptyModelData.INSTANCE).isEmpty()) {
+				return textures;
+			} else {
+				textures.put(d, model.getQuads(state, d, new Random(), EmptyModelData.INSTANCE).get(0).getSprite());
+			}
+		}
+		return textures;
 	}
 
 }
