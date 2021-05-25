@@ -16,6 +16,7 @@ import software.bernie.techarium.datagen.TechariumRecipeProvider;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.integration.theoneprobe.TheOneProbeIntegration;
 import software.bernie.techarium.machine.screen.AutomaticContainerScreen;
+import software.bernie.techarium.pipes.capability.CapabilityAttacher;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.network.NetworkConnection;
 import software.bernie.techarium.registry.*;
@@ -38,6 +39,7 @@ public class Techarium
 		ContainerRegistry.register(bus);
 		RecipeRegistry.register(bus);
 		bus.addListener(this::onClientSetup);
+		bus.addListener(CapabilityAttacher::onCommonSetup);
 		bus.addListener(this::gatherData);
 		bus.addListener(this::enqueueIMC);
 
