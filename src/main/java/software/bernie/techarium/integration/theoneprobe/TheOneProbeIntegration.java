@@ -8,6 +8,10 @@ import java.util.function.Function;
 
 public class TheOneProbeIntegration extends Integration {
 
+    public TheOneProbeIntegration(String modID) {
+        super(modID);
+    }
+
     public void requestTheOneProbe() {
         new ProbeHandler().requestTheOneProbe();
     }

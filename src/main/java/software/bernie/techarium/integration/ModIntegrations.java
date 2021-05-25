@@ -2,6 +2,7 @@ package software.bernie.techarium.integration;
 
 import lombok.Getter;
 import net.minecraftforge.common.util.LazyOptional;
+import software.bernie.techarium.integration.farmersdelight.FarmersDelightIntegration;
 import software.bernie.techarium.integration.mekanism.MekanismIntegration;
 import software.bernie.techarium.integration.mysticalagriculture.MysticalAgricultureIntegration;
 import software.bernie.techarium.integration.pams.PamsHarvestCraftIntegration;
@@ -15,21 +16,24 @@ public class ModIntegrations {
     @Getter
     private static final List<Integration.Wrapper<?>> integrations = new ArrayList<>();
 
-    public static final Integration.Wrapper<MekanismIntegration> MEKANISM = Integration.Wrapper.of("mekanism",
+    private static final Integration.Wrapper<MekanismIntegration> MEKANISM = Integration.Wrapper.of("mekanism",
             MekanismIntegration::new).registerSelf();
 
-    public static final Integration.Wrapper<MysticalAgricultureIntegration> MYSTICAL = Integration.Wrapper.of(
+    private static final Integration.Wrapper<MysticalAgricultureIntegration> MYSTICAL = Integration.Wrapper.of(
             "mysticalagriculture",
             MysticalAgricultureIntegration::new).registerSelf();
 
-    public static final Integration.Wrapper<PamsHarvestCraftIntegration> PAMS = Integration.Wrapper.of("pamhc2crops",
+    private static final Integration.Wrapper<PamsHarvestCraftIntegration> PAMS = Integration.Wrapper.of("pamhc2crops",
             PamsHarvestCraftIntegration::new).registerSelf();
 
-    public static final Integration.Wrapper<ThermalCultivationIntegration> THERMAL_CULTIVATION = Integration.Wrapper.of("thermal",
+    private static final Integration.Wrapper<ThermalCultivationIntegration> THERMAL_CULTIVATION = Integration.Wrapper.of("thermal",
             ThermalCultivationIntegration::new).registerSelf();
 
-    public static final Integration.Wrapper<TheOneProbeIntegration> THE_ONE_PROBE = Integration.Wrapper.of("theoneprobe",
+    private static final Integration.Wrapper<TheOneProbeIntegration> THE_ONE_PROBE = Integration.Wrapper.of("theoneprobe",
             TheOneProbeIntegration::new).registerSelf();
+
+    private static final Integration.Wrapper<FarmersDelightIntegration> FARMERS_DELIGHT = Integration.Wrapper.of("farmersdelight",
+            FarmersDelightIntegration::new).registerSelf();
 
     public static LazyOptional<MekanismIntegration> getMekanism() {
         return MEKANISM.get();
@@ -45,6 +49,10 @@ public class ModIntegrations {
 
     public static LazyOptional<ThermalCultivationIntegration> getThermalCultivation() {
         return THERMAL_CULTIVATION.get();
+    }
+
+    public static LazyOptional<FarmersDelightIntegration> getFarmersDelight() {
+        return FARMERS_DELIGHT.get();
     }
 
     public static LazyOptional<TheOneProbeIntegration> getTheOneProbe() {

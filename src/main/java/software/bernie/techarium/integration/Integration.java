@@ -8,19 +8,23 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.ModList;
 
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public abstract class Integration {
 
-    public Integration() {
+    @Getter
+    private final String modID;
+
+    public Integration(String modID) {
         MinecraftForge.EVENT_BUS.register(this);
+        this.modID = modID;
     }
 
     /**
      * Used for datagenning.
+     *
      * @param finishedRecipeConsumer
      */
-    public void generateRecipes(Consumer<IFinishedRecipe> finishedRecipeConsumer){
+    public void generateRecipes(Consumer<IFinishedRecipe> finishedRecipeConsumer) {
 
     }
 
@@ -30,8 +34,8 @@ public abstract class Integration {
         private final Lazy<T> integration;
         private LazyOptional<T> optionalIntegration = LazyOptional.empty();
 
-        public static <T extends Integration> Wrapper<T> of(String modID, Supplier<T> integration) {
-            return new Wrapper<T>(modID, Lazy.of(integration));
+        public static <T extends Integration> Wrapper<T> of(String modID, IntegrationProvider<T> integration) {
+            return new Wrapper<T>(modID, Lazy.of(() -> integration.create(modID)));
         }
 
         public Wrapper(String modID, Lazy<T> integration) {
@@ -54,5 +58,10 @@ public abstract class Integration {
             ModIntegrations.getIntegrations().add(this);
             return this;
         }
+    }
+
+    @FunctionalInterface
+    public interface IntegrationProvider<T extends Integration> {
+        T create(String modID);
     }
 }

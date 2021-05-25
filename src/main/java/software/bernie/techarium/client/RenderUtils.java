@@ -3,8 +3,6 @@ package software.bernie.techarium.client;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.LecternBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -17,14 +15,13 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.opengl.GL11;
-import software.bernie.shadowed.eliotlash.mclib.math.functions.limit.Min;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.item.MachineItem;
@@ -32,7 +29,7 @@ import software.bernie.techarium.util.BlockRegion;
 
 import java.util.Random;
 
-@Mod.EventBusSubscriber(modid = Techarium.ModID)
+@Mod.EventBusSubscriber(modid = Techarium.ModID, value = Dist.CLIENT)
 public class RenderUtils
 {
 	public static Runnable renderModel(MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, IBakedModel model, Random rand, int combinedLightIn, int combinedOverlayIn)
