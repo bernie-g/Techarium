@@ -1,7 +1,7 @@
 package software.bernie.techarium.client;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -23,7 +23,6 @@ import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -75,8 +74,8 @@ public class RenderUtils {
 		MachineBlock block = (MachineBlock) (((MachineItem) stack.getItem()).getBlock());
 		BlockRegion region = block.getBlockSize();
 		MatrixStack matrixStack = event.getMatrixStack();
-		GlStateManager.pushMatrix();
-		GlStateManager.disableDepthTest();
+		RenderSystem.pushMatrix();
+		RenderSystem.disableDepthTest();
 		GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
 		matrixStack.push();
 		matrixStack.translate(bottomCenter.getX(), bottomCenter.getY(), bottomCenter.getZ());
@@ -95,7 +94,7 @@ public class RenderUtils {
 		WorldRenderer.drawShape(matrixStack, builder, region.toVoxelShape().simplify(), 0,0,0,color.getX(),color.getY(),color.getZ(),1);
 		buffer.finish(RenderType.LINES);
 		matrixStack.pop();
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	private static int calculateGlowLight(int combinedLight, @Nonnull FluidStack fluid) {
@@ -119,8 +118,7 @@ public class RenderUtils {
 		Color color = new Color(fluidAttributes.getColor(fluidStack));
 
 		IVertexBuilder builder = buffer.getBuffer(Atlases.getTranslucentCullBlockType());
-		GlStateManager.disableDepthTest();
-
+		RenderSystem.disableDepthTest();
 		int light = calculateGlowLight(combinedLight, fluidStack);
 		float renderHeight = Math.min(height, 1);
 		for (int i = 0; i < 4; i++) {
@@ -138,7 +136,7 @@ public class RenderUtils {
 		} else {
 			renderTopFluidFace(fluidTexture, matrix4f, normal, builder, color, height, light);
 		}
-		GlStateManager.enableDepthTest();
+		RenderSystem.enableDepthTest();
 	}
 
 	private static void renderTopFluidFace(TextureAtlasSprite sprite, Matrix4f matrix4f, Matrix3f normalMatrix, IVertexBuilder builder, Color color, float proportion, int light) {
