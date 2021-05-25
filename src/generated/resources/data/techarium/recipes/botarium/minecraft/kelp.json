@@ -1,0 +1,20 @@
+{
+  "type": "techarium:botarium",
+  "progressPerTick": 1,
+  "maxProgress": 1000,
+  "rfPerTick": 10,
+  "cropIn": {
+    "item": "minecraft:kelp"
+  },
+  "soilIn": {
+    "tag": "forge:dirt"
+  },
+  "fluidIn": {
+    "FluidName": "minecraft:water",
+    "Amount": 3000
+  },
+  "output": {
+    "id": "minecraft:kelp",
+    "Count": 1
+  }
+}
