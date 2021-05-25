@@ -26,7 +26,7 @@ public class ModIntegrations {
     private static final Integration.Wrapper<PamsHarvestCraftIntegration> PAMS = Integration.Wrapper.of("pamhc2crops",
             PamsHarvestCraftIntegration::new).registerSelf();
 
-    private static final Integration.Wrapper<ThermalCultivationIntegration> THERMAL_CULTIVATION = Integration.Wrapper.of("thermal",
+    private static final Integration.Wrapper<ThermalCultivationIntegration> THERMAL_CULTIVATION = Integration.Wrapper.of("thermal_cultivation",
             ThermalCultivationIntegration::new).registerSelf();
 
     private static final Integration.Wrapper<TheOneProbeIntegration> THE_ONE_PROBE = Integration.Wrapper.of("theoneprobe",

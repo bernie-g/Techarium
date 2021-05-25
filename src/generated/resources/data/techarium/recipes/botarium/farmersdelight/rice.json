@@ -2,15 +2,15 @@
   "type": "techarium:botarium",
   "conditions": [
     {
-      "modid": "thermal_cultivation",
+      "modid": "farmersdelight",
       "type": "forge:mod_loaded"
     }
   ],
   "progressPerTick": 1,
-  "maxProgress": 1000,
+  "maxProgress": 800,
   "rfPerTick": 10,
   "cropIn": {
-    "item": "thermal:tea_seeds"
+    "item": "farmersdelight:rice"
   },
   "soilIn": {
     "tag": "forge:dirt"
@@ -20,7 +20,7 @@
     "Amount": 1000
   },
   "output": {
-    "id": "thermal:tea",
+    "id": "farmersdelight:rice_panicle",
     "Count": 1
   }
 }

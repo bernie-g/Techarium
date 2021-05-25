@@ -2,7 +2,7 @@
   "type": "techarium:botarium",
   "conditions": [
     {
-      "modid": "thermal",
+      "modid": "thermal_cultivation",
       "type": "forge:mod_loaded"
     }
   ],

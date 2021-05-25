@@ -2,25 +2,30 @@
   "type": "techarium:botarium",
   "conditions": [
     {
-      "modid": "thermal_cultivation",
+      "modid": "farmersdelight",
       "type": "forge:mod_loaded"
     }
   ],
   "progressPerTick": 1,
-  "maxProgress": 1000,
+  "maxProgress": 800,
   "rfPerTick": 10,
   "cropIn": {
-    "item": "thermal:tea_seeds"
+    "item": "farmersdelight:brown_mushroom_colony"
   },
-  "soilIn": {
-    "tag": "forge:dirt"
-  },
+  "soilIn": [
+    {
+      "item": "minecraft:stone"
+    },
+    {
+      "item": "minecraft:mycelium"
+    }
+  ],
   "fluidIn": {
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
   "output": {
-    "id": "thermal:tea",
+    "id": "minecraft:brown_mushroom",
     "Count": 1
   }
 }

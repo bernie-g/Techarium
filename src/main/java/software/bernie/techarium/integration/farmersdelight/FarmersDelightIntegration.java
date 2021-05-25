@@ -8,8 +8,6 @@ import vectorwing.farmersdelight.registry.ModItems;
 
 import java.util.function.Consumer;
 
-import static software.bernie.techarium.datagen.TechariumRecipeProvider.buildBotariumRecipe;
-
 public class FarmersDelightIntegration extends Integration {
     public FarmersDelightIntegration(String modID) {
         super(modID);
