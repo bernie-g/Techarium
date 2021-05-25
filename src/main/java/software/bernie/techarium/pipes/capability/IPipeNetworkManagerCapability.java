@@ -2,6 +2,7 @@ package software.bernie.techarium.pipes.capability;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.techarium.pipes.networks.PipeNetwork;
@@ -11,6 +12,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface IPipeNetworkManagerCapability extends INBTSerializable<CompoundNBT> {
+
+    void tick(ServerWorld world);
 
     @NotNull
     List<PipeNetwork> getNetworks();

@@ -1,5 +1,6 @@
 package software.bernie.techarium.pipes.networks;
 
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -14,13 +15,23 @@ public class FluidPipeNetwork extends PipeNetwork<IFluidHandler, FluidStack> {
     }
 
     @Override
-    public void tick() {
+    public void tick(ServerWorld world) {
+        super.tick(world);
+    }
 
+    @Override
+    public boolean isEmpty(FluidStack fluidStack) {
+        return fluidStack.isEmpty();
     }
 
     @Override
     public Capability<IFluidHandler> getDefaultCapability() {
         return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY;
+    }
+
+    @Override
+    public int getMaxRemove() {
+        return 100;
     }
 
     @Override
@@ -31,6 +42,11 @@ public class FluidPipeNetwork extends PipeNetwork<IFluidHandler, FluidStack> {
     @Override
     public FluidStack drain(IFluidHandler capability, int amount, int slot, boolean simulate) {
         return capability.drain(new FluidStack(capability.getFluidInTank(slot), amount), simulate ? IFluidHandler.FluidAction.SIMULATE : IFluidHandler.FluidAction.EXECUTE);
+    }
+
+    @Override
+    public FluidStack drainWith(IFluidHandler capability, FluidStack drain, int slot, boolean simulate) {
+        return capability.drain(drain, simulate ? IFluidHandler.FluidAction.SIMULATE : IFluidHandler.FluidAction.EXECUTE);
     }
 
     @Override

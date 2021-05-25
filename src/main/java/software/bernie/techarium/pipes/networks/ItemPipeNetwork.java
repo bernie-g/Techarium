@@ -1,6 +1,7 @@
 package software.bernie.techarium.pipes.networks;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -13,13 +14,23 @@ public class ItemPipeNetwork extends PipeNetwork<IItemHandler, ItemStack> {
     }
 
     @Override
-    public void tick() {
+    public void tick(ServerWorld world) {
+        super.tick(world);
+    }
 
+    @Override
+    public boolean isEmpty(ItemStack toTransport) {
+        return toTransport.isEmpty();
     }
 
     @Override
     public Capability<IItemHandler> getDefaultCapability() {
         return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
+    }
+
+    @Override
+    public int getMaxRemove() {
+        return 4;
     }
 
     @Override
@@ -32,15 +43,23 @@ public class ItemPipeNetwork extends PipeNetwork<IItemHandler, ItemStack> {
         return capability.extractItem(slot, amount, simulate);
     }
 
+    @Override
+    public ItemStack drainWith(IItemHandler capability, ItemStack drain, int slot, boolean simulate) {
+        return capability.extractItem(slot, drain.getCount(), simulate);
+    }
+
 
     @Override
-    public ItemStack fill(IItemHandler capability, ItemStack itemStack, boolean simulate) {
+    public ItemStack fill(IItemHandler capability, ItemStack toFill, boolean simulate) {
+        ItemStack leftToInsert = toFill;
         for (int i = 0; i < getSlots(capability); i++) {
-            itemStack = capability.insertItem(i, itemStack, simulate);
-            if (itemStack.isEmpty())
-                return itemStack;
+            leftToInsert = capability.insertItem(i, leftToInsert, simulate);
+            if (leftToInsert.isEmpty())
+                return toFill;
         }
-        return itemStack;
+        ItemStack wasInserted = toFill.copy();
+        wasInserted.setCount(toFill.getCount()- leftToInsert.getCount());
+        return wasInserted;
     }
 
     @Override

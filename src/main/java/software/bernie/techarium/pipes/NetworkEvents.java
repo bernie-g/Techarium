@@ -74,6 +74,6 @@ public class NetworkEvents {
     public static void onWorldTick(TickEvent.WorldTickEvent event) {
         if (event.side.isClient())
             return;
-        event.world.getCapability(PipeNetworkManagerCapability.INSTANCE).ifPresent(manager -> manager.getNetworks().forEach(PipeNetwork::tick));
+        event.world.getCapability(PipeNetworkManagerCapability.INSTANCE).ifPresent(manager -> manager.tick((ServerWorld) event.world));
     }
 }
