@@ -1,15 +1,10 @@
 package software.bernie.techarium.pipes;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
 public class PipePosition {
     BlockPos pos;
