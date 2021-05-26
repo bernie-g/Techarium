@@ -8,6 +8,7 @@ import software.bernie.techarium.integration.mysticalagriculture.MysticalAgricul
 import software.bernie.techarium.integration.pams.PamsHarvestCraftIntegration;
 import software.bernie.techarium.integration.theoneprobe.TheOneProbeIntegration;
 import software.bernie.techarium.integration.thermal.cultivation.ThermalCultivationIntegration;
+import software.bernie.techarium.integration.xlfoodmod.XLFoodModIntegration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,9 @@ public class ModIntegrations {
     private static final Integration.Wrapper<FarmersDelightIntegration> FARMERS_DELIGHT = Integration.Wrapper.of("farmersdelight",
             FarmersDelightIntegration::new).registerSelf();
 
+    private static final Integration.Wrapper<XLFoodModIntegration> XL_FOOD_MOD = Integration.Wrapper.of("xlfoodmod",
+            XLFoodModIntegration::new).registerSelf();
+
     public static LazyOptional<MekanismIntegration> getMekanism() {
         return MEKANISM.get();
     }
@@ -57,5 +61,9 @@ public class ModIntegrations {
 
     public static LazyOptional<TheOneProbeIntegration> getTheOneProbe() {
         return THE_ONE_PROBE.get();
+    }
+
+    public static LazyOptional<XLFoodModIntegration> getXLFoodMod() {
+        return XL_FOOD_MOD.get();
     }
 }
