@@ -5,6 +5,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import software.bernie.techarium.pipes.PipePosition;
 import software.bernie.techarium.pipes.capability.PipeType;
 
 public class ItemPipeNetwork extends PipeNetwork<IItemHandler, ItemStack> {
@@ -14,8 +15,8 @@ public class ItemPipeNetwork extends PipeNetwork<IItemHandler, ItemStack> {
     }
 
     @Override
-    public void tick(ServerWorld world) {
-        super.tick(world);
+    public Filter<ItemStack> getFilter(PipePosition pipePosition) {
+        return new ItemFilter();
     }
 
     @Override

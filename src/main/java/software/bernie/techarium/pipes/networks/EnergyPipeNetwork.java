@@ -4,6 +4,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
+import software.bernie.techarium.pipes.PipePosition;
 import software.bernie.techarium.pipes.capability.PipeType;
 
 public class EnergyPipeNetwork extends PipeNetwork<IEnergyStorage, Integer> {
@@ -14,8 +15,8 @@ public class EnergyPipeNetwork extends PipeNetwork<IEnergyStorage, Integer> {
     }
 
     @Override
-    public void tick(ServerWorld world) {
-        super.tick(world);
+    public Filter<Integer> getFilter(PipePosition pipePosition) {
+        return new Filter<>();
     }
 
     @Override
