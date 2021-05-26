@@ -50,6 +50,8 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
         buildBotariumRecipe(Items.MELON_SEEDS, Items.MELON, 1500, 1200, consumer);
         buildBotariumRecipe(Items.PUMPKIN_SEEDS, Items.PUMPKIN, 1500, 1200, consumer);
 
+        buildBotariumRecipe(Items.KELP, Items.KELP, 3000, 1000, consumer);
+
         buildBotariumFlowerRecipe((FlowerBlock)Blocks.DANDELION, consumer);
         buildBotariumFlowerRecipe((FlowerBlock)Blocks.POPPY, consumer);
         buildBotariumFlowerRecipe((FlowerBlock)Blocks.BLUE_ORCHID, consumer);
