@@ -9,9 +9,9 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import org.apache.commons.lang3.tuple.MutablePair;
 import software.bernie.techarium.pipes.PipePosition;
 import software.bernie.techarium.pipes.capability.PipeType;
-import software.bernie.techarium.util.Both;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public abstract class PipeNetwork<Cap, ToTransport> {
             ToTransport maxDrained = drain(inputCap, getMaxRemove(), i, true);
             if (isEmpty(maxDrained) || !getFilter(inputPos).canPassThrough(maxDrained))
                 continue;
-            for (Both<Cap,PipePosition> output : getOrderedCapability(world)) {
+            for (MutablePair<Cap,PipePosition> output : getOrderedCapability(world)) {
                 if (!getFilter(output.getRight()).canPassThrough(maxDrained))
                     continue; // fill next output
                 ToTransport filled = fill(output.getLeft(), maxDrained, false);
@@ -57,11 +57,11 @@ public abstract class PipeNetwork<Cap, ToTransport> {
     }
 
     //Add ordering Logic here
-    private List<Both<Cap, PipePosition>> getOrderedCapability(ServerWorld world) {
-        List<Both<Cap, PipePosition>> caps = new ArrayList<>();
+    private List<MutablePair<Cap, PipePosition>> getOrderedCapability(ServerWorld world) {
+        List<MutablePair<Cap, PipePosition>> caps = new ArrayList<>();
         for (PipePosition outputPos : outputs) {
             LazyOptional<Cap> output = getCapability(world, outputPos);
-            output.ifPresent(cap -> caps.add(new Both<>(cap, outputPos)));
+            output.ifPresent(cap -> caps.add(new MutablePair<>(cap, outputPos)));
         }
         return caps;
     }
