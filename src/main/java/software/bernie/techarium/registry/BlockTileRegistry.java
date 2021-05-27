@@ -14,10 +14,11 @@ import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.block.botarium.BotariumTop;
 import software.bernie.techarium.block.botarium.BotariumMaster;
 import software.bernie.techarium.block.exchangestation.ExchangeStationBlock;
+import software.bernie.techarium.block.pipe.PipeBlock;
 import software.bernie.techarium.item.MachineItem;
-import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
 import software.bernie.techarium.tile.botarium.BotariumTile;
 import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
+import software.bernie.techarium.tile.pipe.PipeTileEntity;
 import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
 
 import java.util.function.Function;
@@ -34,6 +35,9 @@ public class BlockTileRegistry {
     //Tile
     public static final BlockRegistryObjectGroup<BotariumMaster, BlockItem, BotariumTile> BOTARIUM =
             new BlockRegistryObjectGroup<>("botarium", BotariumMaster::new, machineItemCreator(), BotariumTile::new).register(BLOCKS, ITEMS, TILES);
+
+    public static final BlockRegistryObjectGroup<PipeBlock, Item, PipeTileEntity> PIPE =
+            new BlockRegistryObjectGroup<>("multi_pipe", PipeBlock::new, null, PipeTileEntity::new).registerWithoutItem(BLOCKS, TILES);
 
     public static final BlockRegistryObjectGroup<ExchangeStationBlock, BlockItem, ExchangeStationTile> EXCHANGE_STATION =
             new BlockRegistryObjectGroup<>("exchange_station", ExchangeStationBlock::new, machineItemCreator(), ExchangeStationTile::new).register(BLOCKS, ITEMS, TILES);

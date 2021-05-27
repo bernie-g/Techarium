@@ -33,6 +33,7 @@ public class NetworkEvents {
             return;
 
         ICapabilityProvider provider = new ICapabilitySerializable<CompoundNBT>() {
+            LazyOptional<IPipeNetworkManagerCapability> capability = LazyOptional.of(PipeNetworkManagerCapability::new);
             @Override
             public CompoundNBT serializeNBT() {
                 LazyOptional<IPipeNetworkManagerCapability> capability = getCapability(PipeNetworkManagerCapability.INSTANCE);
@@ -56,7 +57,7 @@ public class NetworkEvents {
             @Override
             public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
                 if (cap == PipeNetworkManagerCapability.INSTANCE) {
-                    return LazyOptional.of(PipeNetworkManagerCapability::new).cast();
+                    return capability.cast();
                 }
                 return LazyOptional.empty();
             }

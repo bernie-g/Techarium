@@ -12,39 +12,16 @@ import software.bernie.techarium.pipes.networks.FluidPipeNetwork;
 import software.bernie.techarium.pipes.networks.ItemPipeNetwork;
 import software.bernie.techarium.pipes.networks.PipeNetwork;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PipeNetworkManagerCapability implements IPipeNetworkManagerCapability {
 
     private ServerWorld world;
-    List<PipeNetwork> networks = new ArrayList<>();
+    Map<UUID,PipeNetwork> networks = new HashMap<>();
 
     @CapabilityInject(IPipeNetworkManagerCapability.class)
     public static Capability<IPipeNetworkManagerCapability> INSTANCE = null;
-
-    public PipeNetworkManagerCapability() {
-        ItemPipeNetwork itemPipeNetwork = new ItemPipeNetwork();
-        itemPipeNetwork.getInputs().add(new PipePosition(new BlockPos(0,57,0), Direction.EAST));
-        itemPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.WEST));
-        itemPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.NORTH));
-        itemPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.SOUTH));
-        networks.add(itemPipeNetwork);
-        EnergyPipeNetwork energyPipeNetwork = new EnergyPipeNetwork();
-        energyPipeNetwork.getInputs().add(new PipePosition(new BlockPos(0,57,0), Direction.EAST));
-        energyPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.WEST));
-        energyPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.NORTH));
-        energyPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.SOUTH));
-        networks.add(energyPipeNetwork);
-        FluidPipeNetwork fluidPipeNetwork = new FluidPipeNetwork();
-        fluidPipeNetwork.getInputs().add(new PipePosition(new BlockPos(0,57,0), Direction.EAST));
-        fluidPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.WEST));
-        fluidPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.NORTH));
-        fluidPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.SOUTH));
-        networks.add(fluidPipeNetwork);
-    }
 
     @Override
     public void tick(ServerWorld world) {
@@ -54,12 +31,17 @@ public class PipeNetworkManagerCapability implements IPipeNetworkManagerCapabili
 
     @Override
     public List<PipeNetwork> getNetworks() {
-        return networks;
+        return networks.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
+    }
+
+    @Override
+    public ServerWorld getWorld() {
+        return world;
     }
 
     @Override
     public void addNetwork(PipeNetwork network) {
-        networks.add(network);
+        networks.put(network.getUuid(), network);
     }
 
     @Override
@@ -68,7 +50,9 @@ public class PipeNetworkManagerCapability implements IPipeNetworkManagerCapabili
     }
 
     @Override
-    public <T extends PipeNetwork> Optional<T> getByUUIDorPos(UUID uuid, BlockPos pos) {
+    public Optional<PipeNetwork> getByUUIDorPos(UUID uuid, BlockPos pos) {
+        if (networks.containsKey(uuid))
+            return Optional.of(networks.get(uuid));
         return Optional.empty();
     }
 

@@ -1,6 +1,5 @@
 package software.bernie.techarium.pipes.networks;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.tileentity.TileEntity;
@@ -18,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter
-@Setter(AccessLevel.PACKAGE)
+@Setter
 public abstract class PipeNetwork<Cap, ToTransport> {
 
     private UUID uuid;
