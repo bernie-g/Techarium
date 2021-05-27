@@ -20,9 +20,31 @@ import java.util.UUID;
 public class PipeNetworkManagerCapability implements IPipeNetworkManagerCapability {
 
     private ServerWorld world;
+    List<PipeNetwork> networks = new ArrayList<>();
 
     @CapabilityInject(IPipeNetworkManagerCapability.class)
     public static Capability<IPipeNetworkManagerCapability> INSTANCE = null;
+
+    public PipeNetworkManagerCapability() {
+        ItemPipeNetwork itemPipeNetwork = new ItemPipeNetwork();
+        itemPipeNetwork.getInputs().add(new PipePosition(new BlockPos(0,57,0), Direction.EAST));
+        itemPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.WEST));
+        itemPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.NORTH));
+        itemPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.SOUTH));
+        networks.add(itemPipeNetwork);
+        EnergyPipeNetwork energyPipeNetwork = new EnergyPipeNetwork();
+        energyPipeNetwork.getInputs().add(new PipePosition(new BlockPos(0,57,0), Direction.EAST));
+        energyPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.WEST));
+        energyPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.NORTH));
+        energyPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.SOUTH));
+        networks.add(energyPipeNetwork);
+        FluidPipeNetwork fluidPipeNetwork = new FluidPipeNetwork();
+        fluidPipeNetwork.getInputs().add(new PipePosition(new BlockPos(0,57,0), Direction.EAST));
+        fluidPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.WEST));
+        fluidPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.NORTH));
+        fluidPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.SOUTH));
+        networks.add(fluidPipeNetwork);
+    }
 
     @Override
     public void tick(ServerWorld world) {
@@ -32,26 +54,12 @@ public class PipeNetworkManagerCapability implements IPipeNetworkManagerCapabili
 
     @Override
     public List<PipeNetwork> getNetworks() {
-        List<PipeNetwork> networks = new ArrayList<>();
-
-        ItemPipeNetwork itemPipeNetwork = new ItemPipeNetwork();
-        itemPipeNetwork.getInputs().add(new PipePosition(new BlockPos(0,57,0), Direction.EAST));
-        itemPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.WEST));
-        networks.add(itemPipeNetwork);
-        EnergyPipeNetwork energyPipeNetwork = new EnergyPipeNetwork();
-        energyPipeNetwork.getInputs().add(new PipePosition(new BlockPos(0,57,0), Direction.EAST));
-        energyPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.WEST));
-        networks.add(energyPipeNetwork);
-        FluidPipeNetwork fluidPipeNetwork = new FluidPipeNetwork();
-        fluidPipeNetwork.getInputs().add(new PipePosition(new BlockPos(0,57,0), Direction.EAST));
-        fluidPipeNetwork.getOutputs().add(new PipePosition(new BlockPos(0,57,0), Direction.WEST));
-        networks.add(fluidPipeNetwork);
         return networks;
     }
 
     @Override
     public void addNetwork(PipeNetwork network) {
-
+        networks.add(network);
     }
 
     @Override

@@ -9,8 +9,10 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import org.apache.commons.lang3.tuple.MutablePair;
 import software.bernie.techarium.pipes.PipePosition;
 import software.bernie.techarium.pipes.capability.PipeType;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,29 +24,49 @@ public abstract class PipeNetwork<Cap, ToTransport> {
     private UUID uuid;
     private List<BlockPos> pipeBlocks = new ArrayList<>();
     private List<PipePosition> inputs = new ArrayList<>();
-    private List<PipePosition> either = new ArrayList<>();
     private List<PipePosition> outputs = new ArrayList<>();
 
     public abstract boolean isType(PipeType type);
 
     public void tick(ServerWorld world) {
-        LazyOptional<Cap> input = getCapability(world, inputs.get(0));
-        LazyOptional<Cap> output = getCapability(world, outputs.get(0));
-        if (input.isPresent() && output.isPresent()) {
-            Cap inputCap = input.orElseThrow(NullPointerException::new);
-            Cap outputCap = output.orElseThrow(NullPointerException::new);
-            for (int i = 0; i < getSlots(inputCap); i++) {
-                ToTransport maxDrained = drain(inputCap, getMaxRemove(), i, true);
-                if (isEmpty(maxDrained))
-                    continue;
-                ToTransport filled = fill(outputCap, maxDrained, false);
-                if (isEmpty(filled))
-                    break; // fill next thing to fill
-                drainWith(inputCap, filled, i, false);
-                break;
+        inputs.forEach(input -> {
+            LazyOptional<Cap> inputCap = getCapability(world, input);
+            if (inputCap.isPresent()) {
+                executeInput(world, input, inputCap.orElseThrow(NullPointerException::new));
             }
-        }
+        });
     }
+
+    private void executeInput(ServerWorld world, PipePosition inputPos, Cap inputCap) {
+        for (int i = 0; i < getSlots(inputCap); i++) {
+            ToTransport maxDrained = drain(inputCap, getMaxRemove(), i, true);
+            if (isEmpty(maxDrained) || !getFilter(inputPos).canPassThrough(maxDrained))
+                continue;
+            for (MutablePair<Cap,PipePosition> output : getOrderedCapability(world)) {
+                if (!getFilter(output.getRight()).canPassThrough(maxDrained))
+                    continue; // fill next output
+                ToTransport filled = fill(output.getLeft(), maxDrained, false);
+                if (isEmpty(filled))
+                    continue; // fill next output
+                drainWith(inputCap, filled, i, false);
+                return; //Do the next input
+            }
+            //could not fill the input to network, so try next slot
+        }
+
+    }
+
+    //Add ordering Logic here
+    private List<MutablePair<Cap, PipePosition>> getOrderedCapability(ServerWorld world) {
+        List<MutablePair<Cap, PipePosition>> caps = new ArrayList<>();
+        for (PipePosition outputPos : outputs) {
+            LazyOptional<Cap> output = getCapability(world, outputPos);
+            output.ifPresent(cap -> caps.add(new MutablePair<>(cap, outputPos)));
+        }
+        return caps;
+    }
+
+    public abstract Filter<ToTransport> getFilter(PipePosition pipePosition);
 
     public LazyOptional<Cap> getCapability(ServerWorld world, PipePosition position) {
         if (world.getChunkProvider().isChunkLoaded(new ChunkPos(position.getPos()))) {
