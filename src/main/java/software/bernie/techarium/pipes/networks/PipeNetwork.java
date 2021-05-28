@@ -10,11 +10,11 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import org.apache.commons.lang3.tuple.MutablePair;
 import software.bernie.techarium.pipes.PipePosition;
+import software.bernie.techarium.pipes.capability.PipeNetworkManagerCapability;
 import software.bernie.techarium.pipes.capability.PipeType;
+import software.bernie.techarium.tile.pipe.PipeTileEntity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -25,7 +25,10 @@ public abstract class PipeNetwork<Cap, ToTransport> {
     private List<PipePosition> inputs = new ArrayList<>();
     private List<PipePosition> outputs = new ArrayList<>();
 
-    public abstract boolean isType(PipeType type);
+    private boolean isDeprecated = false;
+    private Map<BlockPos, UUID> newUUID = new HashMap<>();
+
+    public abstract PipeType getType();
 
     public void tick(ServerWorld world) {
         inputs.forEach(input -> {
@@ -34,6 +37,32 @@ public abstract class PipeNetwork<Cap, ToTransport> {
                 executeInput(world, input, inputCap.orElseThrow(NullPointerException::new));
             }
         });
+    }
+
+    public void deprecateAll(ServerWorld world, UUID newNetworkUUID) {
+        isDeprecated = true;
+        for (BlockPos pipePos: pipeBlocks) {
+            if (world.getChunkProvider().isChunkLoaded(new ChunkPos(pipePos))) {
+                TileEntity te = world.getTileEntity(pipePos);
+                if (te instanceof PipeTileEntity) {
+                    ((PipeTileEntity)te).updateUUID(getType(), newNetworkUUID);
+                }
+            } else { //If not loaded put it into the map and on the next PipeTileEntity#onLoad call it will get updated
+                newUUID.put(pipePos, newNetworkUUID);
+            }
+        }
+    }
+
+    public UUID getNewUUID(ServerWorld world, BlockPos pos) {
+        if (isDeprecated) {
+            UUID retUUID = newUUID.get(pos);
+            newUUID.remove(pos);
+            if (newUUID.isEmpty()) {
+                world.getCapability(PipeNetworkManagerCapability.INSTANCE).ifPresent(manager -> manager.deleteNetwork(uuid));
+            }
+            return retUUID;
+        }
+        return uuid;
     }
 
     private void executeInput(ServerWorld world, PipePosition inputPos, Cap inputCap) {

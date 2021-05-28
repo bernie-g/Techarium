@@ -9,21 +9,28 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.techarium.item.PipeItem;
 import software.bernie.techarium.pipes.capability.IPipeNetworkManagerCapability;
 import software.bernie.techarium.pipes.capability.PipeNetworkManagerCapability;
+import software.bernie.techarium.pipes.capability.PipeType;
 import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.tile.pipe.PipeTileEntity;
-
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class PipeBlock extends Block {
     public PipeBlock() {
@@ -45,7 +52,16 @@ public class PipeBlock extends Block {
                 ((PipeTileEntity) te).isInput = true;
             }
         }
-        handlePlace(state, worldIn, pos, stack);
+        if (!worldIn.isRemote())
+            handlePlace(state, worldIn, pos, stack);
+    }
+
+    @Override
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        ItemStack activatedWith =  player.getHeldItem(handIn);
+        if (activatedWith.getItem() instanceof PipeItem && handlePlace(state, worldIn, pos, activatedWith))
+            return ActionResultType.CONSUME;
+        return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
     }
 
     @Override
@@ -64,40 +80,85 @@ public class PipeBlock extends Block {
     }
 
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        super.onReplaced(state, worldIn, pos, newState, isMoving);
+    public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.isIn(newState.getBlock()))
+            handleRemove(world, pos);
+        super.onReplaced(state, world, pos, newState, isMoving);
     }
 
-    private static void handlePlace(BlockState state, World world, BlockPos pos, ItemStack stack) {
-        EnumMap<Direction, UUID> networks = new EnumMap<>(Direction.class);
-        for (Direction direction: Direction.values()) {
-            TileEntity te = world.getTileEntity(pos.offset(direction));
-            if (te instanceof PipeTileEntity) {
-                networks.put(direction, ((PipeTileEntity) te).network);
-            }
-        }
-        LazyOptional<IPipeNetworkManagerCapability> networkManagerCapability = world.getCapability(PipeNetworkManagerCapability.INSTANCE);
-        if (!networkManagerCapability.isPresent())
-            return;
-        IPipeNetworkManagerCapability networkManager = networkManagerCapability.orElseThrow(NullPointerException::new);
+    private static boolean handlePlace(BlockState state, World world, BlockPos pos, ItemStack stack) {
+        PipeType type = ((PipeItem)stack.getItem()).getType();
         PipeTileEntity pipeTileEntity = (PipeTileEntity) world.getTileEntity(pos);
-        switch (networks.size()) {
+        if (pipeTileEntity.isType(type)) {
+            return false;
+        }
+        Map<Direction, UUID> networks = getSurroundingNetworks(world, pos, type);
+        LazyOptional<IPipeNetworkManagerCapability> networkManagerCapability = world.getCapability(PipeNetworkManagerCapability.INSTANCE);
+        if (!networkManagerCapability.isPresent()) {
+            System.err.println("Could not find pipe network manager");
+            return false;
+        }
+        IPipeNetworkManagerCapability networkManager = networkManagerCapability.orElseThrow(NullPointerException::new);
+        UUID network;
+        switch ((int)networks.values().stream().distinct().count()) {
             case 0:
-                pipeTileEntity.network = networkManager.createNetwork(pos, pipeTileEntity);
+                network = networkManager.createNetwork(pos, pipeTileEntity, type);
                 break;
             case 1:
                 Map.Entry<Direction, UUID> connectedNetwork = networks.entrySet().iterator().next();
-                pipeTileEntity.network = connectedNetwork.getValue();
-                networkManager.appendToNetwork(pos, pipeTileEntity, connectedNetwork.getValue(), connectedNetwork.getKey());
+                network = connectedNetwork.getValue();
+                networkManager.appendToNetwork(pos, pipeTileEntity, connectedNetwork.getValue());
                 break;
-
             default: // multiple
+                List<UUID> UUIDs = networks.entrySet().stream().map(Map.Entry::getValue).distinct().collect(Collectors.toList());
+                network = networkManager.mergeNetworks((ServerWorld)world, pos, pipeTileEntity, UUIDs);
+                break;
+        }
+        pipeTileEntity.addType(type, network);
+        return true;
+    }
 
+
+    private static void handleRemove(World world, BlockPos pos) {
+        PipeTileEntity pipeTileEntity = (PipeTileEntity) world.getTileEntity(pos);
+        for (PipeType type: PipeType.values()) {
+            if (pipeTileEntity.isType(type))
+                handleRemoveForType(pipeTileEntity, world, pos, type);
         }
     }
 
-    private static void handleRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState) {
+    private static void handleRemoveForType(PipeTileEntity pipeTileEntity, World world, BlockPos pos, PipeType type) {
+        if (!pipeTileEntity.isType(type)) {
+            return;
+        }
+        Map<Direction, UUID> networks = getSurroundingNetworks(world, pos, type);
+        LazyOptional<IPipeNetworkManagerCapability> networkManagerCapability = world.getCapability(PipeNetworkManagerCapability.INSTANCE);
+        if (!networkManagerCapability.isPresent()) {
+            System.err.println("Could not find pipe network manager");
+            return;
+        }
+        IPipeNetworkManagerCapability networkManager = networkManagerCapability.orElseThrow(NullPointerException::new);
+        UUID network = pipeTileEntity.getNetworkUUID(type);
+        switch (networks.size()) {
+            case 0:
+                networkManager.deleteNetwork(network);
+                break;
+            case 1:
+                networkManager.removeFromNetwork(pos, network);
+                break;
+            default: // multiple
+        }
+    }
 
+    private static Map<Direction, UUID> getSurroundingNetworks(World world, BlockPos pos, PipeType type) {
+        EnumMap<Direction, UUID> networks = new EnumMap<>(Direction.class);
+        for (Direction direction: Direction.values()) {
+            TileEntity te = world.getTileEntity(pos.offset(direction));
+            if (te instanceof PipeTileEntity && ((PipeTileEntity) te).isType(type)) {
+                networks.put(direction, ((PipeTileEntity) te).getNetworkUUID(type));
+            }
+        }
+        return networks;
     }
 
     @Nullable

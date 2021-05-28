@@ -9,4 +9,14 @@ import net.minecraft.util.math.BlockPos;
 public class PipePosition {
     BlockPos pos;
     Direction direction;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof PipePosition) {
+            return pos.equals(((PipePosition) obj).getPos()) && direction == ((PipePosition)obj).direction;
+        } else if (obj instanceof BlockPos) {
+            return pos.equals((BlockPos)obj);
+        }
+        return false;
+    }
 }

@@ -1,15 +1,10 @@
 package software.bernie.techarium.pipes.capability;
 
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
-import software.bernie.techarium.pipes.PipePosition;
-import software.bernie.techarium.pipes.networks.EnergyPipeNetwork;
-import software.bernie.techarium.pipes.networks.FluidPipeNetwork;
-import software.bernie.techarium.pipes.networks.ItemPipeNetwork;
 import software.bernie.techarium.pipes.networks.PipeNetwork;
 
 import java.util.*;
@@ -50,10 +45,15 @@ public class PipeNetworkManagerCapability implements IPipeNetworkManagerCapabili
     }
 
     @Override
-    public Optional<PipeNetwork> getByUUIDorPos(UUID uuid, BlockPos pos) {
+    public Optional<PipeNetwork> getByUUID(UUID uuid) {
         if (networks.containsKey(uuid))
             return Optional.of(networks.get(uuid));
         return Optional.empty();
+    }
+
+    @Override
+    public void deleteNetwork(UUID networkUUID) {
+        networks.remove(networkUUID);
     }
 
     @Override
