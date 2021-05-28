@@ -17,9 +17,6 @@ public class ItemGroupRegistry
 
 		@Override
 		public void fill(NonNullList<ItemStack> items) {
-			items.add(ItemRegistry.ITEM_PIPE.get().getDefaultInstance());
-			items.add(ItemRegistry.FLUID_PIPE.get().getDefaultInstance());
-			items.add(ItemRegistry.ENERGY_PIPE.get().getDefaultInstance());
 			super.fill(items);
 		}
 	};
