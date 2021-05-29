@@ -19,6 +19,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.LazyOptional;
+import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.techarium.item.PipeItem;
 import software.bernie.techarium.pipes.capability.IPipeNetworkManagerCapability;
@@ -121,7 +122,7 @@ public class PipeBlock extends Block {
         Map<Direction, UUID> networks = getSurroundingNetworks(world, pos, type);
         LazyOptional<IPipeNetworkManagerCapability> networkManagerCapability = world.getCapability(PipeNetworkManagerCapability.INSTANCE);
         if (!networkManagerCapability.isPresent()) {
-            System.err.println("Could not find pipe network manager");
+            LOGGER.error("Could not find pipe network manager");
             return false;
         }
         IPipeNetworkManagerCapability networkManager = networkManagerCapability.orElseThrow(NullPointerException::new);
@@ -161,7 +162,7 @@ public class PipeBlock extends Block {
         Map<Direction, UUID> networks = getSurroundingNetworks(world, pos, type);
         LazyOptional<IPipeNetworkManagerCapability> networkManagerCapability = world.getCapability(PipeNetworkManagerCapability.INSTANCE);
         if (!networkManagerCapability.isPresent()) {
-            System.err.println("Could not find pipe network manager");
+            LOGGER.error("Could not find pipe network manager");
             return;
         }
         IPipeNetworkManagerCapability networkManager = networkManagerCapability.orElseThrow(NullPointerException::new);

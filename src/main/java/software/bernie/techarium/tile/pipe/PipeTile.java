@@ -1,7 +1,6 @@
 package software.bernie.techarium.tile.pipe;
 
-import com.google.common.collect.ImmutableMap;
-import net.minecraft.block.BlockState;
+import org.apache.logging.log4j.LogManager;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -58,11 +57,11 @@ public class PipeTile extends TileEntity {
                     if (network.isPresent()) {
                         type.put(uuid.getKey(), network.get().getNewUUID((ServerWorld)world, pos));
                     } else {
-                        System.err.println("can't find pre-save network");
+                        LogManager.getLogger().error("can't find pre-save network");
                     }
                 }
             } else {
-                System.err.println("can't find network manager");
+                LogManager.getLogger().error("can't find network manager");
             }
         }
     }

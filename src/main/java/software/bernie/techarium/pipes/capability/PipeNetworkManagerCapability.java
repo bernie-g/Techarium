@@ -29,7 +29,7 @@ public class PipeNetworkManagerCapability implements IPipeNetworkManagerCapabili
 
     @Override
     public List<PipeNetwork> getNetworks() {
-        return networks.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
+        return new ArrayList<>(networks.values());
     }
 
     @Override
