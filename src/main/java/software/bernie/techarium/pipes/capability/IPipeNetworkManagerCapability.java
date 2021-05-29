@@ -8,7 +8,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.techarium.pipes.PipePosition;
 import software.bernie.techarium.pipes.networks.PipeNetwork;
-import software.bernie.techarium.tile.pipe.PipeTileEntity;
+import software.bernie.techarium.tile.pipe.PipeTile;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,7 +34,7 @@ public interface IPipeNetworkManagerCapability extends INBTSerializable<ListNBT>
         return networkUUID;
     }
 
-    default void appendToNetwork(BlockPos pos, PipeTileEntity tileEntity, UUID networkUUID) {
+    default void appendToNetwork(BlockPos pos, PipeTile tileEntity, UUID networkUUID) {
         Optional<PipeNetwork> networkOptional = getByUUID(networkUUID);
         if (networkOptional.isPresent()) {
             PipeNetwork network = networkOptional.get();
@@ -49,7 +49,7 @@ public interface IPipeNetworkManagerCapability extends INBTSerializable<ListNBT>
         }
     }
 
-    default UUID mergeNetworks(ServerWorld world, BlockPos pos, PipeTileEntity tileEntity, List<UUID> networkUUIDs) {
+    default UUID mergeNetworks(ServerWorld world, BlockPos pos, PipeTile tileEntity, List<UUID> networkUUIDs) {
         if(networkUUIDs.isEmpty())
             return UUID.randomUUID();
         List<PipeNetwork> networks = networkUUIDs.stream().map(this::getByUUID).filter(Optional::isPresent).map(optional -> optional.orElse(null)).filter(Objects::nonNull).collect(Collectors.toList());

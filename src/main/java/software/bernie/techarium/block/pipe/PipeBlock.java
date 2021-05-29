@@ -25,7 +25,7 @@ import software.bernie.techarium.pipes.capability.IPipeNetworkManagerCapability;
 import software.bernie.techarium.pipes.capability.PipeNetworkManagerCapability;
 import software.bernie.techarium.pipes.capability.PipeType;
 import software.bernie.techarium.registry.ItemRegistry;
-import software.bernie.techarium.tile.pipe.PipeTileEntity;
+import software.bernie.techarium.tile.pipe.PipeTile;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -42,14 +42,20 @@ public class PipeBlock extends Block {
         return true;
     }
 
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return new PipeTile();
+    }
+
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         if (worldIn.isRemote)
             return;
         if (placer != null && placer.isSneaking()) {
             TileEntity te = worldIn.getTileEntity(pos);
-            if (te instanceof PipeTileEntity) {
-                ((PipeTileEntity) te).isInput = true;
+            if (te instanceof PipeTile) {
+                ((PipeTile) te).isInput = true;
             }
         }
         if (!worldIn.isRemote())
@@ -67,8 +73,8 @@ public class PipeBlock extends Block {
     @Override
     public ItemStack getItem(IBlockReader worldIn, BlockPos pos, BlockState state) {
         TileEntity te = worldIn.getTileEntity(pos);
-        if (te instanceof PipeTileEntity) {
-            PipeTileEntity pipe = ((PipeTileEntity)te);
+        if (te instanceof PipeTile) {
+            PipeTile pipe = ((PipeTile)te);
             if (pipe.isType(PipeType.ITEM))
                 return ItemRegistry.ITEM_PIPE.get().getDefaultInstance();
             if (pipe.isType(PipeType.FLUID))
@@ -87,8 +93,8 @@ public class PipeBlock extends Block {
     @Override
     public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
         TileEntity te = world.getTileEntity(pos);
-        if (te instanceof PipeTileEntity) {
-            PipeTileEntity pipe = ((PipeTileEntity)te);
+        if (te instanceof PipeTile) {
+            PipeTile pipe = ((PipeTile)te);
             if (pipe.isType(PipeType.ITEM))
                 return ItemRegistry.ITEM_PIPE.get().getDefaultInstance();
             if (pipe.isType(PipeType.FLUID))
@@ -108,8 +114,8 @@ public class PipeBlock extends Block {
 
     private static boolean handlePlace(BlockState state, World world, BlockPos pos, ItemStack stack) {
         PipeType type = ((PipeItem)stack.getItem()).getType();
-        PipeTileEntity pipeTileEntity = (PipeTileEntity) world.getTileEntity(pos);
-        if (pipeTileEntity.isType(type)) {
+        PipeTile pipeTile = (PipeTile) world.getTileEntity(pos);
+        if (pipeTile.isType(type)) {
             return false;
         }
         Map<Direction, UUID> networks = getSurroundingNetworks(world, pos, type);
@@ -123,33 +129,33 @@ public class PipeBlock extends Block {
         switch ((int)networks.values().stream().distinct().count()) {
             case 0:
                 network = networkManager.createNetwork(type);
-                networkManager.appendToNetwork(pos, pipeTileEntity, network);
+                networkManager.appendToNetwork(pos, pipeTile, network);
                 break;
             case 1:
                 Map.Entry<Direction, UUID> connectedNetwork = networks.entrySet().iterator().next();
                 network = connectedNetwork.getValue();
-                networkManager.appendToNetwork(pos, pipeTileEntity, connectedNetwork.getValue());
+                networkManager.appendToNetwork(pos, pipeTile, connectedNetwork.getValue());
                 break;
             default: // multiple
                 List<UUID> UUIDs = networks.entrySet().stream().map(Map.Entry::getValue).distinct().collect(Collectors.toList());
-                network = networkManager.mergeNetworks((ServerWorld)world, pos, pipeTileEntity, UUIDs);
+                network = networkManager.mergeNetworks((ServerWorld)world, pos, pipeTile, UUIDs);
                 break;
         }
-        pipeTileEntity.addType(type, network);
+        pipeTile.addType(type, network);
         return true;
     }
 
 
     private static void handleRemove(World world, BlockPos pos) {
-        PipeTileEntity pipeTileEntity = (PipeTileEntity) world.getTileEntity(pos);
+        PipeTile pipeTile = (PipeTile) world.getTileEntity(pos);
         for (PipeType type: PipeType.values()) {
-            if (pipeTileEntity.isType(type))
-                handleRemoveForType(pipeTileEntity, world, pos, type);
+            if (pipeTile.isType(type))
+                handleRemoveForType(pipeTile, world, pos, type);
         }
     }
 
-    private static void handleRemoveForType(PipeTileEntity pipeTileEntity, World world, BlockPos pos, PipeType type) {
-        if (!pipeTileEntity.isType(type)) {
+    private static void handleRemoveForType(PipeTile pipeTile, World world, BlockPos pos, PipeType type) {
+        if (!pipeTile.isType(type)) {
             return;
         }
         Map<Direction, UUID> networks = getSurroundingNetworks(world, pos, type);
@@ -159,7 +165,7 @@ public class PipeBlock extends Block {
             return;
         }
         IPipeNetworkManagerCapability networkManager = networkManagerCapability.orElseThrow(NullPointerException::new);
-        UUID network = pipeTileEntity.getNetworkUUID(type);
+        UUID network = pipeTile.getNetworkUUID(type);
         switch (networks.size()) {
             case 0:
                 networkManager.deleteNetwork(network);
@@ -177,16 +183,10 @@ public class PipeBlock extends Block {
         EnumMap<Direction, UUID> networks = new EnumMap<>(Direction.class);
         for (Direction direction: Direction.values()) {
             TileEntity te = world.getTileEntity(pos.offset(direction));
-            if (te instanceof PipeTileEntity && ((PipeTileEntity) te).isType(type)) {
-                networks.put(direction, ((PipeTileEntity) te).getNetworkUUID(type));
+            if (te instanceof PipeTile && ((PipeTile) te).isType(type)) {
+                networks.put(direction, ((PipeTile) te).getNetworkUUID(type));
             }
         }
         return networks;
-    }
-
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new PipeTileEntity();
     }
 }

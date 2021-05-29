@@ -17,7 +17,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import software.bernie.techarium.pipes.PipePosition;
 import software.bernie.techarium.pipes.capability.PipeNetworkManagerCapability;
 import software.bernie.techarium.pipes.capability.PipeType;
-import software.bernie.techarium.tile.pipe.PipeTileEntity;
+import software.bernie.techarium.tile.pipe.PipeTile;
 
 import java.util.*;
 
@@ -56,49 +56,6 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
         return false;
     }
 
-    public void deprecateAll(ServerWorld world, UUID newNetworkUUID) {
-        isDeprecated = true;
-        for (BlockPos pipePos: pipeBlocks) {
-            if (world.getChunkProvider().isChunkLoaded(new ChunkPos(pipePos))) {
-                TileEntity te = world.getTileEntity(pipePos);
-                if (te instanceof PipeTileEntity) {
-                    ((PipeTileEntity)te).updateUUID(getType(), newNetworkUUID);
-                }
-            } else { //If not loaded put it into the map and on the next PipeTileEntity#onLoad call it will get updated
-                newUUID.put(pipePos, newNetworkUUID);
-            }
-        }
-    }
-
-    public void deprecateSpecific(ServerWorld world, Map<BlockPos, UUID> newNetworkUUIDs) {
-        isDeprecated = true;
-        if (newNetworkUUIDs.size() != pipeBlocks.size()) {
-            throw new IllegalArgumentException("Not all blocks are deprecated " + newNetworkUUIDs.size() + "," + pipeBlocks.size());
-        }
-        for (Map.Entry<BlockPos, UUID> data: newNetworkUUIDs.entrySet()) {
-            if (world.getChunkProvider().isChunkLoaded(new ChunkPos(data.getKey()))) {
-                TileEntity te = world.getTileEntity(data.getKey());
-                if (te instanceof PipeTileEntity) {
-                    ((PipeTileEntity)te).updateUUID(getType(), data.getValue());
-                }
-            } else { //If not loaded put it into the map and on the next PipeTileEntity#onLoad call it will get updated
-                newUUID.put(data.getKey(), data.getValue());
-            }
-        }
-    }
-
-    public UUID getNewUUID(ServerWorld world, BlockPos pos) {
-        if (isDeprecated) {
-            UUID retUUID = newUUID.get(pos);
-            newUUID.remove(pos);
-            if (newUUID.isEmpty()) {
-                world.getCapability(PipeNetworkManagerCapability.INSTANCE).ifPresent(manager -> manager.deleteNetwork(uuid));
-            }
-            return retUUID;
-        }
-        return uuid;
-    }
-
     private void executeInput(ServerWorld world, PipePosition inputPos, Cap inputCap) {
         for (int i = 0; i < getSlots(inputCap); i++) {
             ToTransport maxDrained = drain(inputCap, getMaxRemove(), i, true);
@@ -115,7 +72,18 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
             }
             //could not fill the input to network, so try next slot
         }
+    }
 
+    public UUID getNewUUID(ServerWorld world, BlockPos pos) {
+        if (isDeprecated) {
+            UUID retUUID = newUUID.get(pos);
+            newUUID.remove(pos);
+            if (newUUID.isEmpty()) {
+                world.getCapability(PipeNetworkManagerCapability.INSTANCE).ifPresent(manager -> manager.deleteNetwork(uuid));
+            }
+            return retUUID;
+        }
+        return uuid;
     }
 
     //Add ordering Logic here
@@ -126,6 +94,37 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
             output.ifPresent(cap -> caps.add(new MutablePair<>(cap, outputPos)));
         }
         return caps;
+    }
+
+    public void deprecateAll(ServerWorld world, UUID newNetworkUUID) {
+        isDeprecated = true;
+        for (BlockPos pipePos: pipeBlocks) {
+            if (world.getChunkProvider().isChunkLoaded(new ChunkPos(pipePos))) {
+                TileEntity te = world.getTileEntity(pipePos);
+                if (te instanceof PipeTile) {
+                    ((PipeTile)te).updateUUID(getType(), newNetworkUUID);
+                }
+            } else { //If not loaded put it into the map and on the next PipeTileEntity#onLoad call it will get updated
+                newUUID.put(pipePos, newNetworkUUID);
+            }
+        }
+    }
+
+    public void deprecateSpecific(ServerWorld world, Map<BlockPos, UUID> newNetworkUUIDs) {
+        isDeprecated = true;
+        if (newNetworkUUIDs.size() != pipeBlocks.size()) {
+            throw new IllegalArgumentException("Not all blocks are deprecated " + newNetworkUUIDs.size() + "," + pipeBlocks.size());
+        }
+        for (Map.Entry<BlockPos, UUID> data: newNetworkUUIDs.entrySet()) {
+            if (world.getChunkProvider().isChunkLoaded(new ChunkPos(data.getKey()))) {
+                TileEntity te = world.getTileEntity(data.getKey());
+                if (te instanceof PipeTile) {
+                    ((PipeTile)te).updateUUID(getType(), data.getValue());
+                }
+            } else { //If not loaded put it into the map and on the next PipeTileEntity#onLoad call it will get updated
+                newUUID.put(data.getKey(), data.getValue());
+            }
+        }
     }
 
     public abstract Filter<ToTransport> getFilter(PipePosition pipePosition);

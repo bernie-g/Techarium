@@ -20,10 +20,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 
-public class PipeTileEntity extends TileEntity {
+public class PipeTile extends TileEntity {
     public boolean isInput = false;
     private Map<PipeType, UUID> type = new EnumMap<>(PipeType.class);
-    public PipeTileEntity() {
+    public PipeTile() {
         super(BlockTileRegistry.PIPE.getTileEntityType());
     }
 
