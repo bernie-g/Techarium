@@ -49,7 +49,7 @@ If it can be extracted the PipeNetwork tries to find the first Storage to fill t
 After it can find an output, the Input stops trying, and the next input is drained.
 
 ### Adding/Deleting Networks
-These 3 sections are represented in the flowchart I showed you earlier.(if someone on github reads this: You can ask me (agnor#5489 on discord for a copy of that image))  
+These 3 sections are represented in the flowchart I showed you earlier.(if someone on github reads this: You can ask me (agnor99#5489 on discord for a copy of that image))  
 The simplest operation on a network. If a pipe is next to nothing and broken, delete all associated networkData.  
 If a pipe is placed and no other pipe of that type is around, a new network is created, and the pipe is added to the network.
 
