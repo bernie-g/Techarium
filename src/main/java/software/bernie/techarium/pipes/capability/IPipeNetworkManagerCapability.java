@@ -1,22 +1,19 @@
 package software.bernie.techarium.pipes.capability;
 
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.techarium.pipes.PipePosition;
-import software.bernie.techarium.pipes.networks.EnergyPipeNetwork;
-import software.bernie.techarium.pipes.networks.FluidPipeNetwork;
-import software.bernie.techarium.pipes.networks.ItemPipeNetwork;
 import software.bernie.techarium.pipes.networks.PipeNetwork;
 import software.bernie.techarium.tile.pipe.PipeTileEntity;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public interface IPipeNetworkManagerCapability extends INBTSerializable<CompoundNBT> {
+public interface IPipeNetworkManagerCapability extends INBTSerializable<ListNBT> {
     void tick(ServerWorld world);
 
     @NotNull
@@ -31,20 +28,7 @@ public interface IPipeNetworkManagerCapability extends INBTSerializable<Compound
 
     default UUID createNetwork(PipeType type) {
         UUID networkUUID = UUID.randomUUID();
-        PipeNetwork network;
-        switch (type) {
-            case ITEM:
-                network = new ItemPipeNetwork();
-                break;
-            case FLUID:
-                network = new FluidPipeNetwork();
-                break;
-            case ENERGY:
-                network = new EnergyPipeNetwork();
-                break;
-            default:
-                throw new UnsupportedOperationException("PipeType not supported: " + type);
-        }
+        PipeNetwork network = PipeNetwork.createNetwork(type);
         network.setUuid(networkUUID);
         addNetwork(network);
         return networkUUID;

@@ -2,11 +2,16 @@ package software.bernie.techarium.pipes.networks;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import org.apache.commons.lang3.tuple.MutablePair;
 import software.bernie.techarium.pipes.PipePosition;
@@ -18,7 +23,7 @@ import java.util.*;
 
 @Getter
 @Setter
-public abstract class PipeNetwork<Cap, ToTransport> {
+public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<CompoundNBT> {
 
     private UUID uuid;
     private List<BlockPos> pipeBlocks = new ArrayList<>();
@@ -150,4 +155,65 @@ public abstract class PipeNetwork<Cap, ToTransport> {
     public abstract ToTransport fill(Cap capability, ToTransport transport, boolean simulate);
 
     public abstract int getSlots(Cap capability);
+
+    @Override
+    public CompoundNBT serializeNBT() {
+        CompoundNBT nbt = new CompoundNBT();
+        nbt.putInt("type", getType().ordinal());
+        nbt.putUniqueId("uuid", uuid);
+        ListNBT pipeBlocksNBT = new ListNBT();
+        pipeBlocks.forEach(blockPos -> pipeBlocksNBT.add(NBTUtil.writeBlockPos(blockPos)));
+        nbt.put("pipeBlocks", pipeBlocksNBT);
+        ListNBT inputNBT = new ListNBT();
+        inputs.forEach(pipePos -> inputNBT.add(pipePos.serializeNBT()));
+        nbt.put("inputs", inputNBT);
+        ListNBT outputNBT = new ListNBT();
+        outputs.forEach(pipePos -> outputNBT.add(pipePos.serializeNBT()));
+        nbt.put("outputs", outputNBT);
+        nbt.putBoolean("deprecated", isDeprecated);
+        ListNBT newUUIDNBT = new ListNBT();
+        newUUID.forEach((blockPos, tempUUID) -> {
+            CompoundNBT tempNbt = NBTUtil.writeBlockPos(blockPos);
+            tempNbt.putUniqueId("uuid", tempUUID);
+            newUUIDNBT.add(tempNbt);
+        });
+        nbt.put("newUUID", newUUIDNBT);
+        return nbt;
+    }
+
+    public static PipeNetwork createNetwork(PipeType type) {
+        switch (type) {
+            case ITEM:
+                return new ItemPipeNetwork();
+            case FLUID:
+                return new FluidPipeNetwork();
+            case ENERGY:
+                return new EnergyPipeNetwork();
+        }
+        throw new UnsupportedOperationException("PipeType not supported: " + type);
+    }
+
+    public static PipeNetwork createFromNBT(CompoundNBT nbt) {
+        PipeType type = PipeType.values()[nbt.getInt("type")];
+        PipeNetwork network = createNetwork(type);
+        network.deserializeNBT(nbt);
+        return network;
+    }
+
+    @Override
+    public void deserializeNBT(CompoundNBT nbt) {
+        uuid = nbt.getUniqueId("uuid");
+        ListNBT pipeBlocksNBT = nbt.getList("pipeBlocks", Constants.NBT.TAG_COMPOUND);
+        pipeBlocksNBT.forEach(inbt -> pipeBlocks.add(NBTUtil.readBlockPos((CompoundNBT)inbt)));
+        ListNBT inputNBT = nbt.getList("inputs", Constants.NBT.TAG_COMPOUND);
+        inputNBT.forEach(inbt -> inputs.add(PipePosition.createFromNBT((CompoundNBT) inbt)));
+        ListNBT outputNBT = nbt.getList("outputs", Constants.NBT.TAG_COMPOUND);
+        outputNBT.forEach(inbt -> outputs.add(PipePosition.createFromNBT((CompoundNBT) inbt)));
+        isDeprecated = nbt.getBoolean("deprecated");
+        ListNBT newUUIDNBT = nbt.getList("newUUID", Constants.NBT.TAG_COMPOUND);
+        newUUIDNBT.forEach(inbt -> {
+            CompoundNBT compoundNBT = (CompoundNBT) inbt;
+            newUUID.put(NBTUtil.readBlockPos(compoundNBT), compoundNBT.getUniqueId("uuid"));
+        });
+    }
 }

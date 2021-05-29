@@ -1,6 +1,7 @@
 package software.bernie.techarium.pipes.capability;
 
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
@@ -59,12 +60,14 @@ public class PipeNetworkManagerCapability implements IPipeNetworkManagerCapabili
     }
 
     @Override
-    public CompoundNBT serializeNBT() {
-        return new CompoundNBT();
+    public ListNBT serializeNBT() {
+        ListNBT nbt = new ListNBT();
+        networks.values().forEach(pipeNetwork -> nbt.add(pipeNetwork.serializeNBT()));
+        return nbt;
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT nbt) {
-
+    public void deserializeNBT(ListNBT listNBT) {
+        listNBT.forEach(nbt -> addNetwork(PipeNetwork.createFromNBT((CompoundNBT) nbt)));
     }
 }
