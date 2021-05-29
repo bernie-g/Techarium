@@ -59,13 +59,23 @@ public class PipeBlock extends Block {
     @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         ItemStack activatedWith =  player.getHeldItem(handIn);
-        if (activatedWith.getItem() instanceof PipeItem && handlePlace(state, worldIn, pos, activatedWith))
+        if (activatedWith.getItem() instanceof PipeItem && !worldIn.isRemote && handlePlace(state, worldIn, pos, activatedWith))
             return ActionResultType.CONSUME;
         return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
     }
 
     @Override
     public ItemStack getItem(IBlockReader worldIn, BlockPos pos, BlockState state) {
+        TileEntity te = worldIn.getTileEntity(pos);
+        if (te instanceof PipeTileEntity) {
+            PipeTileEntity pipe = ((PipeTileEntity)te);
+            if (pipe.isType(PipeType.ITEM))
+                return ItemRegistry.ITEM_PIPE.get().getDefaultInstance();
+            if (pipe.isType(PipeType.FLUID))
+                return ItemRegistry.FLUID_PIPE.get().getDefaultInstance();
+            if (pipe.isType(PipeType.ENERGY))
+                return ItemRegistry.ENERGY_PIPE.get().getDefaultInstance();
+        }
         return ItemRegistry.ITEM_PIPE.get().getDefaultInstance();
     }
 
@@ -76,6 +86,16 @@ public class PipeBlock extends Block {
 
     @Override
     public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof PipeTileEntity) {
+            PipeTileEntity pipe = ((PipeTileEntity)te);
+            if (pipe.isType(PipeType.ITEM))
+                return ItemRegistry.ITEM_PIPE.get().getDefaultInstance();
+            if (pipe.isType(PipeType.FLUID))
+                return ItemRegistry.FLUID_PIPE.get().getDefaultInstance();
+            if (pipe.isType(PipeType.ENERGY))
+                return ItemRegistry.ENERGY_PIPE.get().getDefaultInstance();
+        }
         return ItemRegistry.ITEM_PIPE.get().getDefaultInstance();
     }
 
@@ -102,7 +122,8 @@ public class PipeBlock extends Block {
         UUID network;
         switch ((int)networks.values().stream().distinct().count()) {
             case 0:
-                network = networkManager.createNetwork(pos, pipeTileEntity, type);
+                network = networkManager.createNetwork(type);
+                networkManager.appendToNetwork(pos, pipeTileEntity, network);
                 break;
             case 1:
                 Map.Entry<Direction, UUID> connectedNetwork = networks.entrySet().iterator().next();
@@ -147,6 +168,8 @@ public class PipeBlock extends Block {
                 networkManager.removeFromNetwork(pos, network);
                 break;
             default: // multiple
+                networkManager.removeFromNetwork(pos, network);
+                networkManager.splitNetwork(pos,networks.keySet(), network);
         }
     }
 

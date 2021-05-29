@@ -3,7 +3,6 @@ package software.bernie.techarium.pipes.capability;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +29,7 @@ public interface IPipeNetworkManagerCapability extends INBTSerializable<Compound
     <T extends PipeNetwork> Optional<T> getNetwork(PipeType type, BlockPos pos);
     <T extends PipeNetwork> Optional<T> getByUUID(UUID uuid);
 
-    default UUID createNetwork(BlockPos pos, PipeTileEntity tileEntity, PipeType type) {
+    default UUID createNetwork(PipeType type) {
         UUID networkUUID = UUID.randomUUID();
         PipeNetwork network;
         switch (type) {
@@ -47,12 +46,6 @@ public interface IPipeNetworkManagerCapability extends INBTSerializable<Compound
                 throw new UnsupportedOperationException("PipeType not supported: " + type);
         }
         network.setUuid(networkUUID);
-        if (tileEntity.isInput) {
-            network.getInputs().addAll(generateAll(pos));
-        } else {
-            network.getOutputs().addAll(generateAll(pos));
-        }
-        network.getPipeBlocks().add(pos);
         addNetwork(network);
         return networkUUID;
     }
@@ -76,7 +69,8 @@ public interface IPipeNetworkManagerCapability extends INBTSerializable<Compound
         if(networkUUIDs.isEmpty())
             return UUID.randomUUID();
         List<PipeNetwork> networks = networkUUIDs.stream().map(this::getByUUID).filter(Optional::isPresent).map(optional -> optional.orElse(null)).filter(Objects::nonNull).collect(Collectors.toList());
-        UUID networkUUID = createNetwork(pos, tileEntity, networks.get(0).getType());
+        UUID networkUUID = createNetwork(networks.get(0).getType());
+        appendToNetwork(pos, tileEntity, networkUUID);
         PipeNetwork network = getByUUID(networkUUID).get();
         networks.forEach(oldNetwork -> {
             network.getPipeBlocks().addAll(oldNetwork.getPipeBlocks());
@@ -99,6 +93,84 @@ public interface IPipeNetworkManagerCapability extends INBTSerializable<Compound
         } else {
             System.err.println("Could not delete network with ID: " + networkUUID);
         }
+    }
+
+    default void splitNetwork(BlockPos pos, Set<Direction> connected, UUID networkUUID) {
+        Map<Direction, List<BlockPos>> newNetworks = rebuildNetwork(pos, connected, networkUUID);
+        if (newNetworks.size() == 1) {
+            return;
+            //Everything is connected: don't create new Networks
+        }
+        PipeNetwork oldNetwork = getByUUID(networkUUID).get();
+        Map<BlockPos, UUID> deprecationData = new HashMap<>();
+        for (List<BlockPos> newNetwork: newNetworks.values()) {
+            UUID uuid = createNetwork(oldNetwork.getType());
+            PipeNetwork network = getByUUID(uuid).get();
+            oldNetwork.getInputs().stream().filter(o -> isPartOfNetwork((PipePosition)o, newNetwork)).forEach(o -> network.getInputs().add(o));
+            oldNetwork.getOutputs().stream().filter(o -> isPartOfNetwork((PipePosition)o, newNetwork)).forEach(o -> network.getOutputs().add(o));
+            network.getPipeBlocks().addAll(newNetwork);
+            network.getPipeBlocks().forEach(tempPos -> deprecationData.put((BlockPos)tempPos, uuid));
+        }
+        oldNetwork.deprecateSpecific(getWorld(), deprecationData);
+    }
+
+    static boolean isPartOfNetwork(PipePosition position, List<BlockPos> network) {
+        return network.stream().filter(position::equals).count() > 0;
+    }
+
+    default Map<Direction, List<BlockPos>> rebuildNetwork(BlockPos pos, Collection<Direction> connected, UUID networkUUID) {
+        Optional<PipeNetwork> networkOptional = getByUUID(networkUUID);
+        if (networkOptional.isPresent()) {
+            PipeNetwork network = networkOptional.get();
+            List<BlockPos> pipeBlocks = network.getPipeBlocks();
+            List<Direction> alreadyConnected = new ArrayList<>();
+            Map<Direction, List<BlockPos>> newNetworks = new EnumMap<>(Direction.class);
+            for (Direction direction : connected) {
+                if (alreadyConnected.contains(direction))
+                    continue;
+                int preSize = 0;
+                List<BlockPos> connectedInDirection = new ArrayList<>();
+                connectedInDirection.add(pos.offset(direction));
+                alreadyConnected.add(direction);
+                while (connectedInDirection.size() != preSize) {
+                    preSize = connectedInDirection.size();
+                    for (BlockPos toTest: pipeBlocks) {
+                        if (connectedInDirection.contains(toTest))
+                            continue;
+                        if (isConnectedTo(toTest, connectedInDirection)) {
+                            connectedInDirection.add(toTest);
+                            if (toTest.manhattanDistance(pos) == 1) {
+                                Direction manhattanDirection = getManhattanConnection(pos, toTest);
+                                if (!alreadyConnected.contains(manhattanDirection)) {
+                                    alreadyConnected.add(manhattanDirection);
+                                }
+                            }
+                        }
+                    }
+                }
+                newNetworks.put(direction, connectedInDirection);
+            }
+            return newNetworks;
+        } else {
+            System.err.println("Could not delete network with ID: " + networkUUID);
+        }
+        return new HashMap<>();
+    }
+
+    static boolean isConnectedTo(BlockPos toTest, List<BlockPos> network) {
+        for (BlockPos networkPos: network) {
+            if (networkPos.manhattanDistance(toTest) == 1)
+                return true;
+        }
+        return false;
+    }
+
+    static Direction getManhattanConnection(BlockPos origin, BlockPos toTest) {
+        for (Direction direction: Direction.values()) {
+            if (origin.offset(direction).equals(toTest))
+                return direction;
+        }
+        throw new IllegalArgumentException("the BlockPositions don't connect");
     }
 
     default List<PipePosition> generateAll(BlockPos pos) {

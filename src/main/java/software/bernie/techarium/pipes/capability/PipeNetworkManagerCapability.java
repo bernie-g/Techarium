@@ -21,7 +21,9 @@ public class PipeNetworkManagerCapability implements IPipeNetworkManagerCapabili
     @Override
     public void tick(ServerWorld world) {
         this.world = world;
-        getNetworks().forEach(pipeNetwork -> pipeNetwork.tick(world));
+        List<PipeNetwork> toRemove = new ArrayList<>();
+        getNetworks().forEach(pipeNetwork -> {if(pipeNetwork.tick(world)) toRemove.add(pipeNetwork);});
+        toRemove.forEach(pipeNetwork -> deleteNetwork(pipeNetwork.getUuid()));
     }
 
     @Override

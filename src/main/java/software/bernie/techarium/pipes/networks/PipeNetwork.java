@@ -30,13 +30,25 @@ public abstract class PipeNetwork<Cap, ToTransport> {
 
     public abstract PipeType getType();
 
-    public void tick(ServerWorld world) {
+    /**
+     * @param world
+     * @return if the network should be removed after that tick
+     */
+    public boolean tick(ServerWorld world) {
+        if (isDeprecated || pipeBlocks.isEmpty()) {
+            if (newUUID.isEmpty()) {
+                return true;
+            }
+            //Don't remove, but also don't delete network information. There are still unsaved network information in here
+            return false;
+        }
         inputs.forEach(input -> {
             LazyOptional<Cap> inputCap = getCapability(world, input);
             if (inputCap.isPresent()) {
                 executeInput(world, input, inputCap.orElseThrow(NullPointerException::new));
             }
         });
+        return false;
     }
 
     public void deprecateAll(ServerWorld world, UUID newNetworkUUID) {
@@ -49,6 +61,23 @@ public abstract class PipeNetwork<Cap, ToTransport> {
                 }
             } else { //If not loaded put it into the map and on the next PipeTileEntity#onLoad call it will get updated
                 newUUID.put(pipePos, newNetworkUUID);
+            }
+        }
+    }
+
+    public void deprecateSpecific(ServerWorld world, Map<BlockPos, UUID> newNetworkUUIDs) {
+        isDeprecated = true;
+        if (newNetworkUUIDs.size() != pipeBlocks.size()) {
+            throw new IllegalArgumentException("Not all blocks are deprecated " + newNetworkUUIDs.size() + "," + pipeBlocks.size());
+        }
+        for (Map.Entry<BlockPos, UUID> data: newNetworkUUIDs.entrySet()) {
+            if (world.getChunkProvider().isChunkLoaded(new ChunkPos(data.getKey()))) {
+                TileEntity te = world.getTileEntity(data.getKey());
+                if (te instanceof PipeTileEntity) {
+                    ((PipeTileEntity)te).updateUUID(getType(), data.getValue());
+                }
+            } else { //If not loaded put it into the map and on the next PipeTileEntity#onLoad call it will get updated
+                newUUID.put(data.getKey(), data.getValue());
             }
         }
     }
