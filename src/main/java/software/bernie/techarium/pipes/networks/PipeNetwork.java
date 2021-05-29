@@ -1,40 +1,59 @@
 package software.bernie.techarium.pipes.networks;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import org.apache.commons.lang3.tuple.MutablePair;
 import software.bernie.techarium.pipes.PipePosition;
+import software.bernie.techarium.pipes.capability.PipeNetworkManagerCapability;
 import software.bernie.techarium.pipes.capability.PipeType;
+import software.bernie.techarium.tile.pipe.PipeTile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
-@Setter(AccessLevel.PACKAGE)
-public abstract class PipeNetwork<Cap, ToTransport> {
+@Setter
+public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<CompoundNBT> {
 
     private UUID uuid;
     private List<BlockPos> pipeBlocks = new ArrayList<>();
     private List<PipePosition> inputs = new ArrayList<>();
     private List<PipePosition> outputs = new ArrayList<>();
 
-    public abstract boolean isType(PipeType type);
+    private boolean isDeprecated = false;
+    private Map<BlockPos, UUID> newUUID = new HashMap<>();
 
-    public void tick(ServerWorld world) {
+    public abstract PipeType getType();
+
+    /**
+     * @param world
+     * @return if the network should be removed after that tick
+     */
+    public boolean tick(ServerWorld world) {
+        if (isDeprecated || pipeBlocks.isEmpty()) {
+            if (newUUID.isEmpty()) {
+                return true;
+            }
+            //Don't remove, but also don't delete network information. There are still unsaved network information in here
+            return false;
+        }
         inputs.forEach(input -> {
             LazyOptional<Cap> inputCap = getCapability(world, input);
             if (inputCap.isPresent()) {
                 executeInput(world, input, inputCap.orElseThrow(NullPointerException::new));
             }
         });
+        return false;
     }
 
     private void executeInput(ServerWorld world, PipePosition inputPos, Cap inputCap) {
@@ -53,7 +72,18 @@ public abstract class PipeNetwork<Cap, ToTransport> {
             }
             //could not fill the input to network, so try next slot
         }
+    }
 
+    public UUID getNewUUID(ServerWorld world, BlockPos pos) {
+        if (isDeprecated) {
+            UUID retUUID = newUUID.get(pos);
+            newUUID.remove(pos);
+            if (newUUID.isEmpty()) {
+                world.getCapability(PipeNetworkManagerCapability.INSTANCE).ifPresent(manager -> manager.deleteNetwork(uuid));
+            }
+            return retUUID;
+        }
+        return uuid;
     }
 
     //Add ordering Logic here
@@ -64,6 +94,37 @@ public abstract class PipeNetwork<Cap, ToTransport> {
             output.ifPresent(cap -> caps.add(new MutablePair<>(cap, outputPos)));
         }
         return caps;
+    }
+
+    public void deprecateAll(ServerWorld world, UUID newNetworkUUID) {
+        isDeprecated = true;
+        for (BlockPos pipePos: pipeBlocks) {
+            if (world.getChunkProvider().isChunkLoaded(new ChunkPos(pipePos))) {
+                TileEntity te = world.getTileEntity(pipePos);
+                if (te instanceof PipeTile) {
+                    ((PipeTile)te).updateUUID(getType(), newNetworkUUID);
+                }
+            } else { //If not loaded put it into the map and on the next PipeTileEntity#onLoad call it will get updated
+                newUUID.put(pipePos, newNetworkUUID);
+            }
+        }
+    }
+
+    public void deprecateSpecific(ServerWorld world, Map<BlockPos, UUID> newNetworkUUIDs) {
+        isDeprecated = true;
+        if (newNetworkUUIDs.size() != pipeBlocks.size()) {
+            throw new IllegalArgumentException("Not all blocks are deprecated " + newNetworkUUIDs.size() + "," + pipeBlocks.size());
+        }
+        for (Map.Entry<BlockPos, UUID> data: newNetworkUUIDs.entrySet()) {
+            if (world.getChunkProvider().isChunkLoaded(new ChunkPos(data.getKey()))) {
+                TileEntity te = world.getTileEntity(data.getKey());
+                if (te instanceof PipeTile) {
+                    ((PipeTile)te).updateUUID(getType(), data.getValue());
+                }
+            } else { //If not loaded put it into the map and on the next PipeTileEntity#onLoad call it will get updated
+                newUUID.put(data.getKey(), data.getValue());
+            }
+        }
     }
 
     public abstract Filter<ToTransport> getFilter(PipePosition pipePosition);
@@ -93,4 +154,65 @@ public abstract class PipeNetwork<Cap, ToTransport> {
     public abstract ToTransport fill(Cap capability, ToTransport transport, boolean simulate);
 
     public abstract int getSlots(Cap capability);
+
+    @Override
+    public CompoundNBT serializeNBT() {
+        CompoundNBT nbt = new CompoundNBT();
+        nbt.putInt("type", getType().ordinal());
+        nbt.putUniqueId("uuid", uuid);
+        ListNBT pipeBlocksNBT = new ListNBT();
+        pipeBlocks.forEach(blockPos -> pipeBlocksNBT.add(NBTUtil.writeBlockPos(blockPos)));
+        nbt.put("pipeBlocks", pipeBlocksNBT);
+        ListNBT inputNBT = new ListNBT();
+        inputs.forEach(pipePos -> inputNBT.add(pipePos.serializeNBT()));
+        nbt.put("inputs", inputNBT);
+        ListNBT outputNBT = new ListNBT();
+        outputs.forEach(pipePos -> outputNBT.add(pipePos.serializeNBT()));
+        nbt.put("outputs", outputNBT);
+        nbt.putBoolean("deprecated", isDeprecated);
+        ListNBT newUUIDNBT = new ListNBT();
+        newUUID.forEach((blockPos, tempUUID) -> {
+            CompoundNBT tempNbt = NBTUtil.writeBlockPos(blockPos);
+            tempNbt.putUniqueId("uuid", tempUUID);
+            newUUIDNBT.add(tempNbt);
+        });
+        nbt.put("newUUID", newUUIDNBT);
+        return nbt;
+    }
+
+    public static PipeNetwork createNetwork(PipeType type) {
+        switch (type) {
+            case ITEM:
+                return new ItemPipeNetwork();
+            case FLUID:
+                return new FluidPipeNetwork();
+            case ENERGY:
+                return new EnergyPipeNetwork();
+        }
+        throw new UnsupportedOperationException("PipeType not supported: " + type);
+    }
+
+    public static PipeNetwork createFromNBT(CompoundNBT nbt) {
+        PipeType type = PipeType.values()[nbt.getInt("type")];
+        PipeNetwork network = createNetwork(type);
+        network.deserializeNBT(nbt);
+        return network;
+    }
+
+    @Override
+    public void deserializeNBT(CompoundNBT nbt) {
+        uuid = nbt.getUniqueId("uuid");
+        ListNBT pipeBlocksNBT = nbt.getList("pipeBlocks", Constants.NBT.TAG_COMPOUND);
+        pipeBlocksNBT.forEach(inbt -> pipeBlocks.add(NBTUtil.readBlockPos((CompoundNBT)inbt)));
+        ListNBT inputNBT = nbt.getList("inputs", Constants.NBT.TAG_COMPOUND);
+        inputNBT.forEach(inbt -> inputs.add(PipePosition.createFromNBT((CompoundNBT) inbt)));
+        ListNBT outputNBT = nbt.getList("outputs", Constants.NBT.TAG_COMPOUND);
+        outputNBT.forEach(inbt -> outputs.add(PipePosition.createFromNBT((CompoundNBT) inbt)));
+        isDeprecated = nbt.getBoolean("deprecated");
+        ListNBT newUUIDNBT = nbt.getList("newUUID", Constants.NBT.TAG_COMPOUND);
+        newUUIDNBT.forEach(inbt -> {
+            CompoundNBT compoundNBT = (CompoundNBT) inbt;
+            newUUID.put(NBTUtil.readBlockPos(compoundNBT), compoundNBT.getUniqueId("uuid"));
+        });
+    }
 }

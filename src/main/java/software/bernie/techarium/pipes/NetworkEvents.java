@@ -1,6 +1,7 @@
 package software.bernie.techarium.pipes;
 
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -32,19 +33,20 @@ public class NetworkEvents {
         if (!(event.getObject() instanceof ServerWorld))
             return;
 
-        ICapabilityProvider provider = new ICapabilitySerializable<CompoundNBT>() {
+        ICapabilityProvider provider = new ICapabilitySerializable<ListNBT>() {
+            LazyOptional<IPipeNetworkManagerCapability> capability = LazyOptional.of(PipeNetworkManagerCapability::new);
             @Override
-            public CompoundNBT serializeNBT() {
+            public ListNBT serializeNBT() {
                 LazyOptional<IPipeNetworkManagerCapability> capability = getCapability(PipeNetworkManagerCapability.INSTANCE);
                 if (capability.isPresent()) {
                     IPipeNetworkManagerCapability networkManager = capability.orElseThrow(NullPointerException::new);
                     return networkManager.serializeNBT();
                 }
-                return new CompoundNBT();
+                return new ListNBT();
             }
 
             @Override
-            public void deserializeNBT(CompoundNBT nbt) {
+            public void deserializeNBT(ListNBT nbt) {
                 LazyOptional<IPipeNetworkManagerCapability> capability = getCapability(PipeNetworkManagerCapability.INSTANCE);
                 if (capability.isPresent()) {
                     IPipeNetworkManagerCapability networkManager = capability.orElseThrow(NullPointerException::new);
@@ -56,7 +58,7 @@ public class NetworkEvents {
             @Override
             public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
                 if (cap == PipeNetworkManagerCapability.INSTANCE) {
-                    return LazyOptional.of(PipeNetworkManagerCapability::new).cast();
+                    return capability.cast();
                 }
                 return LazyOptional.empty();
             }

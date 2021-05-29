@@ -1,6 +1,5 @@
 package software.bernie.techarium.pipes.networks;
 
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -11,8 +10,8 @@ import software.bernie.techarium.pipes.capability.PipeType;
 public class FluidPipeNetwork extends PipeNetwork<IFluidHandler, FluidStack> {
 
     @Override
-    public boolean isType(PipeType type) {
-        return type == PipeType.FLUID;
+    public PipeType getType() {
+        return PipeType.FLUID;
     }
 
     @Override
