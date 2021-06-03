@@ -1,0 +1,26 @@
+{
+  "type": "techarium:botarium",
+  "conditions": [
+    {
+      "modid": "farmersdelight",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "progressPerTick": 1,
+  "maxProgress": 800,
+  "rfPerTick": 10,
+  "cropIn": {
+    "item": "farmersdelight:tomato_seeds"
+  },
+  "soilIn": {
+    "tag": "forge:dirt"
+  },
+  "fluidIn": {
+    "FluidName": "minecraft:water",
+    "Amount": 1000
+  },
+  "output": {
+    "id": "farmersdelight:tomato",
+    "Count": 1
+  }
+}

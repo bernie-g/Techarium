@@ -67,15 +67,15 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
 
     }
 
-    private static void buildBotariumFlowerRecipe(FlowerBlock flowerBlock, Consumer<IFinishedRecipe> consumer) {
+    public static void buildBotariumFlowerRecipe(FlowerBlock flowerBlock, Consumer<IFinishedRecipe> consumer) {
         buildBotariumRecipe(flowerBlock.asItem(), flowerBlock, Ingredient.fromItems(Blocks.GRASS_BLOCK), 1000, 1000, consumer);
     }
 
-    private static void buildBotariumRecipe(Item seed, IItemProvider drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+    public static void buildBotariumRecipe(Item seed, IItemProvider drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
         buildBotariumRecipe(seed, drop, Ingredient.fromTag(TagRegistry.DIRT), amountWater, time, consumer);
     }
 
-    private static void buildBotariumRecipe(Item seed, IItemProvider drop, Ingredient soil, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+    public static void buildBotariumRecipe(Item seed, IItemProvider drop, Ingredient soil, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
         buildBotariumRecipe(seed, drop, soil, new FluidStack(Fluids.WATER, amountWater), time, consumer);
     }
 

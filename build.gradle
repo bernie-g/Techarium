@@ -28,7 +28,7 @@ minecraft {
       runs {
         client {
             workingDirectory project.file('run')
-
+            property 'mixin.env.disableRefMap', 'true'
             mods {
                 techarium {
                     source sourceSets.main
@@ -38,7 +38,7 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-
+            property 'mixin.env.disableRefMap', 'true'
             mods {
                 techarium {
                     source sourceSets.main
@@ -48,7 +48,7 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
-
+            property 'mixin.env.disableRefMap', 'true'
             args '--mod', 'techarium', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             mods {
                 techarium {
@@ -76,6 +76,14 @@ repositories {
         url "http://maven.tterrag.com/"
     }
     maven { url 'https://maven.blamejared.com' }
+    maven {
+        // for Immersive Engineering
+        url "https://modmaven.dev/"
+        content {
+            includeGroup 'blusunrize.immersiveengineering'
+            includeGroup 'malte0811'
+        }
+    }
 }
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.1'
@@ -100,7 +108,11 @@ dependencies {
     compile fg.deobf("curse.maven:pams-harvestcraft-2-crops-361385:3276350")
     compile fg.deobf("curse.maven:thermal-cultivation-271835:3246999")
     compile fg.deobf("curse.maven:thermal-foundation-222880:3248150")
+    compile fg.deobf("curse.maven:xl-food-mod-plus-448703:3232224")
+    compile fg.deobf("curse.maven:farmers-delight-398521:3310983")
+    //compile fg.deobf("curse.maven:immersive-engineering-231951:3233018")
     compile fg.deobf("com.teamcofh:CoFHCore:1.16.4-1.2.0")
+    compileOnly fg.deobf("blusunrize.immersiveengineering:ImmersiveEngineering:1.16.5-4.2.4-134.7")
 
     // Compile against the Hwyla API, but run with full mod
     compileOnly fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}:api")

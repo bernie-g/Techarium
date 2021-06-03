@@ -19,6 +19,10 @@ import software.bernie.techarium.registry.TagRegistry;
 import java.util.function.Consumer;
 
 public class MysticalAgricultureIntegration extends Integration {
+    public MysticalAgricultureIntegration(String modID) {
+        super(modID);
+    }
+
     @Override
     public void generateRecipes(Consumer<IFinishedRecipe> consumer) {
         for (Item item : ForgeRegistries.ITEMS) {
@@ -33,7 +37,7 @@ public class MysticalAgricultureIntegration extends Integration {
                         .progressPerTick(1)
                         .output(new ItemStack(mysticalSeed.getCrop().getEssence(), 1))
                         .construct()
-                        .addCondition(new ModLoadedCondition(ModIntegrations.MYSTICAL.getModID()))
+                        .addCondition(new ModLoadedCondition(ModIntegrations.getMystical().orElseThrow(NullPointerException::new).getModID()))
                         .build(consumer,
                                 new ResourceLocation(Techarium.ModID, "botarium/mystical/" + mysticalSeed.getRegistryName().getPath()));
             }

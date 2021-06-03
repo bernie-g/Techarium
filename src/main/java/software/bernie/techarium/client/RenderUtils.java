@@ -23,6 +23,7 @@ import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -40,11 +41,10 @@ import javax.annotation.Nonnull;
 import java.util.EnumMap;
 import java.util.Random;
 
-@Mod.EventBusSubscriber(modid = Techarium.ModID)
+@Mod.EventBusSubscriber(modid = Techarium.ModID, value = Dist.CLIENT)
 public class RenderUtils {
 
 	private static final float Z_FIGHTING_VALUE = 0.001f;
-
 	public static Runnable renderModel(MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, IBakedModel model, Random rand, int combinedLightIn, int combinedOverlayIn)
 	{
 		return () -> Minecraft.getInstance().getItemRenderer().renderQuads(matrixStack, iRenderTypeBuffer.getBuffer(

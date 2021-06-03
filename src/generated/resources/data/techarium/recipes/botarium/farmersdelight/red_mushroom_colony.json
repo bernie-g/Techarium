@@ -1,0 +1,31 @@
+{
+  "type": "techarium:botarium",
+  "conditions": [
+    {
+      "modid": "farmersdelight",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "progressPerTick": 1,
+  "maxProgress": 800,
+  "rfPerTick": 10,
+  "cropIn": {
+    "item": "farmersdelight:red_mushroom_colony"
+  },
+  "soilIn": [
+    {
+      "item": "minecraft:stone"
+    },
+    {
+      "item": "minecraft:mycelium"
+    }
+  ],
+  "fluidIn": {
+    "FluidName": "minecraft:water",
+    "Amount": 1000
+  },
+  "output": {
+    "id": "minecraft:red_mushroom",
+    "Count": 1
+  }
+}

@@ -22,6 +22,10 @@ import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
 public class ThermalCultivationIntegration extends Integration {
+    public ThermalCultivationIntegration(String modID) {
+        super(modID);
+    }
+
     @SneakyThrows
     @Override
     public void generateRecipes(Consumer<IFinishedRecipe> consumer) {
@@ -45,7 +49,7 @@ public class ThermalCultivationIntegration extends Integration {
                         .progressPerTick(1)
                         .output(new ItemStack(cropProvider.asItem(), 1))
                         .construct()
-                        .addCondition(new ModLoadedCondition(ModIntegrations.MYSTICAL.getModID()))
+                        .addCondition(new ModLoadedCondition(ModIntegrations.getThermalCultivation().orElseThrow(NullPointerException::new).getModID()))
                         .build(consumer,
                                 new ResourceLocation(Techarium.ModID, "botarium/thermal/cultivation/" + seedsProvider.asItem().getRegistryName().getPath()));
             }

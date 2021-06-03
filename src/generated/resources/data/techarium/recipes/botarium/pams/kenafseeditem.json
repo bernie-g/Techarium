@@ -2,7 +2,7 @@
   "type": "techarium:botarium",
   "conditions": [
     {
-      "modid": "mysticalagriculture",
+      "modid": "pamhc2crops",
       "type": "forge:mod_loaded"
     }
   ],
