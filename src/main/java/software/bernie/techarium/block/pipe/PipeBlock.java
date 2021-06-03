@@ -8,6 +8,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -16,10 +19,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.LazyOptional;
-import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.techarium.item.PipeItem;
 import software.bernie.techarium.pipes.capability.IPipeNetworkManagerCapability;
@@ -34,6 +37,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class PipeBlock extends Block {
+
     public PipeBlock() {
         super(AbstractBlock.Properties.create(Material.ROCK));
     }
@@ -113,6 +117,16 @@ public class PipeBlock extends Block {
         super.onReplaced(state, world, pos, newState, isMoving);
     }
 
+    @Override
+    public void onNeighborChange(BlockState state, IWorldReader world, BlockPos pos, BlockPos neighbor) {
+        if (world instanceof ServerWorld) {
+            TileEntity te = world.getTileEntity(pos);
+            if (te instanceof PipeTile) {
+                ((PipeTile)te).updateDisplayState();
+            }
+        }
+    }
+
     private static boolean handlePlace(BlockState state, World world, BlockPos pos, ItemStack stack) {
         PipeType type = ((PipeItem)stack.getItem()).getType();
         PipeTile pipeTile = (PipeTile) world.getTileEntity(pos);
@@ -143,6 +157,7 @@ public class PipeBlock extends Block {
                 break;
         }
         pipeTile.addType(type, network);
+        pipeTile.updateDisplayState();
         return true;
     }
 
@@ -180,7 +195,7 @@ public class PipeBlock extends Block {
         }
     }
 
-    private static Map<Direction, UUID> getSurroundingNetworks(World world, BlockPos pos, PipeType type) {
+    public static Map<Direction, UUID> getSurroundingNetworks(World world, BlockPos pos, PipeType type) {
         EnumMap<Direction, UUID> networks = new EnumMap<>(Direction.class);
         for (Direction direction: Direction.values()) {
             TileEntity te = world.getTileEntity(pos.offset(direction));
