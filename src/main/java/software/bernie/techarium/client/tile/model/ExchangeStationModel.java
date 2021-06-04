@@ -8,12 +8,12 @@ import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
 public class ExchangeStationModel extends AnimatedGeoModel<ExchangeStationTile> {
     @Override
     public ResourceLocation getAnimationFileLocation(ExchangeStationTile tile) {
-        return new ResourceLocation(Techarium.ModID, "animations/exchange_station_anim.json");
+        return new ResourceLocation(Techarium.ModID, "animations/exchangestation.animation.json");
     }
 
     @Override
     public ResourceLocation getModelLocation(ExchangeStationTile tile) {
-        return new ResourceLocation(Techarium.ModID, "geo/exchange_station/exchange_station.json");
+        return new ResourceLocation(Techarium.ModID, "geo/exchange_station/exchange_station.geo.json");
     }
 
     @Override

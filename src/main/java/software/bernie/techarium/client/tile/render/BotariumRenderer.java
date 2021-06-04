@@ -40,8 +40,8 @@ public class BotariumRenderer extends GeoBlockRenderer<BotariumTile> {
 	@Override
 	public void renderEarly(BotariumTile tile, MatrixStack stack, float ticks, IRenderTypeBuffer renderTypeBuffer,  IVertexBuilder vertexBuilder, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float partialTicks) {
 		stack.push();
-		stack.translate(0, 0.61, -0.47);
-		stack.rotate(new Quaternion(25, 0, 0, true));
+		stack.translate(0, 0.59, -0.48);
+		stack.rotate(new Quaternion(25, 180, 0, true));
 		stack.scale(0.21f, 0.21f, 0.21f);
 		Minecraft.getInstance().getItemRenderer().renderItem(tile.getCropInventory().getStackInSlot(0), ItemCameraTransforms.TransformType.NONE, packedLightIn, packedOverlayIn, stack, renderTypeBuffer);
 		stack.pop();
