@@ -144,7 +144,6 @@
 					"name": "spawnboxopen1",
 					"parent": "spawnbox",
 					"pivot": [4, 9, 0],
-					"rotation": [0, 0, 72.5],
 					"cubes": [
 						{
 							"origin": [0, 9, -4],
@@ -164,7 +163,6 @@
 					"name": "spawnboxopen2",
 					"parent": "spawnbox",
 					"pivot": [-4, 9, 0],
-					"rotation": [0, 0, -60],
 					"cubes": [
 						{
 							"origin": [-4, 9, -4],
