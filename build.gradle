@@ -89,7 +89,7 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.1'
 
     //Geckolib stuff
-    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.33')
+    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.38')
 
     //adventure
     compile "net.kyori:adventure-api:$adventure_version"
