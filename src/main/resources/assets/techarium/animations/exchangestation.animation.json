@@ -149,30 +149,30 @@
 				"spawnboxopen2": {
 					"rotation": {
 						"1.4": {
-							"vector": [0, 0, 0]
+							"vector": [0, 0, -0.1]
 						},
 						"2.2": {
 							"vector": [0, 0, -132.5],
 							"easing": "easeOutBack"
 						},
 						"3.0": {
-							"vector": [0, 0, 0],
-							"easing": "easeInOutBack"
+							"vector": [0, 0, -0.1],
+							"easing": "easeInOutCirc"
 						}
 					}
 				},
 				"spawnboxopen1": {
 					"rotation": {
 						"1.4": {
-							"vector": [0, 0, 0]
+							"vector": [0, 0, 0.1]
 						},
 						"2.2": {
 							"vector": [0, 0, 132.5],
 							"easing": "easeOutBack"
 						},
 						"3.0": {
-							"vector": [0, 0, 0],
-							"easing": "easeInOutBack"
+							"vector": [0, 0, 0.1],
+							"easing": "easeInOutCirc"
 						}
 					}
 				},
