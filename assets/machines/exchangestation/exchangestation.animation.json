@@ -157,7 +157,7 @@
 						},
 						"3.0": {
 							"vector": [0, 0, -0.1],
-							"easing": "easeInOutBack"
+							"easing": "easeInOutCirc"
 						}
 					}
 				},
@@ -172,7 +172,7 @@
 						},
 						"3.0": {
 							"vector": [0, 0, 0.1],
-							"easing": "easeInOutBack"
+							"easing": "easeInOutCirc"
 						}
 					}
 				},
