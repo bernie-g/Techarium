@@ -1,5 +1,6 @@
 package software.bernie.techarium.client;
 
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -22,5 +23,10 @@ public class ClientEvents
 	{
 		ClientRegistry.bindTileEntityRenderer(BlockTileRegistry.BOTARIUM.getTileEntityType(), BotariumRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(BlockTileRegistry.EXCHANGE_STATION.getTileEntityType(), ExchangeStationRenderer::new);
+	}
+
+	@SubscribeEvent
+	public static void modelBakeEvent(ModelBakeEvent event) {
+
 	}
 }

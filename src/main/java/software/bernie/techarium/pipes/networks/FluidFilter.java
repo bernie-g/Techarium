@@ -7,7 +7,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 @Getter
 @Setter
-public class FluidFilter extends Filter<FluidStack> {
+public class FluidFilter implements Filter<FluidStack> {
     Fluid fluid;
 
     @Override

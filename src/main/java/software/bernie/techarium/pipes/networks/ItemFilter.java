@@ -4,7 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
-public class ItemFilter extends Filter<ItemStack> {
+public class ItemFilter implements Filter<ItemStack> {
     private Item[] filtered = {Items.AIR,Items.AIR,Items.AIR,Items.AIR,Items.AIR};
 
     public void setFilter(int slot, Item item) {

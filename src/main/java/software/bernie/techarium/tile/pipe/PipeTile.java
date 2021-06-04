@@ -1,5 +1,14 @@
 package software.bernie.techarium.tile.pipe;
 
+import jdk.nashorn.internal.runtime.doubleconv.CachedPowers;
+import net.minecraft.block.BlockState;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.util.Direction;
+import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.IModelData;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -8,20 +17,27 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
+import org.jetbrains.annotations.NotNull;
+import software.bernie.techarium.block.pipe.PipeBlock;
+import software.bernie.techarium.block.pipe.PipeData;
+import software.bernie.techarium.pipes.PipePosition;
 import software.bernie.techarium.pipes.capability.IPipeNetworkManagerCapability;
 import software.bernie.techarium.pipes.capability.PipeNetworkManagerCapability;
 import software.bernie.techarium.pipes.capability.PipeType;
 import software.bernie.techarium.pipes.networks.PipeNetwork;
 import software.bernie.techarium.registry.BlockTileRegistry;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class PipeTile extends TileEntity {
     public boolean isInput = false;
     private Map<PipeType, UUID> type = new EnumMap<>(PipeType.class);
+
+    private PipeData displayData = new PipeData();
     public PipeTile() {
         super(BlockTileRegistry.PIPE.getTileEntityType());
     }
@@ -66,6 +82,66 @@ public class PipeTile extends TileEntity {
         }
     }
 
+    @Nullable
+    @Override
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        return new SUpdateTileEntityPacket(this.getPos(), -1, this.getUpdateTag());
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+        handleUpdateTag(this.getBlockState(), pkt.getNbtCompound());
+    }
+
+    @Override
+    @Nonnull
+    public CompoundNBT getUpdateTag() {
+        return displayData.serialize();
+    }
+
+    @Override
+    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+        displayData = PipeData.deserialize(tag);
+        requestModelDataUpdate();
+    }
+
+
+
+    @NotNull
+    @Override
+    public IModelData getModelData() {
+        return super.getModelData();
+    }
+
+    public void updateDisplayState() {
+        if (! (world instanceof ServerWorld))
+            return;
+        displayData = new PipeData();
+        List<Pair<PipeType, PipeNetwork>> orderedTypes = orderedTypes();
+        for (int i = 0; i < orderedTypes.size(); i++) {
+            displayData.types[i] = orderedTypes.get(i).getLeft().ordinal() + 1;
+            Map<Direction, UUID> surrounding = PipeBlock.getSurroundingNetworks(world, pos, orderedTypes.get(i).getLeft());
+            PipeNetwork network = orderedTypes.get(i).getRight();
+            for (Direction direction: Direction.values()) {
+                LazyOptional<?> capability = network.getCapability((ServerWorld) world, new PipePosition(pos, direction));
+                if (surrounding.containsKey(direction) || capability.isPresent()) {
+                    displayData.pipeConnections.put(direction, displayData.pipeConnections.getOrDefault(direction, 0) + (int)Math.pow(2, i));
+                 }
+                if (capability.isPresent()) {
+                    displayData.pipeEnds.put(direction, true);
+                }
+            }
+        }
+        world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
+    }
+
+    /**
+     * Call only on ServerWorld
+     * @return The sorted PipeConnections
+     */
+    private List<Pair<PipeType, PipeNetwork>> orderedTypes() {
+        return type.entrySet().stream().sorted(Comparator.comparingInt(entry -> entry.getKey().ordinal())).map(entry -> new ImmutablePair<>(entry.getKey(),  world.getCapability(PipeNetworkManagerCapability.INSTANCE).orElseThrow(NullPointerException::new).getByUUID(entry.getValue()).get())).collect(Collectors.toList());
+    }
     @Override
     public CompoundNBT serializeNBT() {
         CompoundNBT nbt = super.serializeNBT();

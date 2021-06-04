@@ -15,7 +15,7 @@ public class EnergyPipeNetwork extends PipeNetwork<IEnergyStorage, Integer> {
 
     @Override
     public Filter<Integer> getFilter(PipePosition pipePosition) {
-        return new Filter<>();
+        return new Filter<Integer>(){};
     }
 
     @Override
