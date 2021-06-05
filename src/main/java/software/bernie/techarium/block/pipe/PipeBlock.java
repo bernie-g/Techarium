@@ -145,7 +145,6 @@ public class PipeBlock extends Block {
         if (te instanceof PipeTile) {
             PipeTile pipeTile = (PipeTile) te;
             PipeData data = pipeTile.getDisplayData();
-            System.out.println(worldIn instanceof ClientWorld ? "Client:" : "Server:" + data);
             VoxelShape shape = VoxelShapes.empty();
             for (Direction direction: Direction.values()) {
                 if (data.pipeEnds.containsKey(direction) && data.pipeEnds.get(direction))
