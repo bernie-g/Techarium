@@ -11,13 +11,13 @@ public class ItemGroupRegistry
 {
 	public static final ItemGroup TECHARIUMS = new ItemGroup("techarium") {
 		@Override
-		public ItemStack createIcon() {
+		public ItemStack makeIcon() {
 			return new ItemStack(BOTARIUM.getItem());
 		}
 
 		@Override
-		public void fill(NonNullList<ItemStack> items) {
-			super.fill(items);
+		public void fillItemList(NonNullList<ItemStack> items) {
+			super.fillItemList(items);
 		}
 	};
 }

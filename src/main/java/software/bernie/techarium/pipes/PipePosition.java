@@ -26,7 +26,7 @@ public class PipePosition implements INBTSerializable<CompoundNBT> {
     @Override
     public CompoundNBT serializeNBT() {
         CompoundNBT nbt = NBTUtil.writeBlockPos(pos);
-        nbt.putInt("direction", direction.getIndex());
+        nbt.putInt("direction", direction.get3DDataValue());
         return nbt;
     }
 
@@ -39,6 +39,6 @@ public class PipePosition implements INBTSerializable<CompoundNBT> {
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
         pos = NBTUtil.readBlockPos(nbt);
-        direction = Direction.byIndex(nbt.getInt("direction"));
+        direction = Direction.from3DDataValue(nbt.getInt("direction"));
     }
 }

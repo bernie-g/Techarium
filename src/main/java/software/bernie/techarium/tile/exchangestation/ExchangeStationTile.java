@@ -27,7 +27,7 @@ public class ExchangeStationTile extends MachineMasterTile<ExchangeStationRecipe
 
     @Override
     protected MachineController<ExchangeStationRecipe> createMachineController() {
-        MachineController<ExchangeStationRecipe> controller =  new MachineController<>(this, () -> this.pos, BOTARIUM_DRAWABLE);
+        MachineController<ExchangeStationRecipe> controller =  new MachineController<>(this, () -> this.worldPosition, BOTARIUM_DRAWABLE);
         controller.setPowered(true);
         controller.setEnergyStorage(100000,100000, 20, 20);
 

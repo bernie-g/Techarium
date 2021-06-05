@@ -24,6 +24,8 @@ import java.util.function.Predicate;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.DEFAULT_FLUID_TANK;
 
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+
 public class FluidTankAddon extends FluidTank implements IContainerComponentProvider, IToolTippedAddon {
 
     private final String name;
@@ -220,7 +222,7 @@ public class FluidTankAddon extends FluidTank implements IContainerComponentProv
                             .append(Component.text(decimalFormat.format(this.getCapacity()), NamedTextColor.GOLD))
                             .append(Component.text(" MB", NamedTextColor.DARK_AQUA));
 
-                    screen.func_243308_b(new MatrixStack(), Utils.wrapText(fluidComponent, component), mouseX - xCenter, mouseY - yCenter);
+                    screen.renderComponentTooltip(new MatrixStack(), Utils.wrapText(fluidComponent, component), mouseX - xCenter, mouseY - yCenter);
                 }
             }
         }

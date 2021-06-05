@@ -116,7 +116,7 @@ public class EnergyStorageAddon extends EnergyStorage implements INBTSerializabl
                                 energyCost,
                                 NamedTextColor.GOLD))
                         .append(Component.text(" FE/t", NamedTextColor.DARK_AQUA));
-                screen.func_243308_b(new MatrixStack(), Utils.wrapText(component, usage), mouseX - xCenter, mouseY - yCenter);
+                screen.renderComponentTooltip(new MatrixStack(), Utils.wrapText(component, usage), mouseX - xCenter, mouseY - yCenter);
             }
         }
     }

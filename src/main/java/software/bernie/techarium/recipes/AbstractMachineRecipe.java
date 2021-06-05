@@ -48,17 +48,17 @@ public abstract class AbstractMachineRecipe extends TechariumRecipeBuilder<Abstr
     }
 
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack assemble(IInventory inv) {
         return null;
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return false;
     }
 
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return ItemStack.EMPTY;
     }
 
@@ -68,7 +68,7 @@ public abstract class AbstractMachineRecipe extends TechariumRecipeBuilder<Abstr
         }
 
         @Override
-        public void serialize(JsonObject json) {
+        public void serializeRecipeData(JsonObject json) {
             json.addProperty("progressPerTick", AbstractMachineRecipe.this.progressPerTick);
             json.addProperty("maxProgress", AbstractMachineRecipe.this.maxProgress);
             json.addProperty("rfPerTick", AbstractMachineRecipe.this.rfPerTick);

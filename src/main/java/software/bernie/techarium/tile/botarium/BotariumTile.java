@@ -76,11 +76,11 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
     @Override
     public void tick() {
         super.tick();
-        BlockState state = getFluidInventory().getFluid().getFluid().getDefaultState().getBlockState();
-        int newLightLevel = state.getBlock().properties.lightLevel.applyAsInt(state);
+        BlockState state = getFluidInventory().getFluid().getFluid().defaultFluidState().createLegacyBlock();
+        int newLightLevel = state.getBlock().properties.lightEmission.applyAsInt(state);
         if (prevLightLevel != newLightLevel) {
             prevLightLevel = newLightLevel;
-            world.getLightManager().checkBlock(pos);
+            level.getLightEngine().checkBlock(worldPosition);
         }
     }
 
@@ -101,7 +101,7 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
                     BotariumRecipe recipe = getController().getCurrentRecipe();
                     FluidStack fluid = controller.getMultiTank().getFluidTanks().get(0).getFluid();
                     InventoryAddon output = controller.getMultiInventory().getInventoryByName("output").get();
-                    return recipe != null && output.getStackInSlot(0).getCount() + recipe.getRecipeOutput().getCount() <= output.getSlotLimit(0) && getController().getEnergyStorage().getEnergyStored() > 0 && fluid.getAmount() >= recipe.getFluidIn().getAmount();
+                    return recipe != null && output.getStackInSlot(0).getCount() + recipe.getResultItem().getCount() <= output.getSlotLimit(0) && getController().getEnergyStorage().getEnergyStored() > 0 && fluid.getAmount() >= recipe.getFluidIn().getAmount();
                 })
                 .setOnProgressFull(() -> handleProgressFinish(getController().getCurrentRecipe()))
                 .setOnProgressTick(() -> {
@@ -115,11 +115,11 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
                 (fluidStack -> true)));
 
         controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
-                .setInsertPredicate((itemStack, integer) -> Block.getBlockFromItem(itemStack.getItem()) != Blocks.AIR)
+                .setInsertPredicate((itemStack, integer) -> Block.byItem(itemStack.getItem()) != Blocks.AIR)
                 .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 1));
 
         controller.addInventory(new InventoryAddon(this, "cropInput", 49, 35, 1)
-                .setInsertPredicate((itemStack, integer) -> itemStack.isEmpty() || world.getRecipeManager().getRecipes()
+                .setInsertPredicate((itemStack, integer) -> itemStack.isEmpty() || level.getRecipeManager().getRecipes()
                         .stream()
                         .filter(this::checkRecipe)
                         .map(this::castRecipe).anyMatch(
@@ -176,7 +176,7 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
     }
 
     private MachineController<BotariumRecipe> createController() {
-        return new MachineController<>(this, () -> this.pos, BOTARIUM_DRAWABLE);
+        return new MachineController<>(this, () -> this.worldPosition, BOTARIUM_DRAWABLE);
     }
 
     @Override
@@ -207,7 +207,7 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
                         } else {
                             if (getOutputInventory().getStackInSlot(
                                     0).getCount() != getOutputInventory().getStackInSlot(0).getMaxStackSize()) {
-                                return currentRecipe.getRecipeOutput().isItemEqual(getOutputInventory().getStackInSlot(0));
+                                return currentRecipe.getResultItem().sameItem(getOutputInventory().getStackInSlot(0));
                             }
                         }
                     }
@@ -219,18 +219,18 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
 
     @Override
     public void handleProgressFinish(BotariumRecipe currentRecipe) {
-        if (world != null) {
-            if (!world.isRemote()) {
+        if (level != null) {
+            if (!level.isClientSide()) {
                 getController().getMultiTank().getTankOptional().ifPresent(
                         multiTank -> multiTank.drain(currentRecipe.getFluidIn().getAmount(),
                                 IFluidHandler.FluidAction.EXECUTE));
                 ItemStack currentOut = getOutputInventory().getStackInSlot(0);
                 ItemStack stackIn = getCropInventory().getStackInSlot(
-                        0).getCount() == 0 ? ItemStack.EMPTY : currentRecipe.getRecipeOutput();
+                        0).getCount() == 0 ? ItemStack.EMPTY : currentRecipe.getResultItem();
                 if (currentOut.isEmpty()) {
                     getOutputInventory().insertItem(0, stackIn, false);
                 } else {
-                    if (stackIn.isItemEqual(currentOut)) {
+                    if (stackIn.sameItem(currentOut)) {
                         getOutputInventory().insertItem(0, stackIn, false);
                     }
                 }
@@ -253,7 +253,7 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
     @Override
     public Map<BlockPos, MachineBlock<?>> getMachineSlaveLocations() {
         Map<BlockPos, MachineBlock<?>> map = super.getMachineSlaveLocations();
-        map.put(pos.up(), BOTARIUM_TOP.get());
+        map.put(worldPosition.above(), BOTARIUM_TOP.get());
         return map;
     }
 

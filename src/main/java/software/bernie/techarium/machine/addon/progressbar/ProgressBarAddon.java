@@ -176,7 +176,7 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IContain
 
     public void onTick() {
         if (tile != null) {
-            if (Objects.requireNonNull(this.tile.getWorld()).getGameTime() % this.tickingTime == 0) {
+            if (Objects.requireNonNull(this.tile.getLevel()).getGameTime() % this.tickingTime == 0) {
                 if (this.progressUp && this.progress < this.maxProgress) {
                     this.setProgress(this.progress + this.progressToAdd);
                     this.onProgressTick.run();
@@ -248,7 +248,7 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IContain
                                 (progress * this.getTickingTime() / 20.0D))), NamedTextColor.WHITE))
                         .append(Component.text("s", NamedTextColor.DARK_AQUA));
 
-                screen.func_243308_b(new MatrixStack(), Utils.wrapText(component, progressComponent), mouseX - xCenter, mouseY - yCenter);
+                screen.renderComponentTooltip(new MatrixStack(), Utils.wrapText(component, progressComponent), mouseX - xCenter, mouseY - yCenter);
             }
         }
     }

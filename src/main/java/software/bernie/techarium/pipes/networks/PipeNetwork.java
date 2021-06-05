@@ -99,8 +99,8 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
     public void deprecateAll(ServerWorld world, UUID newNetworkUUID) {
         isDeprecated = true;
         for (BlockPos pipePos: pipeBlocks) {
-            if (world.getChunkProvider().isChunkLoaded(new ChunkPos(pipePos))) {
-                TileEntity te = world.getTileEntity(pipePos);
+            if (world.getChunkSource().isEntityTickingChunk(new ChunkPos(pipePos))) {
+                TileEntity te = world.getBlockEntity(pipePos);
                 if (te instanceof PipeTile) {
                     ((PipeTile)te).updateUUID(getType(), newNetworkUUID);
                 }
@@ -116,8 +116,8 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
             throw new IllegalArgumentException("Not all blocks are deprecated " + newNetworkUUIDs.size() + "," + pipeBlocks.size());
         }
         for (Map.Entry<BlockPos, UUID> data: newNetworkUUIDs.entrySet()) {
-            if (world.getChunkProvider().isChunkLoaded(new ChunkPos(data.getKey()))) {
-                TileEntity te = world.getTileEntity(data.getKey());
+            if (world.getChunkSource().isEntityTickingChunk(new ChunkPos(data.getKey()))) {
+                TileEntity te = world.getBlockEntity(data.getKey());
                 if (te instanceof PipeTile) {
                     ((PipeTile)te).updateUUID(getType(), data.getValue());
                 }
@@ -130,8 +130,8 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
     public abstract Filter<ToTransport> getFilter(PipePosition pipePosition);
 
     public LazyOptional<Cap> getCapability(ServerWorld world, PipePosition position) {
-        if (world.getChunkProvider().isChunkLoaded(new ChunkPos(position.getPos()))) {
-            TileEntity te =  world.getTileEntity(position.getPos().offset(position.getDirection()));
+        if (world.getChunkSource().isEntityTickingChunk(new ChunkPos(position.getPos()))) {
+            TileEntity te =  world.getBlockEntity(position.getPos().relative(position.getDirection()));
             if (te != null) {
                 return te.getCapability(getDefaultCapability(), position.getDirection());
             }
@@ -159,7 +159,7 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
     public CompoundNBT serializeNBT() {
         CompoundNBT nbt = new CompoundNBT();
         nbt.putInt("type", getType().ordinal());
-        nbt.putUniqueId("uuid", uuid);
+        nbt.putUUID("uuid", uuid);
         ListNBT pipeBlocksNBT = new ListNBT();
         pipeBlocks.forEach(blockPos -> pipeBlocksNBT.add(NBTUtil.writeBlockPos(blockPos)));
         nbt.put("pipeBlocks", pipeBlocksNBT);
@@ -173,7 +173,7 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
         ListNBT newUUIDNBT = new ListNBT();
         newUUID.forEach((blockPos, tempUUID) -> {
             CompoundNBT tempNbt = NBTUtil.writeBlockPos(blockPos);
-            tempNbt.putUniqueId("uuid", tempUUID);
+            tempNbt.putUUID("uuid", tempUUID);
             newUUIDNBT.add(tempNbt);
         });
         nbt.put("newUUID", newUUIDNBT);
@@ -201,7 +201,7 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
 
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
-        uuid = nbt.getUniqueId("uuid");
+        uuid = nbt.getUUID("uuid");
         ListNBT pipeBlocksNBT = nbt.getList("pipeBlocks", Constants.NBT.TAG_COMPOUND);
         pipeBlocksNBT.forEach(inbt -> pipeBlocks.add(NBTUtil.readBlockPos((CompoundNBT)inbt)));
         ListNBT inputNBT = nbt.getList("inputs", Constants.NBT.TAG_COMPOUND);
@@ -212,7 +212,7 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
         ListNBT newUUIDNBT = nbt.getList("newUUID", Constants.NBT.TAG_COMPOUND);
         newUUIDNBT.forEach(inbt -> {
             CompoundNBT compoundNBT = (CompoundNBT) inbt;
-            newUUID.put(NBTUtil.readBlockPos(compoundNBT), compoundNBT.getUniqueId("uuid"));
+            newUUID.put(NBTUtil.readBlockPos(compoundNBT), compoundNBT.getUUID("uuid"));
         });
     }
 }

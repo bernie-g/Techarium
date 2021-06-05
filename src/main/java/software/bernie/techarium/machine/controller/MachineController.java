@@ -195,7 +195,7 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
 
         if(currentRecipeLocation != null)
         {
-            this.currentRecipe = (T) this.tile.getWorld().getRecipeManager().getRecipe(currentRecipeLocation).orElse(null);
+            this.currentRecipe = (T) this.tile.getLevel().getRecipeManager().byKey(currentRecipeLocation).orElse(null);
             currentRecipeLocation = null;
         }
 
@@ -209,7 +209,7 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
         if (recipeCheckTimer-- <= 0 || shouldCheckRecipe) {
             recipeCheckTimer = 50;
             if (tile.shouldCheckForRecipe()) {
-                currentRecipe = tile.getWorld().getRecipeManager()
+                currentRecipe = tile.getLevel().getRecipeManager()
                         .getRecipes()
                         .stream()
                         .filter(tile::checkRecipe)

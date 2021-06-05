@@ -30,7 +30,7 @@ public class AutomaticContainer extends Container {
         this.inv = inv;
         this.name = containerName;
         this.tile = tile;
-        this.tileLocation = tile.getPos();
+        this.tileLocation = tile.getBlockPos();
 
         for (Integer slot : getMachineController().getPlayerInvSlotsXY().keySet()) {
             Pair<Integer, Integer> slotXY = getMachineController().getPlayerInvSlotsXY().get(slot);
@@ -49,8 +49,8 @@ public class AutomaticContainer extends Container {
     public AutomaticContainer(int id, PlayerInventory inv, PacketBuffer packetBuffer) {
         super(AUTO_CONTAINER.get(), id);
         tileLocation = packetBuffer.readBlockPos();
-        this.name = packetBuffer.readTextComponent();
-        this.tile = (MachineMasterTile<?>) inv.player.world.getTileEntity(tileLocation);
+        this.name = packetBuffer.readComponent();
+        this.tile = (MachineMasterTile<?>) inv.player.level.getBlockEntity(tileLocation);
 
         for (Integer slot : getMachineController().getPlayerInvSlotsXY().keySet()) {
             Pair<Integer, Integer> slotXY = getMachineController().getPlayerInvSlotsXY().get(slot);
@@ -79,12 +79,12 @@ public class AutomaticContainer extends Container {
     }
 
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity player, int index) {
+    public ItemStack quickMoveStack(PlayerEntity player, int index) {
         return ContainerUtil.handleShiftClick(this, player, index);
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
-        return playerIn.getDistanceSq((double) tileLocation.getX() + 0.5D, (double) tileLocation.getY() + 0.5D, (double) tileLocation.getZ() + 0.5D) <= 64.0D;
+    public boolean stillValid(PlayerEntity playerIn) {
+        return playerIn.distanceToSqr((double) tileLocation.getX() + 0.5D, (double) tileLocation.getY() + 0.5D, (double) tileLocation.getZ() + 0.5D) <= 64.0D;
     }
 }

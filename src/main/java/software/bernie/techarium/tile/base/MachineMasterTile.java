@@ -53,8 +53,8 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
 
     @Override
     public ITextComponent getDisplayName() {
-        TranslationTextComponent component = new TranslationTextComponent(this.getBlockState().getBlock().getTranslationKey());
-        component.getStyle().applyFormatting(TextFormatting.BLACK);
+        TranslationTextComponent component = new TranslationTextComponent(this.getBlockState().getBlock().getDescriptionId());
+        component.getStyle().applyFormat(TextFormatting.BLACK);
         return component;
     }
 
@@ -68,7 +68,7 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == CapabilityEnergy.ENERGY || cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            if (world != null && getFaceConfigs().get(getSideFromDirection(side, getFacingDirection())).allowsConnection()) {
+            if (level != null && getFaceConfigs().get(getSideFromDirection(side, getFacingDirection())).allowsConnection()) {
                 return this.getCapability(cap);
             }
         }
@@ -91,8 +91,8 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     @Override
     public ActionResultType onTileActivated(PlayerEntity player) {
         NetworkHooks.openGui((ServerPlayerEntity) player, this, packetBuffer -> {
-            packetBuffer.writeBlockPos(this.getPos());
-            packetBuffer.writeTextComponent(this.getDisplayName());
+            packetBuffer.writeBlockPos(this.getBlockPos());
+            packetBuffer.writeComponent(this.getDisplayName());
         });
         return ActionResultType.SUCCESS;
     }
@@ -107,47 +107,47 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     @Override
     public void tick() {
         this.getController().tick();
-        if (!world.isRemote()) {
+        if (!level.isClientSide()) {
             if(isFirstLoad) {
                 updateMachineTile();
                 isFirstLoad = false;
-            } else if(world.getGameTime() % 3 == 0){
+            } else if(level.getGameTime() % 3 == 0){
                 isFirstLoad = true;
             }
         }
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT nbt) {
+    public void load(BlockState state, CompoundNBT nbt) {
         getController().deserializeNBT(nbt.getCompound("activeMachine"));
-        super.read(state, nbt);
+        super.load(state, nbt);
         updateMachineTile();
     }
 
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT save(CompoundNBT compound) {
         compound.put("activeMachine", getController().serializeNBT());
-        return super.write(compound);
+        return super.save(compound);
     }
 
     protected void updateMachineTile() {
         requestModelDataUpdate();
-        this.markDirty();
-        if (this.getWorld() != null) {
-            this.getWorld().notifyBlockUpdate(pos, this.getBlockState(), this.getBlockState(), 3);
+        this.setChanged();
+        if (this.getLevel() != null) {
+            this.getLevel().sendBlockUpdated(worldPosition, this.getBlockState(), this.getBlockState(), 3);
         }
     }
 
     @Nullable
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.getPos(), -1, this.getUpdateTag());
+        return new SUpdateTileEntityPacket(this.getBlockPos(), -1, this.getUpdateTag());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        handleUpdateTag(this.getBlockState(), pkt.getNbtCompound());
+        handleUpdateTag(this.getBlockState(), pkt.getTag());
     }
 
     @Override
@@ -163,7 +163,7 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     }
 
     public void masterHandleDestruction(){
-        getController().getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(inv -> getItemStackStream(inv).forEach(stack -> spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack,world.rand))));
+        getController().getMultiInventory().getInvOptional().ifPresent(multiInv -> multiInv.getInventories().forEach(inv -> getItemStackStream(inv).forEach(stack -> spawnItemStack(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), stack,level.random))));
     }
 
     protected abstract MachineController<T> createMachineController();

@@ -27,10 +27,10 @@ public class ProgressBarWidget extends Widget {
     @Override
     public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         Minecraft minecraft = Minecraft.getInstance();
-        int screenY = minecraft.getMainWindow().getScaledHeight() / 2;
-        int screenX = minecraft.getMainWindow().getScaledWidth() / 2;
+        int screenY = minecraft.getWindow().getGuiScaledHeight() / 2;
+        int screenX = minecraft.getWindow().getGuiScaledWidth() / 2;
         int guiLeft = getBackgroundSize().getKey() / 2;
         int guiTop = getBackgroundSize().getValue() / 2;
-        getProgressBar().getDrawable().drawPartial(screenX - guiLeft + x, screenY - guiTop + y, getWidth(), getHeightRealms(), (float)getProgressBar().getProgress() / getProgressBar().getMaxProgress(), 1, 0, 0);
+        getProgressBar().getDrawable().drawPartial(screenX - guiLeft + x, screenY - guiTop + y, getWidth(), getHeight(), (float)getProgressBar().getProgress() / getProgressBar().getMaxProgress(), 1, 0, 0);
     }
 }

@@ -42,11 +42,11 @@ public abstract class Integration {
     }
 
     public void buildBotariumFlowerRecipe(FlowerBlock flowerBlock, Consumer<IFinishedRecipe> consumer) {
-        buildBotariumRecipe(flowerBlock.asItem(), flowerBlock, Ingredient.fromItems(Blocks.GRASS_BLOCK), 1000, 1000, consumer);
+        buildBotariumRecipe(flowerBlock.asItem(), flowerBlock, Ingredient.of(Blocks.GRASS_BLOCK), 1000, 1000, consumer);
     }
 
     public void buildBotariumRecipe(Item seed, IItemProvider drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
-        buildBotariumRecipe(seed, drop, Ingredient.fromTag(TagRegistry.DIRT), amountWater, time, consumer);
+        buildBotariumRecipe(seed, drop, Ingredient.of(TagRegistry.DIRT), amountWater, time, consumer);
     }
 
     public void buildBotariumRecipe(Item seed, IItemProvider drop, Ingredient soil, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
@@ -55,7 +55,7 @@ public abstract class Integration {
 
     private void buildBotariumRecipe(Item seed, IItemProvider drop, Ingredient soil, FluidStack fluid, int time, Consumer<IFinishedRecipe> consumer) {
         BotariumRecipe.builder()
-                .cropType(Ingredient.fromItems(seed))
+                .cropType(Ingredient.of(seed))
                 .soilIn(soil)
                 .fluidIn(fluid)
                 .maxProgress(time)

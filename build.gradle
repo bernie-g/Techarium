@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        maven { url = 'https://sizableshrimp.me/maven' }
         maven { url = 'https://maven.minecraftforge.net' }
         jcenter()
         mavenCentral()
@@ -21,7 +22,7 @@ archivesBaseName = 'techarium'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    mappings channel: 'snapshot', version: '20201028-1.16.3'
+    mappings channel:"official", version:"1.16.5"
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -84,6 +85,7 @@ repositories {
             includeGroup 'malte0811'
         }
     }
+    maven { url = 'https://sizableshrimp.me/maven' }
 }
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.1'

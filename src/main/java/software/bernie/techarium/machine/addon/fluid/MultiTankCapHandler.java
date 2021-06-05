@@ -7,6 +7,8 @@ import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.List;
 
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+
 public class MultiTankCapHandler implements IFluidHandler {
 
     private final List<FluidTankAddon> tanks;

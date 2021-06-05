@@ -41,12 +41,12 @@ import java.util.stream.Collectors;
 
 public class PipeBlock extends Block {
 
-    private static final VoxelShape SOUTH_END = makeCuboidShape(4,4,15,12,12,16);
-    private static final VoxelShape SOUTH_PIPE = makeCuboidShape(6,6,8,10,10,15);
+    private static final VoxelShape SOUTH_END = box(4,4,15,12,12,16);
+    private static final VoxelShape SOUTH_PIPE = box(6,6,8,10,10,15);
 
 
     public PipeBlock() {
-        super(AbstractBlock.Properties.create(Material.ROCK).notSolid());
+        super(AbstractBlock.Properties.of(Material.STONE).noOcclusion());
     }
 
     @Override
@@ -61,30 +61,30 @@ public class PipeBlock extends Block {
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        if (worldIn.isRemote)
+    public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        if (worldIn.isClientSide)
             return;
-        if (placer != null && placer.isSneaking()) {
-            TileEntity te = worldIn.getTileEntity(pos);
+        if (placer != null && placer.isShiftKeyDown()) {
+            TileEntity te = worldIn.getBlockEntity(pos);
             if (te instanceof PipeTile) {
                 ((PipeTile) te).isInput = true;
             }
         }
-        if (!worldIn.isRemote())
+        if (!worldIn.isClientSide())
             handlePlace(state, worldIn, pos, stack);
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        ItemStack activatedWith =  player.getHeldItem(handIn);
-        if (activatedWith.getItem() instanceof PipeItem && !worldIn.isRemote && handlePlace(state, worldIn, pos, activatedWith))
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        ItemStack activatedWith =  player.getItemInHand(handIn);
+        if (activatedWith.getItem() instanceof PipeItem && !worldIn.isClientSide && handlePlace(state, worldIn, pos, activatedWith))
             return ActionResultType.CONSUME;
-        return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
+        return super.use(state, worldIn, pos, player, handIn, hit);
     }
 
     @Override
-    public ItemStack getItem(IBlockReader worldIn, BlockPos pos, BlockState state) {
-        TileEntity te = worldIn.getTileEntity(pos);
+    public ItemStack getCloneItemStack(IBlockReader worldIn, BlockPos pos, BlockState state) {
+        TileEntity te = worldIn.getBlockEntity(pos);
         if (te instanceof PipeTile) {
             PipeTile pipe = ((PipeTile)te);
             if (pipe.isType(PipeType.ITEM))
@@ -104,7 +104,7 @@ public class PipeBlock extends Block {
 
     @Override
     public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
-        TileEntity te = world.getTileEntity(pos);
+        TileEntity te = world.getBlockEntity(pos);
         if (te instanceof PipeTile) {
             PipeTile pipe = ((PipeTile)te);
             if (pipe.isType(PipeType.ITEM))
@@ -118,16 +118,16 @@ public class PipeBlock extends Block {
     }
 
     @Override
-    public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.isIn(newState.getBlock()))
+    public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock()))
             handleRemove(world, pos);
-        super.onReplaced(state, world, pos, newState, isMoving);
+        super.onRemove(state, world, pos, newState, isMoving);
     }
 
     @Override
     public void onNeighborChange(BlockState state, IWorldReader world, BlockPos pos, BlockPos neighbor) {
         if (world instanceof ServerWorld) {
-            TileEntity te = world.getTileEntity(pos);
+            TileEntity te = world.getBlockEntity(pos);
             if (te instanceof PipeTile) {
                 ((PipeTile)te).updateDisplayState();
             }
@@ -135,13 +135,13 @@ public class PipeBlock extends Block {
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader reader, BlockPos pos) {
-        return getShape(state, reader, pos, ISelectionContext.dummy());
+    public VoxelShape getBlockSupportShape(BlockState state, IBlockReader reader, BlockPos pos) {
+        return getShape(state, reader, pos, ISelectionContext.empty());
     }
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        TileEntity te = worldIn.getTileEntity(pos);
+        TileEntity te = worldIn.getBlockEntity(pos);
         if (te instanceof PipeTile) {
             PipeTile pipeTile = (PipeTile) te;
             PipeData data = pipeTile.getDisplayData();
@@ -159,7 +159,7 @@ public class PipeBlock extends Block {
 
     private static boolean handlePlace(BlockState state, World world, BlockPos pos, ItemStack stack) {
         PipeType type = ((PipeItem)stack.getItem()).getType();
-        PipeTile pipeTile = (PipeTile) world.getTileEntity(pos);
+        PipeTile pipeTile = (PipeTile) world.getBlockEntity(pos);
         if (pipeTile.isType(type)) {
             return false;
         }
@@ -193,7 +193,7 @@ public class PipeBlock extends Block {
 
 
     private static void handleRemove(World world, BlockPos pos) {
-        PipeTile pipeTile = (PipeTile) world.getTileEntity(pos);
+        PipeTile pipeTile = (PipeTile) world.getBlockEntity(pos);
         for (PipeType type: PipeType.values()) {
             if (pipeTile.isType(type))
                 handleRemoveForType(pipeTile, world, pos, type);
@@ -228,7 +228,7 @@ public class PipeBlock extends Block {
     public static Map<Direction, UUID> getSurroundingNetworks(World world, BlockPos pos, PipeType type) {
         EnumMap<Direction, UUID> networks = new EnumMap<>(Direction.class);
         for (Direction direction: Direction.values()) {
-            TileEntity te = world.getTileEntity(pos.offset(direction));
+            TileEntity te = world.getBlockEntity(pos.relative(direction));
             if (te instanceof PipeTile && ((PipeTile) te).isType(type)) {
                 networks.put(direction, ((PipeTile) te).getNetworkUUID(type));
             }

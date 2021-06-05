@@ -57,7 +57,7 @@ public class BlockRegistryObjectGroup<B extends Block, I extends Item, T extends
 
     public BlockRegistryObjectGroup<B, I, T> registerWithoutItem(DeferredRegister<Block> blockRegistry, DeferredRegister<TileEntityType<?>> tileRegistry) {
         block = blockRegistry.register(name, blockCreator);
-        tileEntity = tileRegistry.register(name, () -> TileEntityType.Builder.create(tileSupplier, this.getBlock())
+        tileEntity = tileRegistry.register(name, () -> TileEntityType.Builder.of(tileSupplier, this.getBlock())
                 .build(null));
         return this;
     }
@@ -67,7 +67,7 @@ public class BlockRegistryObjectGroup<B extends Block, I extends Item, T extends
                                                       DeferredRegister<TileEntityType<?>> tileEntityTypeRegistry) {
         this.register(blockRegistry, itemRegistry);
         if (tileSupplier != null) {
-            tileEntity = tileEntityTypeRegistry.register(name, () -> TileEntityType.Builder.create(tileSupplier, this.getBlock())
+            tileEntity = tileEntityTypeRegistry.register(name, () -> TileEntityType.Builder.of(tileSupplier, this.getBlock())
                     .build(null));
         }
         return this;

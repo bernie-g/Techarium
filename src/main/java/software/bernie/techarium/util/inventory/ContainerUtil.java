@@ -20,7 +20,7 @@ public final class ContainerUtil
 
 	/**
 	 * <p>Implementation for shift-clicking in ContainerUtil. This is a drop-in replacement you can call from the
-	 * {@link Container#transferStackInSlot(PlayerEntity, int)} method in your Container.</p>
+	 * {@link Container#quickMoveStack(PlayerEntity, int)} method in your Container.</p>
 	 * <ul>
 	 * <li>When the slot to be moved is not in the inventory of the player it will be moved there as known
 	 * from vanilla inventories.</li>
@@ -36,14 +36,14 @@ public final class ContainerUtil
 	 */
 	public static ItemStack handleShiftClick(Container container, PlayerEntity player, int slotIndex) {
 		@SuppressWarnings("unchecked")
-		List<Slot> slots = container.inventorySlots;
+		List<Slot> slots = container.slots;
 		Slot sourceSlot = slots.get(slotIndex);
-		ItemStack inputStack = sourceSlot.getStack();
+		ItemStack inputStack = sourceSlot.getItem();
 		if (inputStack == ItemStack.EMPTY) {
 			return ItemStack.EMPTY;
 		}
 
-		boolean sourceIsPlayer = sourceSlot.inventory == player.inventory;
+		boolean sourceIsPlayer = sourceSlot.container == player.inventory;
 
 		ItemStack copy = inputStack.copy();
 
@@ -67,7 +67,7 @@ public final class ContainerUtil
 		} else {
 			// transfer to player inventory
 			// this is heuristic, but should do fine. if it doesn't the only "issue" is that vanilla behavior is not matched 100%
-			boolean isMachineOutput = !sourceSlot.isItemValid(inputStack);
+			boolean isMachineOutput = !sourceSlot.mayPlace(inputStack);
 			if (!mergeStack(player.inventory, true, sourceSlot, slots, !isMachineOutput)) {
 				return ItemStack.EMPTY;
 			} else {
@@ -79,28 +79,28 @@ public final class ContainerUtil
 	// same as mergeStack, but uses a ShiftClickTarget
 	// ugly copy paste is ugly
 	private static boolean mergeToTarget(PlayerInventory playerInv, Slot sourceSlot, List<Slot> slots, ShiftClickTarget target) {
-		ItemStack sourceStack = sourceSlot.getStack();
+		ItemStack sourceStack = sourceSlot.getItem();
 		int originalSize = sourceStack.getCount();
 
 		// first pass, try merge with existing stacks
 		target.reset();
 		while (sourceStack.getCount() > 0 && target.hasNext()) {
 			Slot targetSlot = slots.get(target.next());
-			if (targetSlot.inventory != playerInv) {
-				ItemStack targetStack = targetSlot.getStack();
+			if (targetSlot.container != playerInv) {
+				ItemStack targetStack = targetSlot.getItem();
 				if (ItemStacks.equal(targetStack, sourceStack)) {
-					int targetMax = Math.min(targetSlot.getSlotStackLimit(), targetStack.getMaxStackSize());
+					int targetMax = Math.min(targetSlot.getMaxStackSize(), targetStack.getMaxStackSize());
 					int toTransfer = Math.min(sourceStack.getCount(), targetMax - targetStack.getCount());
 					if (toTransfer > 0) {
 						targetStack.setCount(targetStack.getCount() + toTransfer);
 						sourceStack.setCount(sourceStack.getCount() - toTransfer);
-						targetSlot.onSlotChanged();
+						targetSlot.setChanged();
 					}
 				}
 			}
 		}
 		if (sourceStack.getCount() == 0) {
-			sourceSlot.putStack(ItemStack.EMPTY);
+			sourceSlot.set(ItemStack.EMPTY);
 			return true;
 		}
 
@@ -108,18 +108,18 @@ public final class ContainerUtil
 		target.reset();
 		while (target.hasNext()) {
 			Slot targetSlot = slots.get(target.next());
-			if (targetSlot.inventory != playerInv && !targetSlot.getHasStack() && targetSlot.isItemValid(sourceStack)) {
-				int toPut = Math.min(targetSlot.getSlotStackLimit(), sourceStack.getCount());
+			if (targetSlot.container != playerInv && !targetSlot.hasItem() && targetSlot.mayPlace(sourceStack)) {
+				int toPut = Math.min(targetSlot.getMaxStackSize(), sourceStack.getCount());
 				ItemStack newStack = sourceStack.copy();
 				newStack.setCount(toPut);
-				targetSlot.putStack(newStack);
+				targetSlot.set(newStack);
 				sourceStack.setCount(sourceStack.getCount() - toPut);
-				sourceSlot.putStack(sourceStack);
+				sourceSlot.set(sourceStack);
 				return true;
 			}
 		}
 		if (originalSize != sourceStack.getCount()) {
-			sourceSlot.onSlotChanged();
+			sourceSlot.setChanged();
 			return true;
 		} else {
 			return false;
@@ -128,7 +128,7 @@ public final class ContainerUtil
 
 	// returns true if it has found a target
 	private static boolean mergeStack(PlayerInventory playerInv, boolean mergeIntoPlayer, Slot sourceSlot, List<Slot> slots, boolean reverse) {
-		ItemStack sourceStack = sourceSlot.getStack();
+		ItemStack sourceStack = sourceSlot.getItem();
 
 		int originalSize = sourceStack.getCount();
 
@@ -142,15 +142,15 @@ public final class ContainerUtil
 
 			while (sourceStack.getCount() > 0 && (reverse ? idx >= 0 : idx < len)) {
 				Slot targetSlot = slots.get(idx);
-				if ((targetSlot.inventory == playerInv) == mergeIntoPlayer) {
-					ItemStack target = targetSlot.getStack();
+				if ((targetSlot.container == playerInv) == mergeIntoPlayer) {
+					ItemStack target = targetSlot.getItem();
 					if (ItemStacks.equal(sourceStack, target)) { // also checks target != null, because stack is never null
-						int targetMax = Math.min(targetSlot.getSlotStackLimit(), target.getMaxStackSize());
+						int targetMax = Math.min(targetSlot.getMaxStackSize(), target.getMaxStackSize());
 						int toTransfer = Math.min(sourceStack.getCount(), targetMax - target.getCount());
 						if (toTransfer > 0) {
 							target.setCount(target.getCount() + toTransfer);
 							sourceStack.setCount(sourceStack.getCount() - toTransfer);
-							targetSlot.onSlotChanged();
+							targetSlot.setChanged();
 						}
 					}
 				}
@@ -162,7 +162,7 @@ public final class ContainerUtil
 				}
 			}
 			if (sourceStack.getCount() == 0) {
-				sourceSlot.putStack(ItemStack.EMPTY);
+				sourceSlot.set(ItemStack.EMPTY);
 				return true;
 			}
 		}
@@ -171,14 +171,14 @@ public final class ContainerUtil
 		idx = reverse ? len - 1 : 0;
 		while (reverse ? idx >= 0 : idx < len) {
 			Slot targetSlot = slots.get(idx);
-			if ((targetSlot.inventory == playerInv) == mergeIntoPlayer
-					&& !targetSlot.getHasStack() && targetSlot.isItemValid(sourceStack)) {
-				int toPut = Math.min(targetSlot.getSlotStackLimit(), sourceStack.getCount());
+			if ((targetSlot.container == playerInv) == mergeIntoPlayer
+					&& !targetSlot.hasItem() && targetSlot.mayPlace(sourceStack)) {
+				int toPut = Math.min(targetSlot.getMaxStackSize(), sourceStack.getCount());
 				ItemStack newStack = sourceStack.copy();
 				newStack.setCount(toPut);
-				targetSlot.putStack(newStack);
+				targetSlot.set(newStack);
 				sourceStack.setCount(sourceStack.getCount() - toPut);
-				sourceSlot.putStack(sourceStack);
+				sourceSlot.set(sourceStack);
 				return true;
 			}
 
@@ -191,7 +191,7 @@ public final class ContainerUtil
 
 		// we had success in merging only a partial stack
 		if (sourceStack.getCount() != originalSize) {
-			sourceSlot.onSlotChanged();
+			sourceSlot.setChanged();
 			return true;
 		}
 		return false;

@@ -27,8 +27,8 @@ public class DrawableWidget extends Widget {
     @Override
     public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         Minecraft minecraft = Minecraft.getInstance();
-        int screenY = minecraft.getMainWindow().getScaledHeight() / 2;
-        int screenX = minecraft.getMainWindow().getScaledWidth() / 2;
-        drawable.draw(screenX - getBackgroundSize().getValue() / 2 + x, screenY - getBackgroundSize().getKey() / 2 + y, getWidth(), getHeightRealms());
+        int screenY = minecraft.getWindow().getGuiScaledHeight() / 2;
+        int screenX = minecraft.getWindow().getGuiScaledWidth() / 2;
+        drawable.draw(screenX - getBackgroundSize().getValue() / 2 + x, screenY - getBackgroundSize().getKey() / 2 + y, getWidth(), getHeight());
     }
 }

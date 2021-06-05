@@ -19,15 +19,15 @@ import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUMS;
 public class PowerStickDebug extends Item {
 
     public PowerStickDebug() {
-        super(new Item.Properties().group(TECHARIUMS));
+        super(new Item.Properties().tab(TECHARIUMS));
     }
 
     @Override
-    public ActionResultType onItemUse(ItemUseContext context) {
-        World world = context.getWorld();
-        BlockPos pos = context.getPos();
+    public ActionResultType useOn(ItemUseContext context) {
+        World world = context.getLevel();
+        BlockPos pos = context.getClickedPos();
         if(world.getBlockState(pos).getBlock() instanceof MachineBlock<?>){
-           TileEntity tile = world.getTileEntity(pos);
+           TileEntity tile = world.getBlockEntity(pos);
            if(tile instanceof MachineMasterTile){
                MachineMasterTile<?> macTile = (MachineMasterTile<?>) tile;
                if(macTile.isPowered()) {
@@ -38,6 +38,6 @@ public class PowerStickDebug extends Item {
            }
         }
 
-        return super.onItemUse(context);
+        return super.useOn(context);
     }
 }

@@ -21,7 +21,7 @@ public class UiTexture {
     }
 
     public void bindTexture() {
-        Minecraft.getInstance().textureManager.bindTexture(TEXTURE);
+        Minecraft.getInstance().textureManager.bind(TEXTURE);
     }
 
     public IDrawable getFullArea() {
@@ -74,16 +74,16 @@ public class UiTexture {
             //vi = (float) Math.floor(vi * this.height) / this.height;
             //vf = (float) Math.floor(vf * this.height)   / this.height;
             Tessellator tesselator = Tessellator.getInstance();
-            BufferBuilder buf = tesselator.getBuffer();
+            BufferBuilder buf = tesselator.getBuilder();
             RenderSystem.enableAlphaTest();
 
             buf.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-            buf.pos(xi, yi, 0D).tex(ui, vi).endVertex();
-            buf.pos(xi, yf, 0D).tex(ui, vf).endVertex();
-            buf.pos(xf, yf, 0D).tex(uf, vf).endVertex();
-            buf.pos(xf, yi, 0D).tex(uf, vi).endVertex();
-            buf.finishDrawing();
-            WorldVertexBufferUploader.draw(buf);
+            buf.vertex(xi, yi, 0D).uv(ui, vi).endVertex();
+            buf.vertex(xi, yf, 0D).uv(ui, vf).endVertex();
+            buf.vertex(xf, yf, 0D).uv(uf, vf).endVertex();
+            buf.vertex(xf, yi, 0D).uv(uf, vi).endVertex();
+            buf.end();
+            WorldVertexBufferUploader.end(buf);
         }
 
     }

@@ -42,9 +42,9 @@ public class TechariumJEIPlugin implements IModPlugin
 
 	@Override
 	public void registerRecipes(IRecipeRegistration registration) {
-		ClientWorld world = Minecraft.getInstance().world;
+		ClientWorld world = Minecraft.getInstance().level;
 		if (world != null) {
-			List<BotariumRecipe> recipes = world.getRecipeManager().getRecipesForType(RecipeRegistry.BOTARIUM_RECIPE_TYPE);
+			List<BotariumRecipe> recipes = world.getRecipeManager().getAllRecipesFor(RecipeRegistry.BOTARIUM_RECIPE_TYPE);
 			registration.addRecipes(recipes, BotariumRecipeCategory.UID);
 		}
 

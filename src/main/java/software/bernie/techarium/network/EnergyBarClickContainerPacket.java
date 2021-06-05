@@ -37,7 +37,7 @@ public class EnergyBarClickContainerPacket extends ClientToServerContainerPacket
     @Override
     void doAction(NetworkEvent.Context context) {
         getContainer(context).ifPresent(container -> {
-            ItemStack stack = context.getSender().inventory.getItemStack();
+            ItemStack stack = context.getSender().inventory.getCarried();
             LazyOptional<IEnergyStorage> energy = stack.getCapability(CapabilityEnergy.ENERGY);
 
             energy.ifPresent(energyItem -> {
@@ -49,7 +49,7 @@ public class EnergyBarClickContainerPacket extends ClientToServerContainerPacket
                     int received = addon.receiveEnergy(energyItem.extractEnergy(Integer.MAX_VALUE, true), false);
                     energyItem.extractEnergy(received, false);
                 }
-                context.getSender().updateHeldItem();
+                context.getSender().broadcastCarriedItem();
             });
         });
     }

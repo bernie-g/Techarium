@@ -35,7 +35,7 @@ public class BotariumRecipe extends AbstractMachineRecipe {
     }
 
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return output.copy();
     }
 
@@ -46,7 +46,7 @@ public class BotariumRecipe extends AbstractMachineRecipe {
     }
 
     @Override
-    public boolean isDynamic() {
+    public boolean isSpecial() {
         return true;
     }
 
@@ -61,12 +61,12 @@ public class BotariumRecipe extends AbstractMachineRecipe {
         }
 
         @Override
-        public void serialize(JsonObject json) {
-            super.serialize(json);
-            json.add("cropIn", getCropType().serialize());
-            json.add("soilIn", getSoilIn().serialize());
+        public void serializeRecipeData(JsonObject json) {
+            super.serializeRecipeData(json);
+            json.add("cropIn", getCropType().toJson());
+            json.add("soilIn", getSoilIn().toJson());
             json.add("fluidIn", JsonCodecUtils.serialize(getFluidIn()));
-            json.add("output", JsonCodecUtils.serialize(getRecipeOutput()));
+            json.add("output", JsonCodecUtils.serialize(getResultItem()));
         }
     }
 

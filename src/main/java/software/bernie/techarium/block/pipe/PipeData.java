@@ -24,7 +24,7 @@ public class PipeData {
         ListNBT endNBT = new ListNBT();
         for (Map.Entry<Direction, Boolean> end: pipeEnds.entrySet()) {
             CompoundNBT endDataNBT = new CompoundNBT();
-            endDataNBT.putInt("direction", end.getKey().getIndex());
+            endDataNBT.putInt("direction", end.getKey().get3DDataValue());
             endDataNBT.putBoolean("isend", end.getValue());
             endNBT.add(endDataNBT);
         }
@@ -32,7 +32,7 @@ public class PipeData {
         ListNBT connectionNBT = new ListNBT();
         for (Map.Entry<Direction, Integer> connection: pipeConnections.entrySet()) {
             CompoundNBT connectionDataNBT = new CompoundNBT();
-            connectionDataNBT.putInt("direction", connection.getKey().getIndex());
+            connectionDataNBT.putInt("direction", connection.getKey().get3DDataValue());
             connectionDataNBT.putInt("connection", connection.getValue());
             connectionNBT.add(connectionDataNBT);
         }
@@ -45,11 +45,11 @@ public class PipeData {
         PipeData data = new PipeData();
         for(INBT endNBT: nbt.getList("enddata", Constants.NBT.TAG_COMPOUND)) {
             CompoundNBT compEndNBT = (CompoundNBT) endNBT;
-            data.pipeEnds.put(Direction.byIndex(compEndNBT.getInt("direction")), compEndNBT.getBoolean("isend"));
+            data.pipeEnds.put(Direction.from3DDataValue(compEndNBT.getInt("direction")), compEndNBT.getBoolean("isend"));
         }
         for(INBT endNBT: nbt.getList("connection", Constants.NBT.TAG_COMPOUND)) {
             CompoundNBT compEndNBT = (CompoundNBT) endNBT;
-            data.pipeConnections.put(Direction.byIndex(compEndNBT.getInt("direction")), compEndNBT.getInt("connection"));
+            data.pipeConnections.put(Direction.from3DDataValue(compEndNBT.getInt("direction")), compEndNBT.getInt("connection"));
         }
         data.types = nbt.getIntArray("types");
         return data;

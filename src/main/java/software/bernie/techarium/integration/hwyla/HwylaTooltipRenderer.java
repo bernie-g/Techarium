@@ -24,7 +24,7 @@ public class HwylaTooltipRenderer implements IComponentProvider {
         if (accessor.getTileEntity() instanceof MachineMasterTile) {
             appendToolTip(tooltip, (MachineMasterTile) accessor.getTileEntity());
         } else if (accessor.getTileEntity() instanceof MachineSlaveTile) {
-            TileEntity masterTile = accessor.getWorld().getTileEntity(((MachineSlaveTile)accessor.getTileEntity()).getMasterPos());
+            TileEntity masterTile = accessor.getWorld().getBlockEntity(((MachineSlaveTile)accessor.getTileEntity()).getMasterPos());
             if (masterTile instanceof MachineMasterTile) {
                 appendToolTip(tooltip, (MachineMasterTile) masterTile);
             }

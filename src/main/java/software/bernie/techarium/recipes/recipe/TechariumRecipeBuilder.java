@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 
 public abstract class TechariumRecipeBuilder<B extends TechariumRecipeBuilder<B>> implements IRecipe<IInventory> {
     protected final List<ICondition> conditions = new ArrayList();
-    protected final Advancement.Builder advancementBuilder = Advancement.Builder.builder();
+    protected final Advancement.Builder advancementBuilder = Advancement.Builder.advancement();
 
     protected void validate(ResourceLocation id) {
     }
@@ -30,9 +30,9 @@ public abstract class TechariumRecipeBuilder<B extends TechariumRecipeBuilder<B>
     public void build(Consumer<IFinishedRecipe> consumer, ResourceLocation id) {
         this.validate(id);
         if (this.hasCriteria()) {
-            this.advancementBuilder.withParentId(new ResourceLocation("recipes/root")).withCriterion("has_the_recipe",
-                    RecipeUnlockedTrigger.create(id)).withRewards(
-                    net.minecraft.advancements.AdvancementRewards.Builder.recipe(id)).withRequirementsStrategy(
+            this.advancementBuilder.parent(new ResourceLocation("recipes/root")).addCriterion("has_the_recipe",
+                    RecipeUnlockedTrigger.unlocked(id)).rewards(
+                    net.minecraft.advancements.AdvancementRewards.Builder.recipe(id)).requirements(
                     IRequirementsStrategy.OR);
         }
 
@@ -44,7 +44,7 @@ public abstract class TechariumRecipeBuilder<B extends TechariumRecipeBuilder<B>
     }
 
     public B addCriterion(String name, ICriterionInstance criterion) {
-        this.advancementBuilder.withCriterion(name, criterion);
+        this.advancementBuilder.addCriterion(name, criterion);
         return (B) this;
     }
 
@@ -67,9 +67,9 @@ public abstract class TechariumRecipeBuilder<B extends TechariumRecipeBuilder<B>
             this.id = id;
         }
 
-        public JsonObject getRecipeJson() {
+        public JsonObject serializeRecipe() {
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("type", getSerializer().getRegistryName().toString());
+            jsonObject.addProperty("type", getType().getRegistryName().toString());
             if (!TechariumRecipeBuilder.this.conditions.isEmpty()) {
                 JsonArray conditionsArray = new JsonArray();
 
@@ -80,28 +80,28 @@ public abstract class TechariumRecipeBuilder<B extends TechariumRecipeBuilder<B>
                 jsonObject.add("conditions", conditionsArray);
             }
 
-            this.serialize(jsonObject);
+            this.serializeRecipeData(jsonObject);
             return jsonObject;
         }
 
         @Override
-        public IRecipeSerializer<?> getSerializer() {
+        public IRecipeSerializer<?> getType() {
             return TechariumRecipeBuilder.this.getSerializer();
         }
 
         @Nonnull
         @Override
-        public ResourceLocation getID() {
+        public ResourceLocation getId() {
             return this.id;
         }
 
         @Override
-        public JsonObject getAdvancementJson() {
-            return TechariumRecipeBuilder.this.hasCriteria() ? TechariumRecipeBuilder.this.advancementBuilder.serialize() : null;
+        public JsonObject serializeAdvancement() {
+            return TechariumRecipeBuilder.this.hasCriteria() ? TechariumRecipeBuilder.this.advancementBuilder.serializeToJson() : null;
         }
 
         @Override
-        public ResourceLocation getAdvancementID() {
+        public ResourceLocation getAdvancementId() {
             return new ResourceLocation(this.id.getNamespace(), "recipes/" + this.id.getPath());
         }
     }

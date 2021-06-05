@@ -58,6 +58,6 @@ public class Techarium
 
 	public void onClientSetup(FMLClientSetupEvent event)
 	{
-		ScreenManager.registerFactory(AUTO_CONTAINER.get(), AutomaticContainerScreen::new);
+		ScreenManager.register(AUTO_CONTAINER.get(), AutomaticContainerScreen::new);
 	}
 }

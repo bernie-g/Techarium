@@ -33,10 +33,10 @@ public class StaticHandler {
             return Side.FRONT;
         } else if (rotated == face.getOpposite()) {
             return Side.BACK;
-        } else if (rotated == face.rotateYCCW()) {
+        } else if (rotated == face.getCounterClockWise()) {
             return Side.LEFT;
         } else {
-            return rotated == face.rotateY() ? Side.RIGHT : Side.DOWN;
+            return rotated == face.getClockWise() ? Side.RIGHT : Side.DOWN;
         }
     }
 
@@ -62,8 +62,8 @@ public class StaticHandler {
         while (!stack.isEmpty()) {
             ItemEntity itementity = new ItemEntity(worldIn, d3, d4, d5, stack.split(rand.nextInt(21) + 10));
             float f = 0.05F;
-            itementity.setMotion(rand.nextGaussian() * (double) 0.05F, rand.nextGaussian() * (double) 0.05F + (double) 0.2F, rand.nextGaussian() * (double) 0.05F);
-            worldIn.addEntity(itementity);
+            itementity.setDeltaMovement(rand.nextGaussian() * (double) 0.05F, rand.nextGaussian() * (double) 0.05F + (double) 0.2F, rand.nextGaussian() * (double) 0.05F);
+            worldIn.addFreshEntity(itementity);
         }
     }
 

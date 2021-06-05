@@ -33,8 +33,8 @@ public class MachineSlaveTile extends MachineTileBase {
 
     @Override
     public ActionResultType onTileActivated(PlayerEntity player) {
-        assert world != null;
-        return ((MachineTileBase) Objects.requireNonNull(world.getTileEntity(masterPos))).onTileActivated(player);
+        assert level != null;
+        return ((MachineTileBase) Objects.requireNonNull(level.getBlockEntity(masterPos))).onTileActivated(player);
     }
 
     public BlockPos getMasterPos() {
@@ -48,8 +48,8 @@ public class MachineSlaveTile extends MachineTileBase {
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (shouldGetCapabilityFromMaster(cap) && world != null && getFaceConfigs().get(getSideFromDirection(side,getFacingDirection())).allowsConnection())
-            return Objects.requireNonNull(world.getTileEntity(masterPos)).getCapability(cap);
+        if (shouldGetCapabilityFromMaster(cap) && level != null && getFaceConfigs().get(getSideFromDirection(side,getFacingDirection())).allowsConnection())
+            return Objects.requireNonNull(level.getBlockEntity(masterPos)).getCapability(cap);
         return super.getCapability(cap, side);
     }
 
@@ -57,7 +57,7 @@ public class MachineSlaveTile extends MachineTileBase {
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
         if (shouldGetCapabilityFromMaster(cap))
-            return Objects.requireNonNull(world.getTileEntity(masterPos)).getCapability(cap);
+            return Objects.requireNonNull(level.getBlockEntity(masterPos)).getCapability(cap);
         return super.getCapability(cap);
     }
 
@@ -67,12 +67,12 @@ public class MachineSlaveTile extends MachineTileBase {
     @Nullable
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.getPos(), -1, this.getUpdateTag());
+        return new SUpdateTileEntityPacket(this.getBlockPos(), -1, this.getUpdateTag());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        handleUpdateTag(this.getBlockState(), pkt.getNbtCompound());
+        handleUpdateTag(this.getBlockState(), pkt.getTag());
     }
 
     @Override
@@ -87,14 +87,14 @@ public class MachineSlaveTile extends MachineTileBase {
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT nbt) {
-        masterPos = BlockPos.fromLong(nbt.getLong("masterPos"));
-        super.read(state, nbt);
+    public void load(BlockState state, CompoundNBT nbt) {
+        masterPos = BlockPos.of(nbt.getLong("masterPos"));
+        super.load(state, nbt);
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
-        compound.putLong("masterPos",this.masterPos.toLong());
-        return super.write(compound);
+    public CompoundNBT save(CompoundNBT compound) {
+        compound.putLong("masterPos",this.masterPos.asLong());
+        return super.save(compound);
     }
 }

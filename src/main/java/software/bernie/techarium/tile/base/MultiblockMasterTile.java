@@ -24,23 +24,23 @@ public abstract class MultiblockMasterTile<T extends IMachineRecipe> extends Mac
     }
 
     public void placeSlaves() {
-        if (world != null) {
+        if (level != null) {
             for (BlockPos pos : machineSlaveLocations.keySet()) {
-                world.setBlockState(this.pos.add(pos.getX(), pos.getY(), pos.getZ()), machineSlaveLocations.get(pos).getDefaultState());
-                TileEntity tile = world.getTileEntity(this.pos.add(pos.getX(), pos.getY(), pos.getZ()));
+                level.setBlockAndUpdate(this.worldPosition.offset(pos.getX(), pos.getY(), pos.getZ()), machineSlaveLocations.get(pos).defaultBlockState());
+                TileEntity tile = level.getBlockEntity(this.worldPosition.offset(pos.getX(), pos.getY(), pos.getZ()));
                 if (tile instanceof MachineSlaveTile) {
                     MachineSlaveTile slave = (MachineSlaveTile) tile;
-                    slave.setMasterPos(this.pos);
+                    slave.setMasterPos(this.worldPosition);
                 }
             }
         }
     }
 
     public void destroySlaves() {
-        if (world != null) {
+        if (level != null) {
             for (BlockPos pos : machineSlaveLocations.keySet()) {
-                if (world.getTileEntity(this.pos.add(pos.getX(), pos.getY(), pos.getZ())) instanceof MachineSlaveTile) {
-                    world.destroyBlock(this.pos.add(pos.getX(), pos.getY(), pos.getZ()), false);
+                if (level.getBlockEntity(this.worldPosition.offset(pos.getX(), pos.getY(), pos.getZ())) instanceof MachineSlaveTile) {
+                    level.destroyBlock(this.worldPosition.offset(pos.getX(), pos.getY(), pos.getZ()), false);
                 }
             }
         }
@@ -50,7 +50,7 @@ public abstract class MultiblockMasterTile<T extends IMachineRecipe> extends Mac
     public void masterHandleDestruction() {
         super.masterHandleDestruction();
         destroySlaves();
-        if(world != null)
-        world.destroyBlock(pos,true);
+        if(level != null)
+        level.destroyBlock(worldPosition,true);
     }
 }

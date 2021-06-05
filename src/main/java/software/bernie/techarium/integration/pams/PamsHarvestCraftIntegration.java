@@ -33,8 +33,8 @@ public class PamsHarvestCraftIntegration extends Integration {
                 Block block = seed.getBlock();
                 Item drop = getPamsDropFromCrop(block);
                 BotariumRecipe.builder()
-                        .cropType(Ingredient.fromStacks(new ItemStack(seed)))
-                        .soilIn(Ingredient.fromTag(TagRegistry.DIRT))
+                        .cropType(Ingredient.of(new ItemStack(seed)))
+                        .soilIn(Ingredient.of(TagRegistry.DIRT))
                         .fluidIn(new FluidStack(Fluids.WATER, 1000))
                         .maxProgress(1000)
                         .rfPerTick(10)

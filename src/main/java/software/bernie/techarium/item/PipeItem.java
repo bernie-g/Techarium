@@ -9,25 +9,27 @@ import software.bernie.techarium.pipes.capability.PipeType;
 import software.bernie.techarium.registry.BlockTileRegistry;
 import software.bernie.techarium.registry.ItemGroupRegistry;
 
+import net.minecraft.item.Item.Properties;
+
 @Getter
 public class PipeItem extends BlockItem {
 
     private final PipeType type;
 
     public PipeItem(PipeType type) {
-        super(BlockTileRegistry.PIPE.getBlock(), new Properties().group(ItemGroupRegistry.TECHARIUMS));
+        super(BlockTileRegistry.PIPE.getBlock(), new Properties().tab(ItemGroupRegistry.TECHARIUMS));
         this.type = type;
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        if (this.isInGroup(group)) {
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+        if (this.allowdedIn(group)) {
             items.add(new ItemStack(this));
         }
     }
 
     @Override
-    public String getTranslationKey() {
-        return getDefaultTranslationKey();
+    public String getDescriptionId() {
+        return getOrCreateDescriptionId();
     }
 }
