@@ -18,10 +18,10 @@ public class ProbeInfoProvider implements IProbeInfoProvider {
 
     @Override
     public void addProbeInfo(ProbeMode probeMode, IProbeInfo iProbeInfo, PlayerEntity playerEntity, World world, BlockState blockState, IProbeHitData iProbeHitData) {
-        TileEntity tile = world.getTileEntity(iProbeHitData.getPos());
+        TileEntity tile = world.getBlockEntity(iProbeHitData.getPos());
         if (tile instanceof MachineSlaveTile) {
             MachineSlaveTile slaveTile = (MachineSlaveTile) tile;
-            TileEntity masterTile = world.getTileEntity(slaveTile.getMasterPos());
+            TileEntity masterTile = world.getBlockEntity(slaveTile.getMasterPos());
             if (masterTile instanceof MachineMasterTile) {
                 addProbeInfo((MachineMasterTile) masterTile, iProbeInfo);
             }

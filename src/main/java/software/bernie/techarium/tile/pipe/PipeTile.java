@@ -64,14 +64,14 @@ public class PipeTile extends TileEntity {
     @Override
     public void onLoad() {
         super.onLoad();
-        if (!world.isRemote()) {
-            LazyOptional<IPipeNetworkManagerCapability> networkManagerCapability = world.getCapability(PipeNetworkManagerCapability.INSTANCE);
+        if (!level.isClientSide()) {
+            LazyOptional<IPipeNetworkManagerCapability> networkManagerCapability = level.getCapability(PipeNetworkManagerCapability.INSTANCE);
             if (networkManagerCapability.isPresent()) {
                 IPipeNetworkManagerCapability manager = networkManagerCapability.orElseThrow(NullPointerException::new);
                 for (Map.Entry<PipeType,UUID> uuid: type.entrySet()) {
                     Optional<PipeNetwork> network = manager.getByUUID(uuid.getValue());
                     if (network.isPresent()) {
-                        type.put(uuid.getKey(), network.get().getNewUUID((ServerWorld)world, pos));
+                        type.put(uuid.getKey(), network.get().getNewUUID((ServerWorld)level, worldPosition));
                     } else {
                         LogManager.getLogger().error("can't find pre-save network");
                     }
@@ -85,12 +85,12 @@ public class PipeTile extends TileEntity {
     @Nullable
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.getPos(), -1, this.getUpdateTag());
+        return new SUpdateTileEntityPacket(this.getBlockPos(), -1, this.getUpdateTag());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        handleUpdateTag(this.getBlockState(), pkt.getNbtCompound());
+        handleUpdateTag(this.getBlockState(), pkt.getTag());
     }
 
     @Override
@@ -114,16 +114,16 @@ public class PipeTile extends TileEntity {
     }
 
     public void updateDisplayState() {
-        if (! (world instanceof ServerWorld))
+        if (! (level instanceof ServerWorld))
             return;
         displayData = new PipeData();
         List<Pair<PipeType, PipeNetwork>> orderedTypes = orderedTypes();
         for (int i = 0; i < orderedTypes.size(); i++) {
             displayData.types[i] = orderedTypes.get(i).getLeft().ordinal() + 1;
-            Map<Direction, UUID> surrounding = PipeBlock.getSurroundingNetworks(world, pos, orderedTypes.get(i).getLeft());
+            Map<Direction, UUID> surrounding = PipeBlock.getSurroundingNetworks(level, worldPosition, orderedTypes.get(i).getLeft());
             PipeNetwork network = orderedTypes.get(i).getRight();
             for (Direction direction: Direction.values()) {
-                LazyOptional<?> capability = network.getCapability((ServerWorld) world, new PipePosition(pos, direction));
+                LazyOptional<?> capability = network.getCapability((ServerWorld) level, new PipePosition(worldPosition, direction));
                 if (surrounding.containsKey(direction) || capability.isPresent()) {
                     displayData.pipeConnections.put(direction, displayData.pipeConnections.getOrDefault(direction, 0) + (int)Math.pow(2, i));
                  }
@@ -132,7 +132,7 @@ public class PipeTile extends TileEntity {
                 }
             }
         }
-        world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
+        level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition), 3);
     }
 
     /**
@@ -140,7 +140,7 @@ public class PipeTile extends TileEntity {
      * @return The sorted PipeConnections
      */
     private List<Pair<PipeType, PipeNetwork>> orderedTypes() {
-        return type.entrySet().stream().sorted(Comparator.comparingInt(entry -> entry.getKey().ordinal())).map(entry -> new ImmutablePair<>(entry.getKey(),  world.getCapability(PipeNetworkManagerCapability.INSTANCE).orElseThrow(NullPointerException::new).getByUUID(entry.getValue()).get())).collect(Collectors.toList());
+        return type.entrySet().stream().sorted(Comparator.comparingInt(entry -> entry.getKey().ordinal())).map(entry -> new ImmutablePair<>(entry.getKey(),  level.getCapability(PipeNetworkManagerCapability.INSTANCE).orElseThrow(NullPointerException::new).getByUUID(entry.getValue()).get())).collect(Collectors.toList());
     }
     @Override
     public CompoundNBT serializeNBT() {
@@ -150,7 +150,7 @@ public class PipeTile extends TileEntity {
         for (Map.Entry<PipeType, UUID> uuid: type.entrySet()) {
             CompoundNBT elementNBT = new CompoundNBT();
             elementNBT.putInt("pipeType", uuid.getKey().ordinal());
-            elementNBT.putUniqueId("uuid", uuid.getValue());
+            elementNBT.putUUID("uuid", uuid.getValue());
             typeUUIDs.add(elementNBT);
         }
         nbt.put("typeUUIDs", typeUUIDs);
@@ -164,7 +164,7 @@ public class PipeTile extends TileEntity {
         ListNBT typeUUIDs = nbt.getList("typeUUIDs", Constants.NBT.TAG_COMPOUND);
         for (INBT elementNBT: typeUUIDs) {
             CompoundNBT compoundNBT = (CompoundNBT) elementNBT;
-            type.put(PipeType.values()[compoundNBT.getInt("pipeType")], compoundNBT.getUniqueId("uuid"));
+            type.put(PipeType.values()[compoundNBT.getInt("pipeType")], compoundNBT.getUUID("uuid"));
         }
     }
 }

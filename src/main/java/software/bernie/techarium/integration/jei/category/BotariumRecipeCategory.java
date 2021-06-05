@@ -23,7 +23,7 @@ public class BotariumRecipeCategory extends BaseRecipeCategory<BotariumRecipe>
 	public static final ResourceLocation UID = new ResourceLocation(Techarium.ModID, "botarium");
 
 	public BotariumRecipeCategory(IRecipeCategoryRegistration registration) {
-		super(UID, registration, BotariumRecipe.class, BlockTileRegistry.BOTARIUM.getBlock().getTranslatedName(), BlockTileRegistry.BOTARIUM.getItem(), new ResourceLocation(Techarium.ModID, "textures/gui/botarium/botarium.png"),0,0,256,256);
+		super(UID, registration, BotariumRecipe.class, BlockTileRegistry.BOTARIUM.getBlock().getName(), BlockTileRegistry.BOTARIUM.getItem(), new ResourceLocation(Techarium.ModID, "textures/gui/botarium/botarium.png"),0,0,256,256);
 	}
 
 	@Override
@@ -36,11 +36,11 @@ public class BotariumRecipeCategory extends BaseRecipeCategory<BotariumRecipe>
 	public void setIngredients(BotariumRecipe recipe, IIngredients ingredients) {
 
 		List<List<ItemStack>> inputs = new ArrayList<>();
-		inputs.add(Arrays.asList(recipe.getCropType().getMatchingStacks()));
-		inputs.add(Arrays.asList(recipe.getSoilIn().getMatchingStacks()));
+		inputs.add(Arrays.asList(recipe.getCropType().getItems()));
+		inputs.add(Arrays.asList(recipe.getSoilIn().getItems()));
 		ingredients.setInputLists(VanillaTypes.ITEM, inputs);
 		ingredients.setInput(VanillaTypes.FLUID, recipe.getFluidIn());
-		ingredients.setOutput(VanillaTypes.ITEM, recipe.getRecipeOutput());
+		ingredients.setOutput(VanillaTypes.ITEM, recipe.getResultItem());
 	}
 
 	@Override

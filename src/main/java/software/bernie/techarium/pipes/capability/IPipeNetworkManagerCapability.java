@@ -115,7 +115,7 @@ public interface IPipeNetworkManagerCapability extends INBTSerializable<ListNBT>
                     continue;
                 int preSize = 0;
                 List<BlockPos> connectedInDirection = new ArrayList<>();
-                connectedInDirection.add(pos.offset(direction));
+                connectedInDirection.add(pos.relative(direction));
                 alreadyConnected.add(direction);
                 while (connectedInDirection.size() != preSize) {
                     preSize = connectedInDirection.size();
@@ -124,7 +124,7 @@ public interface IPipeNetworkManagerCapability extends INBTSerializable<ListNBT>
                             continue;
                         if (isConnectedTo(toTest, connectedInDirection)) {
                             connectedInDirection.add(toTest);
-                            if (toTest.manhattanDistance(pos) == 1) {
+                            if (toTest.distManhattan(pos) == 1) {
                                 Direction manhattanDirection = getManhattanConnection(pos, toTest);
                                 if (!alreadyConnected.contains(manhattanDirection)) {
                                     alreadyConnected.add(manhattanDirection);
@@ -144,7 +144,7 @@ public interface IPipeNetworkManagerCapability extends INBTSerializable<ListNBT>
 
     static boolean isConnectedTo(BlockPos toTest, List<BlockPos> network) {
         for (BlockPos networkPos: network) {
-            if (networkPos.manhattanDistance(toTest) == 1)
+            if (networkPos.distManhattan(toTest) == 1)
                 return true;
         }
         return false;
@@ -152,7 +152,7 @@ public interface IPipeNetworkManagerCapability extends INBTSerializable<ListNBT>
 
     static Direction getManhattanConnection(BlockPos origin, BlockPos toTest) {
         for (Direction direction: Direction.values()) {
-            if (origin.offset(direction).equals(toTest))
+            if (origin.relative(direction).equals(toTest))
                 return direction;
         }
         throw new IllegalArgumentException("the BlockPositions don't connect");

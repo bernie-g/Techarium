@@ -19,16 +19,16 @@ public class GuiUtils {
 
     public static void drawTiledSprite(MatrixStack matrix, int xPosition, int yPosition, int yOffset, int desiredWidth, int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int zLevel, TilingDirection tilingDirection, boolean blendAlpha) {
         if (desiredWidth != 0 && desiredHeight != 0 && textureWidth != 0 && textureHeight != 0) {
-            Minecraft.getInstance().textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
+            Minecraft.getInstance().textureManager.bind(AtlasTexture.LOCATION_BLOCKS);
             int xTileCount = desiredWidth / textureWidth;
             int xRemainder = desiredWidth - xTileCount * textureWidth;
             int yTileCount = desiredHeight / textureHeight;
             int yRemainder = desiredHeight - yTileCount * textureHeight;
             int yStart = yPosition + yOffset;
-            float uMin = sprite.getMinU();
-            float uMax = sprite.getMaxU();
-            float vMin = sprite.getMinV();
-            float vMax = sprite.getMaxV();
+            float uMin = sprite.getU0();
+            float uMax = sprite.getU1();
+            float vMin = sprite.getV0();
+            float vMax = sprite.getV1();
             float uDif = uMax - uMin;
             float vDif = vMax - vMin;
             if (blendAlpha) {
@@ -36,9 +36,9 @@ public class GuiUtils {
                 RenderSystem.enableAlphaTest();
             }
 
-            BufferBuilder vertexBuffer = Tessellator.getInstance().getBuffer();
+            BufferBuilder vertexBuffer = Tessellator.getInstance().getBuilder();
             vertexBuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            Matrix4f matrix4f = matrix.getLast().getMatrix();
+            Matrix4f matrix4f = matrix.last().pose();
 
             for (int xTile = 0; xTile <= xTileCount; ++xTile) {
                 int width = xTile == xTileCount ? xRemainder : textureWidth;
@@ -79,15 +79,15 @@ public class GuiUtils {
                         vLocalMax = vMax;
                     }
 
-                    vertexBuffer.pos(matrix4f, (float) x, (float) (y + textureHeight), (float) zLevel).tex(uLocalMin, vLocalMax).endVertex();
-                    vertexBuffer.pos(matrix4f, (float) shiftedX, (float) (y + textureHeight), (float) zLevel).tex(uLocalMax, vLocalMax).endVertex();
-                    vertexBuffer.pos(matrix4f, (float) shiftedX, (float) (y + maskTop), (float) zLevel).tex(uLocalMax, vLocalMin).endVertex();
-                    vertexBuffer.pos(matrix4f, (float) x, (float) (y + maskTop), (float) zLevel).tex(uLocalMin, vLocalMin).endVertex();
+                    vertexBuffer.vertex(matrix4f, (float) x, (float) (y + textureHeight), (float) zLevel).uv(uLocalMin, vLocalMax).endVertex();
+                    vertexBuffer.vertex(matrix4f, (float) shiftedX, (float) (y + textureHeight), (float) zLevel).uv(uLocalMax, vLocalMax).endVertex();
+                    vertexBuffer.vertex(matrix4f, (float) shiftedX, (float) (y + maskTop), (float) zLevel).uv(uLocalMax, vLocalMin).endVertex();
+                    vertexBuffer.vertex(matrix4f, (float) x, (float) (y + maskTop), (float) zLevel).uv(uLocalMin, vLocalMin).endVertex();
                 }
             }
 
-            vertexBuffer.finishDrawing();
-            WorldVertexBufferUploader.draw(vertexBuffer);
+            vertexBuffer.end();
+            WorldVertexBufferUploader.end(vertexBuffer);
             if (blendAlpha) {
                 RenderSystem.disableAlphaTest();
                 RenderSystem.disableBlend();

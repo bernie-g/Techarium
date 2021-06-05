@@ -19,7 +19,7 @@ public abstract class ClientToServerContainerPacket<MSG extends ClientToServerCo
     }
 
     protected ClientToServerContainerPacket(AutomaticContainer container) {
-        this.containerID = container.windowId;
+        this.containerID = container.containerId;
     }
 
     protected ClientToServerContainerPacket(PacketBuffer buffer) {
@@ -36,8 +36,8 @@ public abstract class ClientToServerContainerPacket<MSG extends ClientToServerCo
     }
 
     public Optional<AutomaticContainer> getContainer(NetworkEvent.Context context) {
-        Container container = context.getSender().openContainer;
-        if (container.windowId == containerID && container instanceof AutomaticContainer) {
+        Container container = context.getSender().containerMenu;
+        if (container.containerId == containerID && container instanceof AutomaticContainer) {
             return Optional.of((AutomaticContainer) container);
         }
         return Optional.empty();

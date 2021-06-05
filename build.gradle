@@ -1,11 +1,13 @@
 buildscript {
     repositories {
+        maven { url = 'https://sizableshrimp.me/maven' }
         maven { url = 'https://maven.minecraftforge.net' }
         jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        //temporarily use sizableshrimp's FG fork until parchment is out for 1.17
+        classpath group: 'me.sizableshrimp.gradle', name: 'ForgeGradle', version: '5.+', changing: true
         classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
     }
 }
@@ -21,7 +23,7 @@ archivesBaseName = 'techarium'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    mappings channel: 'snapshot', version: '20201028-1.16.3'
+    mappings channel: "official_snapshot", version: "20210309-1.16.5"
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -73,7 +75,7 @@ repositories {
 
     maven {
         name 'tterrag maven'
-        url "http://maven.tterrag.com/"
+        url "https://maven.tterrag.com/"
     }
     maven { url 'https://maven.blamejared.com' }
     maven {
@@ -84,6 +86,7 @@ repositories {
             includeGroup 'malte0811'
         }
     }
+    maven { url = 'https://sizableshrimp.me/maven' }
 }
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.1'
@@ -92,26 +95,26 @@ dependencies {
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.38')
 
     //adventure
-    compile "net.kyori:adventure-api:$adventure_version"
-    compile "net.kyori:adventure-text-serializer-gson:$adventure_version"
-    compile "net.kyori:adventure-text-serializer-legacy:$adventure_version"
-    compile "net.kyori:adventure-text-serializer-plain:$adventure_version"
+    implementation "net.kyori:adventure-api:$adventure_version"
+    implementation "net.kyori:adventure-text-serializer-gson:$adventure_version"
+    implementation "net.kyori:adventure-text-serializer-legacy:$adventure_version"
+    implementation "net.kyori:adventure-text-serializer-plain:$adventure_version"
 
     //Integration mods
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
-    compile fg.deobf("curse.maven:mekanism-268560:3206392")
-    compile fg.deobf("curse.maven:theoneprobe-245211:3157997")
-    compile fg.deobf("com.blamejared.crafttweaker:CraftTweaker-1.16.5:$crafttweaker_version")
-    compile fg.deobf("curse.maven:mystical-agriculture-246640:3251398")
-    compile fg.deobf("curse.maven:cucumber-272335:3249370")
-    compile fg.deobf("curse.maven:pams-harvestcraft-2-crops-361385:3276350")
-    compile fg.deobf("curse.maven:thermal-cultivation-271835:3246999")
-    compile fg.deobf("curse.maven:thermal-foundation-222880:3248150")
-    compile fg.deobf("curse.maven:xl-food-mod-plus-448703:3232224")
-    compile fg.deobf("curse.maven:farmers-delight-398521:3310983")
+    implementation fg.deobf("curse.maven:mekanism-268560:3206392")
+    implementation fg.deobf("curse.maven:theoneprobe-245211:3157997")
+    implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-1.16.5:$crafttweaker_version")
+    implementation fg.deobf("curse.maven:mystical-agriculture-246640:3251398")
+    implementation fg.deobf("curse.maven:cucumber-272335:3249370")
+    implementation fg.deobf("curse.maven:pams-harvestcraft-2-crops-361385:3276350")
+    implementation fg.deobf("curse.maven:thermal-cultivation-271835:3246999")
+    implementation fg.deobf("curse.maven:thermal-foundation-222880:3248150")
+    implementation fg.deobf("curse.maven:xl-food-mod-plus-448703:3232224")
+    implementation fg.deobf("curse.maven:farmers-delight-398521:3310983")
     //compile fg.deobf("curse.maven:immersive-engineering-231951:3233018")
-    compile fg.deobf("com.teamcofh:CoFHCore:1.16.4-1.2.0")
+    implementation fg.deobf("com.teamcofh:CoFHCore:1.16.4-1.2.0")
     compileOnly fg.deobf("blusunrize.immersiveengineering:ImmersiveEngineering:1.16.5-4.2.4-134.7")
 
     // Compile against the Hwyla API, but run with full mod

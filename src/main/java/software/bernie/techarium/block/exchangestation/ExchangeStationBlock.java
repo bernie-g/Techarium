@@ -17,16 +17,18 @@ import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class ExchangeStationBlock extends MachineBlock<ExchangeStationTile> {
 
     public ExchangeStationBlock() {
-        super(Properties.create(Material.IRON).hardnessAndResistance(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).notSolid().setRequiresTool(), ExchangeStationTile::new);
+        super(Properties.of(Material.METAL).strength(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).noOcclusion().requiresCorrectToolForDrops(), ExchangeStationTile::new);
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-        TileEntity tile = worldIn.getTileEntity(pos);
+    public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(worldIn, pos, state, placer, stack);
+        TileEntity tile = worldIn.getBlockEntity(pos);
         if(tile instanceof ExchangeStationTile) {
             ((ExchangeStationTile) tile).isOpening = true;
         }
@@ -36,6 +38,6 @@ public class ExchangeStationBlock extends MachineBlock<ExchangeStationTile> {
     @Nonnull
     @SuppressWarnings("deprecation")
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
+        return Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
     }
 }

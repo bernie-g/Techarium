@@ -18,18 +18,18 @@ import javax.annotation.Nonnull;
 public class BotariumTop extends MachineBlock<TopEnabledOnlySlave> {
 
     public BotariumTop() {
-        super(Block.Properties.create(Material.IRON).hardnessAndResistance(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).notSolid().setRequiresTool().noDrops(),TopEnabledOnlySlave::new);
+        super(Block.Properties.of(Material.METAL).strength(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).noOcclusion().requiresCorrectToolForDrops().noDrops(),TopEnabledOnlySlave::new);
     }
 
     @Override
     @Nonnull
     @SuppressWarnings("deprecation")
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return Block.makeCuboidShape(0.0D, -16.0D, 0.0D, 16.0D, 16.0D, 16.0D);
+        return Block.box(0.0D, -16.0D, 0.0D, 16.0D, 16.0D, 16.0D);
     }
 
     @Override
-    public ItemStack getItem(IBlockReader worldIn, BlockPos pos, BlockState state) {
+    public ItemStack getCloneItemStack(IBlockReader worldIn, BlockPos pos, BlockState state) {
         return new ItemStack(BlockTileRegistry.BOTARIUM.getItem());
     }
 }

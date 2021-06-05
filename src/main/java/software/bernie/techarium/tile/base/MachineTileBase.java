@@ -30,8 +30,8 @@ public abstract class MachineTileBase extends TileEntity {
     }
 
     public Direction getFacingDirection() {
-        assert this.world != null;
-        return this.world.getBlockState(this.pos).hasProperty(FACING) ? this.world.getBlockState(this.pos).get(FACING) : Direction.NORTH;
+        assert this.level != null;
+        return this.level.getBlockState(this.worldPosition).hasProperty(FACING) ? this.level.getBlockState(this.worldPosition).getValue(FACING) : Direction.NORTH;
     }
 
     public Map<Side, FaceConfig> getFaceConfigs() {

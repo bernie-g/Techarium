@@ -44,15 +44,15 @@ public class BlockTileRegistry {
 
     public static final RegistryObject<BotariumTop> BOTARIUM_TOP = BLOCKS.register("botarium_top", BotariumTop::new);
 
-    public static final RegistryObject<TileEntityType<TopEnabledOnlySlave>> BOTARIUM_TOP_TILE = TILES.register("botarium_top", () -> TileEntityType.Builder.create(TopEnabledOnlySlave::new,BOTARIUM_TOP.get())
+    public static final RegistryObject<TileEntityType<TopEnabledOnlySlave>> BOTARIUM_TOP_TILE = TILES.register("botarium_top", () -> TileEntityType.Builder.of(TopEnabledOnlySlave::new,BOTARIUM_TOP.get())
             .build(null));
 
     public static <B extends MachineBlock> Function<B, BlockItem> blockItemCreator() {
-        return block -> new BlockItem(block, new Item.Properties().group(TECHARIUMS));
+        return block -> new BlockItem(block, new Item.Properties().tab(TECHARIUMS));
     }
 
     public static <B extends MachineBlock> Function<B, BlockItem> machineItemCreator() {
-        return block -> new MachineItem(block, new Item.Properties().group(TECHARIUMS));
+        return block -> new MachineItem(block, new Item.Properties().tab(TECHARIUMS));
     }
 
     public static void register(IEventBus bus){

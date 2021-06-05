@@ -7,6 +7,8 @@ import net.minecraft.world.IBlockReader;
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public abstract class BaseTileBlock<T extends TileEntity> extends RotatableBlock {
 
     private final Supplier<T> tileSupplier;

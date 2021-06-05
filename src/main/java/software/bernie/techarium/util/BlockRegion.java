@@ -27,6 +27,6 @@ public class BlockRegion {
     }
 
     public VoxelShape toVoxelShape() {
-        return Block.makeCuboidShape(xOff*16, yOff*16, zOff*16, (xOff+xSize)*16, (yOff+ySize)*16, (zOff+zSize)*16);
+        return Block.box(xOff*16, yOff*16, zOff*16, (xOff+xSize)*16, (yOff+ySize)*16, (zOff+zSize)*16);
     }
 }

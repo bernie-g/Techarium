@@ -26,7 +26,7 @@ public class FarmersDelightIntegration extends Integration {
         buildBotariumRecipe(ModItems.TOMATO_SEEDS.get(), ModItems.TOMATO.get(), 1000, 800, consumer);
         buildBotariumRecipe(ModItems.WILD_BEETROOTS.get(), Items.BEETROOT, 1000, 800, consumer);
         buildBotariumRecipe(ModItems.CABBAGE_SEEDS.get(), ModItems.CABBAGE.get(), 1000, 800, consumer);
-        buildBotariumRecipe(ModItems.BROWN_MUSHROOM_COLONY.get(), Items.BROWN_MUSHROOM, Ingredient.fromItems(Items.STONE, Items.MYCELIUM), 1000, 800, consumer);
-        buildBotariumRecipe(ModItems.RED_MUSHROOM_COLONY.get(), Items.RED_MUSHROOM, Ingredient.fromItems(Items.STONE, Items.MYCELIUM), 1000, 800, consumer);
+        buildBotariumRecipe(ModItems.BROWN_MUSHROOM_COLONY.get(), Items.BROWN_MUSHROOM, Ingredient.of(Items.STONE, Items.MYCELIUM), 1000, 800, consumer);
+        buildBotariumRecipe(ModItems.RED_MUSHROOM_COLONY.get(), Items.RED_MUSHROOM, Ingredient.of(Items.STONE, Items.MYCELIUM), 1000, 800, consumer);
     }
 }

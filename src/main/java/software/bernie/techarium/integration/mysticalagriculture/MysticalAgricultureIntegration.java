@@ -29,8 +29,8 @@ public class MysticalAgricultureIntegration extends Integration {
             if (item instanceof MysticalSeedsItem) {
                 MysticalSeedsItem mysticalSeed = (MysticalSeedsItem) item;
                 BotariumRecipe.builder()
-                        .cropType(Ingredient.fromStacks(new ItemStack(mysticalSeed)))
-                        .soilIn(Ingredient.fromTag(TagRegistry.DIRT))
+                        .cropType(Ingredient.of(new ItemStack(mysticalSeed)))
+                        .soilIn(Ingredient.of(TagRegistry.DIRT))
                         .fluidIn(new FluidStack(Fluids.WATER, 1000))
                         .maxProgress(2000)
                         .rfPerTick(30)

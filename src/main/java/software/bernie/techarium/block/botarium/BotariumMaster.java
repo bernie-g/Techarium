@@ -22,13 +22,13 @@ import javax.annotation.Nonnull;
 public class BotariumMaster extends MachineBlock<BotariumTile> {
 
     public BotariumMaster() {
-        super(Block.Properties.create(Material.IRON).hardnessAndResistance(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).notSolid().setRequiresTool(), BotariumTile::new);
+        super(Block.Properties.of(Material.METAL).strength(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).noOcclusion().requiresCorrectToolForDrops(), BotariumTile::new);
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-        TileEntity tile = worldIn.getTileEntity(pos);
+    public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(worldIn, pos, state, placer, stack);
+        TileEntity tile = worldIn.getBlockEntity(pos);
         if(tile instanceof BotariumTile) {
             ((BotariumTile) tile).setOpening(true);
         }
@@ -36,9 +36,9 @@ public class BotariumMaster extends MachineBlock<BotariumTile> {
 
     @Override
     public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
-        if (world.getTileEntity(pos) instanceof BotariumTile) {
-            BotariumTile tile = (BotariumTile) world.getTileEntity(pos);
-            return Math.max(tile.getFluidInventory().getFluid().getFluid().getDefaultState().getBlockState().getLightValue(world, pos), super.getLightValue(state, world, pos));
+        if (world.getBlockEntity(pos) instanceof BotariumTile) {
+            BotariumTile tile = (BotariumTile) world.getBlockEntity(pos);
+            return Math.max(tile.getFluidInventory().getFluid().getFluid().defaultFluidState().createLegacyBlock().getLightValue(world, pos), super.getLightValue(state, world, pos));
         }
         return super.getLightValue(state, world, pos);
     }
@@ -47,7 +47,7 @@ public class BotariumMaster extends MachineBlock<BotariumTile> {
     @Nonnull
     @SuppressWarnings("deprecation")
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 32.0D, 16.0D);
+        return Block.box(0.0D, 0.0D, 0.0D, 16.0D, 32.0D, 16.0D);
     }
 
     @Override

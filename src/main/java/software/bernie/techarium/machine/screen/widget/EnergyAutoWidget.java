@@ -27,8 +27,8 @@ public class EnergyAutoWidget extends Widget {
     @Override
     public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         Minecraft minecraft = Minecraft.getInstance();
-        int screenY = minecraft.getMainWindow().getScaledHeight() / 2;
-        int screenX = minecraft.getMainWindow().getScaledWidth() / 2;
+        int screenY = minecraft.getWindow().getGuiScaledHeight() / 2;
+        int screenX = minecraft.getWindow().getGuiScaledWidth() / 2;
 
         float drawHeight = 1- ((float) addon.getEnergyStored()) / addon.getMaxEnergyStored();
 

@@ -27,7 +27,7 @@ public class TankWidget extends Widget {
 
     public TankWidget(FluidTankAddon tank, IDrawable drawable, int xIn, int yIn, int widthIn, int heightIn,
                       String msg) {
-        super(xIn, yIn, widthIn, heightIn, ITextComponent.getTextComponentOrEmpty(msg));
+        super(xIn, yIn, widthIn, heightIn, ITextComponent.nullToEmpty(msg));
         this.drawable = drawable;
         this.tank = tank;
     }
@@ -39,8 +39,8 @@ public class TankWidget extends Widget {
     @Override
     public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         Minecraft minecraft = Minecraft.getInstance();
-        int screenY = minecraft.getMainWindow().getScaledHeight() / 2;
-        int screenX = minecraft.getMainWindow().getScaledWidth() / 2;
+        int screenY = minecraft.getWindow().getGuiScaledHeight() / 2;
+        int screenX = minecraft.getWindow().getGuiScaledWidth() / 2;
         int guiLeft = getBackgroundSize().getKey() / 2;
         int guiTop = getBackgroundSize().getValue() / 2;
 
@@ -53,20 +53,20 @@ public class TankWidget extends Widget {
             int capacity = this.tank.getCapacity();
 
             float start = 1 - (float) stored / capacity;
-            float offset = ((getHeightRealms() - tank.getBottomOffset() - tank.getTopOffset()) * start);
-            int height = stored * (getHeightRealms() - tank.getBottomOffset() - tank.getTopOffset()) / capacity;
+            float offset = ((getHeight() - tank.getBottomOffset() - tank.getTopOffset()) * start);
+            int height = stored * (getHeight() - tank.getBottomOffset() - tank.getTopOffset()) / capacity;
 
             ResourceLocation flowing = stack.getFluid().getAttributes().getStillTexture(stack);
             if (flowing != null) {
-                Texture texture = minecraft.getTextureManager().getTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
+                Texture texture = minecraft.getTextureManager().getTexture(AtlasTexture.LOCATION_BLOCKS);
                 if (texture instanceof AtlasTexture) {
                     TextureAtlasSprite sprite = ((AtlasTexture) texture).getSprite(flowing);
-                    minecraft.getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
+                    minecraft.getTextureManager().bind(AtlasTexture.LOCATION_BLOCKS);
                     Color color = new Color(stack.getFluid().getAttributes().getColor());
                     RenderSystem.color4f((float) color.getRed() / 255.0F, (float) color.getGreen() / 255.0F,
                             (float) color.getBlue() / 255.0F, (float) color.getAlpha() / 255.0F);
                     RenderSystem.enableBlend();
-                    matrixStack.push();
+                    matrixStack.pushPose();
                     int yPosition = (int) (y + tank.getTopOffset() + offset) + height;
                     GuiUtils.drawTiledSprite(matrixStack, x + tank.getLeftOffset(),
                             yPosition, 1,
@@ -76,7 +76,7 @@ public class TankWidget extends Widget {
                             (int) (y + tank.getTopOffset()), 1,
                             getWidth() - tank.getLeftOffset() - tank.getRightOffset(), height, sprite, 16, 16, 10000,
                             TilingDirection.DOWN_RIGHT);*/
-                    matrixStack.pop();
+                    matrixStack.popPose();
                     /*BlitUtil.blit(x + tank.getLeftOffset(), (int) (y + tank.getTopOffset() + offset), 0,
                             getWidth() - tank.getLeftOffset() - tank.getRightOffset(), height, sprite.getMinU(),
                             sprite.getMaxU(), sprite.getMinV(), sprite.getMaxV());*/
@@ -87,7 +87,7 @@ public class TankWidget extends Widget {
                 }
             }
         }
-        drawable.draw(x, y, getWidth(), getHeightRealms());
+        drawable.draw(x, y, getWidth(), getHeight());
     }
 
     private IDrawable getFluidTexture(ResourceLocation location) {

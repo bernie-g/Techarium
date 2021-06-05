@@ -41,8 +41,8 @@ public class ThermalCultivationIntegration extends Integration {
                 IItemProvider seedsProvider = (IItemProvider) getSeedsItemMethod.invoke(cropsBlockCoFH);
 
                 BotariumRecipe.builder()
-                        .cropType(Ingredient.fromStacks(new ItemStack(seedsProvider.asItem())))
-                        .soilIn(Ingredient.fromTag(TagRegistry.DIRT))
+                        .cropType(Ingredient.of(new ItemStack(seedsProvider.asItem())))
+                        .soilIn(Ingredient.of(TagRegistry.DIRT))
                         .fluidIn(new FluidStack(Fluids.WATER, 1000))
                         .maxProgress(1000)
                         .rfPerTick(10)

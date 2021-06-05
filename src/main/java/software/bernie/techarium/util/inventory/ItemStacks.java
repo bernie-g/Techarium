@@ -43,7 +43,7 @@ public final class ItemStacks {
     }
 
     private static boolean equalsImpl(ItemStack a, ItemStack b) {
-        return a.getItem() == b.getItem() && a.getDamage() == b.getDamage()
+        return a.getItem() == b.getItem() && a.getDamageValue() == b.getDamageValue()
                 && Objects.equal(a.getTag(), b.getTag());
     }
 
@@ -194,7 +194,7 @@ public final class ItemStacks {
      * @return the Block associated with the ItemStack's Item or null if the Item has no associated Block
      */
     public static Block getBlock(ItemStack stack) {
-        return Block.getBlockFromItem(stack.getItem());
+        return Block.byItem(stack.getItem());
     }
 
 

@@ -12,22 +12,22 @@ import java.util.function.Supplier;
 public class TechariumBlockLootTableProvider extends BlockLootTables
 {
 	public void registerTable(Supplier<? extends Block> block, Function<Block, LootTable.Builder> factory) {
-		super.registerLootTable(block.get(), factory);
+		super.add(block.get(), factory);
 	}
 
 	public void dropSelf(Supplier<? extends Block> block) {
-		super.registerDropSelfLootTable(block.get());
+		super.dropSelf(block.get());
 	}
 
 	public void dropAsSilk(Supplier<? extends Block> block) {
-		super.registerSilkTouch(block.get());
+		super.dropWhenSilkTouch(block.get());
 	}
 
 	public void dropWithSilk(Supplier<? extends Block> block, Supplier<? extends IItemProvider> drop) {
-		registerLootTable(block.get(), (result) -> droppingWithSilkTouch(result, drop.get()));
+		add(block.get(), (result) -> createSingleItemTableWithSilkTouch(result, drop.get()));
 	}
 
 	public void dropWithFortune(Supplier<? extends Block> block, Supplier<? extends Item> drop) {
-		super.registerLootTable(block.get(), (result) -> droppingItemWithFortune(result, drop.get()));
+		super.add(block.get(), (result) -> createOreDrop(result, drop.get()));
 	}
 }

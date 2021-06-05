@@ -29,7 +29,7 @@ public class ExchangeStationRenderer extends GeoBlockRenderer<ExchangeStationTil
 									@Nullable IRenderTypeBuffer renderTypeBuffer,
 									@Nullable IVertexBuilder vertexBuilder, int packedLightIn,
 									ResourceLocation textureLocation) {
-		return RenderType.getEntityCutoutNoCull(this.getTextureLocation(animatable));
+		return RenderType.entityCutoutNoCull(this.getTextureLocation(animatable));
 	}
 
 }
