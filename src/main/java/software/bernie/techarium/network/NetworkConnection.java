@@ -23,8 +23,8 @@ public class NetworkConnection {
         INSTANCE.registerMessage(getAndUpdateIndex(),
                 (Class<MSG>) dummyPacket.getClass(),
                 Packet::write,
-                dummyPacket::create,
-                dummyPacket::handle,
+                (buffer) -> (MSG)dummyPacket.create(buffer),
+                (packet, context) -> dummyPacket.handle(packet, context),
                 dummyPacket.getDirection());
     }
 
