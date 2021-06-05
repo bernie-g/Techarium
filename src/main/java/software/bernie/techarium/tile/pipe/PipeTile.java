@@ -1,11 +1,10 @@
 package software.bernie.techarium.tile.pipe;
 
-import jdk.nashorn.internal.runtime.doubleconv.CachedPowers;
+import lombok.Getter;
 import net.minecraft.block.BlockState;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.util.Direction;
-import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -37,6 +36,7 @@ public class PipeTile extends TileEntity {
     public boolean isInput = false;
     private Map<PipeType, UUID> type = new EnumMap<>(PipeType.class);
 
+    @Getter
     private PipeData displayData = new PipeData();
     public PipeTile() {
         super(BlockTileRegistry.PIPE.getTileEntityType());

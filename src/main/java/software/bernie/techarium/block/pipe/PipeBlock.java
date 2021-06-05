@@ -4,13 +4,11 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -18,6 +16,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -30,6 +31,8 @@ import software.bernie.techarium.pipes.capability.PipeNetworkManagerCapability;
 import software.bernie.techarium.pipes.capability.PipeType;
 import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.tile.pipe.PipeTile;
+import software.bernie.techarium.util.Utils;
+
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +41,12 @@ import java.util.stream.Collectors;
 
 public class PipeBlock extends Block {
 
+    private static final VoxelShape SOUTH_END = makeCuboidShape(4,4,15,12,12,16);
+    private static final VoxelShape SOUTH_PIPE = makeCuboidShape(6,6,8,10,10,15);
+
+
     public PipeBlock() {
-        super(AbstractBlock.Properties.create(Material.ROCK));
+        super(AbstractBlock.Properties.create(Material.ROCK).notSolid());
     }
 
     @Override
@@ -125,6 +132,30 @@ public class PipeBlock extends Block {
                 ((PipeTile)te).updateDisplayState();
             }
         }
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader reader, BlockPos pos) {
+        return getShape(state, reader, pos, ISelectionContext.dummy());
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        TileEntity te = worldIn.getTileEntity(pos);
+        if (te instanceof PipeTile) {
+            PipeTile pipeTile = (PipeTile) te;
+            PipeData data = pipeTile.getDisplayData();
+            System.out.println(worldIn instanceof ClientWorld ? "Client:" : "Server:" + data);
+            VoxelShape shape = VoxelShapes.empty();
+            for (Direction direction: Direction.values()) {
+                if (data.pipeEnds.containsKey(direction) && data.pipeEnds.get(direction))
+                    shape = VoxelShapes.or(shape, Utils.rotateVoxelShape(SOUTH_END, direction));
+                if (data.pipeConnections.containsKey(direction))
+                    shape = VoxelShapes.or(shape, Utils.rotateVoxelShape(SOUTH_PIPE, direction));
+            }
+            return shape;
+        }
+        return super.getShape(state, worldIn, pos, context);
     }
 
     private static boolean handlePlace(BlockState state, World world, BlockPos pos, ItemStack stack) {

@@ -17,6 +17,7 @@ public class FarmersDelightIntegration extends Integration {
     public void generateRecipes(Consumer<IFinishedRecipe> consumer) {
         buildBotariumRecipe(ModItems.WILD_CABBAGES.get(), ModItems.CABBAGE.get(), 1000, 800, consumer);
         buildBotariumRecipe(ModItems.WILD_ONIONS.get(), ModItems.ONION.get(), 1000, 800, consumer);
+        buildBotariumRecipe(ModItems.ONION.get(), ModItems.ONION.get(), 1000, 800, consumer);
         buildBotariumRecipe(ModItems.WILD_CARROTS.get(), Items.CARROT, 1000, 800, consumer);
         buildBotariumRecipe(ModItems.WILD_POTATOES.get(), Items.POTATO, 1000, 800, consumer);
         buildBotariumRecipe(ModItems.WILD_RICE.get(), ModItems.RICE_PANICLE.get(), 1000, 800, consumer);
