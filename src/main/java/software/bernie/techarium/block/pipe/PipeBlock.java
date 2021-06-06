@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
 public class PipeBlock extends Block {
 
     private static final VoxelShape SOUTH_END = box(4,4,15,12,12,16);
-    private static final VoxelShape SOUTH_PIPE = box(6,6,8,10,10,16);
+    private static final VoxelShape SOUTH_PIPE = box(6,6,7,10,10,16);
 
 
     public PipeBlock() {
