@@ -20,6 +20,11 @@ public class GuiAddonTextures {
             new ResourceLocation(ModID, "textures/gui/botarium/botarium.png"), 203, 184
     ).getFullArea();
 
+    //Exchange Station Gui Background
+    public static final IDrawable EXCHANGE_STATION_DRAWABLE = new UiTexture(
+            new ResourceLocation(ModID, "textures/gui/exchangestation/exchangestation.png"), 176, 222
+    ).getFullArea();
+
 
 
     //Defaults

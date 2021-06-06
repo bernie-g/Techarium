@@ -132,6 +132,10 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
         this.playerInvSlotsXY = playerInvSlotsXY;
     }
 
+    public void setPlayerHotBarSlotsXY(Map<Integer, Pair<Integer, Integer>> playerHotbarSlotsXY) {
+        this.playerHotbarSlotsXY = playerHotbarSlotsXY;
+    }
+
     private Map<Integer, Pair<Integer, Integer>> getNormalSlotLocations() {
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
