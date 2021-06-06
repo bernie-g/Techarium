@@ -2,10 +2,8 @@ package software.bernie.techarium.block.pipe;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -33,7 +31,6 @@ import software.bernie.techarium.pipes.capability.PipeType;
 import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.tile.pipe.PipeTile;
 import software.bernie.techarium.util.Utils;
-
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -72,13 +69,13 @@ public class PipeBlock extends Block {
             }
         }
         if (!worldIn.isClientSide())
-            handlePlace(state, worldIn, pos, stack);
+            handlePlace(worldIn, pos, stack);
     }
 
     @Override
     public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         ItemStack activatedWith =  player.getItemInHand(handIn);
-        if (activatedWith.getItem() instanceof PipeItem && !worldIn.isClientSide && handlePlace(state, worldIn, pos, activatedWith))
+        if (activatedWith.getItem() instanceof PipeItem && !worldIn.isClientSide && handlePlace(worldIn, pos, activatedWith))
             return ActionResultType.CONSUME;
         return super.use(state, worldIn, pos, player, handIn, hit);
     }
@@ -140,6 +137,7 @@ public class PipeBlock extends Block {
         return getShape(state, reader, pos, ISelectionContext.empty());
     }
 
+    @Override
     public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos) {
         return true;
     }
@@ -168,7 +166,7 @@ public class PipeBlock extends Block {
 
 
 
-    private static boolean handlePlace(BlockState state, World world, BlockPos pos, ItemStack stack) {
+    private static boolean handlePlace(World world, BlockPos pos, ItemStack stack) {
         PipeType type = ((PipeItem)stack.getItem()).getType();
         PipeTile pipeTile = (PipeTile) world.getBlockEntity(pos);
         if (pipeTile.isType(type)) {
@@ -193,8 +191,8 @@ public class PipeBlock extends Block {
                 networkManager.appendToNetwork(pos, pipeTile, connectedNetwork.getValue());
                 break;
             default: // multiple
-                List<UUID> UUIDs = networks.entrySet().stream().map(Map.Entry::getValue).distinct().collect(Collectors.toList());
-                network = networkManager.mergeNetworks((ServerWorld)world, pos, pipeTile, UUIDs);
+                List<UUID> uuids = networks.entrySet().stream().map(Map.Entry::getValue).distinct().collect(Collectors.toList());
+                network = networkManager.mergeNetworks((ServerWorld)world, pos, pipeTile, uuids);
                 break;
         }
         pipeTile.addType(type, network);
