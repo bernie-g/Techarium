@@ -40,7 +40,8 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-            property 'mixin.env.disableRefMap', 'true'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
             mods {
                 techarium {
                     source sourceSets.main
@@ -50,7 +51,8 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
-            property 'mixin.env.disableRefMap', 'true'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
             args '--mod', 'techarium', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             mods {
                 techarium {
