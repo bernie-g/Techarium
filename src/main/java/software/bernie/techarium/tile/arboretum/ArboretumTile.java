@@ -121,8 +121,7 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
 
         controller.addInventory(new InventoryAddon(this, "cropInput", 49, 35, 1)
                 .setInsertPredicate((itemStack, integer) -> Block.byItem(itemStack.getItem()) != Blocks.AIR)
-                .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 1)
-        );
+                .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 1));
 
         controller.addInventory(new InventoryAddon(this, "upgradeSlot", 83, 81, 4)
                 .setInsertPredicate((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem).setSlotPositionWithOffset(20));
@@ -199,10 +198,10 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
         if (!currentRecipe.getSoilIn().test(getSoilInventory().getStackInSlot(0))) {
             return false;
         }
-        if (getController().getEnergyStorage().getEnergyStored() >= currentRecipe.getRfPerTick()) {
+        if (!(getController().getEnergyStorage().getEnergyStored() >= currentRecipe.getRfPerTick())) {
             return false;
         }
-        if (getFluidInventory().getFluid().containsFluid(currentRecipe.getFluidIn())) {
+        if (!(getFluidInventory().getFluid().containsFluid(currentRecipe.getFluidIn()))) {
             return false;
         }
 
