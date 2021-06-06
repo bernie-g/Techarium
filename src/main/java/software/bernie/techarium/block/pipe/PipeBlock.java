@@ -2,6 +2,7 @@ package software.bernie.techarium.block.pipe;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.world.ClientWorld;
@@ -42,11 +43,11 @@ import java.util.stream.Collectors;
 public class PipeBlock extends Block {
 
     private static final VoxelShape SOUTH_END = box(4,4,15,12,12,16);
-    private static final VoxelShape SOUTH_PIPE = box(6,6,8,10,10,15);
+    private static final VoxelShape SOUTH_PIPE = box(6,6,8,10,10,16);
 
 
     public PipeBlock() {
-        super(AbstractBlock.Properties.of(Material.STONE).noOcclusion());
+        super(AbstractBlock.Properties.of(Material.STONE).noOcclusion().dynamicShape());
     }
 
     @Override
@@ -139,6 +140,14 @@ public class PipeBlock extends Block {
         return getShape(state, reader, pos, ISelectionContext.empty());
     }
 
+    public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos) {
+        return true;
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return getShape(state, worldIn, pos, context);
+    }
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         TileEntity te = worldIn.getBlockEntity(pos);
@@ -156,6 +165,8 @@ public class PipeBlock extends Block {
         }
         return super.getShape(state, worldIn, pos, context);
     }
+
+
 
     private static boolean handlePlace(BlockState state, World world, BlockPos pos, ItemStack stack) {
         PipeType type = ((PipeItem)stack.getItem()).getType();

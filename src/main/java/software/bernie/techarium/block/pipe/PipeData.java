@@ -8,8 +8,10 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.util.Constants;
 
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Data
 public class PipeData {
@@ -53,5 +55,20 @@ public class PipeData {
         }
         data.types = nbt.getIntArray("types");
         return data;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PipeData pipeData = (PipeData) o;
+        return pipeEnds.equals(pipeData.pipeEnds) && pipeConnections.equals(pipeData.pipeConnections) && Arrays.equals(types, pipeData.types);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(pipeEnds, pipeConnections);
+        result = 31 * result + Arrays.hashCode(types);
+        return result;
     }
 }
