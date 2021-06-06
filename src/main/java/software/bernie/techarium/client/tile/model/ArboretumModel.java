@@ -6,20 +6,22 @@ import software.bernie.techarium.Techarium;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;
 
-public class BotariumModel extends AnimatedGeoModel<BotariumTile>
+public class ArboretumModel extends AnimatedGeoModel<ArboretumTile>
 {
+	// TODO: UPDATE WITH NEW FILES
+
 	@Override
-	public ResourceLocation getAnimationFileLocation(BotariumTile tile) {
+	public ResourceLocation getAnimationFileLocation(ArboretumTile tile) {
 		return new ResourceLocation(Techarium.ModID, "animations/botarium.animation.json");
 	}
 
 	@Override
-	public ResourceLocation getModelLocation(BotariumTile tile) {
+	public ResourceLocation getModelLocation(ArboretumTile tile) {
 		return new ResourceLocation(Techarium.ModID, "geo/botarium/botarium.geo.json");
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(BotariumTile tile) {
+	public ResourceLocation getTextureLocation(ArboretumTile tile) {
 		return new ResourceLocation(Techarium.ModID, "textures/block/animated/botarium_tier_1.png");
 	}
 }

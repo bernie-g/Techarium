@@ -30,7 +30,7 @@ public class ThermalCultivationIntegration extends Integration {
     @Override
     public void generateRecipes(Consumer<IFinishedRecipe> consumer) {
         Method getCropItemMethod = CropsBlockCoFH.class.getDeclaredMethod("getCropItem");
-        Method getSeedsItemMethod = CropsBlockCoFH.class.getDeclaredMethod("getSeedsItem");
+        Method getSeedsItemMethod = CropsBlockCoFH.class.getDeclaredMethod("getBaseSeedId");
         getCropItemMethod.setAccessible(true);
         getSeedsItemMethod.setAccessible(true);
 

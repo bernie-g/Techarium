@@ -11,10 +11,12 @@ import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.common.data.ForgeRecipeProvider;
 import net.minecraftforge.fluids.FluidStack;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.integration.ModIntegrations;
+import software.bernie.techarium.recipes.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.TagRegistry;
 
@@ -28,6 +30,7 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
     @Override
     protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
         registerVanillaBotariumRecipes(consumer);
+        registerVanillaArboretumRecipes(consumer);
         ModIntegrations.getIntegrations().forEach(wrapper -> wrapper.get().ifPresent(o -> o.generateRecipes(consumer)));
     }
 
@@ -67,6 +70,10 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
 
     }
 
+    private void registerVanillaArboretumRecipes(Consumer<IFinishedRecipe> consumer) {
+        buildArboretumRecipe(Items.OAK_SAPLING, Ingredient.of(Items.OAK_LOG, Items.OAK_SAPLING), 1000, 1000, consumer);
+    }
+
     public static void buildBotariumFlowerRecipe(FlowerBlock flowerBlock, Consumer<IFinishedRecipe> consumer) {
         buildBotariumRecipe(flowerBlock.asItem(), flowerBlock, Ingredient.of(Blocks.GRASS_BLOCK), 1000, 1000, consumer);
     }
@@ -92,5 +99,28 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
                 .build(consumer,
                         new ResourceLocation(Techarium.ModID,
                                 "botarium/minecraft/" + seed.getRegistryName().getPath()));
+    }
+
+    public void buildArboretumRecipe(Item sapling, Ingredient drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+        buildArboretumRecipe(sapling, drop, Ingredient.of(TagRegistry.DIRT), amountWater, time, consumer);
+    }
+
+    public void buildArboretumRecipe(Item sapling, Ingredient drop, Ingredient soil, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+        buildArboretumRecipe(sapling, drop, soil, new FluidStack(Fluids.WATER, amountWater), time, consumer);
+    }
+
+    private void buildArboretumRecipe(Item sapling, Ingredient drop, Ingredient soil, FluidStack fluid, int time, Consumer<IFinishedRecipe> consumer) {
+        ArboretumRecipe.builder()
+                .cropType(Ingredient.of(sapling))
+                .soilIn(soil)
+                .fluidIn(fluid)
+                .maxProgress(time)
+                .rfPerTick(10)
+                .progressPerTick(1)
+                .output(drop)
+                .construct()
+                .build(consumer,
+                        new ResourceLocation(Techarium.ModID,
+                                "arboretum/minecraft/" + sapling.getRegistryName().getPath()));
     }
 }

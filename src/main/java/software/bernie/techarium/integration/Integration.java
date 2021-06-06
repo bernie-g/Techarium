@@ -17,6 +17,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.ModList;
 import software.bernie.techarium.Techarium;
+import software.bernie.techarium.recipes.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.TagRegistry;
 
@@ -67,6 +68,30 @@ public abstract class Integration {
                 .build(consumer,
                         new ResourceLocation(Techarium.ModID,
                                 "botarium/" + modID + "/" + seed.getRegistryName().getPath()));
+    }
+
+    public void buildArboretumRecipe(Item sapling, Ingredient drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+        buildArboretumRecipe(sapling, drop, Ingredient.of(TagRegistry.DIRT), amountWater, time, consumer);
+    }
+
+    public void buildArboretumRecipe(Item sapling, Ingredient drop, Ingredient soil, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+        buildArboretumRecipe(sapling, drop, soil, new FluidStack(Fluids.WATER, amountWater), time, consumer);
+    }
+
+    private void buildArboretumRecipe(Item sapling, Ingredient drop, Ingredient soil, FluidStack fluid, int time, Consumer<IFinishedRecipe> consumer) {
+        ArboretumRecipe.builder()
+                .cropType(Ingredient.of(sapling))
+                .soilIn(soil)
+                .fluidIn(fluid)
+                .maxProgress(time)
+                .rfPerTick(10)
+                .progressPerTick(1)
+                .output(drop)
+                .construct()
+                .addCondition(new ModLoadedCondition(modID))
+                .build(consumer,
+                        new ResourceLocation(Techarium.ModID,
+                                "arboretum/" + modID + "/" + sapling.getRegistryName().getPath()));
     }
 
     public static class Wrapper<T extends Integration> {
