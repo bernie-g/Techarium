@@ -1,5 +1,6 @@
 package software.bernie.techarium.util;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
@@ -31,8 +32,7 @@ public class Utils {
     }
 
     public static Ingredient deserializeIngredient(JsonObject json, String key) {
-        return Ingredient.fromJson((JSONUtils.isArrayNode(json, key) ? JSONUtils.getAsJsonArray(json,
-                "soilIn") : JSONUtils.getAsJsonObject(json, key)));
+        return Ingredient.fromJson((JSONUtils.isArrayNode(json, key) ? JSONUtils.getAsJsonArray(json, key) : JSONUtils.getAsJsonObject(json, key)));
     }
 
     /**

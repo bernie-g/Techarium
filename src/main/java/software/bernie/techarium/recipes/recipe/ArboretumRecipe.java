@@ -23,6 +23,7 @@ public class ArboretumRecipe extends AbstractMachineRecipe {
     private final FluidStack fluidIn;
     @Getter
     private final Ingredient soilIn;
+    @Getter
     private final Ingredient output;
 
     @Builder(buildMethodName = "construct")

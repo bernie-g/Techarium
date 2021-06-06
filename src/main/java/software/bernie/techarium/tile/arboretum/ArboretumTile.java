@@ -120,12 +120,8 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
                 .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 1));
 
         controller.addInventory(new InventoryAddon(this, "cropInput", 49, 35, 1)
-                .setInsertPredicate((itemStack, integer) -> itemStack.isEmpty() || level.getRecipeManager().getRecipes()
-                        .stream()
-                        .filter(this::checkRecipe)
-                        .map(this::castRecipe).anyMatch(
-                                recipe -> recipe.getCropType().test(itemStack))
-                ).setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 1)
+                .setInsertPredicate((itemStack, integer) -> Block.byItem(itemStack.getItem()) != Blocks.AIR)
+                .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 1)
         );
 
         controller.addInventory(new InventoryAddon(this, "upgradeSlot", 83, 81, 4)
