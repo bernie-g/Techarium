@@ -13,8 +13,11 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
-  "output": {
-    "id": "minecraft:azure_bluet",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "minecraft:azure_bluet",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

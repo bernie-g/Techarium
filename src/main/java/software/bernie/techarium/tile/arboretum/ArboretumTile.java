@@ -203,7 +203,7 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
             return false;
         }
 
-        return getOutputInventory().canInsertIngredient(currentRecipe.getOutput());
+        return getOutputInventory().canInsertItems(currentRecipe.getOutput().getCachedOutput());
     }
 
     @Override
@@ -215,7 +215,8 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
             return;
         }
         getFluidInventory().drain(currentRecipe.getFluidIn().getAmount(), IFluidHandler.FluidAction.EXECUTE);
-        getOutputInventory().insertIngredient(currentRecipe.getOutput(), false);
+        getOutputInventory().insertItems(currentRecipe.getOutput().getCachedOutput(), false);
+        currentRecipe.getOutput().reloadCache();
     }
 
     @Override

@@ -18,8 +18,11 @@
     "FluidName": "minecraft:water",
     "Amount": 50
   },
-  "output": {
-    "id": "minecraft:brown_mushroom",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "minecraft:brown_mushroom",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

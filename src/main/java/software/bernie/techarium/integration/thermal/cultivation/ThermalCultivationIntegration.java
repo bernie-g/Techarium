@@ -17,6 +17,7 @@ import software.bernie.techarium.integration.Integration;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.TagRegistry;
+import software.bernie.techarium.util.ChancedItemStackList;
 
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
@@ -47,7 +48,7 @@ public class ThermalCultivationIntegration extends Integration {
                         .maxProgress(1000)
                         .rfPerTick(10)
                         .progressPerTick(1)
-                        .output(Ingredient.of(cropProvider.asItem()))
+                        .output(ChancedItemStackList.of(cropProvider.asItem()))
                         .construct()
                         .addCondition(new ModLoadedCondition(ModIntegrations.getThermalCultivation().orElseThrow(NullPointerException::new).getModID()))
                         .build(consumer,

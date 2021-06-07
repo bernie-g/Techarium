@@ -19,8 +19,11 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
-  "output": {
-    "id": "mysticalagriculture:mithril_essence",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "mysticalagriculture:mithril_essence",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

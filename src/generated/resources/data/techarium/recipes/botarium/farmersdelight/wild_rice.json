@@ -19,8 +19,11 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
-  "output": {
-    "id": "farmersdelight:rice_panicle",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "farmersdelight:rice_panicle",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

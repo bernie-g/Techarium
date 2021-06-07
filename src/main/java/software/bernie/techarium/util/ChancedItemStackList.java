@@ -3,9 +3,11 @@ package software.bernie.techarium.util;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import lombok.Getter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import org.lwjgl.system.CallbackI;
@@ -15,14 +17,33 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ChancedItemStackList {
-    List<ChancedItemStack> stackList;
+    @Getter
+    private List<ChancedItemStack> stackList;
+    @Getter
+    private List<ItemStack> cachedOutput;
 
     private ChancedItemStackList(ChancedItemStack... stacks) {
+        this.stackList = new ArrayList<>();
+        this.cachedOutput = new ArrayList<>();
         this.stackList.addAll(Arrays.asList(stacks));
+        reloadCache();
     }
 
     public static ChancedItemStackList of(ChancedItemStack... stacks) {
         return new ChancedItemStackList(stacks);
+    }
+
+    public static ChancedItemStackList of(ItemStack... stacks) {
+        return new ChancedItemStackList(Arrays.stream(stacks)
+                .map(ChancedItemStack::of)
+                .toArray(ChancedItemStack[]::new));
+    }
+
+    public static ChancedItemStackList of(IItemProvider... items) {
+        return new ChancedItemStackList(Arrays.stream(items)
+                .map(ItemStack::new)
+                .map(ChancedItemStack::of)
+                .toArray(ChancedItemStack[]::new));
     }
 
     public JsonArray toJSON() {
@@ -33,7 +54,7 @@ public class ChancedItemStackList {
         return jsonArray;
     }
 
-    public ChancedItemStackList fromJSON(JsonArray jsonArray) {
+    public static ChancedItemStackList fromJSON(JsonArray jsonArray) {
         List<ChancedItemStack> list = new ArrayList<>();
         for (JsonElement element : jsonArray) {
             list.add(ChancedItemStack.fromJSON(element.getAsJsonObject()));
@@ -54,6 +75,15 @@ public class ChancedItemStackList {
         buffer.writeInt(stackList.size());
         for (ChancedItemStack stack : stackList) {
             stack.write(buffer);
+        }
+    }
+
+    public void reloadCache() {
+        cachedOutput = new ArrayList<>();
+        for (ChancedItemStack stack : stackList) {
+            if (stack.roll()) {
+                cachedOutput.add(stack.getStack());
+            }
         }
     }
 }

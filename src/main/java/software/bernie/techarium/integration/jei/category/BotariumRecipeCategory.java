@@ -42,7 +42,7 @@ public class BotariumRecipeCategory extends BaseRecipeCategory<BotariumRecipe>
 		inputs.add(Arrays.asList(recipe.getSoilIn().getItems()));
 		ingredients.setInputLists(VanillaTypes.ITEM, inputs);
 		ingredients.setInput(VanillaTypes.FLUID, recipe.getFluidIn());
-		ingredients.setOutputs(VanillaTypes.ITEM, Arrays.asList(recipe.getOutput().getItems()));
+		ingredients.setOutputs(VanillaTypes.ITEM, recipe.getOutput().getCachedOutput());
 	}
 
 	@Override

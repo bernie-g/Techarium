@@ -20,6 +20,7 @@ import software.bernie.techarium.Techarium;
 import software.bernie.techarium.recipes.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.TagRegistry;
+import software.bernie.techarium.util.ChancedItemStackList;
 
 import java.util.function.Consumer;
 
@@ -43,18 +44,18 @@ public abstract class Integration {
     }
 
     public void buildBotariumFlowerRecipe(FlowerBlock flowerBlock, Consumer<IFinishedRecipe> consumer) {
-        buildBotariumRecipe(flowerBlock.asItem(), Ingredient.of(flowerBlock), Ingredient.of(Blocks.GRASS_BLOCK), 1000, 1000, consumer);
+        buildBotariumRecipe(flowerBlock.asItem(), ChancedItemStackList.of(flowerBlock), Ingredient.of(Blocks.GRASS_BLOCK), 1000, 1000, consumer);
     }
 
-    public void buildBotariumRecipe(Item seed, Ingredient drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+    public void buildBotariumRecipe(Item seed, ChancedItemStackList drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
         buildBotariumRecipe(seed, drop, Ingredient.of(TagRegistry.DIRT), amountWater, time, consumer);
     }
 
-    public void buildBotariumRecipe(Item seed, Ingredient drop, Ingredient soil, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+    public void buildBotariumRecipe(Item seed, ChancedItemStackList drop, Ingredient soil, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
         buildBotariumRecipe(seed, drop, soil, new FluidStack(Fluids.WATER, amountWater), time, consumer);
     }
 
-    private void buildBotariumRecipe(Item seed, Ingredient drop, Ingredient soil, FluidStack fluid, int time, Consumer<IFinishedRecipe> consumer) {
+    private void buildBotariumRecipe(Item seed, ChancedItemStackList drop, Ingredient soil, FluidStack fluid, int time, Consumer<IFinishedRecipe> consumer) {
         BotariumRecipe.builder()
                 .cropType(Ingredient.of(seed))
                 .soilIn(soil)
@@ -70,15 +71,15 @@ public abstract class Integration {
                                 "botarium/" + modID + "/" + seed.getRegistryName().getPath()));
     }
 
-    public void buildArboretumRecipe(Item sapling, Ingredient drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+    public void buildArboretumRecipe(Item sapling, ChancedItemStackList drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
         buildArboretumRecipe(sapling, drop, Ingredient.of(TagRegistry.DIRT), amountWater, time, consumer);
     }
 
-    public void buildArboretumRecipe(Item sapling, Ingredient drop, Ingredient soil, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+    public void buildArboretumRecipe(Item sapling, ChancedItemStackList drop, Ingredient soil, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
         buildArboretumRecipe(sapling, drop, soil, new FluidStack(Fluids.WATER, amountWater), time, consumer);
     }
 
-    private void buildArboretumRecipe(Item sapling, Ingredient drop, Ingredient soil, FluidStack fluid, int time, Consumer<IFinishedRecipe> consumer) {
+    private void buildArboretumRecipe(Item sapling, ChancedItemStackList drop, Ingredient soil, FluidStack fluid, int time, Consumer<IFinishedRecipe> consumer) {
         ArboretumRecipe.builder()
                 .cropType(Ingredient.of(sapling))
                 .soilIn(soil)

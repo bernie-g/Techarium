@@ -112,6 +112,23 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
         return insertItem(stack, true).isEmpty();
     }
 
+    public List<ItemStack> insertItems(@Nonnull List<ItemStack> stackList, boolean simulate) {
+        List<ItemStack> output = new ArrayList<>();
+        for (ItemStack stack : stackList) {
+            if (!canInsertItem(stack)) {
+                output.add(insertItem(stack, simulate));
+            }
+            else {
+                insertItem(stack, simulate);
+            }
+        }
+        return output;
+    }
+
+    public boolean canInsertItems(@Nonnull List<ItemStack> stackList) {
+        return insertItems(stackList, true).isEmpty();
+    }
+
     public Ingredient insertIngredient(@Nonnull Ingredient ingredient, boolean simulate) {
         List<ItemStack> stackOutput = new ArrayList<>();
         for (ItemStack itemStack : ingredient.getItems()) {

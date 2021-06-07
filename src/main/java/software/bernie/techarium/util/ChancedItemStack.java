@@ -9,6 +9,8 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 
+import java.util.Random;
+
 public class ChancedItemStack {
     @Getter
     @Setter
@@ -36,6 +38,18 @@ public class ChancedItemStack {
         return new ChancedItemStack(stack);
     }
 
+    public static ChancedItemStack of(Item item) {
+        return new ChancedItemStack(new ItemStack(item));
+    }
+
+    public static ChancedItemStack of(Item item, int amount) {
+        return new ChancedItemStack(new ItemStack(item, amount));
+    }
+
+    public static ChancedItemStack of(Item item, int amount, Double chance) {
+        return new ChancedItemStack(new ItemStack(item, amount), chance);
+    }
+
     public JsonObject toJSON() {
         JsonObject jsonobject = new JsonObject();
         jsonobject.addProperty("item", Registry.ITEM.getKey(stack.getItem()).toString());
@@ -58,5 +72,9 @@ public class ChancedItemStack {
     public void write(PacketBuffer buffer) {
         buffer.writeItemStack(this.stack, false);
         buffer.writeDouble(this.chance);
+    }
+
+    public boolean roll() {
+        return new Random().nextDouble() < chance;
     }
 }
