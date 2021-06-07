@@ -39,7 +39,7 @@ public class PamsHarvestCraftIntegration extends Integration {
                         .maxProgress(1000)
                         .rfPerTick(10)
                         .progressPerTick(1)
-                        .output(new ItemStack(drop, 1))
+                        .output(Ingredient.of(drop))
                         .construct()
                         .addCondition(new ModLoadedCondition(ModIntegrations.getPams().orElseThrow(NullPointerException::new).getModID()))
                         .build(consumer,

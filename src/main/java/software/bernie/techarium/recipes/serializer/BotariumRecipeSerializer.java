@@ -22,7 +22,7 @@ public class BotariumRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializ
         Ingredient crop = Utils.deserializeIngredient(json, "cropIn");
         FluidStack fluidIn = JsonCodecUtils.deserializeFluidStack(json.get("fluidIn"));
         Ingredient soil = Utils.deserializeIngredient(json, "soilIn");
-        ItemStack output = JsonCodecUtils.deserializeItemStack(json.get("output"));
+        Ingredient output = Utils.deserializeIngredient(json, "output");
         int maxProgress = JSONUtils.getAsInt(json, "maxProgress");
         int ticksPerProgress = JSONUtils.getAsInt(json, "progressPerTick");
         int energy = JSONUtils.getAsInt(json, "rfPerTick");
@@ -35,7 +35,7 @@ public class BotariumRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializ
         Ingredient crop = Ingredient.fromNetwork(buffer);
         FluidStack fluidIn = buffer.readFluidStack();
         Ingredient soil = Ingredient.fromNetwork(buffer);
-        ItemStack output = buffer.readItem();
+        Ingredient output = Ingredient.fromNetwork(buffer);
         int maxProgress = buffer.readInt();
         int ticksPerProgress = buffer.readInt();
         int energy = buffer.readInt();
@@ -47,7 +47,7 @@ public class BotariumRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializ
         recipe.getCropType().toNetwork(buffer);
         buffer.writeFluidStack(recipe.getFluidIn());
         recipe.getSoilIn().toNetwork(buffer);
-        buffer.writeItem(recipe.getResultItem());
+        recipe.getOutput().toNetwork(buffer);
         buffer.writeInt(recipe.getMaxProgress());
         buffer.writeInt(recipe.getProgressPerTick());
         buffer.writeInt(recipe.getRfPerTick());

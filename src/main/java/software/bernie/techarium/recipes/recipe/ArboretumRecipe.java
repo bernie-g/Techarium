@@ -36,17 +36,8 @@ public class ArboretumRecipe extends AbstractMachineRecipe {
     }
 
     @Override
-    public ItemStack getResultItem() {
-        return super.getResultItem();
-    }
-
-    @Override
     public IRecipeSerializer<?> getSerializer() {
         return ARBORETUM_SERIALIZER.get();
-    }
-
-    public Ingredient getOutput() {
-        return output;
     }
 
     @Override

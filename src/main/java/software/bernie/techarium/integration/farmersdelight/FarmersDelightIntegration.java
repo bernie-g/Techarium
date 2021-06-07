@@ -15,18 +15,18 @@ public class FarmersDelightIntegration extends Integration {
 
     @Override
     public void generateRecipes(Consumer<IFinishedRecipe> consumer) {
-        buildBotariumRecipe(ModItems.WILD_CABBAGES.get(), ModItems.CABBAGE.get(), 1000, 800, consumer);
-        buildBotariumRecipe(ModItems.WILD_ONIONS.get(), ModItems.ONION.get(), 1000, 800, consumer);
-        buildBotariumRecipe(ModItems.ONION.get(), ModItems.ONION.get(), 1000, 800, consumer);
-        buildBotariumRecipe(ModItems.WILD_CARROTS.get(), Items.CARROT, 1000, 800, consumer);
-        buildBotariumRecipe(ModItems.WILD_POTATOES.get(), Items.POTATO, 1000, 800, consumer);
-        buildBotariumRecipe(ModItems.WILD_RICE.get(), ModItems.RICE_PANICLE.get(), 1000, 800, consumer);
-        buildBotariumRecipe(ModItems.RICE.get(), ModItems.RICE_PANICLE.get(), 1000, 800, consumer);
-        buildBotariumRecipe(ModItems.WILD_TOMATOES.get(), ModItems.TOMATO.get(), 1000, 800, consumer);
-        buildBotariumRecipe(ModItems.TOMATO_SEEDS.get(), ModItems.TOMATO.get(), 1000, 800, consumer);
-        buildBotariumRecipe(ModItems.WILD_BEETROOTS.get(), Items.BEETROOT, 1000, 800, consumer);
-        buildBotariumRecipe(ModItems.CABBAGE_SEEDS.get(), ModItems.CABBAGE.get(), 1000, 800, consumer);
-        buildBotariumRecipe(ModItems.BROWN_MUSHROOM_COLONY.get(), Items.BROWN_MUSHROOM, Ingredient.of(Items.STONE, Items.MYCELIUM), 1000, 800, consumer);
-        buildBotariumRecipe(ModItems.RED_MUSHROOM_COLONY.get(), Items.RED_MUSHROOM, Ingredient.of(Items.STONE, Items.MYCELIUM), 1000, 800, consumer);
+        buildBotariumRecipe(ModItems.WILD_CABBAGES.get(), Ingredient.of(ModItems.CABBAGE.get()), 1000, 800, consumer);
+        buildBotariumRecipe(ModItems.WILD_ONIONS.get(), Ingredient.of(ModItems.ONION.get()), 1000, 800, consumer);
+        buildBotariumRecipe(ModItems.ONION.get(), Ingredient.of(ModItems.ONION.get()), 1000, 800, consumer);
+        buildBotariumRecipe(ModItems.WILD_CARROTS.get(), Ingredient.of(Items.CARROT), 1000, 800, consumer);
+        buildBotariumRecipe(ModItems.WILD_POTATOES.get(), Ingredient.of(Items.POTATO), 1000, 800, consumer);
+        buildBotariumRecipe(ModItems.WILD_RICE.get(), Ingredient.of(ModItems.RICE_PANICLE.get()), 1000, 800, consumer);
+        buildBotariumRecipe(ModItems.RICE.get(), Ingredient.of(ModItems.RICE_PANICLE.get()), 1000, 800, consumer);
+        buildBotariumRecipe(ModItems.WILD_TOMATOES.get(), Ingredient.of(ModItems.TOMATO.get()), 1000, 800, consumer);
+        buildBotariumRecipe(ModItems.TOMATO_SEEDS.get(), Ingredient.of(ModItems.TOMATO.get()), 1000, 800, consumer);
+        buildBotariumRecipe(ModItems.WILD_BEETROOTS.get(), Ingredient.of(Items.BEETROOT), 1000, 800, consumer);
+        buildBotariumRecipe(ModItems.CABBAGE_SEEDS.get(), Ingredient.of(ModItems.CABBAGE.get()), 1000, 800, consumer);
+        buildBotariumRecipe(ModItems.BROWN_MUSHROOM_COLONY.get(), Ingredient.of(Items.BROWN_MUSHROOM), Ingredient.of(Items.STONE, Items.MYCELIUM), 1000, 800, consumer);
+        buildBotariumRecipe(ModItems.RED_MUSHROOM_COLONY.get(), Ingredient.of(Items.RED_MUSHROOM), Ingredient.of(Items.STONE, Items.MYCELIUM), 1000, 800, consumer);
     }
 }

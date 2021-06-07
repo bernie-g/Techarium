@@ -47,7 +47,7 @@ public class ThermalCultivationIntegration extends Integration {
                         .maxProgress(1000)
                         .rfPerTick(10)
                         .progressPerTick(1)
-                        .output(new ItemStack(cropProvider.asItem(), 1))
+                        .output(Ingredient.of(cropProvider.asItem()))
                         .construct()
                         .addCondition(new ModLoadedCondition(ModIntegrations.getThermalCultivation().orElseThrow(NullPointerException::new).getModID()))
                         .build(consumer,

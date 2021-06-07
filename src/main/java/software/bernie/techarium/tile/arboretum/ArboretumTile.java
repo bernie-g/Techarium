@@ -100,9 +100,7 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
         controller.addProgressBar(progressBarAddon
                 .setCanProgress(value -> {
                     ArboretumRecipe recipe = getController().getCurrentRecipe();
-                    FluidStack fluid = controller.getMultiTank().getFluidTanks().get(0).getFluid();
-                    InventoryAddon output = controller.getMultiInventory().getInventoryByName("output").get();
-                    return recipe != null && output.getStackInSlot(0).getCount() + recipe.getResultItem().getCount() <= output.getSlotLimit(0) && getController().getEnergyStorage().getEnergyStored() > 0 && fluid.getAmount() >= recipe.getFluidIn().getAmount();
+                    return recipe != null && matchRecipe(recipe);
                 })
                 .setOnProgressFull(() -> handleProgressFinish(getController().getCurrentRecipe()))
                 .setOnProgressTick(() -> {

@@ -23,22 +23,17 @@ public class BotariumRecipe extends AbstractMachineRecipe {
     private final FluidStack fluidIn;
     @Getter
     private final Ingredient soilIn;
-    private final ItemStack output;
+    @Getter
+    private final Ingredient output;
 
     @Builder(buildMethodName = "construct")
-    public BotariumRecipe(ResourceLocation id, Ingredient cropType, FluidStack fluidIn, Ingredient soilIn, ItemStack output, int progressPerTick, int maxProgress, int rfPerTick) {
+    public BotariumRecipe(ResourceLocation id, Ingredient cropType, FluidStack fluidIn, Ingredient soilIn, Ingredient output, int progressPerTick, int maxProgress, int rfPerTick) {
         super(id, BOTARIUM_RECIPE_TYPE, progressPerTick, maxProgress, rfPerTick);
         this.cropType = cropType;
         this.fluidIn = fluidIn;
         this.soilIn = soilIn;
         this.output = output;
     }
-
-    @Override
-    public ItemStack getResultItem() {
-        return output.copy();
-    }
-
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
@@ -66,7 +61,7 @@ public class BotariumRecipe extends AbstractMachineRecipe {
             json.add("cropIn", getCropType().toJson());
             json.add("soilIn", getSoilIn().toJson());
             json.add("fluidIn", JsonCodecUtils.serialize(getFluidIn()));
-            json.add("output", JsonCodecUtils.serialize(getResultItem()));
+            json.add("output", getOutput().toJson());
         }
     }
 

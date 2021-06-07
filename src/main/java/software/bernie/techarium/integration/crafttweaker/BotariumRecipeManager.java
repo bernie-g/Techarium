@@ -26,9 +26,9 @@ public class BotariumRecipeManager implements IRecipeManager {
     }
 
     @NotNull
-    private BotariumRecipe createBotariumRecipe(IIngredient cropIn, String name, IFluidStack inputFluid, IIngredient soilIn, IItemStack output, int progressPerTick, int maxProgress, int rfPerTick) {
+    private BotariumRecipe createBotariumRecipe(IIngredient cropIn, String name, IFluidStack inputFluid, IIngredient soilIn, IIngredient output, int progressPerTick, int maxProgress, int rfPerTick) {
         return new BotariumRecipe(new ResourceLocation("crafttweaker", name), cropIn.asVanillaIngredient(), inputFluid.getImmutableInternal(),
-                soilIn.asVanillaIngredient(), output.getImmutableInternal(), progressPerTick, maxProgress, rfPerTick);
+                soilIn.asVanillaIngredient(), output.asVanillaIngredient(), progressPerTick, maxProgress, rfPerTick);
     }
 
     @Override

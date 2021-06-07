@@ -35,7 +35,7 @@ public class MysticalAgricultureIntegration extends Integration {
                         .maxProgress(2000)
                         .rfPerTick(30)
                         .progressPerTick(1)
-                        .output(new ItemStack(mysticalSeed.getCrop().getEssence(), 1))
+                        .output(Ingredient.of(mysticalSeed.getCrop().getEssence()))
                         .construct()
                         .addCondition(new ModLoadedCondition(ModIntegrations.getMystical().orElseThrow(NullPointerException::new).getModID()))
                         .build(consumer,
