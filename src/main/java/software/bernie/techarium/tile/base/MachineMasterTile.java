@@ -23,7 +23,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
-import software.bernie.techarium.machine.container.AutomaticContainer;
+import software.bernie.techarium.display.container.AutomaticContainer;
 import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.machine.interfaces.recipe.IForcedRecipe;
 import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;

@@ -5,11 +5,9 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import software.bernie.techarium.pipes.capability.PipeType;
+import software.bernie.techarium.pipe.capability.PipeType;
 import software.bernie.techarium.registry.BlockTileRegistry;
 import software.bernie.techarium.registry.ItemGroupRegistry;
-
-import net.minecraft.item.Item.Properties;
 
 @Getter
 public class PipeItem extends BlockItem {

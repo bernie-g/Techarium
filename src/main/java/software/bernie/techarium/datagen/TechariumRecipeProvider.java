@@ -15,7 +15,7 @@ import net.minecraftforge.common.data.ForgeRecipeProvider;
 import net.minecraftforge.fluids.FluidStack;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.integration.ModIntegrations;
-import software.bernie.techarium.recipes.recipe.BotariumRecipe;
+import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.TagRegistry;
 
 import java.util.function.Consumer;

@@ -10,7 +10,7 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.techarium.Techarium;
-import software.bernie.techarium.recipes.recipe.BotariumRecipe;
+import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.BlockTileRegistry;
 
 import java.util.ArrayList;

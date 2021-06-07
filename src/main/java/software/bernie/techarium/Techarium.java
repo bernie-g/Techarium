@@ -13,8 +13,8 @@ import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
 import software.bernie.techarium.datagen.TechariumRecipeProvider;
 import software.bernie.techarium.integration.ModIntegrations;
-import software.bernie.techarium.machine.screen.AutomaticContainerScreen;
-import software.bernie.techarium.pipes.NetworkEvents;
+import software.bernie.techarium.display.screen.AutomaticContainerScreen;
+import software.bernie.techarium.pipe.NetworkEvents;
 import software.bernie.techarium.network.NetworkConnection;
 import software.bernie.techarium.registry.*;
 

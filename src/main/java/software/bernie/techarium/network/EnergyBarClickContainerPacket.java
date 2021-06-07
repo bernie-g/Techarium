@@ -7,7 +7,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.network.NetworkEvent;
 import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
-import software.bernie.techarium.machine.container.AutomaticContainer;
+import software.bernie.techarium.display.container.AutomaticContainer;
 
 public class EnergyBarClickContainerPacket extends ClientToServerContainerPacket<EnergyBarClickContainerPacket> {
     private static final int LEFT = 0;
@@ -36,7 +36,10 @@ public class EnergyBarClickContainerPacket extends ClientToServerContainerPacket
 
     @Override
     void doAction(NetworkEvent.Context context) {
-        getContainer(context).ifPresent(container -> {
+        getContainer(context).ifPresent(tempContainer -> {
+            if (!(tempContainer instanceof AutomaticContainer))
+                return;
+            AutomaticContainer container = (AutomaticContainer) tempContainer;
             ItemStack stack = context.getSender().inventory.getCarried();
             LazyOptional<IEnergyStorage> energy = stack.getCapability(CapabilityEnergy.ENERGY);
 

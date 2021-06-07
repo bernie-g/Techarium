@@ -14,8 +14,8 @@ import net.minecraft.util.ResourceLocation;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.integration.jei.category.BotariumRecipeCategory;
 import software.bernie.techarium.integration.jei.panel.PanelBoundHandler;
-import software.bernie.techarium.machine.screen.AutomaticContainerScreen;
-import software.bernie.techarium.recipes.recipe.BotariumRecipe;
+import software.bernie.techarium.display.screen.AutomaticContainerScreen;
+import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.BlockTileRegistry;
 import software.bernie.techarium.registry.RecipeRegistry;
 

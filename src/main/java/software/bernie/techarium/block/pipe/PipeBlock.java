@@ -25,9 +25,9 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.techarium.item.PipeItem;
-import software.bernie.techarium.pipes.capability.IPipeNetworkManagerCapability;
-import software.bernie.techarium.pipes.capability.PipeNetworkManagerCapability;
-import software.bernie.techarium.pipes.capability.PipeType;
+import software.bernie.techarium.pipe.capability.IPipeNetworkManagerCapability;
+import software.bernie.techarium.pipe.capability.PipeNetworkManagerCapability;
+import software.bernie.techarium.pipe.capability.PipeType;
 import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.tile.pipe.PipeTile;
 import software.bernie.techarium.util.Utils;
@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 public class PipeBlock extends Block {
 
     private static final VoxelShape SOUTH_END = box(4,4,15,12,12,16);
-    private static final VoxelShape SOUTH_PIPE = box(6,6,7,10,10,16);
+    private static final VoxelShape SOUTH_PIPE = box(6,6,6,10,10,16);
 
 
     public PipeBlock() {

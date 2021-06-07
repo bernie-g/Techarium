@@ -1,7 +1,6 @@
 package software.bernie.techarium.tile.exchangestation;
 
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.tileentity.TileEntityType;
 import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -11,7 +10,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.techarium.machine.controller.MachineController;
-import software.bernie.techarium.recipes.recipe.ExchangeStationRecipe;
+import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import java.util.HashMap;
