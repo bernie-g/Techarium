@@ -75,6 +75,11 @@ public class ChancedItemStack {
     }
 
     public boolean roll() {
-        return new Random().nextDouble() < chance;
+        return new Random().nextDouble() <= chance;
+    }
+
+    @Override
+    public String toString() {
+        return "ChancedItemStack{" + "stack=" + stack + ", chance=" + chance + '}';
     }
 }

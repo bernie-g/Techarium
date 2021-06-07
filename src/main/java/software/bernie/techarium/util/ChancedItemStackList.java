@@ -2,15 +2,11 @@ package software.bernie.techarium.util;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import lombok.Getter;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import org.lwjgl.system.CallbackI;
+import software.bernie.techarium.Techarium;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +14,7 @@ import java.util.List;
 
 public class ChancedItemStackList {
     @Getter
-    private List<ChancedItemStack> stackList;
+    private final List<ChancedItemStack> stackList;
     @Getter
     private List<ItemStack> cachedOutput;
 
@@ -85,5 +81,6 @@ public class ChancedItemStackList {
                 cachedOutput.add(stack.getStack());
             }
         }
+        Techarium.LOGGER.info("Cached Output: " + cachedOutput);
     }
 }

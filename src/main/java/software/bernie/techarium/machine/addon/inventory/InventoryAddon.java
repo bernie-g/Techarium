@@ -101,44 +101,31 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
         return reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, stack.getCount() - limit) : ItemStack.EMPTY;
     }
 
-    public ItemStack insertItem(@Nonnull ItemStack stack, boolean simulate) {
+    public boolean insertItem(@Nonnull ItemStack stack, boolean simulate) {
         for (int i = 0; i < getSlots(); i++) {
             stack = insertItem(i, stack, simulate);
         }
-        return stack;
+        return stack.isEmpty();
     }
 
     public boolean canInsertItem(@Nonnull ItemStack stack) {
-        return insertItem(stack, true).isEmpty();
+        return insertItem(stack, true);
     }
 
-    public List<ItemStack> insertItems(@Nonnull List<ItemStack> stackList, boolean simulate) {
-        List<ItemStack> output = new ArrayList<>();
-        for (ItemStack stack : stackList) {
+    public boolean insertItems(@Nonnull List<ItemStack> stackList, boolean simulate) {
+        boolean output = true;
+        List<ItemStack> in = stackList;
+        for (ItemStack stack : in) {
             if (!canInsertItem(stack)) {
-                output.add(insertItem(stack, simulate));
+                output = false;
             }
-            else {
-                insertItem(stack, simulate);
-            }
+            insertItem(stack, simulate);
         }
         return output;
     }
 
     public boolean canInsertItems(@Nonnull List<ItemStack> stackList) {
-        return insertItems(stackList, true).isEmpty();
-    }
-
-    public Ingredient insertIngredient(@Nonnull Ingredient ingredient, boolean simulate) {
-        List<ItemStack> stackOutput = new ArrayList<>();
-        for (ItemStack itemStack : ingredient.getItems()) {
-            stackOutput.add(insertItem(itemStack, simulate));
-        }
-        return Ingredient.of(stackOutput.stream());
-    }
-
-    public boolean canInsertIngredient(@Nonnull Ingredient ingredient) {
-        return insertIngredient(ingredient, true).isEmpty();
+        return insertItems(stackList, true);
     }
 
     @Override
