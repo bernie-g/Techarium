@@ -16,6 +16,7 @@ import net.minecraftforge.fluids.FluidStack;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
+import software.bernie.techarium.recipes.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.registry.TagRegistry;
 
 import java.util.function.Consumer;
@@ -28,6 +29,7 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
     @Override
     protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
         registerVanillaBotariumRecipes(consumer);
+        registerExchangeStationRecipes(consumer);
         ModIntegrations.getIntegrations().forEach(wrapper -> wrapper.get().ifPresent(o -> o.generateRecipes(consumer)));
     }
 
@@ -67,6 +69,10 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
 
     }
 
+    private void registerExchangeStationRecipes(Consumer<IFinishedRecipe> consumer) {
+        buildExchangeStationRecipe(Items.GOLD_INGOT, 1, Items.DIRT, 1, consumer);
+    }
+
     public static void buildBotariumFlowerRecipe(FlowerBlock flowerBlock, Consumer<IFinishedRecipe> consumer) {
         buildBotariumRecipe(flowerBlock.asItem(), flowerBlock, Ingredient.of(Blocks.GRASS_BLOCK), 1000, 1000, consumer);
     }
@@ -92,5 +98,15 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
                 .build(consumer,
                         new ResourceLocation(Techarium.ModID,
                                 "botarium/minecraft/" + seed.getRegistryName().getPath()));
+    }
+
+    private static void buildExchangeStationRecipe(IItemProvider input, int inputAmount, IItemProvider output, int outputAmount, Consumer<IFinishedRecipe> consumer) {
+        ExchangeStationRecipe.builder()
+                .input(new ItemStack(input, inputAmount))
+                .output(new ItemStack(output, outputAmount))
+                .construct()
+                .build(consumer,
+                        new ResourceLocation(Techarium.ModID,
+                                "exchange_station/" + output.asItem().getRegistryName().getPath()));
     }
 }
