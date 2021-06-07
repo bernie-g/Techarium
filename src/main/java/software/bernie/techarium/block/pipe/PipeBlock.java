@@ -6,25 +6,34 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.techarium.display.container.PipeContainer;
 import software.bernie.techarium.item.PipeItem;
+import software.bernie.techarium.pipe.PipePosition;
 import software.bernie.techarium.pipe.capability.IPipeNetworkManagerCapability;
 import software.bernie.techarium.pipe.capability.PipeNetworkManagerCapability;
 import software.bernie.techarium.pipe.capability.PipeType;
@@ -77,7 +86,40 @@ public class PipeBlock extends Block {
         ItemStack activatedWith =  player.getItemInHand(handIn);
         if (activatedWith.getItem() instanceof PipeItem && !worldIn.isClientSide && handlePlace(worldIn, pos, activatedWith))
             return ActionResultType.CONSUME;
+        Direction side = clickedOnEnd(hit);
+        if (side != null && worldIn.isClientSide)
+            return ActionResultType.CONSUME;
+        if (!worldIn.isClientSide && player instanceof ServerPlayerEntity) {
+            if (side != null)
+                NetworkHooks.openGui(
+                        (ServerPlayerEntity) player,
+                        new INamedContainerProvider() {
+                            @Override
+                            public ITextComponent getDisplayName() {
+                                return ItemRegistry.ITEM_PIPE.get().getName(ItemRegistry.ITEM_PIPE.get().getDefaultInstance());
+                            }
+                            @Nullable
+                            @Override
+                            public Container createMenu(int containerID, PlayerInventory playerInventory, PlayerEntity player) {
+                                return new PipeContainer(containerID, IWorldPosCallable.create(worldIn, pos), new PipePosition(pos, side));
+                            }
+                        }
+                );
+        }
         return super.use(state, worldIn, pos, player, handIn, hit);
+    }
+
+    /**
+     * @param rayTraceResult the ClickVector
+     * @return the End Direction or null if none
+     */
+    @Nullable
+    private Direction clickedOnEnd(BlockRayTraceResult rayTraceResult) {
+        for (Direction direction: Direction.values()) {
+            if (Utils.isInOrOn(rayTraceResult, Utils.rotateVoxelShape(SOUTH_END, direction)))
+                return direction;
+        }
+        return null;
     }
 
     @Override

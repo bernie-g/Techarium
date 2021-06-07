@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
 import software.bernie.techarium.datagen.TechariumRecipeProvider;
+import software.bernie.techarium.display.screen.PipeContainerScreen;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.display.screen.AutomaticContainerScreen;
 import software.bernie.techarium.pipe.NetworkEvents;
@@ -19,6 +20,7 @@ import software.bernie.techarium.network.NetworkConnection;
 import software.bernie.techarium.registry.*;
 
 import static software.bernie.techarium.registry.ContainerRegistry.AUTO_CONTAINER;
+import static software.bernie.techarium.registry.ContainerRegistry.PIPE_CONTAINER;
 
 @Mod(Techarium.ModID)
 public class Techarium
@@ -59,5 +61,6 @@ public class Techarium
 	public void onClientSetup(FMLClientSetupEvent event)
 	{
 		ScreenManager.register(AUTO_CONTAINER.get(), AutomaticContainerScreen::new);
+		ScreenManager.register(PIPE_CONTAINER.get(), PipeContainerScreen::new);
 	}
 }

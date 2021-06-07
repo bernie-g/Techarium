@@ -3,16 +3,24 @@ package software.bernie.techarium.display.screen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import software.bernie.techarium.client.screen.draw.IDrawable;
+import software.bernie.techarium.client.screen.draw.UiTexture;
 import software.bernie.techarium.display.container.PipeContainer;
 
-public class PipeContainerScreen extends ContainerScreen<PipeContainer> {
+import static software.bernie.techarium.Techarium.ModID;
+
+public class PipeContainerScreen extends DrawableContainerScreen<PipeContainer> {
+
+    private static final IDrawable BACKGROUND_TEXTURE = new UiTexture(new ResourceLocation(ModID, "textures/gui/pipe/inventory.png"), 603, 585).getFullArea();
+
     public PipeContainerScreen(PipeContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
     }
 
     @Override
-    protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
-
+    protected IDrawable getBackground() {
+        return BACKGROUND_TEXTURE;
     }
 }

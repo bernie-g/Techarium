@@ -6,6 +6,7 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.renderer.Rectangle2d;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
+import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
 import software.bernie.techarium.display.container.AutomaticContainer;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AutomaticContainerScreen extends ContainerScreen<AutomaticContainer> {
+public class AutomaticContainerScreen extends DrawableContainerScreen<AutomaticContainer> {
 
     private final ITextComponent title;
 
@@ -38,20 +39,18 @@ public class AutomaticContainerScreen extends ContainerScreen<AutomaticContainer
     }
 
     @Override
-    protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
-        this.renderBackground(matrixStack);
-        getMenu().getMachineController().getBackground().draw(getGuiLeft(), getGuiTop(), getXSize(), getYSize());
+    protected IDrawable getBackground() {
+        return getMenu().getMachineController().getBackground();
     }
 
     @Override
-    protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
-        int xCenter = (width - imageWidth) / 2;
-        int yCenter = (height - imageHeight) / 2;
+    protected void renderCustomToolTips(MatrixStack matrixStack, int mouseX, int mouseY, int xCenter, int yCenter) {
         getMenu().getMachineController().getLazyEnergyStorage().ifPresent(storage -> ((EnergyStorageAddon) storage).renderToolTip(this, leftPos, topPos, xCenter, yCenter, mouseX, mouseY));
         getMenu().getMachineController().getMultiProgressBar().getProgressBarAddons().forEach(bar -> bar.renderToolTip(this, leftPos, topPos, xCenter, yCenter, mouseX, mouseY));
         getMenu().getMachineController().getMultiTank().getFluidTanks().forEach(tank -> tank.renderToolTip(this, leftPos, topPos, xCenter, yCenter, mouseX, mouseY));
-        renderTooltip(matrixStack, mouseX - xCenter, mouseY - yCenter);
     }
+
+
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
