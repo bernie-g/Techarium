@@ -11,6 +11,8 @@ public abstract class DrawableContainerScreen<CONTAINER extends Container> exten
 
     public DrawableContainerScreen(CONTAINER screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
+        titleLabelX = Integer.MIN_VALUE;
+        inventoryLabelX = Integer.MIN_VALUE;
     }
 
     @Override

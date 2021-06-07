@@ -24,6 +24,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -96,7 +97,7 @@ public class PipeBlock extends Block {
                         new INamedContainerProvider() {
                             @Override
                             public ITextComponent getDisplayName() {
-                                return ItemRegistry.ITEM_PIPE.get().getName(ItemRegistry.ITEM_PIPE.get().getDefaultInstance());
+                                return StringTextComponent.EMPTY;
                             }
                             @Nullable
                             @Override
