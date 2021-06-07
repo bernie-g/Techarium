@@ -102,9 +102,10 @@ public class PipeBlock extends Block {
                             @Nullable
                             @Override
                             public Container createMenu(int containerID, PlayerInventory playerInventory, PlayerEntity player) {
-                                return new PipeContainer(containerID, IWorldPosCallable.create(worldIn, pos), new PipePosition(pos, side));
+                                return new PipeContainer(containerID, playerInventory, IWorldPosCallable.create(worldIn, pos), new PipePosition(pos, side));
                             }
                         }
+                        , buffer -> buffer.writeNbt(new PipePosition(pos, side).serializeNBT())
                 );
         }
         return super.use(state, worldIn, pos, player, handIn, hit);

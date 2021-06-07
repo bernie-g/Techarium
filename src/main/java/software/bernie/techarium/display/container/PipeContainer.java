@@ -3,16 +3,13 @@ package software.bernie.techarium.display.container;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.Direction;
 import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.math.BlockPos;
 import software.bernie.techarium.pipe.PipePosition;
 import software.bernie.techarium.registry.BlockTileRegistry;
 import software.bernie.techarium.registry.ContainerRegistry;
-
-
 
 public class PipeContainer extends Container {
 
@@ -20,17 +17,27 @@ public class PipeContainer extends Container {
     public final PipePosition tilePos;
 
     public PipeContainer(int id, PlayerInventory playerInventory, PacketBuffer packetBuffer) {
-        this(id);
+        this(id, playerInventory, IWorldPosCallable.NULL, PipePosition.createFromNBT(packetBuffer.readNbt()));
     }
 
-    public PipeContainer(int id) {
-        this(id, IWorldPosCallable.NULL, new PipePosition(BlockPos.ZERO, Direction.DOWN));
-    }
-
-    public PipeContainer(int id, IWorldPosCallable worldCallable, PipePosition pos) {
+    public PipeContainer(int id, PlayerInventory playerInventory, IWorldPosCallable worldCallable, PipePosition pos) {
         super(ContainerRegistry.PIPE_CONTAINER.get(), id);
         worldPosCallable = worldCallable;
         this.tilePos = pos;
+
+        final int SLOT_DIFFERENCE = 18;
+        final int posX = 16;
+        final int posY = 113;
+        final int posHotbarY = 171;
+
+        for(int row = 0; row < 3; row++) {
+            for(int column = 0; column < 9; column++) {
+                addSlot(new Slot(playerInventory, 9 + row*9 + column, posX + column*SLOT_DIFFERENCE, posY + row*SLOT_DIFFERENCE));
+            }
+        }
+        for(int column = 0; column < 9; column++) {
+            addSlot(new Slot(playerInventory, column, posX + column*SLOT_DIFFERENCE, posHotbarY));
+        }
     }
     @Override
     public boolean stillValid(PlayerEntity playerIn) {
