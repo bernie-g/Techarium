@@ -14,12 +14,12 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 
-import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUMS;
+import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUM;
 
 public class PowerStickDebug extends Item {
 
     public PowerStickDebug() {
-        super(new Item.Properties().tab(TECHARIUMS));
+        super(new Item.Properties().tab(TECHARIUM));
     }
 
     @Override

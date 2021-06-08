@@ -10,7 +10,7 @@
   "maxProgress": 1000,
   "rfPerTick": 10,
   "cropIn": {
-    "item": "thermal:peanut_seeds"
+    "item": "thermal:strawberry"
   },
   "soilIn": {
     "tag": "forge:dirt"
@@ -20,7 +20,7 @@
     "Amount": 1000
   },
   "output": {
-    "id": "thermal:peanut",
+    "id": "thermal:strawberry",
     "Count": 1
   }
 }

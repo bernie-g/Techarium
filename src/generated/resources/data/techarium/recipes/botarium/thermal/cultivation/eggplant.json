@@ -10,7 +10,7 @@
   "maxProgress": 1000,
   "rfPerTick": 10,
   "cropIn": {
-    "item": "thermal:onion_seeds"
+    "item": "thermal:eggplant"
   },
   "soilIn": {
     "tag": "forge:dirt"
@@ -20,7 +20,7 @@
     "Amount": 1000
   },
   "output": {
-    "id": "thermal:onion",
+    "id": "thermal:eggplant",
     "Count": 1
   }
 }
