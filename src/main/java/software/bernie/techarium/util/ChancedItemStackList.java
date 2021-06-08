@@ -81,6 +81,5 @@ public class ChancedItemStackList {
                 cachedOutput.add(stack.getStack().copy());
             }
         }
-        Techarium.LOGGER.info("Cached Output: " + cachedOutput);
     }
 }
