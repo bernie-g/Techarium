@@ -10,7 +10,7 @@
   "maxProgress": 1000,
   "rfPerTick": 10,
   "cropIn": {
-    "item": "thermal:coffee_seeds"
+    "item": "thermal:rice"
   },
   "soilIn": {
     "tag": "forge:dirt"
@@ -20,7 +20,7 @@
     "Amount": 1000
   },
   "output": {
-    "id": "thermal:coffee",
+    "id": "thermal:rice",
     "Count": 1
   }
 }

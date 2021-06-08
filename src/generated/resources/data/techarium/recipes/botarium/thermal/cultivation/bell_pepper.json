@@ -10,7 +10,7 @@
   "maxProgress": 1000,
   "rfPerTick": 10,
   "cropIn": {
-    "item": "thermal:radish_seeds"
+    "item": "thermal:bell_pepper"
   },
   "soilIn": {
     "tag": "forge:dirt"
@@ -20,7 +20,7 @@
     "Amount": 1000
   },
   "output": {
-    "id": "thermal:radish",
+    "id": "thermal:bell_pepper",
     "Count": 1
   }
 }

@@ -1,6 +1,7 @@
 package software.bernie.techarium.block;
 
 
+import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -19,9 +20,12 @@ public class BlockRegistryObjectGroup<B extends Block, I extends Item, T extends
     private final Function<B, I> itemCreator;
     private final Supplier<T> tileSupplier;
 
-    private RegistryObject<B> block;
-    private RegistryObject<I> item;
-    private RegistryObject<TileEntityType<T>> tileEntity;
+    @Getter
+    private RegistryObject<B> blockRegistryObject;
+    @Getter
+    private RegistryObject<I> itemRegistryObject;
+    @Getter
+    private RegistryObject<TileEntityType<T>> tileRegistryObject;
 
     public BlockRegistryObjectGroup(String name, Supplier<B> blockCreator, Function<B, I> itemCreator) {
         this(name, blockCreator, itemCreator, null);
@@ -36,28 +40,28 @@ public class BlockRegistryObjectGroup<B extends Block, I extends Item, T extends
 
     @Nonnull
     public B getBlock() {
-        return Objects.requireNonNull(block).get();
+        return Objects.requireNonNull(blockRegistryObject).get();
     }
 
     @Nonnull
     public I getItem() {
-        return Objects.requireNonNull(item).get();
+        return Objects.requireNonNull(itemRegistryObject).get();
     }
 
     @Nonnull
     public TileEntityType<T> getTileEntityType() {
-        return Objects.requireNonNull(tileEntity).get();
+        return Objects.requireNonNull(tileRegistryObject).get();
     }
 
     public BlockRegistryObjectGroup<B, I, T> register(DeferredRegister<Block> blockRegistry, DeferredRegister<Item> itemRegistry) {
-        block = blockRegistry.register(name, blockCreator);
-        item = itemRegistry.register(name, () -> itemCreator.apply(this.getBlock()));
+        blockRegistryObject = blockRegistry.register(name, blockCreator);
+        itemRegistryObject = itemRegistry.register(name, () -> itemCreator.apply(this.getBlock()));
         return this;
     }
 
     public BlockRegistryObjectGroup<B, I, T> registerWithoutItem(DeferredRegister<Block> blockRegistry, DeferredRegister<TileEntityType<?>> tileRegistry) {
-        block = blockRegistry.register(name, blockCreator);
-        tileEntity = tileRegistry.register(name, () -> TileEntityType.Builder.of(tileSupplier, this.getBlock())
+        blockRegistryObject = blockRegistry.register(name, blockCreator);
+        tileRegistryObject = tileRegistry.register(name, () -> TileEntityType.Builder.of(tileSupplier, this.getBlock())
                 .build(null));
         return this;
     }
@@ -67,7 +71,7 @@ public class BlockRegistryObjectGroup<B extends Block, I extends Item, T extends
                                                       DeferredRegister<TileEntityType<?>> tileEntityTypeRegistry) {
         this.register(blockRegistry, itemRegistry);
         if (tileSupplier != null) {
-            tileEntity = tileEntityTypeRegistry.register(name, () -> TileEntityType.Builder.of(tileSupplier, this.getBlock())
+            tileRegistryObject = tileEntityTypeRegistry.register(name, () -> TileEntityType.Builder.of(tileSupplier, this.getBlock())
                     .build(null));
         }
         return this;

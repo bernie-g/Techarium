@@ -17,6 +17,7 @@ import software.bernie.techarium.integration.jei.panel.PanelBoundHandler;
 import software.bernie.techarium.machine.screen.AutomaticContainerScreen;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.BlockTileRegistry;
+import software.bernie.techarium.registry.LangRegistry;
 import software.bernie.techarium.registry.RecipeRegistry;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class TechariumJEIPlugin implements IModPlugin
 			registration.addRecipes(recipes, BotariumRecipeCategory.UID);
 		}
 
-		registration.addIngredientInfo(new ItemStack(BlockTileRegistry.BOTARIUM.getBlock()), VanillaTypes.ITEM, "jei.techarium.botarium.description");
+		registration.addIngredientInfo(new ItemStack(BlockTileRegistry.BOTARIUM.getBlock()), VanillaTypes.ITEM, LangRegistry.jeiBotariumDescription.getKey());
 	}
 
 	@Override

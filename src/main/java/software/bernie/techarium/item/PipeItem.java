@@ -9,15 +9,13 @@ import software.bernie.techarium.pipes.capability.PipeType;
 import software.bernie.techarium.registry.BlockTileRegistry;
 import software.bernie.techarium.registry.ItemGroupRegistry;
 
-import net.minecraft.item.Item.Properties;
-
 @Getter
 public class PipeItem extends BlockItem {
 
     private final PipeType type;
 
     public PipeItem(PipeType type) {
-        super(BlockTileRegistry.PIPE.getBlock(), new Properties().tab(ItemGroupRegistry.TECHARIUMS));
+        super(BlockTileRegistry.PIPE.getBlock(), new Properties().tab(ItemGroupRegistry.TECHARIUM));
         this.type = type;
     }
 

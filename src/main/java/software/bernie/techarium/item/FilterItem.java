@@ -5,11 +5,9 @@ import net.minecraft.item.ItemStack;
 import software.bernie.techarium.pipes.networks.Filter;
 import software.bernie.techarium.registry.ItemGroupRegistry;
 
-import net.minecraft.item.Item.Properties;
-
 public class FilterItem<ToTransport> extends Item {
     public FilterItem() {
-        this(new Properties().tab(ItemGroupRegistry.TECHARIUMS));
+        this(new Properties().tab(ItemGroupRegistry.TECHARIUM));
     }
     public FilterItem(Properties properties) {
         super(properties);
