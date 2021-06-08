@@ -7,7 +7,7 @@
     }
   ],
   "progressPerTick": 1,
-  "maxProgress": 40,
+  "maxProgress": 800,
   "rfPerTick": 10,
   "cropIn": {
     "item": "xlfoodmod:pepper_seeds"
