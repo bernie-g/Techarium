@@ -20,7 +20,7 @@ public class DrawableWidget extends Widget {
         this.controller = controller;
     }
 
-    private Pair<Integer, Integer> getBackgroundSize() {
+    protected Pair<Integer, Integer> getBackgroundSize() {
         return controller.getBackgroundSizeXY();
     }
 

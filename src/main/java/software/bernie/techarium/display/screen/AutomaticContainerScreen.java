@@ -26,6 +26,8 @@ public class AutomaticContainerScreen extends DrawableContainerScreen<AutomaticC
     public AutomaticContainerScreen(AutomaticContainer container, PlayerInventory inv, ITextComponent containerName) {
         super(container, inv, containerName);
         this.title = containerName;
+        imageWidth = container.getMachineController().getBackgroundSizeXY().getKey();
+        imageHeight = container.getMachineController().getBackgroundSizeXY().getValue();
     }
 
     @Override
