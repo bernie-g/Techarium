@@ -78,7 +78,7 @@ public class ChancedItemStackList {
         cachedOutput = new ArrayList<>();
         for (ChancedItemStack stack : stackList) {
             if (stack.roll()) {
-                cachedOutput.add(stack.getStack());
+                cachedOutput.add(stack.getStack().copy());
             }
         }
         Techarium.LOGGER.info("Cached Output: " + cachedOutput);
