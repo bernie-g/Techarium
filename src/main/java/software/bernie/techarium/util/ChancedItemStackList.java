@@ -82,4 +82,9 @@ public class ChancedItemStackList {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "ChancedItemStackList{" + "stackList=" + stackList + ", cachedOutput=" + cachedOutput + '}';
+    }
 }

@@ -23,7 +23,6 @@ import net.minecraftforge.common.Tags;
 import software.bernie.example.client.model.tile.BotariumModel;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 import software.bernie.techarium.client.RenderUtils;
-import software.bernie.techarium.client.tile.model.ArboretumModel;
 import software.bernie.techarium.machine.addon.progressbar.ProgressBarAddon;
 import software.bernie.techarium.tile.botarium.BotariumTile;
 

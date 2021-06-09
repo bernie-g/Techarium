@@ -74,6 +74,11 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
 
     private void registerVanillaArboretumRecipes(Consumer<IFinishedRecipe> consumer) {
         buildArboretumRecipe(Items.OAK_SAPLING, ChancedItemStackList.of(ChancedItemStack.of(Items.OAK_LOG, 6, 0.5), ChancedItemStack.of(Items.OAK_SAPLING)), 1000, 1000, consumer);
+        buildArboretumRecipe(Items.SPRUCE_SAPLING, ChancedItemStackList.of(ChancedItemStack.of(Items.SPRUCE_LOG, 6, 0.5), ChancedItemStack.of(Items.SPRUCE_SAPLING)), 1000, 1000, consumer);
+        buildArboretumRecipe(Items.ACACIA_SAPLING, ChancedItemStackList.of(ChancedItemStack.of(Items.ACACIA_LOG, 6, 0.5), ChancedItemStack.of(Items.ACACIA_SAPLING)), 1000, 1000, consumer);
+        buildArboretumRecipe(Items.BIRCH_SAPLING, ChancedItemStackList.of(ChancedItemStack.of(Items.BIRCH_LOG, 6, 0.5), ChancedItemStack.of(Items.BIRCH_SAPLING)), 1000, 1000, consumer);
+        buildArboretumRecipe(Items.JUNGLE_SAPLING, ChancedItemStackList.of(ChancedItemStack.of(Items.JUNGLE_LOG, 6, 0.5), ChancedItemStack.of(Items.JUNGLE_SAPLING)), 1000, 1000, consumer);
+        buildArboretumRecipe(Items.DARK_OAK_SAPLING, ChancedItemStackList.of(ChancedItemStack.of(Items.DARK_OAK_LOG, 6, 0.5), ChancedItemStack.of(Items.DARK_OAK_SAPLING)), 1000, 1000, consumer);
     }
 
     public static void buildBotariumFlowerRecipe(FlowerBlock flowerBlock, Consumer<IFinishedRecipe> consumer) {
@@ -100,7 +105,7 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
                 .construct()
                 .build(consumer,
                         new ResourceLocation(Techarium.ModID,
-                                "botarium/minecraft/" + seed.getRegistryName().getPath()));
+                                "botarium/" + seed.getRegistryName().getNamespace() + "/" + seed.getRegistryName().getPath()));
     }
 
     public void buildArboretumRecipe(Item sapling, ChancedItemStackList drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
@@ -123,6 +128,6 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
                 .construct()
                 .build(consumer,
                         new ResourceLocation(Techarium.ModID,
-                                "arboretum/minecraft/" + sapling.getRegistryName().getPath()));
+                                "arboretum/" + sapling.getRegistryName().getNamespace() + "/" + sapling.getRegistryName().getPath()));
     }
 }

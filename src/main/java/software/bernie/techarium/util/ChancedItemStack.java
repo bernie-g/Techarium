@@ -20,6 +20,8 @@ public class ChancedItemStack {
     @Setter
     private Double chance;
 
+    private final Random random = new Random();
+
     private ChancedItemStack(ItemStack stack, Double chance) {
         this.stack = stack;
         this.chance = chance;
@@ -75,7 +77,7 @@ public class ChancedItemStack {
     }
 
     public boolean roll() {
-        return new Random().nextDouble() <= chance;
+        return random.nextDouble() <= chance;
     }
 
     @Override

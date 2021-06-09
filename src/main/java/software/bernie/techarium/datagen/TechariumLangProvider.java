@@ -33,6 +33,8 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
     protected void addMachines() {
         addBlock(BlockTileRegistry.BOTARIUM, "Botarium");
         addBlock(BlockTileRegistry.BOTARIUM_TOP, "Botarium");
+        addBlock(BlockTileRegistry.BOTARIUM, "Arboretum");
+        addBlock(BlockTileRegistry.BOTARIUM_TOP, "Arboretum");
     }
 
     private void addTranslationComponents() {
@@ -40,5 +42,6 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addTranslation(LangRegistry.hwylaProgressETA, "ETA: %s seconds remaining");
         addTranslation(LangRegistry.hwylaProgressNoRecipe, "ETA: No valid recipe");
         addTranslation(LangRegistry.jeiBotariumDescription, "The Botarium allows you to grow crops in exchange for energy and water");
+        addTranslation(LangRegistry.jeiArboretumDescription, "The Arboretum allows you to grow saplings in exchange for energy and water");
     }
 }
