@@ -11,8 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.recipes.recipe.ArboretumRecipe;
-import software.bernie.techarium.recipes.recipe.BotariumRecipe;
-import software.bernie.techarium.registry.BlockTileRegistry;
+import software.bernie.techarium.registry.BlockRegistry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,13 +22,13 @@ public class ArboretumRecipeCategory extends BaseRecipeCategory<ArboretumRecipe>
 	public static final ResourceLocation UID = new ResourceLocation(Techarium.ModID, "arboretum");
 
 	public ArboretumRecipeCategory(IRecipeCategoryRegistration registration) {
-		super(UID, registration, ArboretumRecipe.class, BlockTileRegistry.ARBORETUM.getBlock().getName(), BlockTileRegistry.ARBORETUM.getItem(), new ResourceLocation(Techarium.ModID, "textures/gui/arboretum/arboretum.png"),0,0,256,256);
+		super(UID, registration, ArboretumRecipe.class, BlockRegistry.ARBORETUM.getBlock().getName(), BlockRegistry.ARBORETUM.getItem(), new ResourceLocation(Techarium.ModID, "textures/gui/arboretum/arboretum.png"),0,0,256,256);
 	}
 
 	@Override
 	public IDrawable getIcon()
 	{
-		return registration.getJeiHelpers().getGuiHelper().createDrawableIngredient(new ItemStack(BlockTileRegistry.ARBORETUM.getItem()));
+		return registration.getJeiHelpers().getGuiHelper().createDrawableIngredient(new ItemStack(BlockRegistry.ARBORETUM.getItem()));
 	}
 
 	@Override

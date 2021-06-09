@@ -1,7 +1,7 @@
 package software.bernie.techarium.datagen;
 
 import net.minecraft.data.DataGenerator;
-import software.bernie.techarium.registry.BlockTileRegistry;
+import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.ItemGroupRegistry;
 import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.registry.LangRegistry;
@@ -13,7 +13,7 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
 
     @Override
     protected void addTranslations() {
-        addMachines();
+        addBlocks();
         addItems();
         addTranslationComponents();
         addItemGroups();
@@ -28,13 +28,19 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addItem(ItemRegistry.ITEM_PIPE, "Item Pipe");
         addItem(ItemRegistry.FLUID_PIPE, "Fluid Pipe");
         addItem(ItemRegistry.ENERGY_PIPE, "Energy Pipe");
+        addItem(ItemRegistry.ALUMINIUM_INGOT, "Aluminium Ingot");
+        addItem(ItemRegistry.COPPER_INGOT, "Copper Ingot");
+        addItem(ItemRegistry.LEAD_INGOT, "Lead Ingot");
     }
 
-    protected void addMachines() {
-        addBlock(BlockTileRegistry.BOTARIUM, "Botarium");
-        addBlock(BlockTileRegistry.BOTARIUM_TOP, "Botarium");
-        addBlock(BlockTileRegistry.ARBORETUM, "Arboretum");
-        addBlock(BlockTileRegistry.ARBORETUM_TOP, "Arboretum");
+    protected void addBlocks() {
+        addBlock(BlockRegistry.BOTARIUM, "Botarium");
+        addBlock(BlockRegistry.BOTARIUM_TOP, "Botarium");
+        addBlock(BlockRegistry.ARBORETUM, "Arboretum");
+        addBlock(BlockRegistry.ARBORETUM_TOP, "Arboretum");
+        addBlock(BlockRegistry.ALUMINIUM_ORE, "Aluminium Ore");
+        addBlock(BlockRegistry.COPPER_ORE, "Copper Ore");
+        addBlock(BlockRegistry.LEAD_ORE, "Lead Ore");
     }
 
     private void addTranslationComponents() {

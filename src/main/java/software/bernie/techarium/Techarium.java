@@ -1,8 +1,10 @@
 package software.bernie.techarium;
 
+import blusunrize.immersiveengineering.client.DynamicModelLoader;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -15,10 +17,12 @@ import software.bernie.geckolib3.GeckoLib;
 import software.bernie.techarium.datagen.TechariumLangProvider;
 import software.bernie.techarium.datagen.TechariumRecipeProvider;
 import software.bernie.techarium.integration.ModIntegrations;
+import software.bernie.techarium.integration.theoneprobe.TheOneProbeIntegration;
 import software.bernie.techarium.machine.screen.AutomaticContainerScreen;
 import software.bernie.techarium.pipes.NetworkEvents;
 import software.bernie.techarium.network.NetworkConnection;
 import software.bernie.techarium.registry.*;
+import software.bernie.techarium.world.WorldGen;
 
 import static software.bernie.techarium.registry.ContainerRegistry.AUTO_CONTAINER;
 
@@ -34,13 +38,14 @@ public class Techarium
         GeckoLib.initialize();
         LOGGER = LogManager.getLogger();
 		ItemRegistry.register(bus);
-		BlockTileRegistry.register(bus);
+		BlockRegistry.register(bus);
 		ContainerRegistry.register(bus);
 		RecipeRegistry.register(bus);
 		bus.addListener(this::onClientSetup);
 		bus.addListener(NetworkEvents::onCommonSetup);
 		bus.addListener(this::gatherData);
 		bus.addListener(this::enqueueIMC);
+		MinecraftForge.EVENT_BUS.addListener(WorldGen::generateOres);
 
 		NetworkConnection.registerMessages();
 	}
@@ -58,9 +63,7 @@ public class Techarium
 	}
 
 	public void enqueueIMC(InterModEnqueueEvent event) {
-		ModIntegrations.getTheOneProbe().ifPresent(topIntegration -> {
-			topIntegration.requestTheOneProbe();
-		});
+		ModIntegrations.getTheOneProbe().ifPresent(TheOneProbeIntegration::requestTheOneProbe);
 	}
 
 	public void onClientSetup(FMLClientSetupEvent event)

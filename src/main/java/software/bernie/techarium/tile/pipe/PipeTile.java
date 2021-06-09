@@ -24,7 +24,7 @@ import software.bernie.techarium.pipes.capability.IPipeNetworkManagerCapability;
 import software.bernie.techarium.pipes.capability.PipeNetworkManagerCapability;
 import software.bernie.techarium.pipes.capability.PipeType;
 import software.bernie.techarium.pipes.networks.PipeNetwork;
-import software.bernie.techarium.registry.BlockTileRegistry;
+import software.bernie.techarium.registry.BlockRegistry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -39,7 +39,7 @@ public class PipeTile extends TileEntity {
     @Getter
     private PipeData displayData = new PipeData();
     public PipeTile() {
-        super(BlockTileRegistry.PIPE.getTileEntityType());
+        super(BlockRegistry.PIPE.getTileEntityType());
     }
 
     public UUID getNetworkUUID(PipeType type) {
