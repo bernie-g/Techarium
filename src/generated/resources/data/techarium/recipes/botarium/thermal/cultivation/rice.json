@@ -10,7 +10,7 @@
   "maxProgress": 1000,
   "rfPerTick": 10,
   "cropIn": {
-    "item": "thermal:tea_seeds"
+    "item": "thermal:rice"
   },
   "soilIn": {
     "tag": "forge:dirt"
@@ -21,7 +21,7 @@
   },
   "output": [
     {
-      "item": "thermal:tea",
+      "item": "thermal:rice",
       "amount": 1,
       "chance": 1.0
     }

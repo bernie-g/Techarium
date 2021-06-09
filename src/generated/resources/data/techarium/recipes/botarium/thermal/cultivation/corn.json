@@ -10,7 +10,7 @@
   "maxProgress": 1000,
   "rfPerTick": 10,
   "cropIn": {
-    "item": "thermal:radish_seeds"
+    "item": "thermal:corn"
   },
   "soilIn": {
     "tag": "forge:dirt"
@@ -21,7 +21,7 @@
   },
   "output": [
     {
-      "item": "thermal:radish",
+      "item": "thermal:corn",
       "amount": 1,
       "chance": 1.0
     }

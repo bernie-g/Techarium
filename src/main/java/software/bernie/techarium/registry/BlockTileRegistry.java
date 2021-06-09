@@ -26,7 +26,7 @@ import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
 
 import java.util.function.Function;
 
-import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUMS;
+import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUM;
 @SuppressWarnings("unused")
 public class BlockTileRegistry {
     public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES,
@@ -61,11 +61,11 @@ public class BlockTileRegistry {
 
 
     public static <B extends MachineBlock> Function<B, BlockItem> blockItemCreator() {
-        return block -> new BlockItem(block, new Item.Properties().tab(TECHARIUMS));
+        return block -> new BlockItem(block, new Item.Properties().tab(TECHARIUM));
     }
 
     public static <B extends MachineBlock> Function<B, BlockItem> machineItemCreator() {
-        return block -> new MachineItem(block, new Item.Properties().tab(TECHARIUMS));
+        return block -> new MachineItem(block, new Item.Properties().tab(TECHARIUM));
     }
 
     public static void register(IEventBus bus){
