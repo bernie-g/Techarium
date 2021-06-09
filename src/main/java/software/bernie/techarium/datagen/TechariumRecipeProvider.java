@@ -107,6 +107,6 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
                 .construct()
                 .build(consumer,
                         new ResourceLocation(Techarium.ModID,
-                                "exchange_station/" + output.asItem().getRegistryName().getPath()));
+                                "exchange_station/" + output.asItem().getRegistryName().getNamespace() + "/" + output.asItem().getRegistryName().getPath()));
     }
 }

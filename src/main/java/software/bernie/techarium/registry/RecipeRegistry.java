@@ -26,7 +26,7 @@ public class RecipeRegistry {
 
     public static IRecipeType<BotariumRecipe> BOTARIUM_RECIPE_TYPE = IRecipeType.register("techarium:botarium");
 
-    public static IRecipeType<BotariumRecipe> EXCHANGE_STATION_RECIPE_TYPE = IRecipeType.register("techarium:exchange_station");
+    public static IRecipeType<ExchangeStationRecipe> EXCHANGE_STATION_RECIPE_TYPE = IRecipeType.register("techarium:exchange_station");
 
     public static void register(IEventBus bus) {
         RECIPE_SERIALIZER_REGISTRY.register(bus);
