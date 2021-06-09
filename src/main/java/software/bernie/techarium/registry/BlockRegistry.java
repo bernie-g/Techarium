@@ -1,8 +1,11 @@
 package software.bernie.techarium.registry;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
@@ -28,7 +31,7 @@ import java.util.function.Function;
 
 import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUM;
 @SuppressWarnings("unused")
-public class BlockTileRegistry {
+public class BlockRegistry {
     public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES,
             Techarium.ModID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
@@ -58,9 +61,15 @@ public class BlockTileRegistry {
     public static final RegistryObject<TileEntityType<TopEnabledOnlySlave>> ARBORETUM_TOP_TILE = TILES.register("arboretum_top", () -> TileEntityType.Builder.of(TopEnabledOnlySlave::new, ARBORETUM_TOP.get())
             .build(null));
 
+    // Ores
+    public static final BlockRegistryObjectGroup<Block, BlockItem, TileEntity> ALUMINIUM_ORE =
+            new BlockRegistryObjectGroup<>("aluminium_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)), blockItemCreator(), null).registerWithoutTile(BLOCKS, ITEMS);
+    public static final BlockRegistryObjectGroup<Block, BlockItem, TileEntity> COPPER_ORE =
+            new BlockRegistryObjectGroup<>("copper_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)), blockItemCreator(), null).registerWithoutTile(BLOCKS, ITEMS);
+    public static final BlockRegistryObjectGroup<Block, BlockItem, TileEntity> LEAD_ORE =
+            new BlockRegistryObjectGroup<>("lead_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)), blockItemCreator(), null).registerWithoutTile(BLOCKS, ITEMS);
 
-
-    public static <B extends MachineBlock> Function<B, BlockItem> blockItemCreator() {
+    public static <B extends Block> Function<B, BlockItem> blockItemCreator() {
         return block -> new BlockItem(block, new Item.Properties().tab(TECHARIUM));
     }
 
