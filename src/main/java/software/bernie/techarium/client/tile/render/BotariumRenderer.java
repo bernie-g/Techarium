@@ -20,9 +20,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.common.Tags;
+import software.bernie.example.client.model.tile.BotariumModel;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 import software.bernie.techarium.client.RenderUtils;
-import software.bernie.techarium.client.tile.model.BotariumModel;
 import software.bernie.techarium.machine.addon.progressbar.ProgressBarAddon;
 import software.bernie.techarium.tile.botarium.BotariumTile;
 

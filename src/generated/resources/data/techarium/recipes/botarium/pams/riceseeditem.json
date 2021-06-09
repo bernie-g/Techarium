@@ -19,8 +19,11 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
-  "output": {
-    "id": "pamhc2crops:riceitem",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "pamhc2crops:riceitem",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

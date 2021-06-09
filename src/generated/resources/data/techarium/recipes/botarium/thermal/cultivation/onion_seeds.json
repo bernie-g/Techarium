@@ -10,7 +10,7 @@
   "maxProgress": 1000,
   "rfPerTick": 10,
   "cropIn": {
-    "item": "thermal:strawberry"
+    "item": "thermal:onion_seeds"
   },
   "soilIn": {
     "tag": "forge:dirt"
@@ -19,8 +19,11 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
-  "output": {
-    "id": "thermal:strawberry",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "thermal:onion",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

@@ -19,8 +19,11 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
-  "output": {
-    "id": "mysticalagriculture:constantan_essence",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "mysticalagriculture:constantan_essence",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

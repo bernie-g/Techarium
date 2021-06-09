@@ -10,7 +10,7 @@
   "maxProgress": 1000,
   "rfPerTick": 10,
   "cropIn": {
-    "item": "thermal:spinach"
+    "item": "thermal:radish_seeds"
   },
   "soilIn": {
     "tag": "forge:dirt"
@@ -19,8 +19,11 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
-  "output": {
-    "id": "thermal:spinach",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "thermal:radish",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

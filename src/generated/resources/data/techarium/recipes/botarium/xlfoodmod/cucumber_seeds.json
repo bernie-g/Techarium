@@ -19,8 +19,11 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
-  "output": {
-    "id": "xlfoodmod:cucumber",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "xlfoodmod:cucumber",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

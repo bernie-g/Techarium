@@ -15,5 +15,5 @@ public class LangRegistry {
     public static final TranslationLangEntry hwylaProgressETA = register("hwyla", "progress.eta");
     public static final TranslationLangEntry hwylaProgressNoRecipe = register("hwyla", "progress.no_recipe");
     public static final TranslationLangEntry jeiBotariumDescription = register("jei", "botarium.description");
-
+    public static final TranslationLangEntry jeiArboretumDescription = register("jei", "arboretum.description");
 }

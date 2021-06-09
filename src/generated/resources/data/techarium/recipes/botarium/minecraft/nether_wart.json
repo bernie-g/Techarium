@@ -13,8 +13,11 @@
     "FluidName": "minecraft:lava",
     "Amount": 50
   },
-  "output": {
-    "id": "minecraft:nether_wart",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "minecraft:nether_wart",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

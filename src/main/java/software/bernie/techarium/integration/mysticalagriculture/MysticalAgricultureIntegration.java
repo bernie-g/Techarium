@@ -15,6 +15,7 @@ import software.bernie.techarium.integration.Integration;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.TagRegistry;
+import software.bernie.techarium.util.ChancedItemStackList;
 
 import java.util.function.Consumer;
 
@@ -35,7 +36,7 @@ public class MysticalAgricultureIntegration extends Integration {
                         .maxProgress(2000)
                         .rfPerTick(30)
                         .progressPerTick(1)
-                        .output(new ItemStack(mysticalSeed.getCrop().getEssence(), 1))
+                        .output(ChancedItemStackList.of(mysticalSeed.getCrop().getEssence()))
                         .construct()
                         .addCondition(new ModLoadedCondition(ModIntegrations.getMystical().orElseThrow(NullPointerException::new).getModID()))
                         .build(consumer,

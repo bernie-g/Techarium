@@ -19,8 +19,11 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
-  "output": {
-    "id": "mysticalagriculture:signalum_essence",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "mysticalagriculture:signalum_essence",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

@@ -13,8 +13,11 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
-  "output": {
-    "id": "minecraft:lily_of_the_valley",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "minecraft:lily_of_the_valley",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

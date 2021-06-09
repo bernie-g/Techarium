@@ -17,6 +17,7 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.techarium.Techarium;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.item.UpgradeItem;
@@ -29,6 +30,7 @@ import software.bernie.techarium.machine.addon.progressbar.ProgressBarAddon;
 import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.machine.sideness.FaceConfig;
 import software.bernie.techarium.machine.sideness.Side;
+import software.bernie.techarium.recipes.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.tile.base.MultiblockMasterTile;
@@ -99,9 +101,7 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
         controller.addProgressBar(progressBarAddon
                 .setCanProgress(value -> {
                     BotariumRecipe recipe = getController().getCurrentRecipe();
-                    FluidStack fluid = controller.getMultiTank().getFluidTanks().get(0).getFluid();
-                    InventoryAddon output = controller.getMultiInventory().getInventoryByName("output").get();
-                    return recipe != null && output.getStackInSlot(0).getCount() + recipe.getResultItem().getCount() <= output.getSlotLimit(0) && getController().getEnergyStorage().getEnergyStored() > 0 && fluid.getAmount() >= recipe.getFluidIn().getAmount();
+                    return recipe != null && matchRecipe(recipe);
                 })
                 .setOnProgressFull(() -> handleProgressFinish(getController().getCurrentRecipe()))
                 .setOnProgressTick(() -> {
@@ -196,46 +196,33 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
 
     @Override
     public boolean matchRecipe(BotariumRecipe currentRecipe) {
-        if (currentRecipe.getCropType().test(getCropInventory().getStackInSlot(0))) {
-            if (currentRecipe.getSoilIn().test(getSoilInventory().getStackInSlot(0))) {
-                if (getController().getEnergyStorage().getEnergyStored() >= currentRecipe.getRfPerTick()) {
-                    FluidStack fluidIn = getFluidInventory().getFluid();
-                    if (fluidIn.isFluidEqual(
-                            currentRecipe.getFluidIn()) && fluidIn.getAmount() >= currentRecipe.getFluidIn().getAmount()) {
-                        if (getOutputInventory().getStackInSlot(0).isEmpty()) {
-                            return true;
-                        } else {
-                            if (getOutputInventory().getStackInSlot(
-                                    0).getCount() != getOutputInventory().getStackInSlot(0).getMaxStackSize()) {
-                                return currentRecipe.getResultItem().sameItem(getOutputInventory().getStackInSlot(0));
-                            }
-                        }
-                    }
-                }
-            }
+        if (!currentRecipe.getCropType().test(getCropInventory().getStackInSlot(0))) {
+            return false;
         }
-        return false;
+        if (!currentRecipe.getSoilIn().test(getSoilInventory().getStackInSlot(0))) {
+            return false;
+        }
+        if (!(getController().getEnergyStorage().getEnergyStored() >= currentRecipe.getRfPerTick())) {
+            return false;
+        }
+        if (!(getFluidInventory().getFluid().containsFluid(currentRecipe.getFluidIn()))) {
+            return false;
+        }
+
+        return getOutputInventory().canInsertItems(currentRecipe.getOutput().getCachedOutput());
     }
 
     @Override
     public void handleProgressFinish(BotariumRecipe currentRecipe) {
-        if (level != null) {
-            if (!level.isClientSide()) {
-                getController().getMultiTank().getTankOptional().ifPresent(
-                        multiTank -> multiTank.drain(currentRecipe.getFluidIn().getAmount(),
-                                IFluidHandler.FluidAction.EXECUTE));
-                ItemStack currentOut = getOutputInventory().getStackInSlot(0);
-                ItemStack stackIn = getCropInventory().getStackInSlot(
-                        0).getCount() == 0 ? ItemStack.EMPTY : currentRecipe.getResultItem();
-                if (currentOut.isEmpty()) {
-                    getOutputInventory().insertItem(0, stackIn, false);
-                } else {
-                    if (stackIn.sameItem(currentOut)) {
-                        getOutputInventory().insertItem(0, stackIn, false);
-                    }
-                }
-            }
+        if (level == null) {
+            return;
         }
+        if (level.isClientSide()) {
+            return;
+        }
+        getFluidInventory().drain(currentRecipe.getFluidIn().getAmount(), IFluidHandler.FluidAction.EXECUTE);
+        getOutputInventory().insertItems(currentRecipe.getOutput().getCachedOutput(), false);
+        currentRecipe.getOutput().reloadCache();
     }
 
     @Override

@@ -10,7 +10,7 @@
   "maxProgress": 1000,
   "rfPerTick": 10,
   "cropIn": {
-    "item": "thermal:eggplant"
+    "item": "thermal:barley_seeds"
   },
   "soilIn": {
     "tag": "forge:dirt"
@@ -19,8 +19,11 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
-  "output": {
-    "id": "thermal:eggplant",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "thermal:barley",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }
