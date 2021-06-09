@@ -17,6 +17,7 @@ import software.bernie.techarium.integration.Integration;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.TagRegistry;
+import software.bernie.techarium.util.ChancedItemStackList;
 
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
@@ -30,7 +31,7 @@ public class ThermalCultivationIntegration extends Integration {
     @Override
     public void generateRecipes(Consumer<IFinishedRecipe> consumer) {
         Method getCropItemMethod = CropsBlockCoFH.class.getDeclaredMethod("getCropItem");
-        Method getSeedsItemMethod = CropsBlockCoFH.class.getDeclaredMethod("getSeedsItem");
+        Method getSeedsItemMethod = CropsBlockCoFH.class.getDeclaredMethod("getBaseSeedId");
         getCropItemMethod.setAccessible(true);
         getSeedsItemMethod.setAccessible(true);
 
@@ -47,7 +48,7 @@ public class ThermalCultivationIntegration extends Integration {
                         .maxProgress(1000)
                         .rfPerTick(10)
                         .progressPerTick(1)
-                        .output(new ItemStack(cropProvider.asItem(), 1))
+                        .output(ChancedItemStackList.of(cropProvider.asItem()))
                         .construct()
                         .addCondition(new ModLoadedCondition(ModIntegrations.getThermalCultivation().orElseThrow(NullPointerException::new).getModID()))
                         .build(consumer,

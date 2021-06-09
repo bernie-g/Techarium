@@ -1,0 +1,29 @@
+{
+  "type": "techarium:botarium",
+  "conditions": [
+    {
+      "modid": "farmersdelight",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "progressPerTick": 1,
+  "maxProgress": 800,
+  "rfPerTick": 10,
+  "cropIn": {
+    "item": "farmersdelight:onion"
+  },
+  "soilIn": {
+    "tag": "forge:dirt"
+  },
+  "fluidIn": {
+    "FluidName": "minecraft:water",
+    "Amount": 1000
+  },
+  "output": [
+    {
+      "item": "farmersdelight:onion",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
+}

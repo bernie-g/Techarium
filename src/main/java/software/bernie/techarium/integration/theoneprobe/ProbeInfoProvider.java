@@ -1,12 +1,15 @@
 package software.bernie.techarium.integration.theoneprobe;
 
-import mcjty.theoneprobe.api.*;
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.IProbeInfoProvider;
+import mcjty.theoneprobe.api.ProbeMode;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import software.bernie.techarium.Techarium;
+import software.bernie.techarium.registry.LangRegistry;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 import software.bernie.techarium.tile.base.MachineSlaveTile;
 
@@ -33,7 +36,7 @@ public class ProbeInfoProvider implements IProbeInfoProvider {
     public void addProbeInfo(MachineMasterTile tile, IProbeInfo info) {
         tile.getController().getMultiProgressBar().getProgressBarAddons().forEach(progressBarAddon -> {
             if (progressBarAddon.getName().equals("techarium.gui.mainprogress")) {
-                info.progress(progressBarAddon.getProgress()/20, progressBarAddon.getMaxProgress()/20, info.defaultProgressStyle().filledColor(-39424).alternateFilledColor(-39424).suffix("s/" + progressBarAddon.getMaxProgress()/20 + "s").prefix(new TranslationTextComponent("top.techarium.progress.eta").getString()));
+                info.progress(progressBarAddon.getProgress() / 20, progressBarAddon.getMaxProgress() / 20, info.defaultProgressStyle().filledColor(-39424).alternateFilledColor(-39424).suffix("s/" + progressBarAddon.getMaxProgress() / 20 + "s").prefix(LangRegistry.topProgressETA.get().getString()));
             }
         });
     }

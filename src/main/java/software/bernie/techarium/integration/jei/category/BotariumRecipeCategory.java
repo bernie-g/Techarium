@@ -1,10 +1,12 @@
 package software.bernie.techarium.integration.jei.category;
 
+import com.blamejared.crafttweaker.api.item.IIngredient;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IGuiFluidStackGroup;
 import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
+import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import net.minecraft.item.ItemStack;
@@ -40,14 +42,12 @@ public class BotariumRecipeCategory extends BaseRecipeCategory<BotariumRecipe>
 		inputs.add(Arrays.asList(recipe.getSoilIn().getItems()));
 		ingredients.setInputLists(VanillaTypes.ITEM, inputs);
 		ingredients.setInput(VanillaTypes.FLUID, recipe.getFluidIn());
-		ingredients.setOutput(VanillaTypes.ITEM, recipe.getResultItem());
+		ingredients.setOutputs(VanillaTypes.ITEM, recipe.getOutput().getCachedOutput());
 	}
 
 	@Override
 	public void setRecipe(IRecipeLayout layout, BotariumRecipe recipe, IIngredients ingredients)
 	{
-
-
 		IGuiFluidStackGroup fluidStackGroup = layout.getFluidStacks();
 		fluidStackGroup.init(0, true, 15, 10);
 		fluidStackGroup.set(0, ingredients.getInputs(VanillaTypes.FLUID).get(0));

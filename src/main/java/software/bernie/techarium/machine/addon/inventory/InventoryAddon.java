@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import org.apache.commons.lang3.tuple.Pair;
@@ -15,6 +16,7 @@ import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,6 +99,33 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
             onContentsChanged(slot);
         }
         return reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, stack.getCount() - limit) : ItemStack.EMPTY;
+    }
+
+    public boolean insertItem(@Nonnull ItemStack stack, boolean simulate) {
+        for (int i = 0; i < getSlots(); i++) {
+            stack = insertItem(i, stack, simulate);
+        }
+        return stack.isEmpty();
+    }
+
+    public boolean canInsertItem(@Nonnull ItemStack stack) {
+        return insertItem(stack, true);
+    }
+
+    public boolean insertItems(@Nonnull List<ItemStack> stackList, boolean simulate) {
+        boolean output = true;
+        List<ItemStack> in = stackList;
+        for (ItemStack stack : in) {
+            if (!canInsertItem(stack)) {
+                output = false;
+            }
+            insertItem(stack, simulate);
+        }
+        return output;
+    }
+
+    public boolean canInsertItems(@Nonnull List<ItemStack> stackList) {
+        return insertItems(stackList, true);
     }
 
     @Override

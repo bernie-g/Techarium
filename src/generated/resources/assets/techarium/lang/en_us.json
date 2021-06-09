@@ -1,0 +1,16 @@
+{
+  "block.techarium.arboretum": "Arboretum",
+  "block.techarium.arboretum_top": "Arboretum",
+  "block.techarium.botarium": "Botarium",
+  "block.techarium.botarium_top": "Botarium",
+  "hwyla.techarium.progress.eta": "ETA: %s seconds remaining",
+  "hwyla.techarium.progress.no_recipe": "ETA: No valid recipe",
+  "item.techarium.energy_pipe": "Energy Pipe",
+  "item.techarium.fluid_pipe": "Fluid Pipe",
+  "item.techarium.item_pipe": "Item Pipe",
+  "item.techarium.pipe_stick": "Pipe Stick",
+  "itemGroup.techarium": "Techarium",
+  "jei.techarium.arboretum.description": "The Arboretum allows you to grow saplings in exchange for energy and water",
+  "jei.techarium.botarium.description": "The Botarium allows you to grow crops in exchange for energy and water",
+  "top.techarium.progress.eta": "ETA: "
+}

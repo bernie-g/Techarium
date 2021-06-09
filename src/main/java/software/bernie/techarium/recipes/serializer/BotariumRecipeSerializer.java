@@ -10,6 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
+import software.bernie.techarium.util.ChancedItemStackList;
 import software.bernie.techarium.util.JsonCodecUtils;
 import software.bernie.techarium.util.Utils;
 
@@ -22,7 +23,7 @@ public class BotariumRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializ
         Ingredient crop = Utils.deserializeIngredient(json, "cropIn");
         FluidStack fluidIn = JsonCodecUtils.deserializeFluidStack(json.get("fluidIn"));
         Ingredient soil = Utils.deserializeIngredient(json, "soilIn");
-        ItemStack output = JsonCodecUtils.deserializeItemStack(json.get("output"));
+        ChancedItemStackList output = ChancedItemStackList.fromJSON(json.get("output").getAsJsonArray());
         int maxProgress = JSONUtils.getAsInt(json, "maxProgress");
         int ticksPerProgress = JSONUtils.getAsInt(json, "progressPerTick");
         int energy = JSONUtils.getAsInt(json, "rfPerTick");
@@ -35,7 +36,7 @@ public class BotariumRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializ
         Ingredient crop = Ingredient.fromNetwork(buffer);
         FluidStack fluidIn = buffer.readFluidStack();
         Ingredient soil = Ingredient.fromNetwork(buffer);
-        ItemStack output = buffer.readItem();
+        ChancedItemStackList output = ChancedItemStackList.read(buffer);
         int maxProgress = buffer.readInt();
         int ticksPerProgress = buffer.readInt();
         int energy = buffer.readInt();
@@ -47,7 +48,7 @@ public class BotariumRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializ
         recipe.getCropType().toNetwork(buffer);
         buffer.writeFluidStack(recipe.getFluidIn());
         recipe.getSoilIn().toNetwork(buffer);
-        buffer.writeItem(recipe.getResultItem());
+        recipe.getOutput().write(buffer);
         buffer.writeInt(recipe.getMaxProgress());
         buffer.writeInt(recipe.getProgressPerTick());
         buffer.writeInt(recipe.getRfPerTick());

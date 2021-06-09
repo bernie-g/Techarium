@@ -19,8 +19,11 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
-  "output": {
-    "id": "thermal:tomato",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "thermal:tomato",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

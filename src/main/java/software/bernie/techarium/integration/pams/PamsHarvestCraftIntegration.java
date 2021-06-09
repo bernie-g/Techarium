@@ -17,6 +17,7 @@ import software.bernie.techarium.integration.Integration;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.TagRegistry;
+import software.bernie.techarium.util.ChancedItemStackList;
 
 import java.util.function.Consumer;
 
@@ -39,7 +40,7 @@ public class PamsHarvestCraftIntegration extends Integration {
                         .maxProgress(1000)
                         .rfPerTick(10)
                         .progressPerTick(1)
-                        .output(new ItemStack(drop, 1))
+                        .output(ChancedItemStackList.of(drop))
                         .construct()
                         .addCondition(new ModLoadedCondition(ModIntegrations.getPams().orElseThrow(NullPointerException::new).getModID()))
                         .build(consumer,
