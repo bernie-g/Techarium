@@ -3,7 +3,6 @@ package software.bernie.techarium.client.tile.model;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.techarium.Techarium;
-import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;
 
 public class BotariumModel extends AnimatedGeoModel<BotariumTile>
