@@ -40,7 +40,8 @@ public class ArboretumRecipeCategory extends BaseRecipeCategory<ArboretumRecipe>
 		inputs.add(Arrays.asList(recipe.getSoilIn().getItems()));
 		ingredients.setInputLists(VanillaTypes.ITEM, inputs);
 		ingredients.setInput(VanillaTypes.FLUID, recipe.getFluidIn());
-		ingredients.setOutputs(VanillaTypes.ITEM, recipe.getOutput().getCachedOutput());
+		
+		ingredients.setOutputs(VanillaTypes.ITEM, recipe.getOutput().dissolve());
 	}
 
 	@Override

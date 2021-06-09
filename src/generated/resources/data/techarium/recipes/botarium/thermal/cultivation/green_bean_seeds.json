@@ -1,0 +1,29 @@
+{
+  "type": "techarium:botarium",
+  "conditions": [
+    {
+      "modid": "thermal_cultivation",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "progressPerTick": 1,
+  "maxProgress": 1000,
+  "rfPerTick": 10,
+  "cropIn": {
+    "item": "thermal:green_bean_seeds"
+  },
+  "soilIn": {
+    "tag": "forge:dirt"
+  },
+  "fluidIn": {
+    "FluidName": "minecraft:water",
+    "Amount": 1000
+  },
+  "output": [
+    {
+      "item": "thermal:green_bean",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
+}

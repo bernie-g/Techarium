@@ -1,16 +1,10 @@
 {
-  "type": "techarium:botarium",
-  "conditions": [
-    {
-      "modid": "thermal_cultivation",
-      "type": "forge:mod_loaded"
-    }
-  ],
+  "type": "techarium:arboretum",
   "progressPerTick": 1,
   "maxProgress": 1000,
   "rfPerTick": 10,
   "cropIn": {
-    "item": "thermal:coffee"
+    "item": "minecraft:jungle_sapling"
   },
   "soilIn": {
     "tag": "forge:dirt"
@@ -21,7 +15,12 @@
   },
   "output": [
     {
-      "item": "thermal:coffee",
+      "item": "minecraft:jungle_log",
+      "amount": 6,
+      "chance": 0.5
+    },
+    {
+      "item": "minecraft:jungle_sapling",
       "amount": 1,
       "chance": 1.0
     }

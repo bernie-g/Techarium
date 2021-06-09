@@ -33,8 +33,8 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
     protected void addMachines() {
         addBlock(BlockTileRegistry.BOTARIUM, "Botarium");
         addBlock(BlockTileRegistry.BOTARIUM_TOP, "Botarium");
-        addBlock(BlockTileRegistry.BOTARIUM, "Arboretum");
-        addBlock(BlockTileRegistry.BOTARIUM_TOP, "Arboretum");
+        addBlock(BlockTileRegistry.ARBORETUM, "Arboretum");
+        addBlock(BlockTileRegistry.ARBORETUM_TOP, "Arboretum");
     }
 
     private void addTranslationComponents() {

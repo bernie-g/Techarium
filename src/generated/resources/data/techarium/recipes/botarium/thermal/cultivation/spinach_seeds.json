@@ -10,7 +10,7 @@
   "maxProgress": 1000,
   "rfPerTick": 10,
   "cropIn": {
-    "item": "thermal:spinach"
+    "item": "thermal:spinach_seeds"
   },
   "soilIn": {
     "tag": "forge:dirt"

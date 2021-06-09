@@ -38,7 +38,7 @@ public class HwylaTooltipRenderer implements IComponentProvider {
         } else {
             tile.getController().getMultiProgressBar().getProgressBarAddons().forEach(progressBarAddon -> {
                 if (progressBarAddon.getName().equals("techarium.gui.mainprogress")) {
-                    tooltip.add(LangRegistry.hwylaProgressETA.get(progressBarAddon.getMaxProgress() - progressBarAddon.getProgress() / 20));
+                    tooltip.add(LangRegistry.hwylaProgressETA.get((progressBarAddon.getMaxProgress() - progressBarAddon.getProgress()) / (20 * progressBarAddon.getProgressToAdd())));
                 }
             });
         }

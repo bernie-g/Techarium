@@ -11,6 +11,7 @@ import software.bernie.techarium.Techarium;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ChancedItemStackList {
     @Getter
@@ -81,6 +82,10 @@ public class ChancedItemStackList {
                 cachedOutput.add(stack.getStack().copy());
             }
         }
+    }
+
+    public List<ItemStack> dissolve() {
+        return stackList.stream().map(ChancedItemStack::getStack).collect(Collectors.toList());
     }
 
     @Override
