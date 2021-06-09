@@ -57,8 +57,7 @@ public class ArboretumRenderer extends GeoBlockRenderer<ArboretumTile> {
 
 	public void renderTile(ArboretumTile tile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLightIn, int combinedOverlayIn) {
 		matrixStack.pushPose();
-		matrixStack.translate(-0.5f,0,-0.5f);
-		matrixStack.translate(4 / 16f, 5 / 16f, 4 / 16f);
+		matrixStack.translate(-0.25,0.3125,-0.25);
 		matrixStack.scale(0.5f, 0.5f, 0.5f);
 		Minecraft.getInstance().getBlockRenderer().renderBlock(getRenderSoilBlock(tile), matrixStack, buffer, packedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
 		matrixStack.popPose();
@@ -101,21 +100,6 @@ public class ArboretumRenderer extends GeoBlockRenderer<ArboretumTile> {
 			return Blocks.AIR.defaultBlockState();
 		BlockState state = ((BlockItem) crop.getItem()).getBlock().defaultBlockState();
 		return state;
-	}
-
-	private static float getMachineProgress(ArboretumTile tile) {
-		ProgressBarAddon machineProgress = getMachineProgressBarAddon(tile);
-		float realProgress = machineProgress.getProgress()/ (float)machineProgress.getMaxProgress();
-		return Math.min(1f, realProgress);
-	}
-
-	private static ProgressBarAddon getMachineProgressBarAddon(ArboretumTile tile) {
-		for (ProgressBarAddon progressBarAddon : tile.getController().getMultiProgressBar().getProgressBarAddons()) {
-			if (progressBarAddon.getName().equals("techarium.gui.mainprogress")) {
-				return progressBarAddon;
-			}
-		}
-		throw new NullPointerException("No progressbar found");
 	}
 
 	@Override
