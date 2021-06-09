@@ -57,14 +57,13 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
     @Setter
     private boolean isOpening = false;
 
-    // TODO: CHANGE TO ARBORETUM ANIMATION
     private <E extends IAnimatable> PlayState animationPredicate(AnimationEvent<E> event) {
         if (isOpening) {
             event.getController().setAnimation(
-                    new AnimationBuilder().addAnimation("Botarium.anim.deploy", false).addAnimation(
-                            "Botarium.anim.idle", true));
+                    new AnimationBuilder().addAnimation("Arboretum.anim.deploy", false).addAnimation(
+                            "Arboretum.anim.idle", true));
         } else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.idle", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("Arboretum.anim.idle", true));
         }
         return PlayState.CONTINUE;
     }
@@ -154,6 +153,10 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
         return getController().getMultiTank().getTankOptional().map(tank -> tank).orElse(
                 new MultiTankCapHandler(new ArrayList<>())).getFluidTanks().stream().filter(
                 addon -> addon.getName().contains("fluidIn")).findFirst().orElseThrow(NullPointerException::new);
+    }
+
+    public ProgressBarAddon getProgressBar() {
+        return getController().getMultiProgressBar().getProgressBarAddons().stream().filter((addon) -> addon.getName().contains("techarium.gui.mainprogress")).findFirst().orElseThrow(NullPointerException::new);
     }
 
     @Override

@@ -34,8 +34,6 @@ import java.util.Comparator;
 import java.util.Optional;
 
 public class ArboretumRenderer extends GeoBlockRenderer<ArboretumTile> {
-
-
 	public ArboretumRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
 		super(rendererDispatcherIn, new ArboretumModel());
 	}
@@ -61,19 +59,19 @@ public class ArboretumRenderer extends GeoBlockRenderer<ArboretumTile> {
 		matrixStack.pushPose();
 		matrixStack.translate(-0.5f,0,-0.5f);
 		matrixStack.translate(4 / 16f, 5 / 16f, 4 / 16f);
-		renderCrop(tile, matrixStack, partialTicks, buffer, packedLightIn, combinedOverlayIn);
+		matrixStack.scale(0.5f, 0.5f, 0.5f);
+		Minecraft.getInstance().getBlockRenderer().renderBlock(getRenderSoilBlock(tile), matrixStack, buffer, packedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
 		matrixStack.popPose();
+
+		renderCrop(tile, matrixStack, partialTicks, buffer, packedLightIn, combinedOverlayIn);
 	}
 
 	private void renderCrop(ArboretumTile tile, MatrixStack matrixStack, float partialTicks, IRenderTypeBuffer buffer, int packedLightIn, int combinedOverlayIn) {
 		matrixStack.pushPose();
-		matrixStack.scale(0.5f, 0.5f, 0.5f);
-		Minecraft.getInstance().getBlockRenderer().renderBlock(getRenderSoilBlock(tile), matrixStack, buffer, packedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
-
-		int age = getAge(tile, IntegerProperty.create("math",0,8));
-		matrixStack.scale(age*0.04f,age*0.04f,age*0.04f);
+		float age = ((float) tile.getProgressBar().getProgress() / tile.getProgressBar().getMaxProgress()) * 0.75f;
+		matrixStack.translate(-age/2, 0.825, -age/2);
+		matrixStack.scale(age, age, age);
 		Minecraft.getInstance().getBlockRenderer().renderBlock(getRenderTreeBlock(tile), matrixStack, buffer, packedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
-
 		matrixStack.popPose();
 	}
 
@@ -103,13 +101,6 @@ public class ArboretumRenderer extends GeoBlockRenderer<ArboretumTile> {
 			return Blocks.AIR.defaultBlockState();
 		BlockState state = ((BlockItem) crop.getItem()).getBlock().defaultBlockState();
 		return state;
-	}
-
-	private static int getAge(ArboretumTile tile, IntegerProperty property) {
-		int max = property.getPossibleValues().stream().max(Comparator.comparing(integer -> integer)).orElse(1);
-		int min = property.getPossibleValues().stream().min(Comparator.comparing(integer -> integer)).orElse(0);
-		int allStates = property.getPossibleValues().size();
-		return (int) Math.min(Math.floor(allStates*getMachineProgress(tile)) + min, max);
 	}
 
 	private static float getMachineProgress(ArboretumTile tile) {
