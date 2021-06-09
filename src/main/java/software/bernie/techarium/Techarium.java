@@ -1,6 +1,5 @@
 package software.bernie.techarium;
 
-import blusunrize.immersiveengineering.client.DynamicModelLoader;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
