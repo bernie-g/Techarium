@@ -1,10 +1,12 @@
 package software.bernie.techarium.integration.jei.category;
 
+import com.blamejared.crafttweaker.api.item.IIngredient;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IGuiFluidStackGroup;
 import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
+import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import net.minecraft.item.ItemStack;

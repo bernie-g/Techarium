@@ -10,7 +10,7 @@ import software.bernie.techarium.Techarium;
 import software.bernie.techarium.client.tile.render.ArboretumRenderer;
 import software.bernie.techarium.client.tile.render.BotariumRenderer;
 import software.bernie.techarium.client.tile.render.ExchangeStationRenderer;
-import software.bernie.techarium.registry.BlockRegistry;
+import software.bernie.techarium.registry.BlockTileRegistry;
 
 @Mod.EventBusSubscriber(modid = Techarium.ModID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents
@@ -23,9 +23,9 @@ public class ClientEvents
 
 	public static void registerTileRenderers()
 	{
-		ClientRegistry.bindTileEntityRenderer(BlockRegistry.BOTARIUM.getTileEntityType(), BotariumRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(BlockRegistry.ARBORETUM.getTileEntityType(), ArboretumRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(BlockRegistry.EXCHANGE_STATION.getTileEntityType(), ExchangeStationRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(BlockTileRegistry.BOTARIUM.getTileEntityType(), BotariumRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(BlockTileRegistry.ARBORETUM.getTileEntityType(), ArboretumRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(BlockTileRegistry.EXCHANGE_STATION.getTileEntityType(), ExchangeStationRenderer::new);
 	}
 
 	@SubscribeEvent
