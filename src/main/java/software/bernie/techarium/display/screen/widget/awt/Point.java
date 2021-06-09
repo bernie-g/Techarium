@@ -7,4 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class Point {
     public int x,y;
+
+    public Point add (Point p) {
+        return new Point(p.x + x, p.y + y);
+    }
 }

@@ -12,6 +12,7 @@ import software.bernie.techarium.client.screen.draw.UiTexture;
 import software.bernie.techarium.display.container.PipeContainer;
 import software.bernie.techarium.display.screen.widget.awt.*;
 import software.bernie.techarium.display.screen.widget.pipe.BigInputOutput;
+import software.bernie.techarium.display.screen.widget.pipe.FilterInputOutput;
 
 import static software.bernie.techarium.Techarium.ModID;
 
@@ -34,7 +35,8 @@ public class PipeContainerScreen extends DrawableContainerScreen<PipeContainer> 
     @Override
     protected void init() {
         super.init();
-        addButton(new BigInputOutput(new Point(0 + leftPos,80 + topPos), new Dimension(13,25), this::isInput, this::setInput));
+        addButton(new BigInputOutput(new Point(0 + leftPos,80 + topPos), this::isInput, this::setInput));
+        addButton(new FilterInputOutput(new Point(123 + leftPos,7 + topPos), this::isInput, this::setInput));
     }
 
     @Override
