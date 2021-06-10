@@ -5,10 +5,8 @@ import lombok.Setter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -17,7 +15,6 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.techarium.Techarium;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.item.UpgradeItem;
@@ -38,7 +35,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.*;
+import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.ARBORETUM_DRAWABLE;
+import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.ARBORETUM_OUTPUT_SLOT;
 import static software.bernie.techarium.registry.BlockRegistry.ARBORETUM;
 import static software.bernie.techarium.registry.BlockRegistry.ARBORETUM_TOP;
 
@@ -109,11 +107,13 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
                 })
         );
 
-        controller.addTank(new FluidTankAddon(this, "fluidIn", 10000, 23, 35,
+        controller.addTank(new FluidTankAddon(this, "fluidIn", 10000, 23, 34,
                 (fluidStack -> true)));
 
         controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
-                .setInsertPredicate((itemStack, integer) -> Block.byItem(itemStack.getItem()) != Blocks.AIR)
+                .setInsertPredicate((itemStack, integer) -> this.level.getRecipeManager()
+                        .getAllRecipesFor(RecipeRegistry.ARBORETUM_RECIPE_TYPE).stream()
+                        .anyMatch(recipe -> recipe.getSoilIn().test(itemStack)))
                 .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 1));
 
         controller.addInventory(new InventoryAddon(this, "cropInput", 49, 35, 1)

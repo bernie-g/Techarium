@@ -31,4 +31,9 @@ public class DrawableWidget extends Widget {
         int screenX = minecraft.getWindow().getGuiScaledWidth() / 2;
         drawable.draw(screenX - getBackgroundSize().getValue() / 2 + x, screenY - getBackgroundSize().getKey() / 2 + y, getWidth(), getHeight());
     }
+
+    @Override
+    protected boolean clicked(double mouseX, double mouseY) {
+        return false;
+    }
 }

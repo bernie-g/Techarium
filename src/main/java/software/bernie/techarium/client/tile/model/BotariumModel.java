@@ -19,6 +19,6 @@ public class BotariumModel extends AnimatedGeoModel<BotariumTile>
 
 	@Override
 	public ResourceLocation getTextureLocation(BotariumTile tile) {
-		return new ResourceLocation(Techarium.ModID, "textures/block/animated/botarium_tier_1.png");
+		return new ResourceLocation(Techarium.ModID, "textures/block/animated/botarium.png");
 	}
 }

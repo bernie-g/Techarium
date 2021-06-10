@@ -2,7 +2,6 @@ package software.bernie.techarium.tile.botarium;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.crafting.IRecipe;
@@ -15,7 +14,6 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.techarium.Techarium;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.item.UpgradeItem;
@@ -28,7 +26,6 @@ import software.bernie.techarium.machine.addon.progressbar.ProgressBarAddon;
 import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.machine.sideness.FaceConfig;
 import software.bernie.techarium.machine.sideness.Side;
-import software.bernie.techarium.recipes.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.tile.base.MultiblockMasterTile;
@@ -104,16 +101,19 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
                 .setOnProgressFull(() -> handleProgressFinish(getController().getCurrentRecipe()))
                 .setOnProgressTick(() -> {
                     if (controller.getCurrentRecipe() != null) {
-                        controller.getLazyEnergyStorage().ifPresent(iEnergyStorage -> iEnergyStorage.extractEnergy(controller.getCurrentRecipe().getRfPerTick(), false));
+                        controller.getLazyEnergyStorage().ifPresent(iEnergyStorage -> iEnergyStorage
+                                .extractEnergy(controller.getCurrentRecipe().getRfPerTick(), false));
                     }
                 })
         );
 
-        controller.addTank(new FluidTankAddon(this, "fluidIn", 10000, 23, 35,
+        controller.addTank(new FluidTankAddon(this, "fluidIn", 10000, 23, 34,
                 (fluidStack -> true)));
 
         controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
-                .setInsertPredicate((itemStack, integer) -> Block.byItem(itemStack.getItem()) != Blocks.AIR)
+                .setInsertPredicate((itemStack, integer) -> this.level.getRecipeManager()
+                        .getAllRecipesFor(RecipeRegistry.BOTARIUM_RECIPE_TYPE).stream()
+                        .anyMatch(recipe -> recipe.getSoilIn().test(itemStack)))
                 .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 1));
 
         controller.addInventory(new InventoryAddon(this, "cropInput", 49, 35, 1)
@@ -126,7 +126,8 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
         );
 
         controller.addInventory(new InventoryAddon(this, "upgradeSlot", 83, 81, 4)
-                .setInsertPredicate((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem).setSlotPositionWithOffset(20));
+                .setInsertPredicate((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem)
+                .setSlotPositionWithOffset(20));
 
         controller.addInventory(
                 new DrawableInventoryAddon(this, "output", 182, 49, BOTARIUM_OUTPUT_SLOT, 178, 34, 65, 46, 3)
