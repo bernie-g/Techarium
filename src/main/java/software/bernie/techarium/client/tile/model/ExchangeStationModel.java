@@ -18,6 +18,6 @@ public class ExchangeStationModel extends AnimatedGeoModel<ExchangeStationTile> 
 
     @Override
     public ResourceLocation getTextureLocation(ExchangeStationTile tile) {
-        return new ResourceLocation(Techarium.ModID, "textures/block/exchange_station.png");
+        return new ResourceLocation(Techarium.ModID, "textures/block/animated/exchange_station.png");
     }
 }
