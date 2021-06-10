@@ -1,0 +1,42 @@
+package software.bernie.techarium.datagen;
+
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ITag;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.util.ResourceLocation;
+import software.bernie.techarium.Techarium;
+
+public class TechariumTags {
+    public static final class Blocks {
+        public static final ITag.INamedTag<Block> ORES_ALUMINIUM = forge("ores/aluminium");
+        public static final ITag.INamedTag<Block> ORES_COPPER = forge("ores/copper");
+        public static final ITag.INamedTag<Block> ORES_LEAD = forge("ores/lead");
+
+        private static ITag.INamedTag<Block> forge(String path) {
+            return BlockTags.bind(new ResourceLocation("forge", path).toString());
+        }
+
+        private static ITag.INamedTag<Block> mod(String path) {
+            return BlockTags.bind(new ResourceLocation(Techarium.ModID, path).toString());
+        }
+    }
+
+    public static final class Items {
+        public static final ITag.INamedTag<Item> ORES_ALUMINIUM = forge("ores/aluminium");
+        public static final ITag.INamedTag<Item> ORES_COPPER = forge("ores/copper");
+        public static final ITag.INamedTag<Item> ORES_LEAD = forge("ores/lead");
+        public static final ITag.INamedTag<Item> INGOTS_ALUMINIUM = forge("ingots/aluminium");
+        public static final ITag.INamedTag<Item> INGOTS_COPPER = forge("ingots/copper");
+        public static final ITag.INamedTag<Item> INGOTS_LEAD = forge("ingots/lead");
+
+        private static ITag.INamedTag<Item> forge(String path) {
+            return ItemTags.bind(new ResourceLocation("forge", path).toString());
+        }
+
+        private static ITag.INamedTag<Item> mod(String path) {
+            return ItemTags.bind(new ResourceLocation(Techarium.ModID, path).toString());
+        }
+    }
+}

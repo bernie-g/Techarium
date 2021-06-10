@@ -4,6 +4,7 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -13,6 +14,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
+import software.bernie.techarium.datagen.TechariumBlockTagsProvider;
+import software.bernie.techarium.datagen.TechariumItemTagsProvider;
 import software.bernie.techarium.datagen.TechariumLangProvider;
 import software.bernie.techarium.datagen.TechariumRecipeProvider;
 import software.bernie.techarium.integration.ModIntegrations;
@@ -59,6 +62,10 @@ public class Techarium
 		//generator.addProvider(new TechariumLootTables(generator));
 		generator.addProvider(new TechariumRecipeProvider(generator));
 		generator.addProvider(new TechariumLangProvider(generator));
+		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+		TechariumBlockTagsProvider provider = new TechariumBlockTagsProvider(generator, existingFileHelper);
+		generator.addProvider(provider);
+		generator.addProvider(new TechariumItemTagsProvider(generator, provider, existingFileHelper));
 	}
 
 	public void enqueueIMC(InterModEnqueueEvent event) {

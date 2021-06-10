@@ -1,4 +1,15 @@
 5d6804028eba508905b42e6dd35fc7742a5056c8 assets/techarium/lang/en_us.json
+a1407ca7ffcb81ee411cfea1b8cdc5e5149ab859 data/forge/tags/blocks/ores.json
+038781215cfe0c33e722fa61cb69768c18f2758b data/forge/tags/blocks/ores/aluminium.json
+d23713a389571a79a48f5f967243f40efdbee7e3 data/forge/tags/blocks/ores/copper.json
+b8c33481d709bf80778c77b96696c1102ce5c346 data/forge/tags/blocks/ores/lead.json
+0b1eff3cf169af633b93007fc21fb18171308a58 data/forge/tags/items/ingots/aluminium.json
+0a999d4da15520e643cb440684cc2c7f35a38e74 data/forge/tags/items/ingots/copper.json
+a4c6a6fbfbc21e91e804fbcd516e7e1d4f5bb6a4 data/forge/tags/items/ingots/lead.json
+a1407ca7ffcb81ee411cfea1b8cdc5e5149ab859 data/forge/tags/items/ores.json
+038781215cfe0c33e722fa61cb69768c18f2758b data/forge/tags/items/ores/aluminium.json
+d23713a389571a79a48f5f967243f40efdbee7e3 data/forge/tags/items/ores/copper.json
+b8c33481d709bf80778c77b96696c1102ce5c346 data/forge/tags/items/ores/lead.json
 0aeab462b4d223f34cb22d9854d28226bdfe9000 data/techarium/recipes/arboretum/minecraft/acacia_sapling.json
 3b38d4fcc64def5a808e2675d202eab55072a45f data/techarium/recipes/arboretum/minecraft/birch_sapling.json
 4492f9a38f27b076629be5cbd9bf98781d8810ab data/techarium/recipes/arboretum/minecraft/dark_oak_sapling.json
