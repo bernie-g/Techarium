@@ -1,6 +1,8 @@
 package software.bernie.techarium.registry;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
@@ -25,10 +27,11 @@ import software.bernie.techarium.tile.pipe.PipeTile;
 import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUM;
 @SuppressWarnings("unused")
-public class BlockTileRegistry {
+public class BlockRegistry {
     public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES,
             Techarium.ModID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
@@ -58,9 +61,22 @@ public class BlockTileRegistry {
     public static final RegistryObject<TileEntityType<TopEnabledOnlySlave>> ARBORETUM_TOP_TILE = TILES.register("arboretum_top", () -> TileEntityType.Builder.of(TopEnabledOnlySlave::new, ARBORETUM_TOP.get())
             .build(null));
 
+    // Ores + Blocks
+    public static final RegistryObject<Block> ALUMINIUM_ORE = registerBlock("aluminium_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)));
+    public static final RegistryObject<Block> COPPER_ORE = registerBlock("copper_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)));
+    public static final RegistryObject<Block> LEAD_ORE = registerBlock("lead_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)));
+    public static final RegistryObject<Block> ALUMINIUM_BLOCK = registerBlock("aluminium_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> COPPER_BLOCK = registerBlock("copper_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> LEAD_BLOCK = registerBlock("lead_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
 
 
-    public static <B extends MachineBlock> Function<B, BlockItem> blockItemCreator() {
+    private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
+        RegistryObject<T> reg = BLOCKS.register(name, block);
+        ITEMS.register(name, () -> new BlockItem(reg.get(), new Item.Properties().tab(TECHARIUM)));
+        return reg;
+    }
+
+    public static <B extends Block> Function<B, BlockItem> blockItemCreator() {
         return block -> new BlockItem(block, new Item.Properties().tab(TECHARIUM));
     }
 

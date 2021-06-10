@@ -37,8 +37,8 @@ import java.util.Map;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.ARBORETUM_DRAWABLE;
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.ARBORETUM_OUTPUT_SLOT;
-import static software.bernie.techarium.registry.BlockTileRegistry.ARBORETUM;
-import static software.bernie.techarium.registry.BlockTileRegistry.ARBORETUM_TOP;
+import static software.bernie.techarium.registry.BlockRegistry.ARBORETUM;
+import static software.bernie.techarium.registry.BlockRegistry.ARBORETUM_TOP;
 
 public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> implements IAnimatable {
     private static final int SIZE_X = 172;

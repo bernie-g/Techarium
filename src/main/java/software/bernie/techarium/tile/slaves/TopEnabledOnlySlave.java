@@ -1,6 +1,5 @@
 package software.bernie.techarium.tile.slaves;
 
-import net.minecraft.tileentity.TileEntityType;
 import software.bernie.techarium.machine.sideness.FaceConfig;
 import software.bernie.techarium.machine.sideness.Side;
 import software.bernie.techarium.tile.base.MachineSlaveTile;
@@ -8,7 +7,7 @@ import software.bernie.techarium.tile.base.MachineSlaveTile;
 import java.util.HashMap;
 import java.util.Map;
 
-import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM_TOP_TILE;
+import static software.bernie.techarium.registry.BlockRegistry.BOTARIUM_TOP_TILE;
 
 public class TopEnabledOnlySlave extends MachineSlaveTile {
 

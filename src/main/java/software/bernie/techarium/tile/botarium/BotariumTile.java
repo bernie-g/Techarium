@@ -3,6 +3,7 @@ package software.bernie.techarium.tile.botarium;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -35,8 +36,8 @@ import java.util.Map;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.BOTARIUM_DRAWABLE;
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.BOTARIUM_OUTPUT_SLOT;
-import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM;
-import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM_TOP;
+import static software.bernie.techarium.registry.BlockRegistry.BOTARIUM;
+import static software.bernie.techarium.registry.BlockRegistry.BOTARIUM_TOP;
 
 public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implements IAnimatable {
     private static final int SIZE_X = 172;
