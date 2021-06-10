@@ -2,6 +2,7 @@ package software.bernie.techarium.datagen;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowerBlock;
+import net.minecraft.data.CookingRecipeBuilder;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.fluid.Fluids;
@@ -18,13 +19,15 @@ import software.bernie.techarium.Techarium;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.recipes.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
+import software.bernie.techarium.registry.BlockRegistry;
+import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.registry.TagRegistry;
 import software.bernie.techarium.util.ChancedItemStack;
 import software.bernie.techarium.util.ChancedItemStackList;
 
 import java.util.function.Consumer;
 
-public class TechariumRecipeProvider extends ForgeRecipeProvider {
+public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
     public TechariumRecipeProvider(DataGenerator generatorIn) {
         super(generatorIn);
     }
@@ -33,6 +36,7 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
     protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
         registerVanillaBotariumRecipes(consumer);
         registerVanillaArboretumRecipes(consumer);
+        registerSmeltingRecipes(consumer);
         ModIntegrations.getIntegrations().forEach(wrapper -> wrapper.get().ifPresent(o -> o.generateRecipes(consumer)));
     }
 
@@ -81,53 +85,15 @@ public class TechariumRecipeProvider extends ForgeRecipeProvider {
         buildArboretumRecipe(Items.DARK_OAK_SAPLING, ChancedItemStackList.of(ChancedItemStack.of(Items.DARK_OAK_LOG, 6, 0.5), ChancedItemStack.of(Items.DARK_OAK_SAPLING)), 1000, 1000, consumer);
     }
 
-    public static void buildBotariumFlowerRecipe(FlowerBlock flowerBlock, Consumer<IFinishedRecipe> consumer) {
-        buildBotariumRecipe(flowerBlock.asItem(), ChancedItemStackList.of(new ItemStack(flowerBlock)), Ingredient.of(Blocks.GRASS_BLOCK), 1000, 1000, consumer);
-    }
-
-    public static void buildBotariumRecipe(Item seed, ChancedItemStackList drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
-        buildBotariumRecipe(seed, drop, Ingredient.of(TagRegistry.DIRT), amountWater, time, consumer);
-    }
-
-    public static void buildBotariumRecipe(Item seed, ChancedItemStackList drop, Ingredient soil, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
-        buildBotariumRecipe(seed, drop, soil, new FluidStack(Fluids.WATER, amountWater), time, consumer);
-    }
-
-    private static void buildBotariumRecipe(Item seed, ChancedItemStackList drop, Ingredient soil, FluidStack fluid, int time, Consumer<IFinishedRecipe> consumer) {
-        BotariumRecipe.builder()
-                .cropType(Ingredient.of(seed))
-                .soilIn(soil)
-                .fluidIn(fluid)
-                .maxProgress(time)
-                .rfPerTick(10)
-                .progressPerTick(1)
-                .output(drop)
-                .construct()
-                .build(consumer,
-                        new ResourceLocation(Techarium.ModID,
-                                "botarium/" + seed.getRegistryName().getNamespace() + "/" + seed.getRegistryName().getPath()));
-    }
-
-    public void buildArboretumRecipe(Item sapling, ChancedItemStackList drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
-        buildArboretumRecipe(sapling, drop, Ingredient.of(TagRegistry.DIRT), amountWater, time, consumer);
-    }
-
-    public void buildArboretumRecipe(Item sapling, ChancedItemStackList drop, Ingredient soil, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
-        buildArboretumRecipe(sapling, drop, soil, new FluidStack(Fluids.WATER, amountWater), time, consumer);
-    }
-
-    private void buildArboretumRecipe(Item sapling, ChancedItemStackList drop, Ingredient soil, FluidStack fluid, int time, Consumer<IFinishedRecipe> consumer) {
-        ArboretumRecipe.builder()
-                .cropType(Ingredient.of(sapling))
-                .soilIn(soil)
-                .fluidIn(fluid)
-                .maxProgress(time)
-                .rfPerTick(10)
-                .progressPerTick(1)
-                .output(drop)
-                .construct()
-                .build(consumer,
-                        new ResourceLocation(Techarium.ModID,
-                                "arboretum/" + sapling.getRegistryName().getNamespace() + "/" + sapling.getRegistryName().getPath()));
+    private void registerSmeltingRecipes(Consumer<IFinishedRecipe> consumer) {
+        CookingRecipeBuilder.smelting(Ingredient.of(BlockRegistry.ALUMINIUM_ORE.get()), ItemRegistry.ALUMINIUM_INGOT.get(), 0.7f, 200)
+                .unlockedBy("has_item", has(Items.COBBLESTONE))
+                .save(consumer, Techarium.rl("smelting/aluminium_ore"));
+        CookingRecipeBuilder.smelting(Ingredient.of(BlockRegistry.COPPER_ORE.get()), ItemRegistry.COPPER_INGOT.get(), 0.7f, 200)
+                .unlockedBy("has_item", has(Items.COBBLESTONE))
+                .save(consumer, Techarium.rl("smelting/copper_ore"));
+        CookingRecipeBuilder.smelting(Ingredient.of(BlockRegistry.LEAD_ORE.get()), ItemRegistry.LEAD_INGOT.get(), 0.7f, 200)
+                .unlockedBy("has_item", has(Items.COBBLESTONE))
+                .save(consumer, Techarium.rl("smelting/lead_ore"));
     }
 }

@@ -65,6 +65,13 @@ public class BlockRegistryObjectGroup<B extends Block, I extends Item, T extends
                 .build(null));
         return this;
     }
+
+    public BlockRegistryObjectGroup<B, I, T> registerWithoutTile(DeferredRegister<Block> blockRegistry, DeferredRegister<Item> itemRegistry) {
+        blockRegistryObject = blockRegistry.register(name, blockCreator);
+        itemRegistryObject = itemRegistry.register(name, () -> itemCreator.apply(this.getBlock()));
+        return this;
+    }
+
     @SuppressWarnings("ConstantConditions")
     public BlockRegistryObjectGroup<B, I, T> register(DeferredRegister<Block> blockRegistry,
                                                       DeferredRegister<Item> itemRegistry,

@@ -1,7 +1,6 @@
 package software.bernie.techarium.tile.exchangestation;
 
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.tileentity.TileEntityType;
 import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -18,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.EXCHANGE_STATION_DRAWABLE;
-import static software.bernie.techarium.registry.BlockTileRegistry.EXCHANGE_STATION;
+import static software.bernie.techarium.registry.BlockRegistry.EXCHANGE_STATION;
 
 public class ExchangeStationTile extends MachineMasterTile<ExchangeStationRecipe> implements IAnimatable {
 

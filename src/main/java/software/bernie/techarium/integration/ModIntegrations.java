@@ -3,6 +3,7 @@ package software.bernie.techarium.integration;
 import lombok.Getter;
 import net.minecraftforge.common.util.LazyOptional;
 import software.bernie.techarium.integration.farmersdelight.FarmersDelightIntegration;
+import software.bernie.techarium.integration.immersiveengineering.IEIntegration;
 import software.bernie.techarium.integration.mekanism.MekanismIntegration;
 import software.bernie.techarium.integration.mysticalagriculture.MysticalAgricultureIntegration;
 import software.bernie.techarium.integration.pams.PamsHarvestCraftIntegration;
@@ -39,6 +40,9 @@ public class ModIntegrations {
     private static final Integration.Wrapper<XLFoodModIntegration> XL_FOOD_MOD = Integration.Wrapper.of("xlfoodmod",
             XLFoodModIntegration::new).registerSelf();
 
+    private static final Integration.Wrapper<IEIntegration> IMMERSIVE_ENGINEERING = Integration.Wrapper.of("immersive_engineering",
+            IEIntegration::new).registerSelf();
+
     public static LazyOptional<MekanismIntegration> getMekanism() {
         return MEKANISM.get();
     }
@@ -61,6 +65,10 @@ public class ModIntegrations {
 
     public static LazyOptional<TheOneProbeIntegration> getTheOneProbe() {
         return THE_ONE_PROBE.get();
+    }
+
+    public static LazyOptional<IEIntegration> getIE() {
+        return IMMERSIVE_ENGINEERING.get();
     }
 
     public static LazyOptional<XLFoodModIntegration> getXLFoodMod() {

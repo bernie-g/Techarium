@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
-import software.bernie.techarium.registry.BlockTileRegistry;
+import software.bernie.techarium.registry.BlockRegistry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,13 +25,13 @@ public class BotariumRecipeCategory extends BaseRecipeCategory<BotariumRecipe>
 	public static final ResourceLocation UID = new ResourceLocation(Techarium.ModID, "botarium");
 
 	public BotariumRecipeCategory(IRecipeCategoryRegistration registration) {
-		super(UID, registration, BotariumRecipe.class, BlockTileRegistry.BOTARIUM.getBlock().getName(), BlockTileRegistry.BOTARIUM.getItem(), new ResourceLocation(Techarium.ModID, "textures/gui/botarium/botarium.png"),0,0,256,256);
+		super(UID, registration, BotariumRecipe.class, BlockRegistry.BOTARIUM.getBlock().getName(), BlockRegistry.BOTARIUM.getItem(), new ResourceLocation(Techarium.ModID, "textures/gui/botarium/botarium.png"),0,0,256,256);
 	}
 
 	@Override
 	public IDrawable getIcon()
 	{
-		return registration.getJeiHelpers().getGuiHelper().createDrawableIngredient(new ItemStack(BlockTileRegistry.BOTARIUM.getItem()));
+		return registration.getJeiHelpers().getGuiHelper().createDrawableIngredient(new ItemStack(BlockRegistry.BOTARIUM.getItem()));
 	}
 
 	@Override
