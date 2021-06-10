@@ -275,3 +275,6 @@ a820bc8678d80243b57c2614caa06f96ce82cdd0 data/techarium/recipes/botarium/xlfoodm
 bd010788ab849319914229034175ac41bae771f6 data/techarium/recipes/botarium/xlfoodmod/pineapple_seeds.json
 ea7eeb5586cd02d28402ab57884ecfce21568fa2 data/techarium/recipes/botarium/xlfoodmod/strawberry_seeds.json
 38cd78ce2ce1a275cb91e21e9ee87c15b5f9ff12 data/techarium/recipes/botarium/xlfoodmod/tomato_seeds.json
+87e9f9c9983285f9c347b733823e6b3c112b46ed data/techarium/recipes/smelting/aluminium_ore.json
+fa80180583eceb2d8d0babac11699d3ffe320054 data/techarium/recipes/smelting/copper_ore.json
+218c236f4e87f12ddec8fc59c2fad0061b8ea382 data/techarium/recipes/smelting/lead_ore.json

@@ -36,6 +36,7 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
     protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
         registerVanillaBotariumRecipes(consumer);
         registerVanillaArboretumRecipes(consumer);
+        registerSmeltingRecipes(consumer);
         ModIntegrations.getIntegrations().forEach(wrapper -> wrapper.get().ifPresent(o -> o.generateRecipes(consumer)));
     }
 
@@ -87,12 +88,12 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
     private void registerSmeltingRecipes(Consumer<IFinishedRecipe> consumer) {
         CookingRecipeBuilder.smelting(Ingredient.of(BlockRegistry.ALUMINIUM_ORE.get()), ItemRegistry.ALUMINIUM_INGOT.get(), 0.7f, 200)
                 .unlockedBy("has_item", has(Items.COBBLESTONE))
-                .save(consumer, Techarium.rl("smelting/ender_ore"));
+                .save(consumer, Techarium.rl("smelting/aluminium_ore"));
         CookingRecipeBuilder.smelting(Ingredient.of(BlockRegistry.COPPER_ORE.get()), ItemRegistry.COPPER_INGOT.get(), 0.7f, 200)
                 .unlockedBy("has_item", has(Items.COBBLESTONE))
-                .save(consumer, Techarium.rl("smelting/ender_ore"));
+                .save(consumer, Techarium.rl("smelting/copper_ore"));
         CookingRecipeBuilder.smelting(Ingredient.of(BlockRegistry.LEAD_ORE.get()), ItemRegistry.LEAD_INGOT.get(), 0.7f, 200)
                 .unlockedBy("has_item", has(Items.COBBLESTONE))
-                .save(consumer, Techarium.rl("smelting/ender_ore"));
+                .save(consumer, Techarium.rl("smelting/lead_ore"));
     }
 }
