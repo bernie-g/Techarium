@@ -4,7 +4,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
-import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM;
+import static software.bernie.techarium.registry.BlockRegistry.BOTARIUM;
 
 public class ItemGroupRegistry
 {

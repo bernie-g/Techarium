@@ -18,7 +18,7 @@ import software.bernie.techarium.integration.jei.panel.PanelBoundHandler;
 import software.bernie.techarium.machine.screen.AutomaticContainerScreen;
 import software.bernie.techarium.recipes.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipes.recipe.BotariumRecipe;
-import software.bernie.techarium.registry.BlockTileRegistry;
+import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.LangRegistry;
 import software.bernie.techarium.registry.RecipeRegistry;
 
@@ -41,8 +41,8 @@ public class TechariumJEIPlugin implements IModPlugin
 
 	@Override
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-		registration.addRecipeCatalyst(new ItemStack(BlockTileRegistry.BOTARIUM.getBlock()), BotariumRecipeCategory.UID);
-		registration.addRecipeCatalyst(new ItemStack(BlockTileRegistry.ARBORETUM.getBlock()), ArboretumRecipeCategory.UID);
+		registration.addRecipeCatalyst(new ItemStack(BlockRegistry.BOTARIUM.getBlock()), BotariumRecipeCategory.UID);
+		registration.addRecipeCatalyst(new ItemStack(BlockRegistry.ARBORETUM.getBlock()), ArboretumRecipeCategory.UID);
 	}
 
 	@Override
@@ -56,8 +56,8 @@ public class TechariumJEIPlugin implements IModPlugin
 			registration.addRecipes(recipesArboretum, ArboretumRecipeCategory.UID);
 		}
 
-		registration.addIngredientInfo(new ItemStack(BlockTileRegistry.BOTARIUM.getBlock()), VanillaTypes.ITEM, LangRegistry.jeiBotariumDescription.getKey());
-		registration.addIngredientInfo(new ItemStack(BlockTileRegistry.ARBORETUM.getBlock()), VanillaTypes.ITEM, LangRegistry.jeiArboretumDescription.getKey());
+		registration.addIngredientInfo(new ItemStack(BlockRegistry.BOTARIUM.getBlock()), VanillaTypes.ITEM, LangRegistry.jeiBotariumDescription.getKey());
+		registration.addIngredientInfo(new ItemStack(BlockRegistry.ARBORETUM.getBlock()), VanillaTypes.ITEM, LangRegistry.jeiArboretumDescription.getKey());
 	}
 
 	@Override

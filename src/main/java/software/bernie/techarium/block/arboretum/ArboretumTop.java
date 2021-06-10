@@ -10,7 +10,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.ToolType;
 import software.bernie.techarium.block.base.MachineBlock;
-import software.bernie.techarium.registry.BlockTileRegistry;
+import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
 
 import javax.annotation.Nonnull;
@@ -30,6 +30,6 @@ public class ArboretumTop extends MachineBlock<TopEnabledOnlySlave> {
 
     @Override
     public ItemStack getCloneItemStack(IBlockReader worldIn, BlockPos pos, BlockState state) {
-        return new ItemStack(BlockTileRegistry.ARBORETUM.getItem());
+        return new ItemStack(BlockRegistry.ARBORETUM.getItem());
     }
 }
