@@ -8,7 +8,7 @@ import net.minecraft.util.text.StringTextComponent;
 import software.bernie.techarium.display.screen.widget.FunctionImageButton;
 import software.bernie.techarium.display.screen.widget.awt.Dimension;
 import software.bernie.techarium.display.screen.widget.awt.Point;
-import software.bernie.techarium.pipe.capability.RedstoneControlType;
+import software.bernie.techarium.pipe.util.RedstoneControlType;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -31,7 +31,7 @@ public class RedstoneControlWidget extends Widget {
         this.getRedstoneControlType = getRedstoneControlType;
         this.setRedstoneControlType = setRedstoneControlType;
         for (RedstoneControlType redstoneControlType: RedstoneControlType.values()) {
-            redstoneActiveControlWidgets.put(redstoneControlType, new ImageButton(position.x + 1 + 18*redstoneControlType.ordinal(), position.y + 1, 12, 13, 139 + 12*redstoneControlType.ordinal(),100,0, MACHINE_COMPONENTS, (button) -> {}));
+            redstoneActiveControlWidgets.put(redstoneControlType, new ImageButton(position.x + 1 + 18*redstoneControlType.ordinal(), position.y + 1, 12, 13, 139 + 12*redstoneControlType.ordinal(),100,0, MACHINE_COMPONENTS, button -> {}));
             redstoneActiveControlWidgets.get(redstoneControlType).active = false;
             redstoneInactiveControlWidgets.put(redstoneControlType, new FunctionImageButton(position.add(new Point(1 + 18 * redstoneControlType.ordinal(), 8)), new Dimension(12, 13), new Point(139 + 12 * redstoneControlType.ordinal(), 113), 13, MACHINE_COMPONENTS, () -> setRedstoneControlType.accept(redstoneControlType)));
         }

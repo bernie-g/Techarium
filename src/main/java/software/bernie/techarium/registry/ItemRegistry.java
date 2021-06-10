@@ -8,7 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.item.PipeItem;
 import software.bernie.techarium.item.PowerStickDebug;
-import software.bernie.techarium.pipe.capability.PipeType;
+import software.bernie.techarium.pipe.util.PipeType;
 
 
 public class ItemRegistry

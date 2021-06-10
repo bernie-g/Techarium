@@ -4,18 +4,13 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import software.bernie.techarium.pipe.PipePosition;
-import software.bernie.techarium.pipe.capability.PipeType;
+import software.bernie.techarium.pipe.util.PipeType;
 
 public class EnergyPipeNetwork extends PipeNetwork<IEnergyStorage, Integer> {
 
     @Override
     public PipeType getType() {
         return PipeType.ENERGY;
-    }
-
-    @Override
-    public Filter<Integer> getFilter(PipePosition pipePosition) {
-        return new Filter<Integer>(){};
     }
 
     @Override

@@ -2,10 +2,12 @@ package software.bernie.techarium.pipe.networks;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.server.ServerWorld;
@@ -14,9 +16,12 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.logging.log4j.LogManager;
+import software.bernie.techarium.item.FilterItem;
 import software.bernie.techarium.pipe.PipePosition;
 import software.bernie.techarium.pipe.capability.PipeNetworkManagerCapability;
-import software.bernie.techarium.pipe.capability.PipeType;
+import software.bernie.techarium.pipe.util.PipeType;
+import software.bernie.techarium.pipe.util.PipeUsableConfig;
 import software.bernie.techarium.tile.pipe.PipeTile;
 
 import java.util.*;
@@ -59,10 +64,10 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
     private void executeInput(ServerWorld world, PipePosition inputPos, Cap inputCap) {
         for (int i = 0; i < getSlots(inputCap); i++) {
             ToTransport maxDrained = drain(inputCap, getMaxRemove(), i, true);
-            if (isEmpty(maxDrained) || !getFilter(inputPos).canPassThrough(maxDrained))
+            if (isEmpty(maxDrained) || !getFilter(world,inputPos, true).canPassThrough(maxDrained))
                 continue;
             for (MutablePair<Cap,PipePosition> output : getOrderedCapability(world)) {
-                if (!getFilter(output.getRight()).canPassThrough(maxDrained))
+                if (!getFilter(world,output.getRight(), false).canPassThrough(maxDrained))
                     continue; // fill next output
                 ToTransport filled = fill(output.getLeft(), maxDrained, false);
                 if (isEmpty(filled))
@@ -127,7 +132,24 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
         }
     }
 
-    public abstract Filter<ToTransport> getFilter(PipePosition pipePosition);
+    public Filter<ToTransport> getFilter(ServerWorld world, PipePosition pipePosition, boolean input) {
+        TileEntity tileEntity = world.getBlockEntity(pipePosition.getPos());
+        if (tileEntity instanceof PipeTile) {
+            PipeTile pipe = (PipeTile) tileEntity;
+            Map<Direction, PipeUsableConfig> usableConfigs = input ? pipe.getConfig().getInputUsableConfig() : pipe.getConfig().getOutputUsableConfig();
+            if (usableConfigs.containsKey(pipePosition.getDirection())) {
+                ItemStack stack = usableConfigs.get(pipePosition.getDirection()).getFilter();
+                if (stack.isEmpty()) {
+                    return new Filter<ToTransport>() {};
+                }
+                if (stack.getItem() instanceof FilterItem) {
+                    return ((FilterItem)stack.getItem()).getFilter(stack);
+                }
+            }
+        }
+        LogManager.getLogger().error("Could not get Filter @" + pipePosition + " for " + (input ? "input" : "output"));
+        return new Filter<ToTransport>() {};
+    }
 
     public LazyOptional<Cap> getCapability(ServerWorld world, PipePosition position) {
         if (world.getChunkSource().isEntityTickingChunk(new ChunkPos(position.getPos()))) {

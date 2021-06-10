@@ -7,6 +7,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import software.bernie.techarium.pipe.networks.PipeNetwork;
+import software.bernie.techarium.pipe.util.PipeType;
 
 import java.util.*;
 

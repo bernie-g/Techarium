@@ -8,6 +8,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.techarium.pipe.PipePosition;
 import software.bernie.techarium.pipe.networks.PipeNetwork;
+import software.bernie.techarium.pipe.util.PipeType;
 import software.bernie.techarium.tile.pipe.PipeTile;
 import org.apache.logging.log4j.LogManager;
 import java.util.*;

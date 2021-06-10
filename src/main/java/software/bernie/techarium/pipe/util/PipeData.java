@@ -1,4 +1,4 @@
-package software.bernie.techarium.block.pipe;
+package software.bernie.techarium.pipe.util;
 
 import lombok.Data;
 import net.minecraft.nbt.CompoundNBT;

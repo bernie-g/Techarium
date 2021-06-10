@@ -5,18 +5,13 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import software.bernie.techarium.pipe.PipePosition;
-import software.bernie.techarium.pipe.capability.PipeType;
+import software.bernie.techarium.pipe.util.PipeType;
 
 public class FluidPipeNetwork extends PipeNetwork<IFluidHandler, FluidStack> {
 
     @Override
     public PipeType getType() {
         return PipeType.FLUID;
-    }
-
-    @Override
-    public Filter<FluidStack> getFilter(PipePosition pipePosition) {
-        return new FluidFilter();
     }
 
     @Override

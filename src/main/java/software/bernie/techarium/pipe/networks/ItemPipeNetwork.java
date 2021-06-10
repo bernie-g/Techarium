@@ -5,18 +5,13 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import software.bernie.techarium.pipe.PipePosition;
-import software.bernie.techarium.pipe.capability.PipeType;
+import software.bernie.techarium.pipe.util.PipeType;
 
 public class ItemPipeNetwork extends PipeNetwork<IItemHandler, ItemStack> {
 
     @Override
     public PipeType getType() {
         return PipeType.ITEM;
-    }
-
-    @Override
-    public Filter<ItemStack> getFilter(PipePosition pipePosition) {
-        return new ItemFilter();
     }
 
     @Override

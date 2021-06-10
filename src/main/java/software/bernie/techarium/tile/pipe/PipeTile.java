@@ -18,11 +18,12 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.techarium.block.pipe.PipeBlock;
-import software.bernie.techarium.block.pipe.PipeData;
+import software.bernie.techarium.pipe.util.PipeConfig;
+import software.bernie.techarium.pipe.util.PipeData;
 import software.bernie.techarium.pipe.PipePosition;
 import software.bernie.techarium.pipe.capability.IPipeNetworkManagerCapability;
 import software.bernie.techarium.pipe.capability.PipeNetworkManagerCapability;
-import software.bernie.techarium.pipe.capability.PipeType;
+import software.bernie.techarium.pipe.util.PipeType;
 import software.bernie.techarium.pipe.networks.PipeNetwork;
 import software.bernie.techarium.registry.BlockTileRegistry;
 
@@ -36,7 +37,8 @@ public class PipeTile extends TileEntity {
 
     public boolean isInput = false;
     private Map<PipeType, UUID> type = new EnumMap<>(PipeType.class);
-
+    @Getter
+    private PipeConfig config = new PipeConfig();
     @Getter
     private PipeData displayData = new PipeData();
     public PipeTile() {
@@ -165,6 +167,7 @@ public class PipeTile extends TileEntity {
         }
         nbt.put("typeUUIDs", typeUUIDs);
         nbt.put("pipeData", displayData.serialize());
+        nbt.put("config", config.serializeNBT());
         return nbt;
     }
 
@@ -179,5 +182,6 @@ public class PipeTile extends TileEntity {
             type.put(PipeType.values()[compoundNBT.getInt("pipeType")], compoundNBT.getUUID("uuid"));
         }
         displayData = PipeData.deserialize((CompoundNBT)nbt.get("pipeData"));
+        config = PipeConfig.of((CompoundNBT)nbt.get("config"));
     }
 }
