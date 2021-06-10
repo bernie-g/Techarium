@@ -20,6 +20,11 @@ public class TechariumItemTagsProvider extends ItemTagsProvider {
         copy(TechariumTags.Blocks.ORES_LEAD, TechariumTags.Items.ORES_LEAD);
         copy(Tags.Blocks.ORES, Tags.Items.ORES);
 
+        copy(TechariumTags.Blocks.BLOCKS_ALUMINIUM, TechariumTags.Items.BLOCKS_ALUMINIUM);
+        copy(TechariumTags.Blocks.BLOCKS_COPPER, TechariumTags.Items.BLOCKS_COPPER);
+        copy(TechariumTags.Blocks.BLOCKS_LEAD, TechariumTags.Items.BLOCKS_LEAD);
+        copy(Tags.Blocks.STORAGE_BLOCKS, Tags.Items.STORAGE_BLOCKS);
+
         tag(TechariumTags.Items.INGOTS_ALUMINIUM).add(ItemRegistry.ALUMINIUM_INGOT.get());
         tag(TechariumTags.Items.INGOTS_COPPER).add(ItemRegistry.COPPER_INGOT.get());
         tag(TechariumTags.Items.INGOTS_LEAD).add(ItemRegistry.LEAD_INGOT.get());
