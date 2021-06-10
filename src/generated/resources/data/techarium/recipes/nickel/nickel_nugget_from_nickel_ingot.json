@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techarium:nickel_ingot"
+    }
+  ],
+  "result": {
+    "item": "techarium:nickel_nugget",
+    "count": 9
+  }
+}

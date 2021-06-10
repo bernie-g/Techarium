@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "aluminium_ingot",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "techarium:aluminium_nugget"
+    }
+  },
+  "result": {
+    "item": "techarium:aluminium_ingot"
+  }
+}

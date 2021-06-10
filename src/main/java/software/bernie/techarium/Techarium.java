@@ -56,13 +56,16 @@ public class Techarium
 	private void gatherData(GatherDataEvent event)
 	{
 		DataGenerator generator = event.getGenerator();
-		generator.addProvider(new TechariumRecipeProvider(generator));
-		generator.addProvider(new TechariumLangProvider(generator));
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 		TechariumBlockTagsProvider provider = new TechariumBlockTagsProvider(generator, existingFileHelper);
+
+		generator.addProvider(new TechariumRecipeProvider(generator));
+		generator.addProvider(new TechariumLangProvider(generator));
 		generator.addProvider(provider);
 		generator.addProvider(new TechariumItemTagsProvider(generator, provider, existingFileHelper));
-		generator.addProvider(new TechariumLootTables(generator));
+		generator.addProvider(new TechariumLootTableProvider(generator));
+		generator.addProvider(new TechariumBlockStateProvider(generator, existingFileHelper));
+		generator.addProvider(new TechariumItemModelProvider(generator, existingFileHelper));
 	}
 
 	public void enqueueIMC(InterModEnqueueEvent event) {

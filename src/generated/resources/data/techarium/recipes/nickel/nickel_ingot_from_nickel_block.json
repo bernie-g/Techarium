@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "nickel_ingot",
+  "ingredients": [
+    {
+      "item": "techarium:nickel_block"
+    }
+  ],
+  "result": {
+    "item": "techarium:nickel_ingot",
+    "count": 9
+  }
+}
