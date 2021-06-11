@@ -42,7 +42,7 @@ public class PipeTile extends TileEntity {
     @Getter
     private PipeData displayData = new PipeData();
     public PipeTile() {
-        super(BlockTileRegistry.PIPE.getTileEntityType());
+        super(BlockRegistry.PIPE.getTileEntityType());
     }
 
     public UUID getNetworkUUID(PipeType type) {

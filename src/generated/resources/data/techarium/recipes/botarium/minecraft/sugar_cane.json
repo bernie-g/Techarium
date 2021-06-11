@@ -13,8 +13,11 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
-  "output": {
-    "id": "minecraft:sugar_cane",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "minecraft:sugar_cane",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

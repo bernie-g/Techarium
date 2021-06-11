@@ -5,5 +5,6 @@ public enum GrowthType {
     FROM_BOTTOM,
     WITH_STEM,
     WALL,
-    AQUA
+    AQUA,
+    TREE
 }

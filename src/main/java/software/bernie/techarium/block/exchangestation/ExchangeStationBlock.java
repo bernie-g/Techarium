@@ -17,8 +17,6 @@ import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.block.AbstractBlock.Properties;
-
 public class ExchangeStationBlock extends MachineBlock<ExchangeStationTile> {
 
     public ExchangeStationBlock() {

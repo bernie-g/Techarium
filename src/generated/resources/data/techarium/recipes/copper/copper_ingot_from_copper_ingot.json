@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "copper_ingot",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "techarium:copper_nugget"
+    }
+  },
+  "result": {
+    "item": "techarium:copper_ingot"
+  }
+}

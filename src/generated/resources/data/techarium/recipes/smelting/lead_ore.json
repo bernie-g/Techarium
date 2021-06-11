@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "techarium:lead_ore"
+  },
+  "result": "techarium:lead_ingot",
+  "experience": 0.7,
+  "cookingtime": 200
+}

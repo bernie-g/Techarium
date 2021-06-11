@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techarium:lead_ingot"
+    }
+  ],
+  "result": {
+    "item": "techarium:lead_nugget",
+    "count": 9
+  }
+}

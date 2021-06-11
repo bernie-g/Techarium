@@ -19,8 +19,11 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
-  "output": {
-    "id": "thermal:barley",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "thermal:barley",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

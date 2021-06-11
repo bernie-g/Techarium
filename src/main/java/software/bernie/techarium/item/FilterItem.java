@@ -7,7 +7,7 @@ import software.bernie.techarium.registry.ItemGroupRegistry;
 
 public class FilterItem<ToTransport> extends Item {
     public FilterItem() {
-        this(new Properties().tab(ItemGroupRegistry.TECHARIUMS));
+        this(new Properties().tab(ItemGroupRegistry.TECHARIUM));
     }
     public FilterItem(Properties properties) {
         super(properties);

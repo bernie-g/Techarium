@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "facing=north": { "model": "techarium:block/botarium" },
-    "facing=east":  { "model": "techarium:block/botarium", "y": 90 },
-    "facing=south": { "model": "techarium:block/botarium", "y": 180 },
-    "facing=west":  { "model": "techarium:block/botarium", "y": 270 }
-  }
-}

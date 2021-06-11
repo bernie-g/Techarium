@@ -2,13 +2,10 @@ package software.bernie.techarium.tile.botarium;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -39,8 +36,8 @@ import java.util.Map;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.BOTARIUM_DRAWABLE;
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.BOTARIUM_OUTPUT_SLOT;
-import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM;
-import static software.bernie.techarium.registry.BlockTileRegistry.BOTARIUM_TOP;
+import static software.bernie.techarium.registry.BlockRegistry.BOTARIUM;
+import static software.bernie.techarium.registry.BlockRegistry.BOTARIUM_TOP;
 
 public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implements IAnimatable {
     private static final int SIZE_X = 172;
@@ -99,23 +96,24 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
         controller.addProgressBar(progressBarAddon
                 .setCanProgress(value -> {
                     BotariumRecipe recipe = getController().getCurrentRecipe();
-                    FluidStack fluid = controller.getMultiTank().getFluidTanks().get(0).getFluid();
-                    InventoryAddon output = controller.getMultiInventory().getInventoryByName("output").get();
-                    return recipe != null && output.getStackInSlot(0).getCount() + recipe.getResultItem().getCount() <= output.getSlotLimit(0) && getController().getEnergyStorage().getEnergyStored() > 0 && fluid.getAmount() >= recipe.getFluidIn().getAmount();
+                    return recipe != null && matchRecipe(recipe);
                 })
                 .setOnProgressFull(() -> handleProgressFinish(getController().getCurrentRecipe()))
                 .setOnProgressTick(() -> {
                     if (controller.getCurrentRecipe() != null) {
-                        controller.getLazyEnergyStorage().ifPresent(iEnergyStorage -> iEnergyStorage.extractEnergy(controller.getCurrentRecipe().getRfPerTick(), false));
+                        controller.getLazyEnergyStorage().ifPresent(iEnergyStorage -> iEnergyStorage
+                                .extractEnergy(controller.getCurrentRecipe().getRfPerTick(), false));
                     }
                 })
         );
 
-        controller.addTank(new FluidTankAddon(this, "fluidIn", 10000, 23, 35,
+        controller.addTank(new FluidTankAddon(this, "fluidIn", 10000, 23, 34,
                 (fluidStack -> true)));
 
         controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
-                .setInsertPredicate((itemStack, integer) -> Block.byItem(itemStack.getItem()) != Blocks.AIR)
+                .setInsertPredicate((itemStack, integer) -> this.level.getRecipeManager()
+                        .getAllRecipesFor(RecipeRegistry.BOTARIUM_RECIPE_TYPE).stream()
+                        .anyMatch(recipe -> recipe.getSoilIn().test(itemStack)))
                 .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 1));
 
         controller.addInventory(new InventoryAddon(this, "cropInput", 49, 35, 1)
@@ -128,7 +126,8 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
         );
 
         controller.addInventory(new InventoryAddon(this, "upgradeSlot", 83, 81, 4)
-                .setInsertPredicate((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem).setSlotPositionWithOffset(20));
+                .setInsertPredicate((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem)
+                .setSlotPositionWithOffset(20));
 
         controller.addInventory(
                 new DrawableInventoryAddon(this, "output", 182, 49, BOTARIUM_OUTPUT_SLOT, 178, 34, 65, 46, 3)
@@ -196,46 +195,33 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
 
     @Override
     public boolean matchRecipe(BotariumRecipe currentRecipe) {
-        if (currentRecipe.getCropType().test(getCropInventory().getStackInSlot(0))) {
-            if (currentRecipe.getSoilIn().test(getSoilInventory().getStackInSlot(0))) {
-                if (getController().getEnergyStorage().getEnergyStored() >= currentRecipe.getRfPerTick()) {
-                    FluidStack fluidIn = getFluidInventory().getFluid();
-                    if (fluidIn.isFluidEqual(
-                            currentRecipe.getFluidIn()) && fluidIn.getAmount() >= currentRecipe.getFluidIn().getAmount()) {
-                        if (getOutputInventory().getStackInSlot(0).isEmpty()) {
-                            return true;
-                        } else {
-                            if (getOutputInventory().getStackInSlot(
-                                    0).getCount() != getOutputInventory().getStackInSlot(0).getMaxStackSize()) {
-                                return currentRecipe.getResultItem().sameItem(getOutputInventory().getStackInSlot(0));
-                            }
-                        }
-                    }
-                }
-            }
+        if (!currentRecipe.getCropType().test(getCropInventory().getStackInSlot(0))) {
+            return false;
         }
-        return false;
+        if (!currentRecipe.getSoilIn().test(getSoilInventory().getStackInSlot(0))) {
+            return false;
+        }
+        if (!(getController().getEnergyStorage().getEnergyStored() >= currentRecipe.getRfPerTick())) {
+            return false;
+        }
+        if (!(getFluidInventory().getFluid().containsFluid(currentRecipe.getFluidIn()))) {
+            return false;
+        }
+
+        return getOutputInventory().canInsertItems(currentRecipe.getOutput().getCachedOutput());
     }
 
     @Override
     public void handleProgressFinish(BotariumRecipe currentRecipe) {
-        if (level != null) {
-            if (!level.isClientSide()) {
-                getController().getMultiTank().getTankOptional().ifPresent(
-                        multiTank -> multiTank.drain(currentRecipe.getFluidIn().getAmount(),
-                                IFluidHandler.FluidAction.EXECUTE));
-                ItemStack currentOut = getOutputInventory().getStackInSlot(0);
-                ItemStack stackIn = getCropInventory().getStackInSlot(
-                        0).getCount() == 0 ? ItemStack.EMPTY : currentRecipe.getResultItem();
-                if (currentOut.isEmpty()) {
-                    getOutputInventory().insertItem(0, stackIn, false);
-                } else {
-                    if (stackIn.sameItem(currentOut)) {
-                        getOutputInventory().insertItem(0, stackIn, false);
-                    }
-                }
-            }
+        if (level == null) {
+            return;
         }
+        if (level.isClientSide()) {
+            return;
+        }
+        getFluidInventory().drain(currentRecipe.getFluidIn().getAmount(), IFluidHandler.FluidAction.EXECUTE);
+        getOutputInventory().insertItems(currentRecipe.getOutput().getCachedOutput(), false);
+        currentRecipe.getOutput().reloadCache();
     }
 
     @Override

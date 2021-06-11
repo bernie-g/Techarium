@@ -19,8 +19,11 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
-  "output": {
-    "id": "thermal:rice",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "thermal:rice",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

@@ -1,12 +1,13 @@
 package software.bernie.techarium.integration.hwyla;
 
-import mcp.mobius.waila.api.*;
+import mcp.mobius.waila.api.IComponentProvider;
+import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IPluginConfig;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import software.bernie.techarium.registry.LangRegistry;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 import software.bernie.techarium.tile.base.MachineSlaveTile;
-import software.bernie.techarium.tile.base.MachineTileBase;
 
 import java.util.List;
 
@@ -33,11 +34,11 @@ public class HwylaTooltipRenderer implements IComponentProvider {
 
     private void appendToolTip(List<ITextComponent> tooltip, MachineMasterTile tile) {
         if (tile.getController().getCurrentRecipe() == null) {
-            tooltip.add(new TranslationTextComponent("hwyla.techarium.progress.no_recipe"));
+            tooltip.add(LangRegistry.hwylaProgressNoRecipe.get());
         } else {
             tile.getController().getMultiProgressBar().getProgressBarAddons().forEach(progressBarAddon -> {
                 if (progressBarAddon.getName().equals("techarium.gui.mainprogress")) {
-                    tooltip.add(new TranslationTextComponent("hwyla.techarium.progress.eta", (progressBarAddon.getMaxProgress() - progressBarAddon.getProgress()) / 20));
+                    tooltip.add(LangRegistry.hwylaProgressETA.get((progressBarAddon.getMaxProgress() - progressBarAddon.getProgress()) / (20 * progressBarAddon.getProgressToAdd())));
                 }
             });
         }

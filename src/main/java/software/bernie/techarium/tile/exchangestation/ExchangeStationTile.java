@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.EXCHANGE_STATION_DRAWABLE;
-import static software.bernie.techarium.registry.BlockTileRegistry.EXCHANGE_STATION;
+import static software.bernie.techarium.registry.BlockRegistry.EXCHANGE_STATION;
 
 public class ExchangeStationTile extends MachineMasterTile<ExchangeStationRecipe> implements IAnimatable {
 

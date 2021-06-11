@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techarium:copper_ingot"
+    }
+  ],
+  "result": {
+    "item": "techarium:copper_nugget",
+    "count": 9
+  }
+}

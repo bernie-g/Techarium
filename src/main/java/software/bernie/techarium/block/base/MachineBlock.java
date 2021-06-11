@@ -2,12 +2,11 @@ package software.bernie.techarium.block.base;
 
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -26,8 +25,6 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
 import java.util.function.Supplier;
-
-import net.minecraft.block.AbstractBlock.Properties;
 
 public abstract class MachineBlock<T extends MachineTileBase> extends BaseTileBlock<T> {
 
@@ -108,5 +105,10 @@ public abstract class MachineBlock<T extends MachineTileBase> extends BaseTileBl
 
     public BlockRegion getBlockSize() {
         return BlockRegion.FULL_BLOCK;
+    }
+
+    @Override
+    public boolean addDestroyEffects(BlockState state, World world, BlockPos pos, ParticleManager manager) {
+        return true;
     }
 }

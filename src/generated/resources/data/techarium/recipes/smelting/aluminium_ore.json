@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "techarium:aluminium_ore"
+  },
+  "result": "techarium:aluminium_ingot",
+  "experience": 0.7,
+  "cookingtime": 200
+}

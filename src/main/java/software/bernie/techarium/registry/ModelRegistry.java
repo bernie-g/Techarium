@@ -13,9 +13,6 @@ public class ModelRegistry
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event)
 	{
-		ModelLoader.addSpecialModel(new ResourceLocation(Techarium.ModID, "block/botarium_tier_1"));
-		ModelLoader.addSpecialModel(new ResourceLocation(Techarium.ModID, "block/arboratorium"));
-		ModelLoader.addSpecialModel(new ResourceLocation(Techarium.ModID, "block/exchange_station"));
 
 	}
 }

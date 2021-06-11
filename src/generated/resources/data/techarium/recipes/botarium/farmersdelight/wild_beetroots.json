@@ -19,8 +19,11 @@
     "FluidName": "minecraft:water",
     "Amount": 1000
   },
-  "output": {
-    "id": "minecraft:beetroot",
-    "Count": 1
-  }
+  "output": [
+    {
+      "item": "minecraft:beetroot",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
 }

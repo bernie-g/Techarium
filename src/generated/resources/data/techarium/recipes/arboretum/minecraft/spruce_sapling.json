@@ -1,0 +1,28 @@
+{
+  "type": "techarium:arboretum",
+  "progressPerTick": 1,
+  "maxProgress": 1000,
+  "rfPerTick": 10,
+  "cropIn": {
+    "item": "minecraft:spruce_sapling"
+  },
+  "soilIn": {
+    "tag": "forge:dirt"
+  },
+  "fluidIn": {
+    "FluidName": "minecraft:water",
+    "Amount": 1000
+  },
+  "output": [
+    {
+      "item": "minecraft:spruce_log",
+      "amount": 6,
+      "chance": 0.5
+    },
+    {
+      "item": "minecraft:spruce_sapling",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
+}

@@ -25,6 +25,16 @@ public class GuiAddonTextures {
             new ResourceLocation(ModID, "textures/gui/exchangestation/exchangestation.png"), 176, 222
     ).getFullArea();
 
+    //Arboretum Sheet
+    private static final UiTexture ARBORETUM_COMPONENTS = new UiTexture(
+            new ResourceLocation(ModID, "textures/gui/arboretum/arboretum_components.png"), 256, 256
+    );
+
+    //Arboretum Gui Background
+    public static final IDrawable ARBORETUM_DRAWABLE = new UiTexture(
+            new ResourceLocation(ModID, "textures/gui/arboretum/arboretum.png"), 203, 184
+    ).getFullArea();
+
 
 
     //Defaults
@@ -33,5 +43,6 @@ public class GuiAddonTextures {
     public static final IDrawable DEFAULT_PROGRESS_BAR = BOTARIUM_COMPONENTS.getArea(18, 50, 28, 2);
 
     public static final IDrawable BOTARIUM_OUTPUT_SLOT = BOTARIUM_COMPONENTS.getArea(49, 0, 65, 46);
+    public static final IDrawable ARBORETUM_OUTPUT_SLOT = ARBORETUM_COMPONENTS.getArea(49, 0, 65, 46);
 
 }
