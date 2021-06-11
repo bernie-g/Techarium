@@ -19,8 +19,8 @@ public class WorldGen {
                     BlockRegistry.COPPER_ORE.get().defaultBlockState(), 12, 55, 80, 20);
             generateOre(event.getGeneration(), OreFeatureConfig.FillerBlockType.NATURAL_STONE,
                     BlockRegistry.LEAD_ORE.get().defaultBlockState(), 8, 28, 40, 10);
-//            generateOre(event.getGeneration(), OreFeatureConfig.FillerBlockType.NATURAL_STONE,
-//                    BlockRegistry.ZINC_ORE.get().defaultBlockState(), 6, 16, 32, 5);
+            generateOre(event.getGeneration(), OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                    BlockRegistry.NICKEL_ORE.get().defaultBlockState(), 8, 28, 40, 10);
             generateOre(event.getGeneration(), OreFeatureConfig.FillerBlockType.NATURAL_STONE,
                     BlockRegistry.ALUMINIUM_ORE.get().defaultBlockState(), 4, 12, 24, 2);
         }
