@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public class PipeUsableConfig implements INBTSerializable<CompoundNBT> {

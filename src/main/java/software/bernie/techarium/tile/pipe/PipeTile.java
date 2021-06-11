@@ -74,7 +74,7 @@ public class PipeTile extends TileEntity {
                 for (Map.Entry<PipeType,UUID> uuid: type.entrySet()) {
                     Optional<PipeNetwork> network = manager.getByUUID(uuid.getValue());
                     if (network.isPresent()) {
-                        type.put(uuid.getKey(), network.get().getNewUUID((ServerWorld)level, worldPosition));
+                        type.put(uuid.getKey(), network.get().getNewUUID((ServerWorld) level, worldPosition));
                     } else {
                         LogManager.getLogger().error("can't find pre-save network");
                     }

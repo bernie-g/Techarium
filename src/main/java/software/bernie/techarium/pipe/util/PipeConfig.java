@@ -18,6 +18,17 @@ public class PipeConfig implements INBTSerializable<CompoundNBT> {
     @Getter
     private Map<Direction, PipeUsableConfig> outputUsableConfig = new EnumMap<>(Direction.class);
 
+    public PipeConfig() {
+        for (Direction direction : Direction.values()) {
+            inputUsableConfig.put(direction, new PipeUsableConfig());
+            outputUsableConfig.put(direction, new PipeUsableConfig());
+        }
+    }
+
+    public Map<Direction, PipeUsableConfig> getConfigBy(boolean isInput) {
+        return isInput ? inputUsableConfig : outputUsableConfig;
+    }
+
     public static PipeConfig of(CompoundNBT nbt) {
         PipeConfig config = new PipeConfig();
         config.deserializeNBT(nbt);

@@ -22,6 +22,7 @@ import software.bernie.techarium.pipe.PipePosition;
 import software.bernie.techarium.pipe.capability.PipeNetworkManagerCapability;
 import software.bernie.techarium.pipe.util.PipeType;
 import software.bernie.techarium.pipe.util.PipeUsableConfig;
+import software.bernie.techarium.pipe.util.RedstoneControlType;
 import software.bernie.techarium.tile.pipe.PipeTile;
 
 import java.util.*;
@@ -53,9 +54,11 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
             return false;
         }
         inputs.forEach(input -> {
-            LazyOptional<Cap> inputCap = getCapability(world, input);
-            if (inputCap.isPresent()) {
-                executeInput(world, input, inputCap.orElseThrow(NullPointerException::new));
+            if (canUseWithRedstone(world, input, true)) {
+                LazyOptional<Cap> inputCap = getCapability(world, input);
+                if (inputCap.isPresent()) {
+                    executeInput(world, input, inputCap.orElseThrow(NullPointerException::new));
+                }
             }
         });
         return false;
@@ -67,7 +70,7 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
             if (isEmpty(maxDrained) || !getFilter(world,inputPos, true).canPassThrough(maxDrained))
                 continue;
             for (MutablePair<Cap,PipePosition> output : getOrderedCapability(world)) {
-                if (!getFilter(world,output.getRight(), false).canPassThrough(maxDrained))
+                if (!canUseWithRedstone(world, output.getRight(), false) || !getFilter(world,output.getRight(), false).canPassThrough(maxDrained))
                     continue; // fill next output
                 ToTransport filled = fill(output.getLeft(), maxDrained, false);
                 if (isEmpty(filled))
@@ -149,6 +152,18 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
         }
         LogManager.getLogger().error("Could not get Filter @" + pipePosition + " for " + (input ? "input" : "output"));
         return new Filter<ToTransport>() {};
+    }
+    public boolean canUseWithRedstone(ServerWorld world, PipePosition pipePosition, boolean input) {
+        TileEntity tileEntity = world.getBlockEntity(pipePosition.getPos());
+        if (tileEntity instanceof PipeTile) {
+            PipeTile pipe = (PipeTile) tileEntity;
+            Map<Direction, PipeUsableConfig> usableConfigs = input ? pipe.getConfig().getInputUsableConfig() : pipe.getConfig().getOutputUsableConfig();
+            if (usableConfigs.containsKey(pipePosition.getDirection())) {
+                return usableConfigs.get(pipePosition.getDirection()).isUsable(world.getBestNeighborSignal(pipePosition.getPos()) > 0);
+            }
+        }
+        LogManager.getLogger().error("Could not get Filter @" + pipePosition + " for " + (input ? "input" : "output"));
+        return true;
     }
 
     public LazyOptional<Cap> getCapability(ServerWorld world, PipePosition position) {
