@@ -12,7 +12,7 @@ import net.minecraft.util.IntReferenceHolder;
 import net.minecraft.world.World;
 import software.bernie.techarium.pipe.PipePosition;
 import software.bernie.techarium.pipe.util.RedstoneControlType;
-import software.bernie.techarium.registry.BlockTileRegistry;
+import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.ContainerRegistry;
 import software.bernie.techarium.tile.pipe.PipeTile;
 
@@ -91,7 +91,7 @@ public class PipeContainer extends Container {
 
     @Override
     public boolean stillValid(PlayerEntity playerIn) {
-        return stillValid(worldPosCallable, playerIn, BlockTileRegistry.PIPE.getBlock());
+        return stillValid(worldPosCallable, playerIn, BlockRegistry.PIPE.getBlock());
     }
 
     @Override

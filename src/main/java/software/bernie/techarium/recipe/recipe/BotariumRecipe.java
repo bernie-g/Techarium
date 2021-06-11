@@ -3,13 +3,12 @@ package software.bernie.techarium.recipe.recipe;
 import com.google.gson.JsonObject;
 import lombok.Builder;
 import lombok.Getter;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
-import software.bernie.techarium.recipes.AbstractMachineRecipe;
+import software.bernie.techarium.recipe.AbstractMachineRecipe;
 import software.bernie.techarium.util.ChancedItemStackList;
 import software.bernie.techarium.util.JsonCodecUtils;
 

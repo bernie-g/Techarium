@@ -15,11 +15,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
 import software.bernie.techarium.datagen.*;
+import software.bernie.techarium.display.screen.AutomaticContainerScreen;
+import software.bernie.techarium.display.screen.PipeContainerScreen;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.integration.theoneprobe.TheOneProbeIntegration;
-import software.bernie.techarium.machine.screen.AutomaticContainerScreen;
-import software.bernie.techarium.pipes.NetworkEvents;
 import software.bernie.techarium.network.NetworkConnection;
+import software.bernie.techarium.pipe.NetworkEvents;
 import software.bernie.techarium.registry.*;
 import software.bernie.techarium.world.WorldGen;
 

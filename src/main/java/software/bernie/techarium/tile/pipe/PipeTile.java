@@ -25,7 +25,7 @@ import software.bernie.techarium.pipe.capability.IPipeNetworkManagerCapability;
 import software.bernie.techarium.pipe.capability.PipeNetworkManagerCapability;
 import software.bernie.techarium.pipe.util.PipeType;
 import software.bernie.techarium.pipe.networks.PipeNetwork;
-import software.bernie.techarium.registry.BlockTileRegistry;
+import software.bernie.techarium.registry.BlockRegistry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
