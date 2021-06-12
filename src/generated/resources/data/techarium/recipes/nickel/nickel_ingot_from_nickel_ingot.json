@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "nickel_ingot",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "techarium:nickel_nugget"
+    }
+  },
+  "result": {
+    "item": "techarium:nickel_ingot"
+  }
+}

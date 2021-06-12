@@ -4,7 +4,6 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
-import software.bernie.techarium.machine.container.AutomaticContainer;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -18,7 +17,7 @@ public abstract class ClientToServerContainerPacket<MSG extends ClientToServerCo
         this.packetCreator = packetCreator;
     }
 
-    protected ClientToServerContainerPacket(AutomaticContainer container) {
+    protected ClientToServerContainerPacket(Container container) {
         this.containerID = container.containerId;
     }
 
@@ -35,10 +34,10 @@ public abstract class ClientToServerContainerPacket<MSG extends ClientToServerCo
         return true;
     }
 
-    public Optional<AutomaticContainer> getContainer(NetworkEvent.Context context) {
+    public Optional<Container> getContainer(NetworkEvent.Context context) {
         Container container = context.getSender().containerMenu;
-        if (container.containerId == containerID && container instanceof AutomaticContainer) {
-            return Optional.of((AutomaticContainer) container);
+        if (container.containerId == containerID) {
+            return Optional.of(container);
         }
         return Optional.empty();
     }

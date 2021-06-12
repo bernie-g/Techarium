@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "copper_ingot",
+  "ingredients": [
+    {
+      "item": "techarium:copper_block"
+    }
+  ],
+  "result": {
+    "item": "techarium:copper_ingot",
+    "count": 9
+  }
+}

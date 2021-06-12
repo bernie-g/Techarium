@@ -5,7 +5,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import software.bernie.techarium.pipes.capability.PipeType;
+import software.bernie.techarium.pipe.util.PipeType;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.ItemGroupRegistry;
 
@@ -30,4 +30,5 @@ public class PipeItem extends BlockItem {
     public String getDescriptionId() {
         return getOrCreateDescriptionId();
     }
+
 }

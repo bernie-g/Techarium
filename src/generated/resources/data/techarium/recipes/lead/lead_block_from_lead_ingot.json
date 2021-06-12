@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "techarium:lead_ingot"
+    }
+  },
+  "result": {
+    "item": "techarium:lead_block"
+  }
+}

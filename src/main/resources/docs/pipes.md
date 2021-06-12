@@ -5,6 +5,8 @@ How to: Pipes
 
 * PipeItem
 * PipeTile
+  * PipeData
+  * PipeConfig
 * PipeBlock
 * PipeNetworks  
 * WorldCapability
@@ -22,6 +24,16 @@ BlockItems only show their block.asItem item in ItemGroups/Search. To prevent di
 
 The PipeTile has a Map translating PipeTypes to NetworkUUIDs. The UUIDs are used to identify networks without reference for easy usage through serialization/deserialization.  
 The onLoad Method is called, whenever a TilEntity is loaded. It's used to update TileEntity even when they are unloaded. For further information See Merging/Splitting networks.
+
+#### PipeData
+
+The PipeData is a representation of the networkData for Clients and Server.  
+They are synced to the client and influence the VoxelShape of the PipeBlock and the Rendering
+
+#### PipeConfig
+
+The PipeConfig is the logic representation of the networkData.  
+It exists only Serverside and contains configurationData like if the tile is an input/output, the redstone Control, filtering and other data used in the logical side of PipeNetworks
 
 ### PipeBlock
 

@@ -1,14 +1,7 @@
 package software.bernie.techarium.machine.addon.inventory;
 
-import com.google.common.collect.Lists;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.util.text.StringTextComponent;
 import software.bernie.techarium.client.screen.draw.IDrawable;
-import software.bernie.techarium.machine.interfaces.IFactory;
-import software.bernie.techarium.machine.screen.widget.DrawableWidget;
 import software.bernie.techarium.tile.base.MachineMasterTile;
-
-import java.util.List;
 
 public class DrawableInventoryAddon extends InventoryAddon {
 

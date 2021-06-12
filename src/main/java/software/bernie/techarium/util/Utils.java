@@ -8,8 +8,10 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.Direction;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.Rotation;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 
@@ -57,5 +59,12 @@ public class Utils {
             buffer[1] = VoxelShapes.empty();
         }
         return buffer[0];
+    }
+
+    public static boolean isInOrOn(BlockRayTraceResult blockRay, VoxelShape shape) {
+        double x = blockRay.getLocation().x - blockRay.getBlockPos().getX();
+        double y = blockRay.getLocation().y - blockRay.getBlockPos().getY();
+        double z = blockRay.getLocation().z - blockRay.getBlockPos().getZ();
+        return x >= shape.bounds().minX && x <= shape.bounds().maxX && y >= shape.bounds().minY && y <= shape.bounds().maxY && z >= shape.bounds().minZ && z <= shape.bounds().maxZ;
     }
 }

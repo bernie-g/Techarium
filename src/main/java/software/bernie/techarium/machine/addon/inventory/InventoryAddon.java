@@ -11,7 +11,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import org.apache.commons.lang3.tuple.Pair;
-import software.bernie.techarium.machine.container.component.SlotComponent;
+import software.bernie.techarium.display.container.component.SlotComponent;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.tile.base.MachineMasterTile;

@@ -4,35 +4,44 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.techarium.display.container.PipeContainer;
 import software.bernie.techarium.item.PipeItem;
-import software.bernie.techarium.pipes.capability.IPipeNetworkManagerCapability;
-import software.bernie.techarium.pipes.capability.PipeNetworkManagerCapability;
-import software.bernie.techarium.pipes.capability.PipeType;
+import software.bernie.techarium.pipe.PipePosition;
+import software.bernie.techarium.pipe.capability.IPipeNetworkManagerCapability;
+import software.bernie.techarium.pipe.capability.PipeNetworkManagerCapability;
+import software.bernie.techarium.pipe.util.PipeType;
+import software.bernie.techarium.pipe.util.PipeData;
 import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.tile.pipe.PipeTile;
 import software.bernie.techarium.util.Utils;
-
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -42,11 +51,11 @@ import java.util.stream.Collectors;
 public class PipeBlock extends Block {
 
     private static final VoxelShape SOUTH_END = box(4,4,15,12,12,16);
-    private static final VoxelShape SOUTH_PIPE = box(6,6,8,10,10,15);
+    private static final VoxelShape SOUTH_PIPE = box(6,6,6,10,10,16);
 
 
     public PipeBlock() {
-        super(AbstractBlock.Properties.of(Material.STONE).noOcclusion());
+        super(AbstractBlock.Properties.of(Material.STONE).noOcclusion().dynamicShape());
     }
 
     @Override
@@ -71,15 +80,49 @@ public class PipeBlock extends Block {
             }
         }
         if (!worldIn.isClientSide())
-            handlePlace(state, worldIn, pos, stack);
+            handlePlace(worldIn, pos, stack);
     }
 
     @Override
     public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         ItemStack activatedWith =  player.getItemInHand(handIn);
-        if (activatedWith.getItem() instanceof PipeItem && !worldIn.isClientSide && handlePlace(state, worldIn, pos, activatedWith))
+        if (activatedWith.getItem() instanceof PipeItem && !worldIn.isClientSide && handlePlace(worldIn, pos, activatedWith))
             return ActionResultType.CONSUME;
+        Direction side = clickedOnEnd(hit);
+        if (side != null && worldIn.isClientSide)
+            return ActionResultType.CONSUME;
+        if (!worldIn.isClientSide && player instanceof ServerPlayerEntity) {
+            if (side != null)
+                NetworkHooks.openGui(
+                        (ServerPlayerEntity) player,
+                        new INamedContainerProvider() {
+                            @Override
+                            public ITextComponent getDisplayName() {
+                                return StringTextComponent.EMPTY;
+                            }
+                            @Nullable
+                            @Override
+                            public Container createMenu(int containerID, PlayerInventory playerInventory, PlayerEntity player) {
+                                return new PipeContainer(containerID, playerInventory, IWorldPosCallable.create(worldIn, pos), new PipePosition(pos, side));
+                            }
+                        }
+                        , buffer -> buffer.writeNbt(new PipePosition(pos, side).serializeNBT())
+                );
+        }
         return super.use(state, worldIn, pos, player, handIn, hit);
+    }
+
+    /**
+     * @param rayTraceResult the ClickVector
+     * @return the End Direction or null if none
+     */
+    @Nullable
+    private Direction clickedOnEnd(BlockRayTraceResult rayTraceResult) {
+        for (Direction direction: Direction.values()) {
+            if (Utils.isInOrOn(rayTraceResult, Utils.rotateVoxelShape(SOUTH_END, direction)))
+                return direction;
+        }
+        return null;
     }
 
     @Override
@@ -140,6 +183,15 @@ public class PipeBlock extends Block {
     }
 
     @Override
+    public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos) {
+        return true;
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return getShape(state, worldIn, pos, context);
+    }
+    @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         TileEntity te = worldIn.getBlockEntity(pos);
         if (te instanceof PipeTile) {
@@ -157,7 +209,9 @@ public class PipeBlock extends Block {
         return super.getShape(state, worldIn, pos, context);
     }
 
-    private static boolean handlePlace(BlockState state, World world, BlockPos pos, ItemStack stack) {
+
+
+    private static boolean handlePlace(World world, BlockPos pos, ItemStack stack) {
         PipeType type = ((PipeItem)stack.getItem()).getType();
         PipeTile pipeTile = (PipeTile) world.getBlockEntity(pos);
         if (pipeTile.isType(type)) {
@@ -182,8 +236,8 @@ public class PipeBlock extends Block {
                 networkManager.appendToNetwork(pos, pipeTile, connectedNetwork.getValue());
                 break;
             default: // multiple
-                List<UUID> UUIDs = networks.entrySet().stream().map(Map.Entry::getValue).distinct().collect(Collectors.toList());
-                network = networkManager.mergeNetworks((ServerWorld)world, pos, pipeTile, UUIDs);
+                List<UUID> uuids = networks.entrySet().stream().map(Map.Entry::getValue).distinct().collect(Collectors.toList());
+                network = networkManager.mergeNetworks((ServerWorld)world, pos, pipeTile, uuids);
                 break;
         }
         pipeTile.addType(type, network);

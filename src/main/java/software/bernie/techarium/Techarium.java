@@ -15,15 +15,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
 import software.bernie.techarium.datagen.*;
+import software.bernie.techarium.display.screen.AutomaticContainerScreen;
+import software.bernie.techarium.display.screen.PipeContainerScreen;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.integration.theoneprobe.TheOneProbeIntegration;
-import software.bernie.techarium.machine.screen.AutomaticContainerScreen;
-import software.bernie.techarium.pipes.NetworkEvents;
 import software.bernie.techarium.network.NetworkConnection;
+import software.bernie.techarium.pipe.NetworkEvents;
 import software.bernie.techarium.registry.*;
+import software.bernie.techarium.util.LogCache;
 import software.bernie.techarium.world.WorldGen;
 
 import static software.bernie.techarium.registry.ContainerRegistry.AUTO_CONTAINER;
+import static software.bernie.techarium.registry.ContainerRegistry.PIPE_CONTAINER;
 
 @Mod(Techarium.ModID)
 public class Techarium
@@ -35,7 +38,7 @@ public class Techarium
 	{
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         GeckoLib.initialize();
-        LOGGER = LogManager.getLogger();
+        LOGGER = LogCache.getLogger(getClass());
 		ItemRegistry.register(bus);
 		BlockRegistry.register(bus);
 		ContainerRegistry.register(bus);
@@ -56,13 +59,16 @@ public class Techarium
 	private void gatherData(GatherDataEvent event)
 	{
 		DataGenerator generator = event.getGenerator();
-		generator.addProvider(new TechariumRecipeProvider(generator));
-		generator.addProvider(new TechariumLangProvider(generator));
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 		TechariumBlockTagsProvider provider = new TechariumBlockTagsProvider(generator, existingFileHelper);
+
+		generator.addProvider(new TechariumRecipeProvider(generator));
+		generator.addProvider(new TechariumLangProvider(generator));
 		generator.addProvider(provider);
 		generator.addProvider(new TechariumItemTagsProvider(generator, provider, existingFileHelper));
-		generator.addProvider(new TechariumLootTables(generator));
+		generator.addProvider(new TechariumLootTableProvider(generator));
+		generator.addProvider(new TechariumBlockStateProvider(generator, existingFileHelper));
+		generator.addProvider(new TechariumItemModelProvider(generator, existingFileHelper));
 	}
 
 	public void enqueueIMC(InterModEnqueueEvent event) {
@@ -72,5 +78,6 @@ public class Techarium
 	public void onClientSetup(FMLClientSetupEvent event)
 	{
 		ScreenManager.register(AUTO_CONTAINER.get(), AutomaticContainerScreen::new);
+		ScreenManager.register(PIPE_CONTAINER.get(), PipeContainerScreen::new);
 	}
 }

@@ -13,8 +13,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
 import software.bernie.techarium.machine.addon.fluid.MultiFluidTankAddon;
-import software.bernie.techarium.machine.container.AutomaticContainer;
-import static net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import software.bernie.techarium.display.container.AutomaticContainer;
 
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
@@ -57,7 +56,10 @@ public class FluidTankClickContainerPacket extends ClientToServerContainerPacket
 
     @Override
     void doAction(NetworkEvent.Context context) {
-        getContainer(context).ifPresent(container -> {
+        getContainer(context).ifPresent(tempContainer -> {
+            if (!(tempContainer instanceof AutomaticContainer))
+                return;
+            AutomaticContainer container = (AutomaticContainer) tempContainer;
             MultiFluidTankAddon multiTank = container.getMachineController().getMultiTank();
             if (multiTank.getFluidTanks().size() > fluidSlot && fluidSlot >= 0) {
                 FluidTankAddon singleTank = multiTank.getFluidTanks().get(fluidSlot);

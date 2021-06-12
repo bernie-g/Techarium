@@ -2,7 +2,7 @@ package software.bernie.techarium.item;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import software.bernie.techarium.pipes.networks.Filter;
+import software.bernie.techarium.pipe.networks.Filter;
 import software.bernie.techarium.registry.ItemGroupRegistry;
 
 public class FilterItem<ToTransport> extends Item {

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "lead_ingot",
+  "ingredients": [
+    {
+      "item": "techarium:lead_block"
+    }
+  ],
+  "result": {
+    "item": "techarium:lead_ingot",
+    "count": 9
+  }
+}

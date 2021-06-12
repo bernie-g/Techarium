@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "techarium:aluminium_ingot"
+    }
+  ],
+  "result": {
+    "item": "techarium:aluminium_nugget",
+    "count": 9
+  }
+}

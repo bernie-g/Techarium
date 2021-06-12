@@ -12,7 +12,7 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.openzen.zencode.java.ZenCodeType;
-import software.bernie.techarium.recipes.recipe.BotariumRecipe;
+import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.util.ChancedItemStack;
 import software.bernie.techarium.util.ChancedItemStackList;
