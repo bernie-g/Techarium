@@ -10,12 +10,10 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
-import pam.pamhc2crops.items.ItemPamSeed;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.integration.Integration;
 import software.bernie.techarium.integration.ModIntegrations;
-import software.bernie.techarium.recipes.recipe.BotariumRecipe;
+import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.TagRegistry;
 import software.bernie.techarium.util.ChancedItemStackList;
 

@@ -2,7 +2,7 @@ package software.bernie.techarium.integration.jei.panel;
 
 import mezz.jei.api.gui.handlers.IGuiContainerHandler;
 import net.minecraft.client.renderer.Rectangle2d;
-import software.bernie.techarium.machine.screen.AutomaticContainerScreen;
+import software.bernie.techarium.display.screen.AutomaticContainerScreen;
 
 import java.util.List;
 

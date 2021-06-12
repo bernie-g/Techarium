@@ -9,7 +9,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.item.PipeItem;
 import software.bernie.techarium.item.PowerStickDebug;
-import software.bernie.techarium.pipes.capability.PipeType;
+import software.bernie.techarium.pipe.util.PipeType;
 
 import java.util.function.Supplier;
 
