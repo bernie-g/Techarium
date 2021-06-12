@@ -4,6 +4,7 @@ install: skip
 os: linux
 dist: trusty
 jdk: oraclejdk8
-
+before_install:
+  - chmod +x gradlew
 script:
   - ./gradlew build --stracktrace
