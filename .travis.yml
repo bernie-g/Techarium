@@ -7,4 +7,4 @@ jdk: oraclejdk8
 before_install:
   - chmod +x gradlew
 script:
-  - ./gradlew build --stracktrace
+  - ./gradlew build --stacktrace
