@@ -5,8 +5,7 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 import software.bernie.techarium.display.screen.widget.FunctionImageButton;
-import software.bernie.techarium.display.screen.widget.awt.*;
-
+import software.bernie.techarium.util.Vector2i;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -16,19 +15,19 @@ public class BigInputOutput extends Widget {
 
     private static final ResourceLocation MACHINE_COMPONENTS = new ResourceLocation(ModID, "textures/gui/machine_components.png");
     private final Supplier<Boolean> isInput;
-    private static final Dimension size = new Dimension(13,25);
+    private static final Vector2i size = new Vector2i(13,25);
 
-    private static final Point offsetInput = new Point(0,0);
-    private static final Point offsetOutput = new Point(0,13);
+    private static final Vector2i offsetInput = Vector2i.ZERO;
+    private static final Vector2i offsetOutput = new Vector2i(0,13);
     private final FunctionImageButton inputButton, outputButton;
 
 
 
-    public BigInputOutput(Point position, Supplier<Boolean> isInput, Consumer<Boolean> setInput){
-        super(position.x, position.y, size.width, size.height, StringTextComponent.EMPTY);
+    public BigInputOutput(Vector2i position, Supplier<Boolean> isInput, Consumer<Boolean> setInput){
+        super(position.getX(), position.getY(), size.getX(), size.getY(), StringTextComponent.EMPTY);
         this.isInput = isInput;
-        this.inputButton = new FunctionImageButton(position.add(offsetInput), new Dimension(13,12), new Point(238,1), 13,MACHINE_COMPONENTS, ()-> setInput.accept(true));
-        this.outputButton = new FunctionImageButton(position.add(offsetOutput), new Dimension(13,12), new Point(238,27), 13,MACHINE_COMPONENTS,()-> setInput.accept(false));
+        this.inputButton = new FunctionImageButton(position.add(offsetInput), new Vector2i(13,12), new Vector2i(238,1), 13,MACHINE_COMPONENTS, ()-> setInput.accept(true));
+        this.outputButton = new FunctionImageButton(position.add(offsetOutput), new Vector2i(13,12), new Vector2i(238,27), 13,MACHINE_COMPONENTS,()-> setInput.accept(false));
     }
 
     @Override

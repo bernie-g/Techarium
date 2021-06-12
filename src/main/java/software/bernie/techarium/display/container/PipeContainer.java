@@ -58,6 +58,11 @@ public class PipeContainer extends Container {
         return Optional.empty();
     }
 
+    /**
+     * This method syncs Integer Values from server to Client. The {@link #addDataSlot} method adds an {@link IntReferenceHolder} to an internal list.
+     * The server repeatedly calls {@link IntReferenceHolder#get()} and checks if it's value has changed. If the value has changed a {@link net.minecraft.network.play.server.SWindowPropertyPacket} with the new value and the index of the {@link IntReferenceHolder} is send to the client and the {@link IntReferenceHolder#set(int)} method is called on the client. This way the client knows all the serverdata.
+     * Even though the class is called {@link IntReferenceHolder#get()} only the short representation is synced to the client. This is no issue here, because there are not more than {@link Short#MAX_VALUE} redstone control types.
+     */
     protected void startTracking() {
         Optional<PipeTile> pipeTileOptional = getPipeTile();
         pipeTileOptional.ifPresent(pipeTile ->
@@ -97,25 +102,5 @@ public class PipeContainer extends Container {
     @Override
     public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
         return ItemStack.EMPTY;
-        /*
-        ItemStack originalStack = ItemStack.EMPTY;
-        Slot fromSlot = this.inventorySlots.get(slot);
-        if (fromSlot != null && fromSlot.getHasStack()) {
-            ItemStack modifyStack = fromSlot.getStack();
-            originalStack = modifyStack.copy();
-            if (slot < inventory.getSizeInventory()) {
-                if (!this.mergeItemStack(modifyStack, inventory.getSizeInventory(), this.inventorySlots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (!this.mergeItemStack(modifyStack, 0, inventory.getSizeInventory(), false)) {
-                return ItemStack.EMPTY;
-            }
-            if (modifyStack.isEmpty()) {
-                fromSlot.putStack(ItemStack.EMPTY);
-            } else {
-                fromSlot.onSlotChanged();
-            }
-        }
-        return originalStack;*/
     }
 }

@@ -2,23 +2,20 @@ package software.bernie.techarium.display.screen.widget;
 
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.util.ResourceLocation;
-import software.bernie.techarium.display.screen.widget.awt.*;
+import software.bernie.techarium.util.Vector2i;
 
 
 public class FunctionImageButton extends ImageButton {
 
-    private final Action action;
+    private final Runnable runnable;
 
-     public FunctionImageButton(Point position, Dimension size, Point texturePosition, int yTextureOffset, ResourceLocation resourceLocationIn, Action func) {
-         super(position.x, position.y, size.width, size.height, texturePosition.x, texturePosition.y, yTextureOffset, resourceLocationIn, null);
-         action = func;
-    }
+     public FunctionImageButton(Vector2i position, Vector2i size, Vector2i texturePosition, int yTextureOffset, ResourceLocation resourceLocationIn, Runnable func) {
+         super(position.getX(), position.getY(), size.getX(), size.getY(), texturePosition.getX(), texturePosition.getY(), yTextureOffset, resourceLocationIn, null);
+         this.runnable = func;
+     }
 
     @Override
     public void onPress() {
-        action.doStuff();
-    }
-    public interface Action {
-        void doStuff();
+        runnable.run();
     }
 }

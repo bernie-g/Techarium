@@ -6,9 +6,9 @@ import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 import software.bernie.techarium.display.screen.widget.FunctionImageButton;
-import software.bernie.techarium.display.screen.widget.awt.Dimension;
-import software.bernie.techarium.display.screen.widget.awt.Point;
 import software.bernie.techarium.pipe.util.RedstoneControlType;
+import software.bernie.techarium.util.Vector2i;
+
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -20,20 +20,20 @@ public class RedstoneControlWidget extends Widget {
 
     private static final ResourceLocation MACHINE_COMPONENTS = new ResourceLocation(ModID, "textures/gui/machine_components.png");
 
-    private static final Dimension size = new Dimension(68,22);
+    private static final Vector2i size = new Vector2i(68,22);
     final Map<RedstoneControlType, Widget> redstoneActiveControlWidgets = new EnumMap<>(RedstoneControlType.class);
     final Map<RedstoneControlType, Widget> redstoneInactiveControlWidgets = new EnumMap<>(RedstoneControlType.class);
     final Supplier<RedstoneControlType> getRedstoneControlType;
     final Consumer<RedstoneControlType> setRedstoneControlType;
 
-    public RedstoneControlWidget(Point position, Supplier<RedstoneControlType> getRedstoneControlType, Consumer<RedstoneControlType> setRedstoneControlType) {
-        super (position.x, position.y, size.width, size.height, StringTextComponent.EMPTY);
+    public RedstoneControlWidget(Vector2i position, Supplier<RedstoneControlType> getRedstoneControlType, Consumer<RedstoneControlType> setRedstoneControlType) {
+        super (position.getX(), position.getY(), size.getX(), size.getY(), StringTextComponent.EMPTY);
         this.getRedstoneControlType = getRedstoneControlType;
         this.setRedstoneControlType = setRedstoneControlType;
         for (RedstoneControlType redstoneControlType: RedstoneControlType.values()) {
-            redstoneActiveControlWidgets.put(redstoneControlType, new ImageButton(position.x + 1 + 18*redstoneControlType.ordinal(), position.y + 1, 12, 13, 139 + 12*redstoneControlType.ordinal(),100,0, MACHINE_COMPONENTS, button -> {}));
+            redstoneActiveControlWidgets.put(redstoneControlType, new ImageButton(position.getX() + 1 + 18*redstoneControlType.ordinal(), position.getY() + 1, 12, 13, 139 + 12*redstoneControlType.ordinal(),100,0, MACHINE_COMPONENTS, button -> {}));
             redstoneActiveControlWidgets.get(redstoneControlType).active = false;
-            redstoneInactiveControlWidgets.put(redstoneControlType, new FunctionImageButton(position.add(new Point(1 + 18 * redstoneControlType.ordinal(), 8)), new Dimension(12, 13), new Point(139 + 12 * redstoneControlType.ordinal(), 113), 13, MACHINE_COMPONENTS, () -> setRedstoneControlType.accept(redstoneControlType)));
+            redstoneInactiveControlWidgets.put(redstoneControlType, new FunctionImageButton(position.add(new Vector2i(1 + 18 * redstoneControlType.ordinal(), 8)), new Vector2i(12, 13), new Vector2i(139 + 12 * redstoneControlType.ordinal(), 113), 13, MACHINE_COMPONENTS, () -> setRedstoneControlType.accept(redstoneControlType)));
         }
     }
 
@@ -46,7 +46,7 @@ public class RedstoneControlWidget extends Widget {
             if (redstoneInactiveControlWidgets.get(redstoneControlType).mouseClicked(mouseX, mouseY, button))
                 return true;
         }
-        return true;
+        return false;
     }
 
     @Override

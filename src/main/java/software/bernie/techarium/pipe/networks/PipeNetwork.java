@@ -22,7 +22,6 @@ import software.bernie.techarium.pipe.PipePosition;
 import software.bernie.techarium.pipe.capability.PipeNetworkManagerCapability;
 import software.bernie.techarium.pipe.util.PipeType;
 import software.bernie.techarium.pipe.util.PipeUsableConfig;
-import software.bernie.techarium.pipe.util.RedstoneControlType;
 import software.bernie.techarium.tile.pipe.PipeTile;
 
 import java.util.*;
@@ -53,6 +52,9 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
             //Don't remove, but also don't delete network information. There are still unsaved network information in here
             return false;
         }
+
+        if (world.getGameTime()%5 != uuid.getLeastSignificantBits()%5) //do pipe logic only every 5 ticks, but depending on the uuid, so that no lagg spikes appear every 5 ticks
+            return false;
         inputs.forEach(input -> {
             if (canUseWithRedstone(world, input, true)) {
                 LazyOptional<Cap> inputCap = getCapability(world, input);
@@ -162,7 +164,7 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
                 return usableConfigs.get(pipePosition.getDirection()).isUsable(world.getBestNeighborSignal(pipePosition.getPos()) > 0);
             }
         }
-        LogManager.getLogger().error("Could not get Filter @" + pipePosition + " for " + (input ? "input" : "output"));
+        LogManager.getLogger().error("Could not get RedstoneControl @" + pipePosition + " for " + (input ? "input" : "output"));
         return true;
     }
 
