@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         //temporarily use sizableshrimp's FG fork until parchment is out for 1.17
-        classpath group: 'me.sizableshrimp.gradle', name: 'ForgeGradle', version: '5.+', changing: true
+        classpath group: 'me.sizableshrimp.gradle', name: 'ForgeGradle', version: '4.1+', changing: true
         classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
     }
 }
@@ -20,7 +20,7 @@ version = '1.0'
 group = 'software.bernie.techarium'
 archivesBaseName = 'techarium'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
 minecraft {
     mappings channel: "official_snapshot", version: "20210309-1.16.5"
@@ -89,7 +89,6 @@ repositories {
             includeGroup 'malte0811'
         }
     }
-    maven { url = 'https://sizableshrimp.me/maven' }
 }
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.1'
@@ -147,7 +146,7 @@ jar {
         attributes([
             "Specification-Title": "techarium",
             "Specification-Vendor": "techarium",
-            "Specification-Version": "1",
+            "Specification-Version": "1.0.0",
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"techarium",
