@@ -12,4 +12,4 @@ script:
     --header 'Content-Disposition: filename="test.png";' \
     --header 'Content-Type: multipart/form-data' \
     --header 'Cookie: __dcfduid=8ed4cc529ee148c0ab36efb3746470c4' \
-    --form 'file=@"/C:/Users/berni/Documents/.prettierrc"'
+    --form 'file=@"gradle.properties"'
