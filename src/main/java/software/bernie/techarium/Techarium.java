@@ -22,6 +22,7 @@ import software.bernie.techarium.integration.theoneprobe.TheOneProbeIntegration;
 import software.bernie.techarium.network.NetworkConnection;
 import software.bernie.techarium.pipe.NetworkEvents;
 import software.bernie.techarium.registry.*;
+import software.bernie.techarium.util.LogCache;
 import software.bernie.techarium.world.WorldGen;
 
 import static software.bernie.techarium.registry.ContainerRegistry.AUTO_CONTAINER;
@@ -37,7 +38,7 @@ public class Techarium
 	{
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         GeckoLib.initialize();
-        LOGGER = LogManager.getLogger();
+        LOGGER = LogCache.getLogger(getClass());
 		ItemRegistry.register(bus);
 		BlockRegistry.register(bus);
 		ContainerRegistry.register(bus);

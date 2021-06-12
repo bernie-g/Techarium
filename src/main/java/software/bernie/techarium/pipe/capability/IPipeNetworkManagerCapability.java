@@ -11,6 +11,8 @@ import software.bernie.techarium.pipe.networks.PipeNetwork;
 import software.bernie.techarium.pipe.util.PipeType;
 import software.bernie.techarium.tile.pipe.PipeTile;
 import org.apache.logging.log4j.LogManager;
+import software.bernie.techarium.util.LogCache;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,7 +49,7 @@ public interface IPipeNetworkManagerCapability extends INBTSerializable<ListNBT>
                 network.getOutputs().addAll(generateAll(pos));
             }
         } else {
-            LogManager.getLogger().error("Could not find pipe network @ " + pos + " with ID: " + networkUUID);
+            LogCache.getLogger(IPipeNetworkManagerCapability.class).error("Could not find pipe network @ " + pos + " with ID: " + networkUUID);
         }
     }
 
@@ -77,7 +79,7 @@ public interface IPipeNetworkManagerCapability extends INBTSerializable<ListNBT>
             network.getInputs().removeIf(o -> o.equals(pos));
             network.getOutputs().removeIf(o -> o.equals(pos));
         } else {
-            LogManager.getLogger().error("Could not delete network with ID: " + networkUUID);
+            LogCache.getLogger(IPipeNetworkManagerCapability.class).error("Could not delete network with ID: " + networkUUID);
         }
     }
 
@@ -138,7 +140,7 @@ public interface IPipeNetworkManagerCapability extends INBTSerializable<ListNBT>
             }
             return newNetworks;
         } else {
-            LogManager.getLogger().error("Could not delete network with ID: " + networkUUID);
+            LogCache.getLogger(IPipeNetworkManagerCapability.class).error("Could not delete network with ID: " + networkUUID);
         }
         return new HashMap<>();
     }

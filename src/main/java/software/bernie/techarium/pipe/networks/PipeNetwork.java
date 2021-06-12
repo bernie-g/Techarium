@@ -19,10 +19,12 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.logging.log4j.LogManager;
 import software.bernie.techarium.item.FilterItem;
 import software.bernie.techarium.pipe.PipePosition;
+import software.bernie.techarium.pipe.capability.IPipeNetworkManagerCapability;
 import software.bernie.techarium.pipe.capability.PipeNetworkManagerCapability;
 import software.bernie.techarium.pipe.util.PipeType;
 import software.bernie.techarium.pipe.util.PipeUsableConfig;
 import software.bernie.techarium.tile.pipe.PipeTile;
+import software.bernie.techarium.util.LogCache;
 
 import java.util.*;
 
@@ -152,7 +154,7 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
                 }
             }
         }
-        LogManager.getLogger().error("Could not get Filter @" + pipePosition + " for " + (input ? "input" : "output"));
+        LogCache.getLogger(PipeNetwork.class).error("Could not get Filter @" + pipePosition + " for " + (input ? "input" : "output"));
         return new Filter<ToTransport>() {};
     }
     public boolean canUseWithRedstone(ServerWorld world, PipePosition pipePosition, boolean input) {
@@ -164,7 +166,7 @@ public abstract class PipeNetwork<Cap, ToTransport> implements INBTSerializable<
                 return usableConfigs.get(pipePosition.getDirection()).isUsable(world.getBestNeighborSignal(pipePosition.getPos()) > 0);
             }
         }
-        LogManager.getLogger().error("Could not get RedstoneControl @" + pipePosition + " for " + (input ? "input" : "output"));
+        LogCache.getLogger(PipeNetwork.class).error("Could not get RedstoneControl @" + pipePosition + " for " + (input ? "input" : "output"));
         return true;
     }
 
