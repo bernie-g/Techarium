@@ -13,31 +13,9 @@ before_install:
   - chmod +x gradlew
   - export AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
 script:
+  - echo Branch - ${TRAVIS_BRANCH}
+  - echo Commit Message - ${TRAVIS_COMMIT_MESSAGE}
+  - echo Author - ${AUTHOR_NAME}
+  - echo Is Pull Request - ${TRAVIS_PULL_REQUEST}
   - ./gradlew build --stacktrace
-  - |
-    if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-      curl --location --request POST "${DISCORD_WEBHOOK_URL}" \
-      --header 'Content-Disposition: filename="test.png";' \
-      --header 'Content-Type: application/json' \
-      --header 'Cookie: __dcfduid=8ed4cc529ee148c0ab36efb3746470c4' \
-      --data "{
-          \"content\": \"<@&853419684329816074>\",
-          \"embeds\": [
-              {
-                  \"color\": 9193502,
-                  \"description\": \"**Branch:** ${TRAVIS_BRANCH}\n\n**Update Details**:\`\`\`${TRAVIS_COMMIT_MESSAGE}\`\`\`\",
-                  \"footer\": {
-                      \"text\": \"Update Author: ${AUTHOR_NAME}\"
-                  }
-              }
-          ]
-      }"
-    fi
-  - |
-    if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-      curl --location --request POST "${DISCORD_WEBHOOK_URL}" \
-      --header 'Content-Disposition: filename="Techarium.jar";' \
-      --header 'Content-Type: multipart/form-data' \
-      --header 'Cookie: __dcfduid=8ed4cc529ee148c0ab36efb3746470c4' \
-      --form 'file=@"./build/libs/techarium-1.0.jar"'
-    fi
+  - ./gradlew run --stacktrace
