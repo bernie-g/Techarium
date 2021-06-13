@@ -1,0 +1,17 @@
+language: java
+install: skip
+os: linux
+dist: trusty
+jdk: oraclejdk8
+before_install:
+  - chmod +x gradlew
+  - export AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
+env:
+  - COMMIT_MESSAGE=${TRAVIS_COMMIT_MESSAGE}
+script:
+  - echo Branch - ${TRAVIS_BRANCH}
+  - echo Commit Message - ${TRAVIS_COMMIT_MESSAGE}
+  - echo Author - ${AUTHOR_NAME}
+  - echo Is Pull Request - ${TRAVIS_PULL_REQUEST}
+  - ./gradlew build --stacktrace
+  - ./gradlew run --stacktrace
