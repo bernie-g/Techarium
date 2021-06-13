@@ -18,10 +18,10 @@ script:
         "embeds": [
             {
                 "color": 9193502,
-                "description": "```pog new update```",
+                "description": "```TRAVIS_COMMIT_MESSAGE```",
                 "timestamp": "2021-06-12T23:50:06.854Z",
                 "footer": {
-                    "text": "Update Author: Gecko"
+                    "text": "Update Author: AUTHOR_NAME"
                 }
             }
         ]
