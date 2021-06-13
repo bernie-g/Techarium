@@ -13,9 +13,8 @@ before_install:
   - chmod +x gradlew
   - export AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
 script:
-  - ./gradlew build --stacktrace
   - |
-    curl --location --request POST "${DISCORD_WEBHOOK_URL}" \
+    if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then curl --location --request POST "${DISCORD_WEBHOOK_URL}" \
     --header 'Content-Disposition: filename="test.png";' \
     --header 'Content-Type: application/json' \
     --header 'Cookie: __dcfduid=8ed4cc529ee148c0ab36efb3746470c4' \
@@ -32,7 +31,7 @@ script:
         ]
     }"
   - |
-    curl --location --request POST "${DISCORD_WEBHOOK_URL}" \
+    if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then curl --location --request POST "${DISCORD_WEBHOOK_URL}" \
     --header 'Content-Disposition: filename="Techarium.jar";' \
     --header 'Content-Type: multipart/form-data' \
     --header 'Cookie: __dcfduid=8ed4cc529ee148c0ab36efb3746470c4' \
