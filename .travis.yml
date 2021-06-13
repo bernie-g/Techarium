@@ -6,10 +6,29 @@ dist: trusty
 jdk: oraclejdk8
 before_install:
   - chmod +x gradlew
+  - export AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
 script:
+  - ./gradlew build --stacktrace
   - |
     curl --location --request POST 'https://discord.com/api/webhooks/853408980066631690/qCPNwy97RdiuV7nx0G--hleg9fA__eFod2yPrJFT9VI99fg4njfU1qNo90iKBZAqtaMk' \
     --header 'Content-Disposition: filename="test.png";' \
     --header 'Content-Type: multipart/form-data' \
     --header 'Cookie: __dcfduid=8ed4cc529ee148c0ab36efb3746470c4' \
-    --form 'file=@"gradle.properties"'
+    --form 'payload_json="{
+        \"embeds\": [
+            {
+                \"color\": 9193502,
+                \"description\": \"```pog new update```\",
+                \"timestamp\": \"2021-06-12T23:50:06.854Z\",
+                \"footer\": {
+                    \"text\": \"Update Author: Gecko\"
+                }
+            }
+        ]
+    }"'
+  - |
+    curl --location --request POST 'https://discord.com/api/webhooks/853408980066631690/qCPNwy97RdiuV7nx0G--hleg9fA__eFod2yPrJFT9VI99fg4njfU1qNo90iKBZAqtaMk' \
+    --header 'Content-Disposition: filename="Techarium.jar";' \
+    --header 'Content-Type: multipart/form-data' \
+    --header 'Cookie: __dcfduid=8ed4cc529ee148c0ab36efb3746470c4' \
+    --form 'file=@"/build/libs/techarium-1.0.jar"'
