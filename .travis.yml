@@ -14,7 +14,7 @@ script:
     --header 'Content-Disposition: filename="test.png";' \
     --header 'Content-Type: application/json' \
     --header 'Cookie: __dcfduid=8ed4cc529ee148c0ab36efb3746470c4' \
-    --data-raw '{
+    --data '{
         "embeds": [
             {
                 "color": 9193502,
