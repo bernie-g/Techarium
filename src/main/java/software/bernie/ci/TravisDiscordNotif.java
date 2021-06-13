@@ -36,7 +36,7 @@ public class TravisDiscordNotif {
         String description = String
                 .format("**Branch:** %s\n\n**Update Details**:```%s```", branch_name, commit_message);
         String footer = String.format("Update Author: %s", author_name);
-        if (!isPullRequest) {
+        if (!isPullRequest && (branch_name.equals("master") || branch_name.equals("feature/CI"))) {
             WebhookClient.withUrl(webhook_url).send(
                     new WebhookMessageBuilder()
                             .setContent(buildPing)
