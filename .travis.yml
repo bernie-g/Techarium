@@ -10,8 +10,8 @@ before_install:
 script:
   - echo $TRAVIS_COMMIT_MESSAGE
   - echo ${TRAVIS_COMMIT_MESSAGE}
-  - echo '$TRAVIS_COMMIT_MESSAGE'
-  - echo '{$TRAVIS_COMMIT_MESSAGE}'
+  - echo $TRAVIS_COMMIT_MESSAGE
+  - echo {$TRAVIS_COMMIT_MESSAGE}
   - |
  curl --location --request POST 'https://discord.com/api/webhooks/853408980066631690/qCPNwy97RdiuV7nx0G--hleg9fA__eFod2yPrJFT9VI99fg4njfU1qNo90iKBZAqtaMk' \
     --header 'Content-Disposition: filename="test.png";' \
