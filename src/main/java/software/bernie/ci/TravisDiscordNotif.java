@@ -27,7 +27,7 @@ public class TravisDiscordNotif {
         Objects.requireNonNull(webhook_url);
         Objects.requireNonNull(travis_pull_request);
 
-        boolean isPullRequest = travis_pull_request.equals("true");
+        boolean isPullRequest = !travis_pull_request.equals("false");
         notifyDiscord(webhook_url, commit_message, author_name, branch_name, isPullRequest);
     }
 
