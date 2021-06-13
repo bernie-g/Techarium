@@ -13,6 +13,7 @@ before_install:
   - chmod +x gradlew
   - export AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
 script:
+  - ./gradlew build --stacktrace
   - |
     if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
       curl --location --request POST "${DISCORD_WEBHOOK_URL}" \
