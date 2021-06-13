@@ -21,7 +21,7 @@ script:
         \"embeds\": [
             {
                 \"color\": 9193502,
-                \"description\": \"${TRAVIS_COMMIT_MESSAGE}\",
+                \"description\": \"\`\`\`${TRAVIS_COMMIT_MESSAGE}\`\`\`\",
                 \"timestamp\": \"2021-06-12T23:50:06.854Z\",
                 \"footer\": {
                     \"text\": \"Update Author: ${AUTHOR_NAME}\"
