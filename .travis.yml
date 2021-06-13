@@ -1,6 +1,10 @@
 language: java
 install: skip
 
+branches:
+  only:
+    - master
+
 os: linux
 dist: trusty
 jdk: oraclejdk8
@@ -10,7 +14,7 @@ before_install:
 script:
   - ./gradlew build --stacktrace
   - |
-    curl --location --request POST 'https://discord.com/api/webhooks/853408980066631690/qCPNwy97RdiuV7nx0G--hleg9fA__eFod2yPrJFT9VI99fg4njfU1qNo90iKBZAqtaMk' \
+    curl --location --request POST "${DISCORD_WEBHOOK_URL}" \
     --header 'Content-Disposition: filename="test.png";' \
     --header 'Content-Type: application/json' \
     --header 'Cookie: __dcfduid=8ed4cc529ee148c0ab36efb3746470c4' \
@@ -19,8 +23,7 @@ script:
         \"embeds\": [
             {
                 \"color\": 9193502,
-                \"description\": \"\`\`\`${TRAVIS_COMMIT_MESSAGE}\`\`\`\",
-                \"timestamp\": \"2021-06-12T23:50:06.854Z\",
+                \"description\": \"**Branch:** ${TRAVIS_BRANCH}\n\n**Update Details**:\`\`\`${TRAVIS_COMMIT_MESSAGE}\`\`\`\",
                 \"footer\": {
                     \"text\": \"Update Author: ${AUTHOR_NAME}\"
                 }
@@ -28,7 +31,7 @@ script:
         ]
     }"
   - |
-    curl --location --request POST 'https://discord.com/api/webhooks/853408980066631690/qCPNwy97RdiuV7nx0G--hleg9fA__eFod2yPrJFT9VI99fg4njfU1qNo90iKBZAqtaMk' \
+    curl --location --request POST "${DISCORD_WEBHOOK_URL}" \
     --header 'Content-Disposition: filename="Techarium.jar";' \
     --header 'Content-Type: multipart/form-data' \
     --header 'Cookie: __dcfduid=8ed4cc529ee148c0ab36efb3746470c4' \
