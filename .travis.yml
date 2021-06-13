@@ -4,6 +4,7 @@ install: skip
 branches:
   only:
     - master
+    - feature/CI
 
 os: linux
 dist: trusty
