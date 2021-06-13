@@ -31,6 +31,7 @@ script:
               }
           ]
       }"
+    fi
   - |
     if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
       curl --location --request POST "${DISCORD_WEBHOOK_URL}" \
@@ -38,3 +39,4 @@ script:
       --header 'Content-Type: multipart/form-data' \
       --header 'Cookie: __dcfduid=8ed4cc529ee148c0ab36efb3746470c4' \
       --form 'file=@"./build/libs/techarium-1.0.jar"'
+    fi
