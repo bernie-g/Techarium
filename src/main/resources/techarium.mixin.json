@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "software.bernie.techarium.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "techarium.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "minVersion": "0.8"
+}
