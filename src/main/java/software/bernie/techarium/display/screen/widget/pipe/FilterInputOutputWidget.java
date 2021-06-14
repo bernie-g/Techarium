@@ -26,8 +26,8 @@ public class FilterInputOutputWidget extends Widget {
     public FilterInputOutputWidget(Vector2i position, Supplier<Boolean> isInput, Consumer<Boolean> setInput){
         super(position.getX(), position.getY(), size.getX(), size.getY(), StringTextComponent.EMPTY);
         this.isInput = isInput;
-        this.inputButton = new FunctionImageButton(position.add(offsetInput), new Vector2i(12,9), new Vector2i(207,62), 9,MACHINE_COMPONENTS, ()-> setInput.accept(true));
-        this.outputButton = new FunctionImageButton(position.add(offsetOutput), new Vector2i(12,9), new Vector2i(220,62), 9,MACHINE_COMPONENTS,()-> setInput.accept(false));
+        this.inputButton = new FunctionImageButton(position.add(offsetInput), new Vector2i(12,9), new Vector2i(213,1), 9,MACHINE_COMPONENTS, ()-> setInput.accept(true));
+        this.outputButton = new FunctionImageButton(position.add(offsetOutput), new Vector2i(12,9), new Vector2i(226,1), 9,MACHINE_COMPONENTS,()-> setInput.accept(false));
     }
 
     @Override

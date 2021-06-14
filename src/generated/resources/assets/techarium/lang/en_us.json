@@ -12,6 +12,10 @@
   "block.techarium.lead_ore": "Lead Ore",
   "block.techarium.nickel_block": "Nickel Block",
   "block.techarium.nickel_ore": "Nickel Ore",
+  "gui.techarium.pipe.input": "Input",
+  "gui.techarium.pipe.output": "Output",
+  "gui.techarium.pipe.round_robin": "Round-Robin",
+  "gui.techarium.pipe.self_feed": "Self Feed",
   "hwyla.techarium.progress.eta": "ETA: %s seconds remaining",
   "hwyla.techarium.progress.no_recipe": "ETA: No valid recipe",
   "item.techarium.aluminium_ingot": "Aluminium Ingot",
@@ -28,6 +32,6 @@
   "item.techarium.pipe_stick": "Pipe Stick",
   "itemGroup.techarium": "Techarium",
   "jei.techarium.arboretum.description": "The Arboretum allows you to grow saplings in exchange for energy and water",
-  "jei.techarium.botarium.description": "The Botarium allows you to grow crops in exchange for energy and water",
+  "jei.techarium.botarium.description": "The Botarium allows you to grow crops in exchange for energy and a suitable fluid",
   "top.techarium.progress.eta": "ETA: "
 }

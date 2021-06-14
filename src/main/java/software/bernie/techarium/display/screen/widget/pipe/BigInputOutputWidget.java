@@ -26,8 +26,8 @@ public class BigInputOutputWidget extends Widget {
     public BigInputOutputWidget(Vector2i position, Supplier<Boolean> isInput, Consumer<Boolean> setInput){
         super(position.getX(), position.getY(), size.getX(), size.getY(), StringTextComponent.EMPTY);
         this.isInput = isInput;
-        this.inputButton = new FunctionImageButton(position.add(offsetInput), new Vector2i(13,12), new Vector2i(238,1), 13,MACHINE_COMPONENTS, ()-> setInput.accept(true));
-        this.outputButton = new FunctionImageButton(position.add(offsetOutput), new Vector2i(13,12), new Vector2i(238,27), 13,MACHINE_COMPONENTS,()-> setInput.accept(false));
+        this.inputButton = new FunctionImageButton(position.add(offsetInput), new Vector2i(13,12), new Vector2i(240,1), 13,MACHINE_COMPONENTS, ()-> setInput.accept(true));
+        this.outputButton = new FunctionImageButton(position.add(offsetOutput), new Vector2i(13,12), new Vector2i(240,27), 13,MACHINE_COMPONENTS,()-> setInput.accept(false));
     }
 
     @Override

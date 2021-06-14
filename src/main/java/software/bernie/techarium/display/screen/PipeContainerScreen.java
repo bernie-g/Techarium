@@ -1,11 +1,14 @@
 package software.bernie.techarium.display.screen;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.client.screen.draw.UiTexture;
 import software.bernie.techarium.display.container.PipeContainer;
@@ -17,6 +20,8 @@ import software.bernie.techarium.network.container.ChangedMainConfigContainerPac
 import software.bernie.techarium.network.container.ChangedRedstoneControlTypeContainerPacket;
 import software.bernie.techarium.network.NetworkConnection;
 import software.bernie.techarium.pipe.util.RedstoneControlType;
+import software.bernie.techarium.registry.LangRegistry;
+import software.bernie.techarium.util.Utils;
 import software.bernie.techarium.util.Vector2i;
 
 import static software.bernie.techarium.Techarium.ModID;
@@ -54,6 +59,15 @@ public class PipeContainerScreen extends DrawableContainerScreen<PipeContainer> 
                     () -> pipeTile.getConfig().getMainConfig().get(getMenu().tilePos.getDirection()),
                     config -> NetworkConnection.INSTANCE.sendToServer(new ChangedMainConfigContainerPacket(getMenu(),config))));
         });
+    }
+
+    @Override
+    protected void renderCustomToolTips(MatrixStack matrixStack, int mouseX, int mouseY, int xCenter, int yCenter) {
+        super.renderCustomToolTips(matrixStack, mouseX, mouseY, xCenter, yCenter);
+        font.draw(matrixStack, LangRegistry.guiPipeInput.get(), 38,13, 0x1D2B33);
+        font.draw(matrixStack, LangRegistry.guiPipeOutput.get(), 38,31, 0x1D2B33);
+        font.draw(matrixStack, LangRegistry.guiPipeRoundRobin.get(), 38,49, 0x1D2B33);
+        font.draw(matrixStack, LangRegistry.guiPipeSelfFeed.get(), 38,67, 0x1D2B33);
     }
 
     @Override
