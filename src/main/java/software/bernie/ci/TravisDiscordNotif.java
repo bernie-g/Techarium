@@ -24,7 +24,6 @@ public class TravisDiscordNotif {
         Objects.requireNonNull(commit_message);
         Objects.requireNonNull(author_name);
         Objects.requireNonNull(branch_name);
-        Objects.requireNonNull(webhook_url);
         Objects.requireNonNull(travis_pull_request);
 
         boolean isPullRequest = !travis_pull_request.equals("false");
