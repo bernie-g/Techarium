@@ -27,7 +27,7 @@ version = "${mod_version}"
 group = "${mod_base_package}.${mod_id}"
 archivesBaseName = "${project.jar_name}-${minecraft_version}"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 ext {
     javaMainClass = "software.bernie.ci.TravisDiscordNotif"
@@ -95,9 +95,7 @@ mixin {
 repositories {
     maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
     maven { url 'https://repo.repsy.io/mvn/fadookie/particleman' }
-    maven {
-        url = "https://www.cursemaven.com"
-    }
+    maven { url = "https://www.cursemaven.com" }
     maven {
         // location of the maven that hosts JEI files
         name = "Progwml6 maven"
@@ -146,7 +144,7 @@ dependencies {
     implementation fg.deobf("curse.maven:thermal-foundation-222880:${thermal_foundation_version}")
     implementation fg.deobf("curse.maven:xl-food-mod-plus-448703:${xl_food_plus_version}")
     implementation fg.deobf("curse.maven:farmers-delight-398521:${farmers_delight_version}")
-    //compile fg.deobf("curse.maven:immersive-engineering-231951:3233018")
+
     implementation fg.deobf("com.teamcofh:CoFHCore:${cofh_core_version}")
     compileOnly fg.deobf("blusunrize.immersiveengineering:ImmersiveEngineering:${immersive_engineering_version}")
 
