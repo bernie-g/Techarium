@@ -11,17 +11,21 @@ import net.minecraftforge.common.util.INBTSerializable;
 import java.util.EnumMap;
 import java.util.Map;
 
+@Getter
 public class PipeConfig implements INBTSerializable<CompoundNBT> {
 
-    @Getter
+
     private Map<Direction, PipeUsableConfig> inputUsableConfig = new EnumMap<>(Direction.class);
-    @Getter
+
     private Map<Direction, PipeUsableConfig> outputUsableConfig = new EnumMap<>(Direction.class);
+
+    private Map<Direction, PipeMainConfig> mainConfig = new EnumMap<>(Direction.class);
 
     public PipeConfig() {
         for (Direction direction : Direction.values()) {
             inputUsableConfig.put(direction, new PipeUsableConfig());
             outputUsableConfig.put(direction, new PipeUsableConfig());
+            mainConfig.put(direction, new PipeMainConfig());
         }
     }
 
@@ -54,6 +58,14 @@ public class PipeConfig implements INBTSerializable<CompoundNBT> {
             mapEntries.add(tempNBT);
         }
         nbt.put("output", mapEntries);
+        mapEntries = new ListNBT();
+        for (Map.Entry<Direction, PipeMainConfig> entry: mainConfig.entrySet()) {
+            CompoundNBT tempNBT = new CompoundNBT();
+            tempNBT.putInt("direction", entry.getKey().ordinal());
+            tempNBT.put("usable", entry.getValue().serializeNBT());
+            mapEntries.add(tempNBT);
+        }
+        nbt.put("main", mapEntries);
         return nbt;
     }
 
@@ -68,6 +80,11 @@ public class PipeConfig implements INBTSerializable<CompoundNBT> {
         for (INBT inbt: mapEntries) {
             CompoundNBT tempNBT = (CompoundNBT) inbt;
             outputUsableConfig.put(Direction.values()[tempNBT.getInt("direction")], PipeUsableConfig.of((CompoundNBT)tempNBT.get("usable")));
+        }
+        mapEntries = nbt.getList("main", Constants.NBT.TAG_COMPOUND);
+        for (INBT inbt: mapEntries) {
+            CompoundNBT tempNBT = (CompoundNBT) inbt;
+            mainConfig.put(Direction.values()[tempNBT.getInt("direction")], PipeMainConfig.of((CompoundNBT)tempNBT.get("usable")));
         }
     }
 }

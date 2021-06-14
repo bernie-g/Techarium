@@ -1,4 +1,4 @@
-package software.bernie.techarium.network;
+package software.bernie.techarium.network.container;
 
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BucketItem;
@@ -39,7 +39,7 @@ public class FluidTankClickContainerPacket extends ClientToServerContainerPacket
         this.fluidSlot = fluidSlot;
     }
 
-    FluidTankClickContainerPacket(PacketBuffer readFrom) {
+    public FluidTankClickContainerPacket(PacketBuffer readFrom) {
         super(readFrom);
         button = readFrom.readInt();
         shift = readFrom.readBoolean();
@@ -47,7 +47,7 @@ public class FluidTankClickContainerPacket extends ClientToServerContainerPacket
     }
 
     @Override
-    void write(PacketBuffer writeInto) {
+    public void write(PacketBuffer writeInto) {
         super.write(writeInto);
         writeInto.writeInt(button);
         writeInto.writeBoolean(shift);
@@ -55,7 +55,7 @@ public class FluidTankClickContainerPacket extends ClientToServerContainerPacket
     }
 
     @Override
-    void doAction(NetworkEvent.Context context) {
+    public void doAction(NetworkEvent.Context context) {
         getContainer(context).ifPresent(tempContainer -> {
             if (!(tempContainer instanceof AutomaticContainer))
                 return;

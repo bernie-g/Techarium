@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 import static software.bernie.techarium.Techarium.ModID;
 
-public class FilterInputOutput extends Widget {
+public class FilterInputOutputWidget extends Widget {
 
     private static final ResourceLocation MACHINE_COMPONENTS = new ResourceLocation(ModID, "textures/gui/machine_components.png");
     private final Supplier<Boolean> isInput;
@@ -23,7 +23,7 @@ public class FilterInputOutput extends Widget {
 
 
 
-    public FilterInputOutput(Vector2i position, Supplier<Boolean> isInput, Consumer<Boolean> setInput){
+    public FilterInputOutputWidget(Vector2i position, Supplier<Boolean> isInput, Consumer<Boolean> setInput){
         super(position.getX(), position.getY(), size.getX(), size.getY(), StringTextComponent.EMPTY);
         this.isInput = isInput;
         this.inputButton = new FunctionImageButton(position.add(offsetInput), new Vector2i(12,9), new Vector2i(207,62), 9,MACHINE_COMPONENTS, ()-> setInput.accept(true));

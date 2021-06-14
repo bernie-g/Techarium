@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 import static software.bernie.techarium.Techarium.ModID;
 
-public class BigInputOutput extends Widget {
+public class BigInputOutputWidget extends Widget {
 
     private static final ResourceLocation MACHINE_COMPONENTS = new ResourceLocation(ModID, "textures/gui/machine_components.png");
     private final Supplier<Boolean> isInput;
@@ -23,7 +23,7 @@ public class BigInputOutput extends Widget {
 
 
 
-    public BigInputOutput(Vector2i position, Supplier<Boolean> isInput, Consumer<Boolean> setInput){
+    public BigInputOutputWidget(Vector2i position, Supplier<Boolean> isInput, Consumer<Boolean> setInput){
         super(position.getX(), position.getY(), size.getX(), size.getY(), StringTextComponent.EMPTY);
         this.isInput = isInput;
         this.inputButton = new FunctionImageButton(position.add(offsetInput), new Vector2i(13,12), new Vector2i(238,1), 13,MACHINE_COMPONENTS, ()-> setInput.accept(true));

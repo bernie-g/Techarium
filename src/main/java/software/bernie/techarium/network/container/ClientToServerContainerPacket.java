@@ -1,9 +1,10 @@
-package software.bernie.techarium.network;
+package software.bernie.techarium.network.container;
 
 import net.minecraft.inventory.container.Container;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
+import software.bernie.techarium.network.Packet;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -26,11 +27,11 @@ public abstract class ClientToServerContainerPacket<MSG extends ClientToServerCo
     }
 
     @Override
-    void write(PacketBuffer writeInto) {
+    public void write(PacketBuffer writeInto) {
         writeInto.writeInt(containerID);
     }
     @Override
-    boolean isValid(NetworkEvent.Context context) {
+    public boolean isValid(NetworkEvent.Context context) {
         return true;
     }
 
@@ -43,11 +44,11 @@ public abstract class ClientToServerContainerPacket<MSG extends ClientToServerCo
     }
 
     @Override
-    final Optional<NetworkDirection> getDirection() {
+    public final Optional<NetworkDirection> getDirection() {
         return Optional.of(NetworkDirection.PLAY_TO_SERVER);
     }
 
-    MSG create(PacketBuffer readFrom) {
+    public MSG create(PacketBuffer readFrom) {
         return packetCreator.apply(readFrom);
     }
 }

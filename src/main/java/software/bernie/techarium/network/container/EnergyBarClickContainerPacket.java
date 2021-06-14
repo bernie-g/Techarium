@@ -1,4 +1,4 @@
-package software.bernie.techarium.network;
+package software.bernie.techarium.network.container;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
@@ -29,13 +29,13 @@ public class EnergyBarClickContainerPacket extends ClientToServerContainerPacket
     }
 
     @Override
-    void write(PacketBuffer writeInto) {
+    public void write(PacketBuffer writeInto) {
         super.write(writeInto);
         writeInto.writeInt(button);
     }
 
     @Override
-    void doAction(NetworkEvent.Context context) {
+    public void doAction(NetworkEvent.Context context) {
         getContainer(context).ifPresent(tempContainer -> {
             if (!(tempContainer instanceof AutomaticContainer))
                 return;
