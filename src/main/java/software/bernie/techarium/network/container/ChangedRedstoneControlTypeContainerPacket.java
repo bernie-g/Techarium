@@ -1,4 +1,4 @@
-package software.bernie.techarium.network;
+package software.bernie.techarium.network.container;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -27,14 +27,14 @@ public class ChangedRedstoneControlTypeContainerPacket extends ClientToServerCon
     }
 
     @Override
-    void write(PacketBuffer writeInto) {
+    public void write(PacketBuffer writeInto) {
         super.write(writeInto);
         writeInto.writeInt(type.ordinal());
         writeInto.writeBoolean(input);
     }
 
     @Override
-    void doAction(NetworkEvent.Context context) {
+    public void doAction(NetworkEvent.Context context) {
         getContainer(context).ifPresent(tempContainer -> {
             if (!(tempContainer instanceof PipeContainer))
                 return;

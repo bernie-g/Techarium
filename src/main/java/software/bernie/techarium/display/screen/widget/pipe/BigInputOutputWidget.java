@@ -6,32 +6,32 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 import software.bernie.techarium.display.screen.widget.FunctionImageButton;
 import software.bernie.techarium.util.Vector2i;
-
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static software.bernie.techarium.Techarium.ModID;
 
-public class FilterInputOutput extends Widget {
+public class BigInputOutputWidget extends Widget {
 
     private static final ResourceLocation MACHINE_COMPONENTS = new ResourceLocation(ModID, "textures/gui/machine_components.png");
     private final Supplier<Boolean> isInput;
-    private static final Vector2i size = new Vector2i(11,17);
+    private static final Vector2i size = new Vector2i(13,25);
+
     private static final Vector2i offsetInput = Vector2i.ZERO;
-    private static final Vector2i offsetOutput = new Vector2i(0,9);
+    private static final Vector2i offsetOutput = new Vector2i(0,13);
     private final FunctionImageButton inputButton, outputButton;
 
 
 
-    public FilterInputOutput(Vector2i position, Supplier<Boolean> isInput, Consumer<Boolean> setInput){
+    public BigInputOutputWidget(Vector2i position, Supplier<Boolean> isInput, Consumer<Boolean> setInput){
         super(position.getX(), position.getY(), size.getX(), size.getY(), StringTextComponent.EMPTY);
         this.isInput = isInput;
-        this.inputButton = new FunctionImageButton(position.add(offsetInput), new Vector2i(12,9), new Vector2i(207,62), 9,MACHINE_COMPONENTS, ()-> setInput.accept(true));
-        this.outputButton = new FunctionImageButton(position.add(offsetOutput), new Vector2i(12,9), new Vector2i(220,62), 9,MACHINE_COMPONENTS,()-> setInput.accept(false));
+        this.inputButton = new FunctionImageButton(position.add(offsetInput), new Vector2i(13,12), new Vector2i(240,1), 13,MACHINE_COMPONENTS, ()-> setInput.accept(true));
+        this.outputButton = new FunctionImageButton(position.add(offsetOutput), new Vector2i(13,12), new Vector2i(240,27), 13,MACHINE_COMPONENTS,()-> setInput.accept(false));
     }
 
     @Override
-    public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         inputButton.visible = visible;
         outputButton.visible = visible;
         if (Boolean.FALSE.equals(isInput.get())) {

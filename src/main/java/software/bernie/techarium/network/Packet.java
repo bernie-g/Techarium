@@ -13,19 +13,19 @@ public abstract class Packet<MSG extends Packet<MSG>> {
     protected Packet() {
     }
 
-    abstract boolean isValid(NetworkEvent.Context context);
+    public abstract boolean isValid(NetworkEvent.Context context);
 
-    abstract Optional<NetworkDirection> getDirection();
+    public abstract Optional<NetworkDirection> getDirection();
 
 
-    abstract void write(PacketBuffer writeInto);
+    public abstract void write(PacketBuffer writeInto);
 
-    abstract MSG create(PacketBuffer readFrom);
+    public abstract MSG create(PacketBuffer readFrom);
 
     /*
      * Run on dummy instance of Packet
      */
-    void handle(MSG msg, Supplier<NetworkEvent.Context> context) {
+    public void handle(MSG msg, Supplier<NetworkEvent.Context> context) {
         if(msg.isValid(context.get())) {
             context.get().enqueueWork(() -> msg.doAction(context.get()));
         }
@@ -36,5 +36,5 @@ public abstract class Packet<MSG extends Packet<MSG>> {
     /*
      * Executes Packet
      */
-    abstract void doAction(NetworkEvent.Context context);
+    public abstract void doAction(NetworkEvent.Context context);
 }

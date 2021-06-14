@@ -31,9 +31,9 @@ public class RedstoneControlWidget extends Widget {
         this.getRedstoneControlType = getRedstoneControlType;
         this.setRedstoneControlType = setRedstoneControlType;
         for (RedstoneControlType redstoneControlType: RedstoneControlType.values()) {
-            redstoneActiveControlWidgets.put(redstoneControlType, new ImageButton(position.getX() + 1 + 18*redstoneControlType.ordinal(), position.getY() + 1, 12, 13, 139 + 12*redstoneControlType.ordinal(),100,0, MACHINE_COMPONENTS, button -> {}));
+            redstoneActiveControlWidgets.put(redstoneControlType, new ImageButton(position.getX() + 1 + 18*redstoneControlType.ordinal(), position.getY() + 1, 12, 13, 163 + 12*redstoneControlType.ordinal(),1,0, MACHINE_COMPONENTS, button -> {}));
             redstoneActiveControlWidgets.get(redstoneControlType).active = false;
-            redstoneInactiveControlWidgets.put(redstoneControlType, new FunctionImageButton(position.add(new Vector2i(1 + 18 * redstoneControlType.ordinal(), 8)), new Vector2i(12, 13), new Vector2i(139 + 12 * redstoneControlType.ordinal(), 113), 13, MACHINE_COMPONENTS, () -> setRedstoneControlType.accept(redstoneControlType)));
+            redstoneInactiveControlWidgets.put(redstoneControlType, new FunctionImageButton(position.add(new Vector2i(1 + 18 * redstoneControlType.ordinal(), 8)), new Vector2i(12, 13), new Vector2i(163 + 12 * redstoneControlType.ordinal(), 14), 13, MACHINE_COMPONENTS, () -> setRedstoneControlType.accept(redstoneControlType)));
         }
     }
 

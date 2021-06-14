@@ -17,6 +17,8 @@ import software.bernie.techarium.registry.ContainerRegistry;
 import software.bernie.techarium.tile.pipe.PipeTile;
 
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class PipeContainer extends Container {
 
@@ -65,33 +67,39 @@ public class PipeContainer extends Container {
      */
     protected void startTracking() {
         Optional<PipeTile> pipeTileOptional = getPipeTile();
-        pipeTileOptional.ifPresent(pipeTile ->
-            {
-                addDataSlot(new IntReferenceHolder() {
-                    @Override
-                    public int get() {
-                        return pipeTile.getConfig().getInputUsableConfig().get(tilePos.getDirection()).getRedstoneControlType().ordinal();
-                    }
+        pipeTileOptional.ifPresent(pipeTile -> {
+                addDataSlot(create(
+                        () -> pipeTile.getConfig().getInputUsableConfig().get(tilePos.getDirection()).getRedstoneControlType().ordinal(),
+                        value -> pipeTile.getConfig().getInputUsableConfig().get(tilePos.getDirection()).setRedstoneControlType(RedstoneControlType.values()[value])));
 
-                    @Override
-                    public void set(int value) {
-                        pipeTile.getConfig().getInputUsableConfig().get(tilePos.getDirection()).setRedstoneControlType(RedstoneControlType.values()[value]);
-                    }
-                });
-                addDataSlot(new IntReferenceHolder() {
-                    @Override
-                    public int get() {
-                        return pipeTile.getConfig().getOutputUsableConfig().get(tilePos.getDirection()).getRedstoneControlType().ordinal();
-                    }
+                addDataSlot(create(
+                        () -> pipeTile.getConfig().getOutputUsableConfig().get(tilePos.getDirection()).getRedstoneControlType().ordinal(),
+                        value ->pipeTile.getConfig().getOutputUsableConfig().get(tilePos.getDirection()).setRedstoneControlType(RedstoneControlType.values()[value])));
 
-                    @Override
-                    public void set(int value) {
-                        pipeTile.getConfig().getOutputUsableConfig().get(tilePos.getDirection()).setRedstoneControlType(RedstoneControlType.values()[value]);
-                    }
-                });
+                addDataSlot(create(() -> pipeTile.getConfig().getMainConfig().get(tilePos.getDirection()).isInput() ? 1 : 0,
+                        value -> pipeTile.getConfig().getMainConfig().get(tilePos.getDirection()).setInput(value == 1)));
+                addDataSlot(create(() -> pipeTile.getConfig().getMainConfig().get(tilePos.getDirection()).isOutput() ? 1 : 0,
+                        value -> pipeTile.getConfig().getMainConfig().get(tilePos.getDirection()).setOutput(value == 1)));
+                addDataSlot(create(() -> pipeTile.getConfig().getMainConfig().get(tilePos.getDirection()).isRoundRobin() ? 1 : 0,
+                        value -> pipeTile.getConfig().getMainConfig().get(tilePos.getDirection()).setRoundRobin(value == 1)));
+                addDataSlot(create(() -> pipeTile.getConfig().getMainConfig().get(tilePos.getDirection()).isSelfFeed() ? 1 : 0,
+                        value -> pipeTile.getConfig().getMainConfig().get(tilePos.getDirection()).setSelfFeed(value == 1)));
             }
         );
 
+    }
+
+    private static IntReferenceHolder create(Supplier<Integer> supplier, Consumer<Integer> consumer) {
+        return new IntReferenceHolder() {
+            @Override
+            public int get() {
+                return supplier.get();
+            }
+            @Override
+            public void set(int value) {
+                consumer.accept(value);
+            }
+        };
     }
 
     @Override

@@ -1,7 +1,6 @@
 package software.bernie.techarium.display.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.renderer.Rectangle2d;
 import net.minecraft.entity.player.PlayerInventory;
@@ -11,8 +10,8 @@ import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
 import software.bernie.techarium.display.container.AutomaticContainer;
 import software.bernie.techarium.machine.interfaces.IFactory;
-import software.bernie.techarium.network.EnergyBarClickContainerPacket;
-import software.bernie.techarium.network.FluidTankClickContainerPacket;
+import software.bernie.techarium.network.container.EnergyBarClickContainerPacket;
+import software.bernie.techarium.network.container.FluidTankClickContainerPacket;
 import software.bernie.techarium.network.NetworkConnection;
 
 import java.util.ArrayList;
@@ -45,6 +44,7 @@ public class AutomaticContainerScreen extends DrawableContainerScreen<AutomaticC
 
     @Override
     protected void renderCustomToolTips(MatrixStack matrixStack, int mouseX, int mouseY, int xCenter, int yCenter) {
+        super.renderCustomToolTips(matrixStack, mouseX, mouseY, xCenter, yCenter);
         getMenu().getMachineController().getLazyEnergyStorage().ifPresent(storage -> ((EnergyStorageAddon) storage).renderToolTip(this, leftPos, topPos, xCenter, yCenter, mouseX, mouseY));
         getMenu().getMachineController().getMultiProgressBar().getProgressBarAddons().forEach(bar -> bar.renderToolTip(this, leftPos, topPos, xCenter, yCenter, mouseX, mouseY));
         getMenu().getMachineController().getMultiTank().getFluidTanks().forEach(tank -> tank.renderToolTip(this, leftPos, topPos, xCenter, yCenter, mouseX, mouseY));
