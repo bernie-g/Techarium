@@ -29,7 +29,6 @@ archivesBaseName = "${project.jar_name}-${minecraft_version}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
-
 ext {
     javaMainClass = "software.bernie.ci.TravisDiscordNotif"
 }
@@ -90,7 +89,7 @@ sourceSets {
 }
 
 mixin {
-    add sourceSets.main, "tardis.refmap.json"
+    add sourceSets.main, "${mod_id}.refmap.json"
 }
 
 repositories {
@@ -122,7 +121,7 @@ repositories {
 }
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
-    
+
     annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
 
     //Geckolib
@@ -172,7 +171,7 @@ task replaceResources(type: Copy) {
         from(sourceSets.main.resources) {
             include resource_targets
             expand "project": project, "mod_id": mod_id, "mod_name": mod_name, "mod_version": mod_version,
-                    "mod_authors": mod_authors, "mod_description": mod_description, 
+                    "mod_authors": mod_authors, "mod_description": mod_description,
                     "display_url":display_url,
                     "issue_tracker_url": issue_tracker_url,
                     "license": license,
