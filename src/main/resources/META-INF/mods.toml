@@ -1,28 +1,28 @@
 modLoader = "javafml"
 loaderVersion = "${loader_version_range}"
-issueTrackerURL = "${issue_tracker_url}"
+issueTrackerURL = "https://github.com/bernie-g/Techarium/issues"
 license = "${license}"
 [[mods]]
-modId = "${mod_id}"
+modId = "techarium"
 version = "${mod_version}"
 displayName = "${mod_name}"
 displayURL = "${display_url}"
 authors = "${mod_authors}"
 description = '''${mod_description}'''
 
-[[dependencies.${mod_id}]]
+[[dependencies.techarium]]
 modId = "forge"
 mandatory = true
 versionRange = "${forge_version_range}"
 ordering = "BEFORE"
 side = "BOTH"
-[[dependencies.${mod_id}]]
+[[dependencies.techarium]]
 modId = "minecraft"
 mandatory = true
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
-[[dependencies.${mod_id}]]
+[[dependencies.techarium]]
 modId="geckolib3"
 mandatory=true
 versionRange="${geckolib_version_range}"

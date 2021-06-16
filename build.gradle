@@ -168,10 +168,10 @@ task replaceResources(type: Copy) {
     def spec = copySpec {
         from(sourceSets.main.resources) {
             include resource_targets
-            expand "project": project, "mod_id": mod_id, "mod_name": mod_name, "mod_version": mod_version,
+            expand "project": project, /* "mod_id": mod_id, */ "mod_name": mod_name, "mod_version": mod_version,
                     "mod_authors": mod_authors, "mod_description": mod_description,
                     "display_url":display_url,
-                    "issue_tracker_url": issue_tracker_url,
+                    // "issue_tracker_url": issue_tracker_url, //Fix TOML parser issue in Dev environment
                     "license": license,
                     "forge_version_range": forge_version_range, "minecraft_version_range": minecraft_version_range,
                     "loader_version_range": loader_version_range,
