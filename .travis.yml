@@ -6,6 +6,7 @@ jdk: oraclejdk8
 before_install:
   - chmod +x gradlew
   - export AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
+  - ./gradlew createBuildscriptProperties --info
 env:
   - COMMIT_MESSAGE=${TRAVIS_COMMIT_MESSAGE}
 script:
