@@ -1,5 +1,6 @@
 package software.bernie.techarium.block.exchangestation;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -11,7 +12,6 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ToolType;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
 import software.bernie.techarium.trait.block.BlockBehaviours;
@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 public class ExchangeStationBlock extends MachineBlock<ExchangeStationTile> {
 
     public ExchangeStationBlock() {
-        super(BlockBehaviours.exchangeStation, Properties.of(Material.METAL).strength(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).noOcclusion().requiresCorrectToolForDrops());
+        super(BlockBehaviours.exchangeStation, AbstractBlock.Properties.of(Material.METAL));
     }
 
     @Override
