@@ -29,4 +29,8 @@ public class LangRegistryBase {
         return new TranslationLangEntry(type + "." + Techarium.ModID + "." + name).registerSelf();
     }
 
+    public static TranslationLangEntry registerDescription(RegistryObject<? extends Block> block) {
+        return new TranslationLangEntry("description." + Techarium.ModID + "." + block.getId().getPath()).registerSelf();
+    }
+
 }

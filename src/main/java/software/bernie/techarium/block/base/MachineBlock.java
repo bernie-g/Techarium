@@ -2,7 +2,6 @@ package software.bernie.techarium.block.base;
 
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -18,18 +17,18 @@ import software.bernie.techarium.tile.base.MachineMasterTile;
 import software.bernie.techarium.tile.base.MachineSlaveTile;
 import software.bernie.techarium.tile.base.MachineTileBase;
 import software.bernie.techarium.tile.base.MultiblockMasterTile;
+import software.bernie.techarium.trait.block.BlockBehaviour;
 import software.bernie.techarium.util.BlockRegion;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
-import java.util.function.Supplier;
 
-public abstract class MachineBlock<T extends MachineTileBase> extends BaseTileBlock<T> {
+public abstract class MachineBlock<T extends MachineTileBase> extends TechariumBlock<T> {
 
-    public MachineBlock(Properties properties, Supplier<T> tileSupplier) {
-        super(properties,tileSupplier);
+    public MachineBlock(BlockBehaviour behaviour, Properties properties) {
+        super(behaviour, properties);
     }
 
     @Override
@@ -38,7 +37,7 @@ public abstract class MachineBlock<T extends MachineTileBase> extends BaseTileBl
     @ParametersAreNonnullByDefault
     public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         ActionResultType result = ActionResultType.SUCCESS;
-        if(!world.isClientSide()) {
+        if (!world.isClientSide()) {
             if (player instanceof ServerPlayerEntity) {
                 handleTileEntity(world, pos, (ServerPlayerEntity) player);
             }
@@ -49,7 +48,7 @@ public abstract class MachineBlock<T extends MachineTileBase> extends BaseTileBl
     protected void handleTileEntity(IWorld world, BlockPos pos, ServerPlayerEntity player) {
         Optional.ofNullable(world.getBlockEntity(pos))
                 .filter(tileEntity -> tileEntity instanceof MachineTileBase)
-                .map(tileEntity -> (MachineTileBase)tileEntity)
+                .map(tileEntity -> (MachineTileBase) tileEntity)
                 .ifPresent(tile -> tile.onTileActivated(player));
     }
 
@@ -59,13 +58,13 @@ public abstract class MachineBlock<T extends MachineTileBase> extends BaseTileBl
     public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             TileEntity tileentity = world.getBlockEntity(pos);
-            if(tileentity instanceof MachineMasterTile){
+            if (tileentity instanceof MachineMasterTile) {
                 MachineMasterTile<?> master = (MachineMasterTile<?>) tileentity;
                 master.masterHandleDestruction();
-            } else if(tileentity instanceof MachineSlaveTile){
+            } else if (tileentity instanceof MachineSlaveTile) {
                 MachineSlaveTile slave = (MachineSlaveTile) tileentity;
                 TileEntity masterT = world.getBlockEntity(slave.getMasterPos());
-                if(masterT instanceof MachineMasterTile){
+                if (masterT instanceof MachineMasterTile) {
                     MachineMasterTile<?> master = (MachineMasterTile<?>) masterT;
                     master.masterHandleDestruction();
                 }
@@ -77,15 +76,14 @@ public abstract class MachineBlock<T extends MachineTileBase> extends BaseTileBl
     @Override
     public void setPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         TileEntity tileentity = world.getBlockEntity(pos);
-        if(tileentity instanceof MultiblockMasterTile<?>) {
+        if (tileentity instanceof MultiblockMasterTile<?>) {
             MultiblockMasterTile<?> master = (MultiblockMasterTile<?>) tileentity;
             master.placeSlaves();
         }
     }
 
     @Override
-    public BlockRenderType getRenderShape(BlockState state)
-    {
+    public BlockRenderType getRenderShape(BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
@@ -94,7 +92,7 @@ public abstract class MachineBlock<T extends MachineTileBase> extends BaseTileBl
         for (int x = region.xOff; x < region.xSize - region.xOff; x++) {
             for (int y = region.yOff; y < region.ySize - region.yOff; y++) {
                 for (int z = region.zOff; z < region.zSize - region.zOff; z++) {
-                    if (!world.getBlockState(pos.offset(x,y,z)).getMaterial().isReplaceable()) {
+                    if (!world.getBlockState(pos.offset(x, y, z)).getMaterial().isReplaceable()) {
                         return false;
                     }
                 }
@@ -105,10 +103,5 @@ public abstract class MachineBlock<T extends MachineTileBase> extends BaseTileBl
 
     public BlockRegion getBlockSize() {
         return BlockRegion.FULL_BLOCK;
-    }
-
-    @Override
-    public boolean addDestroyEffects(BlockState state, World world, BlockPos pos, ParticleManager manager) {
-        return true;
     }
 }
