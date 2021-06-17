@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static software.bernie.techarium.registry.lang.LangRegistryBase.register;
+import static software.bernie.techarium.registry.lang.LangRegistryBase.registerDescription;
 
 public class LangRegistry {
     public static final List<LangEntry<?, ?>> langEntries = new ArrayList<>();
@@ -20,4 +21,6 @@ public class LangRegistry {
     public static final TranslationLangEntry guiPipeOutput = register("gui", "pipe.output");
     public static final TranslationLangEntry guiPipeRoundRobin = register("gui", "pipe.round_robin");
     public static final TranslationLangEntry guiPipeSelfFeed = register("gui", "pipe.self_feed");
+
+    public static final TranslationLangEntry botariumDescription = registerDescription(BlockRegistry.BOTARIUM.getBlockRegistryObject());
 }

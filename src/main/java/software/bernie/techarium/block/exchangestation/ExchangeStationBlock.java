@@ -14,13 +14,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
+import software.bernie.techarium.trait.block.BlockBehaviours;
 
 import javax.annotation.Nonnull;
 
 public class ExchangeStationBlock extends MachineBlock<ExchangeStationTile> {
 
     public ExchangeStationBlock() {
-        super(Properties.of(Material.METAL).strength(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).noOcclusion().requiresCorrectToolForDrops(), ExchangeStationTile::new);
+        super(BlockBehaviours.exchangeStation, Properties.of(Material.METAL).strength(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).noOcclusion().requiresCorrectToolForDrops());
     }
 
     @Override
