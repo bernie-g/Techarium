@@ -1,0 +1,3 @@
+{
+  "output_jar_name":"${jar_name}-${minecraft_version}-${mod_version}"
+}

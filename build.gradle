@@ -160,7 +160,19 @@ dependencies {
     compile("club.minnced:discord-webhooks:${discord_webhooks_version}")
 }
 
-//Reference: https://github.com/SizableShrimp/ForgeTemplate/blob/1.16.x/build.gradle#L158-L188
+/* IntelliJ Project Import
+ * The Mixin annotation process does not have an obfuscation source when running through the IntelliJ compiler,
+ * Thus we have to prevent it from being activated as part of importing this Gradle project into IntelliJ.
+ */
+if (System.getProperty("idea.sync.active") == "true") {
+    afterEvaluate {
+        tasks.withType(JavaCompile).all {
+            it.options.annotationProcessorPath = files()
+        }
+    }
+}
+
+// Populates mods.toml file with gradle variables. Reference: https://github.com/SizableShrimp/ForgeTemplate/blob/1.16.x/build.gradle#L158-L188
 def resource_targets = ["META-INF/mods.toml", "pack.mcmeta"]
 task replaceResources(type: Copy) {
     dependsOn(jar)
@@ -187,6 +199,14 @@ task replaceResources(type: Copy) {
             into "$rootDir/out/production/${project.name}.main/"
         }
     }
+
+    //If Eclipse's output dir exists, copy it there as well
+    if (new File("$rootDir/bin/main/").exists()) {
+        copy {
+            with spec
+            into "$rootDir/bin/main/"
+        }
+    }
 }
 
 processResources { // Process resources on build
@@ -194,6 +214,22 @@ processResources { // Process resources on build
     // Exclude the resource targets as we manually handle those and don't want them to invalidate our cache
     exclude resource_targets
     finalizedBy replaceResources
+}
+
+//Populate and make a copy of the CI Properties file to allow for the TravisDiscordNotif to read values from it
+def build_targets = ["ci_properties_original.json"]
+task createBuildscriptProperties(type: Copy) {
+    def spec = copySpec {
+        from("$projectDir/ci") {
+            include build_targets
+            expand "project": project, "jar_name": jar_name, "minecraft_version": minecraft_version, "mod_version": mod_version
+        }
+    }
+    with spec
+    into "$rootDir"
+    rename { filename ->
+        filename.replace 'ci_properties_original', 'ci_properties'
+    }
 }
 
 shadowJar {
