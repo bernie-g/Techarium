@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.datagen.base.TechariumRecipeProviderBase;

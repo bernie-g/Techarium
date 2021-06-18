@@ -32,6 +32,7 @@ import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.tile.base.MultiblockMasterTile;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -156,12 +157,12 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
     }
 
     public ProgressBarAddon getProgressBar() {
-        return getController().getMultiProgressBar().getProgressBarAddons().stream().filter((addon) -> addon.getName().contains("techarium.gui.mainprogress")).findFirst().orElseThrow(NullPointerException::new);
+        return getController().getMultiProgressBar().getProgressBarAddons().stream().filter(addon -> addon.getName().contains("techarium.gui.mainprogress")).findFirst().orElseThrow(NullPointerException::new);
     }
 
     @Override
     protected Map<Side, FaceConfig> setFaceControl() {
-        Map<Side, FaceConfig> faceMap = new HashMap<>();
+        Map<Side, FaceConfig> faceMap = new EnumMap<>(Side.class);
         for (Side side : Side.values()) {
             if (side == Side.FRONT || side == Side.UP) {
                 faceMap.put(side, FaceConfig.NONE);
@@ -199,7 +200,7 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
         if (!currentRecipe.getSoilIn().test(getSoilInventory().getStackInSlot(0))) {
             return false;
         }
-        if (!(getController().getEnergyStorage().getEnergyStored() >= currentRecipe.getRfPerTick())) {
+        if (getController().getEnergyStorage().getEnergyStored() < currentRecipe.getRfPerTick()) {
             return false;
         }
         if (!(getFluidInventory().getFluid().containsFluid(currentRecipe.getFluidIn()))) {
