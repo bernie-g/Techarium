@@ -2,7 +2,7 @@ package software.bernie.techarium.registry.lang;
 
 import net.minecraft.util.text.TranslationTextComponent;
 
-public class TranslationLangEntry extends LangEntry<TranslationTextComponent, TranslationLangEntry> {
+public class TranslationLangEntry extends LangEntry<TranslationLangEntry> {
 
     private String translationName;
     private TranslationTextComponent component;
