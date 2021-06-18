@@ -64,12 +64,14 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addTranslation(LangRegistry.topProgressETA, "ETA: ");
         addTranslation(LangRegistry.hwylaProgressETA, "ETA: %s seconds remaining");
         addTranslation(LangRegistry.hwylaProgressNoRecipe, "ETA: No valid recipe");
-        addTranslation(LangRegistry.jeiBotariumDescription, "The Botarium allows you to grow crops in exchange for energy and a suitable fluid");
-        addTranslation(LangRegistry.jeiArboretumDescription, "The Arboretum allows you to grow saplings in exchange for energy and water");
+        addTranslation(LangRegistry.botariumDescription, "The Botarium allows you to grow crops in exchange for energy and a suitable fluid");
+        addTranslation(LangRegistry.arboretumDescription, "The Arboretum allows you to grow saplings in exchange for energy and water");
+        addTranslation(LangRegistry.exchangeDescription, "The Exchange Station allows you to unlock new machines with gold");
         addTranslation(LangRegistry.guiPipeInput, "Input");
         addTranslation(LangRegistry.guiPipeOutput, "Output");
         addTranslation(LangRegistry.guiPipeRoundRobin, "Round-Robin");
         addTranslation(LangRegistry.guiPipeSelfFeed, "Self Feed");
+        addTranslation(LangRegistry.machineShiftDescription, "Hold [LShift] for description");
 
 
     }

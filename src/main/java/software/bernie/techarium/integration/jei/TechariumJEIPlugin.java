@@ -56,8 +56,9 @@ public class TechariumJEIPlugin implements IModPlugin
 			registration.addRecipes(recipesArboretum, ArboretumRecipeCategory.UID);
 		}
 
-		registration.addIngredientInfo(new ItemStack(BlockRegistry.BOTARIUM.getBlock()), VanillaTypes.ITEM, LangRegistry.jeiBotariumDescription.getKey());
-		registration.addIngredientInfo(new ItemStack(BlockRegistry.ARBORETUM.getBlock()), VanillaTypes.ITEM, LangRegistry.jeiArboretumDescription.getKey());
+		registration.addIngredientInfo(new ItemStack(BlockRegistry.BOTARIUM.getBlock()), VanillaTypes.ITEM, LangRegistry.botariumDescription.getKey());
+		registration.addIngredientInfo(new ItemStack(BlockRegistry.ARBORETUM.getBlock()), VanillaTypes.ITEM, LangRegistry.arboretumDescription.getKey());
+		registration.addIngredientInfo(new ItemStack(BlockRegistry.EXCHANGE_STATION.getBlock()), VanillaTypes.ITEM, LangRegistry.exchangeDescription.getKey());
 	}
 
 	@Override

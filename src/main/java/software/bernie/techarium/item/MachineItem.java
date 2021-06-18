@@ -9,7 +9,9 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.techarium.block.base.MachineBlock;
+import software.bernie.techarium.registry.LangRegistry;
 import software.bernie.techarium.tile.base.MachineTileBase;
+import software.bernie.techarium.client.ClientUtils;
 
 import java.util.List;
 
@@ -34,5 +36,16 @@ public class MachineItem<B extends MachineBlock<T>, T extends MachineTileBase> e
     @Override
     public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        if (worldIn == null)
+            return;
+        if (worldIn.isClientSide) {
+            ((MachineBlock<?>)getBlock()).getDescription().ifPresent(descriptionTrait -> {
+                if (ClientUtils.isShift()) {
+                    tooltip.add(descriptionTrait.description.get());
+                } else {
+                    tooltip.add(LangRegistry.machineShiftDescription.get());
+                }
+            });
+        }
     }
 }
