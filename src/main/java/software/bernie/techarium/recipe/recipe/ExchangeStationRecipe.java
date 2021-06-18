@@ -4,12 +4,10 @@ import com.google.gson.JsonObject;
 import lombok.Builder;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import software.bernie.techarium.recipes.AbstractMachineRecipe;
+import software.bernie.techarium.recipe.AbstractMachineRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.util.JsonCodecUtils;
 

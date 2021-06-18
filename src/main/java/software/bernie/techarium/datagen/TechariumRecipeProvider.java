@@ -6,15 +6,16 @@ import net.minecraft.data.CookingRecipeBuilder;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.IItemProvider;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.datagen.base.TechariumRecipeProviderBase;
 import software.bernie.techarium.integration.ModIntegrations;
-import software.bernie.techarium.recipes.recipe.ArboretumRecipe;
-import software.bernie.techarium.recipes.recipe.BotariumRecipe;
-import software.bernie.techarium.recipes.recipe.ExchangeStationRecipe;
+import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.util.ChancedItemStack;
@@ -163,7 +164,7 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .output(new ItemStack(output, outputAmount))
                 .construct()
                 .build(consumer,
-                        new ResourceLocation(Techarium.ModID,
+                        Techarium.rl(
                                 "exchange_station/" + output.asItem().getRegistryName().getNamespace() + "/" + output.asItem().getRegistryName().getPath()));
     }
 }

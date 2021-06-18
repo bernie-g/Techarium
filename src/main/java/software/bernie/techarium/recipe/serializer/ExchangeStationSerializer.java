@@ -1,20 +1,14 @@
-package software.bernie.techarium.recipes.serializer;
+package software.bernie.techarium.recipe.serializer;
 
 import com.google.gson.JsonObject;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.techarium.recipes.recipe.BotariumRecipe;
-import software.bernie.techarium.recipes.recipe.ExchangeStationRecipe;
+import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.util.JsonCodecUtils;
-import software.bernie.techarium.util.Utils;
 
 public class ExchangeStationSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<ExchangeStationRecipe>
 {

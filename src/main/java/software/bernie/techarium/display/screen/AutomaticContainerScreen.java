@@ -61,8 +61,8 @@ public class AutomaticContainerScreen extends DrawableContainerScreen<AutomaticC
                 return true;
             }
         }
-        EnergyStorageAddon energy = container.getMachineController().getEnergyStorage();
-        if (container.getMachineController().isPowered() && isHovering(energy.getPosX(), energy.getPosY(), energy.getSizeX(), energy.getSizeY(), mouseX, mouseY)) {
+        EnergyStorageAddon energy = getMenu().getMachineController().getEnergyStorage();
+        if (getMenu().getMachineController().isPowered() && isHovering(energy.getPosX(), energy.getPosY(), energy.getSizeX(), energy.getSizeY(), mouseX, mouseY)) {
             NetworkConnection.INSTANCE.sendToServer(new EnergyBarClickContainerPacket(this.getMenu(), button));
             return true;
         }
