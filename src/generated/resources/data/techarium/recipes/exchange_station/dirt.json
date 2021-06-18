@@ -1,0 +1,11 @@
+{
+  "type": "techarium:exchange_station",
+  "itemIn": {
+    "id": "minecraft:gold_ingot",
+    "Count": 1
+  },
+  "itemOut": {
+    "id": "minecraft:dirt",
+    "Count": 1
+  }
+}
