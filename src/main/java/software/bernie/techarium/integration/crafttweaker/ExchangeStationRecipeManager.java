@@ -17,7 +17,7 @@ import software.bernie.techarium.recipes.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
 
 @ZenRegister
-@ZenCodeType.Name("mods.techarium.Botarium")
+@ZenCodeType.Name("mods.techarium.ExchangeStation")
 public class ExchangeStationRecipeManager implements IRecipeManager {
 
     @ZenCodeType.Method
