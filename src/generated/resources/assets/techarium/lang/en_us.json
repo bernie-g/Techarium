@@ -12,6 +12,9 @@
   "block.techarium.lead_ore": "Lead Ore",
   "block.techarium.nickel_block": "Nickel Block",
   "block.techarium.nickel_ore": "Nickel Ore",
+  "description.techarium.arboretum": "The Arboretum allows you to grow saplings in exchange for energy and water",
+  "description.techarium.botarium": "The Botarium allows you to grow crops in exchange for energy and a suitable fluid",
+  "description.techarium.exchange_station": "The Exchange Station allows you to unlock new machines with gold",
   "gui.techarium.pipe.input": "Input",
   "gui.techarium.pipe.output": "Output",
   "gui.techarium.pipe.round_robin": "Round-Robin",
@@ -31,7 +34,6 @@
   "item.techarium.nickel_nugget": "Nickel Nugget",
   "item.techarium.pipe_stick": "Pipe Stick",
   "itemGroup.techarium": "Techarium",
-  "jei.techarium.arboretum.description": "The Arboretum allows you to grow saplings in exchange for energy and water",
-  "jei.techarium.botarium.description": "The Botarium allows you to grow crops in exchange for energy and a suitable fluid",
+  "shift.techarium.description": "Hold [LShift] for description",
   "top.techarium.progress.eta": "ETA: "
 }

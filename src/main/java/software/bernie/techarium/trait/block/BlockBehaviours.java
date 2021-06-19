@@ -15,14 +15,14 @@ public class BlockBehaviours {
     public static BlockBehaviour arboretum = new BlockBehaviour.Builder()
             .composeFrom(BlockPartialBehaviours.partialMachineBlock)
             .tileEntity(ArboretumTile.class)
-            .description(LangRegistry.botariumDescription)
+            .description(LangRegistry.arboretumDescription)
             .build();
 
     public static BlockBehaviour exchangeStation = new BlockBehaviour.Builder()
             .composeFrom(BlockPartialBehaviours.partialMachineBlock)
             .animatedModel()
             .tileEntity(ExchangeStationTile.class)
-            .description(LangRegistry.botariumDescription)
+            .description(LangRegistry.exchangeDescription)
             .build();
 
     public static BlockBehaviour createSlave(BlockBehaviour masterBehaviour) {
