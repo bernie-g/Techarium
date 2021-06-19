@@ -126,9 +126,9 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
 
 
     @Override
-    public CompoundNBT save(CompoundNBT compound) {
-        compound.put("activeMachine", getController().serializeNBT());
-        return super.save(compound);
+    public CompoundNBT save(CompoundNBT nbt) {
+        nbt.put("activeMachine", getController().serializeNBT());
+        return super.save(nbt);
     }
 
     protected void updateMachineTile() {
@@ -153,12 +153,12 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     @Override
     @Nonnull
     public CompoundNBT getUpdateTag() {
-        return this.serializeNBT();
+        return this.serializeNBTNetwork();
     }
 
     @Override
     public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-        this.deserializeNBT(tag);
+        this.deserializeNBTNetwork(tag);
         updateMachineTile();
     }
 

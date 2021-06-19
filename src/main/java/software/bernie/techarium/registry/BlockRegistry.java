@@ -24,7 +24,7 @@ import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;
 import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
 import software.bernie.techarium.tile.pipe.PipeTile;
-import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
+import software.bernie.techarium.tile.slaves.SlaveTile;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -51,14 +51,14 @@ public class BlockRegistry {
     public static final BlockRegistryObjectGroup<BotariumMaster, BlockItem, BotariumTile> BOTARIUM =
             new BlockRegistryObjectGroup<>("botarium", BotariumMaster::new, machineItemCreator(), BotariumTile::new).register(BLOCKS, ITEMS, TILES);
     public static final RegistryObject<BotariumTop> BOTARIUM_TOP = BLOCKS.register("botarium_top", BotariumTop::new);
-    public static final RegistryObject<TileEntityType<TopEnabledOnlySlave>> BOTARIUM_TOP_TILE = TILES.register("botarium_top", () -> TileEntityType.Builder.of(TopEnabledOnlySlave::new,BOTARIUM_TOP.get())
+    public static final RegistryObject<TileEntityType<SlaveTile>> BOTARIUM_TOP_TILE = TILES.register("botarium_top", () -> TileEntityType.Builder.of(SlaveTile::new,BOTARIUM_TOP.get())
             .build(null));
 
     // Arboretum
     public static final BlockRegistryObjectGroup<ArboretumMaster, BlockItem, ArboretumTile> ARBORETUM =
             new BlockRegistryObjectGroup<>("arboretum", ArboretumMaster::new, machineItemCreator(), ArboretumTile::new).register(BLOCKS, ITEMS, TILES);
     public static final RegistryObject<ArboretumTop> ARBORETUM_TOP = BLOCKS.register("arboretum_top", ArboretumTop::new);
-    public static final RegistryObject<TileEntityType<TopEnabledOnlySlave>> ARBORETUM_TOP_TILE = TILES.register("arboretum_top", () -> TileEntityType.Builder.of(TopEnabledOnlySlave::new, ARBORETUM_TOP.get())
+    public static final RegistryObject<TileEntityType<SlaveTile>> ARBORETUM_TOP_TILE = TILES.register("arboretum_top", () -> TileEntityType.Builder.of(SlaveTile::new, ARBORETUM_TOP.get())
             .build(null));
 
     // Ores + Blocks

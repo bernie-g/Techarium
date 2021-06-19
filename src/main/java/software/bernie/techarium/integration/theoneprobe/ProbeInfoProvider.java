@@ -24,7 +24,7 @@ public class ProbeInfoProvider implements IProbeInfoProvider {
         TileEntity tile = world.getBlockEntity(iProbeHitData.getPos());
         if (tile instanceof MachineSlaveTile) {
             MachineSlaveTile slaveTile = (MachineSlaveTile) tile;
-            TileEntity masterTile = world.getBlockEntity(slaveTile.getMasterPos());
+            TileEntity masterTile = slaveTile.getMasterTile();
             if (masterTile instanceof MachineMasterTile) {
                 addProbeInfo((MachineMasterTile) masterTile, iProbeInfo);
             }

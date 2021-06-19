@@ -6,6 +6,7 @@ import lombok.SneakyThrows;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraftforge.common.ToolType;
 import software.bernie.techarium.trait.Trait;
 
@@ -42,5 +43,16 @@ public class BlockTraits {
     @Data
     public static class BlockRenderTypeTrait extends Trait{
         private final BlockRenderType blockRenderType;
+    }
+
+    @Data
+    public static class VoxelShapeTrait extends Trait{
+        private final VoxelShape boundingBox;
+        private final VoxelShape collisionBox;
+    }
+
+    @Data
+    public static class SlaveBlockTrait extends Trait{
+        private final BlockBehaviour masterTrait;
     }
 }

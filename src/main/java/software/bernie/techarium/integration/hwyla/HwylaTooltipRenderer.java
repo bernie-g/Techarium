@@ -22,10 +22,11 @@ public class HwylaTooltipRenderer implements IComponentProvider {
     @Override
     public void appendBody(List<ITextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
 
-        if (accessor.getTileEntity() instanceof MachineMasterTile) {
-            appendToolTip(tooltip, (MachineMasterTile) accessor.getTileEntity());
-        } else if (accessor.getTileEntity() instanceof MachineSlaveTile) {
-            TileEntity masterTile = accessor.getWorld().getBlockEntity(((MachineSlaveTile)accessor.getTileEntity()).getMasterPos());
+        TileEntity tileEntity = accessor.getTileEntity();
+        if (tileEntity instanceof MachineMasterTile) {
+            appendToolTip(tooltip, (MachineMasterTile) tileEntity);
+        } else if (tileEntity instanceof MachineSlaveTile) {
+            TileEntity masterTile = ((MachineSlaveTile) tileEntity).getMasterTile();
             if (masterTile instanceof MachineMasterTile) {
                 appendToolTip(tooltip, (MachineMasterTile) masterTile);
             }

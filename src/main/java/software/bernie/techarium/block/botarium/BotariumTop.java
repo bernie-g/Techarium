@@ -11,12 +11,12 @@ import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.ToolType;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.registry.BlockRegistry;
-import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
+import software.bernie.techarium.tile.slaves.SlaveTile;
 import software.bernie.techarium.trait.block.BlockBehaviours;
 
 import javax.annotation.Nonnull;
 
-public class BotariumTop extends MachineBlock<TopEnabledOnlySlave> {
+public class BotariumTop extends MachineBlock<SlaveTile> {
 
     public BotariumTop() {
         super(BlockBehaviours.createSlave(BlockBehaviours.botarium), Block.Properties.of(Material.METAL).strength(3.5f).harvestLevel(2)

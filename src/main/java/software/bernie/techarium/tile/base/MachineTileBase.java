@@ -1,7 +1,6 @@
 package software.bernie.techarium.tile.base;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -13,7 +12,7 @@ import java.util.Map;
 
 import static software.bernie.techarium.block.base.RotatableBlock.FACING;
 
-public abstract class MachineTileBase extends TileEntity {
+public abstract class MachineTileBase extends TechariumTileEntity {
 
     private final Map<Side, FaceConfig> sideFaceConfigs = setFaceControl();
 

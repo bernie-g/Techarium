@@ -63,7 +63,7 @@ public abstract class MachineBlock<T extends MachineTileBase> extends TechariumB
                 master.masterHandleDestruction();
             } else if (tileentity instanceof MachineSlaveTile) {
                 MachineSlaveTile slave = (MachineSlaveTile) tileentity;
-                TileEntity masterT = world.getBlockEntity(slave.getMasterPos());
+                TileEntity masterT = slave.getMasterTile();
                 if (masterT instanceof MachineMasterTile) {
                     MachineMasterTile<?> master = (MachineMasterTile<?>) masterT;
                     master.masterHandleDestruction();

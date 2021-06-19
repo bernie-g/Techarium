@@ -9,9 +9,9 @@ import java.util.Map;
 
 import static software.bernie.techarium.registry.BlockRegistry.BOTARIUM_TOP_TILE;
 
-public class TopEnabledOnlySlave extends MachineSlaveTile {
+public class SlaveTile extends MachineSlaveTile {
 
-    public TopEnabledOnlySlave() {
+    public SlaveTile() {
         super(BOTARIUM_TOP_TILE.get());
     }
 

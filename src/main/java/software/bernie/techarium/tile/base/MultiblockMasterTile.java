@@ -3,6 +3,7 @@ package software.bernie.techarium.tile.base;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3i;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
 
@@ -30,7 +31,7 @@ public abstract class MultiblockMasterTile<T extends IMachineRecipe> extends Mac
                 TileEntity tile = level.getBlockEntity(this.worldPosition.offset(pos.getX(), pos.getY(), pos.getZ()));
                 if (tile instanceof MachineSlaveTile) {
                     MachineSlaveTile slave = (MachineSlaveTile) tile;
-                    slave.setMasterPos(this.worldPosition);
+                    slave.getMasterOffset().set(new Vector3i(0, -1, 0));
                 }
             }
         }

@@ -1,16 +1,14 @@
 package software.bernie.techarium.trait.block;
 
-import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
+import software.bernie.techarium.tile.slaves.SlaveTile;
 import software.bernie.techarium.trait.behaviour.PartialBehaviour;
 
 public class BlockPartialBehaviours {
-    public static PartialBehaviour partialMaterial = new BlockBehaviour.Builder()
-            .partial();
-
-    public static PartialBehaviour partialBaseBlock = new BlockBehaviour.Builder().composeFrom(partialMaterial)
+    public static PartialBehaviour partialBaseBlock = new BlockBehaviour.Builder()
             .requiredTraits(BlockTraits.ParticlesTrait.class)
             .requiredTraits(BlockTraits.MaterialTrait.class)
             .requiredTraits(BlockTraits.BlockRenderTypeTrait.class)
+            .requiredTraits(BlockTraits.VoxelShapeTrait.class)
             .staticModel()
             .showBreakParticles(true)
             .partial();
@@ -24,9 +22,10 @@ public class BlockPartialBehaviours {
             .animatedModel()
             .partial();
 
-    public static PartialBehaviour partialSlaveBlock = new BlockBehaviour.Builder().composeFrom(partialBaseBlock)
+    public static PartialBehaviour partialSlaveBlock = new BlockBehaviour.Builder()
+            .requiredTraits(BlockTraits.SlaveBlockTrait.class)
             .showBreakParticles(false)
-            .tileEntity(TopEnabledOnlySlave.class)
+            .tileEntity(SlaveTile.class)
             .animatedModel()
             .partial();
 }
