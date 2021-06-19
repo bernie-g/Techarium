@@ -20,6 +20,7 @@ import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
 import software.bernie.techarium.recipe.AbstractMachineRecipe;
+import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import javax.annotation.Nonnull;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 
 public class MachineController<T extends IMachineRecipe> implements IContainerComponentProvider, INBTSerializable<CompoundNBT> {
@@ -213,11 +215,7 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
         if (recipeCheckTimer-- <= 0 || shouldCheckRecipe) {
             recipeCheckTimer = 50;
             if (tile.shouldCheckForRecipe()) {
-                currentRecipe = tile.getLevel().getRecipeManager()
-                        .getRecipes()
-                        .stream()
-                        .filter(tile::checkRecipe)
-                        .map(tile::castRecipe)
+                currentRecipe = getRecipes()
                         .filter(tile::matchRecipe)
                         .findFirst()
                         .orElse(null);
@@ -232,6 +230,14 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
                 }
             }
         }
+    }
+
+    public Stream<T> getRecipes() {
+        return tile.getLevel().getRecipeManager()
+                .getRecipes()
+                .stream()
+                .filter(tile::checkRecipe)
+                .map(tile::castRecipe);
     }
 
     @Override

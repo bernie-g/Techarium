@@ -72,7 +72,7 @@ public class NetworkEvents {
     //This way pipes don't need to tick, could prevent unnecessary lag
     @SubscribeEvent
     public static void onWorldTick(TickEvent.WorldTickEvent event) {
-        if (event.side.isClient())
+        if (event.side.isClient() || event.phase == TickEvent.Phase.END)
             return;
         event.world.getCapability(PipeNetworkManagerCapability.INSTANCE).ifPresent(manager -> manager.tick((ServerWorld) event.world));
     }

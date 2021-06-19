@@ -1,7 +1,11 @@
 package software.bernie.techarium.tile.exchangestation;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.crafting.IRecipe;
 import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -9,6 +13,8 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.techarium.display.container.AutomaticContainer;
+import software.bernie.techarium.display.container.ExchangeStationContainer;
 import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.tile.base.MachineMasterTile;
@@ -34,8 +40,6 @@ public class ExchangeStationTile extends MachineMasterTile<ExchangeStationRecipe
         controller.setBackground(EXCHANGE_STATION_DRAWABLE, 176, 256);
         controller.setPlayerInvSlotsXY(getPlayerInvSlotsXY());
         controller.setPlayerHotBarSlotsXY(getPlayerHotBarSlotsXY());
-        controller.setPowered(true);
-        controller.setEnergyStorage(100000,100000, 20, 20);
 
         return controller;
     }
@@ -54,6 +58,12 @@ public class ExchangeStationTile extends MachineMasterTile<ExchangeStationRecipe
             event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
         }
         return PlayState.CONTINUE;
+    }
+
+    @Nullable
+    @Override
+    public Container createMenu(int id, PlayerInventory inv, PlayerEntity player) {
+        return new ExchangeStationContainer(this, inv, id, getDisplayName());
     }
 
     @Override
