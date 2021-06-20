@@ -23,9 +23,12 @@ public class ScrollBarWidget extends Widget {
     private float scrollPosition;
     private boolean isScrolling;
 
-    public ScrollBarWidget(Vector2i pos, int length, boolean vertical) {
+    private final boolean renderBG;
+
+    public ScrollBarWidget(Vector2i pos, int length, boolean vertical, boolean renderBG) {
         super(pos.getX(), pos.getY(), dimensionXOf(length, vertical), dimensionYOf(length, vertical), StringTextComponent.EMPTY);
         this.vertical = vertical;
+        this.renderBG = renderBG;
     }
 
     static int dimensionXOf(int length, boolean vertical) {
@@ -45,21 +48,23 @@ public class ScrollBarWidget extends Widget {
         matrixStack.pushPose();
         matrixStack.translate(x,y,0);
         if (vertical) {
-            blit(matrixStack, 0,0, 0,0,WIDTH, 1);
-            for(int y = 1; y < length - 1; y++) {
-                blit(matrixStack,0,y, 0,1,WIDTH, 1);
+            if (renderBG) {
+                blit(matrixStack, 0, 0, 0, 0, WIDTH, 1);
+                for (int y = 1; y < length - 1; y++) {
+                    blit(matrixStack, 0, y, 0, 1, WIDTH, 1);
+                }
+                blit(matrixStack, 0, length - 1, 0, 2, WIDTH, 1);
             }
-            blit(matrixStack, 0,length-1, 0,2, WIDTH, 1);
-
             Vector2i scrollerPosition = new Vector2i(1, (int)((length - 17) * scrollPosition) + 1);
             blit(matrixStack, scrollerPosition.getX(), scrollerPosition.getY(), SCROLLER_POSITION_VERTICAL.getX(), SCROLLER_POSITION_VERTICAL.getY(), SCROLLER_DIMENSION_VERTICAL.getX(), SCROLLER_DIMENSION_VERTICAL.getY());
         } else{
-            blit(matrixStack, 0,0, 14,0, 1, WIDTH);
-            for(int x = 1; x < length - 1; x++) {
-                blit(matrixStack,x,0, 15,0,1, WIDTH);
+            if (renderBG) {
+                blit(matrixStack, 0, 0, 14, 0, 1, WIDTH);
+                for (int x = 1; x < length - 1; x++) {
+                    blit(matrixStack, x, 0, 15, 0, 1, WIDTH);
+                }
+                blit(matrixStack, length - 1, 0, 16, 0, 1, WIDTH);
             }
-            blit(matrixStack,length-1,0, 16,0, 1, WIDTH);
-
             Vector2i scrollerPosition = new Vector2i((int)((length - 17) * scrollPosition) + 1, 1);
             blit(matrixStack,scrollerPosition.getX(), scrollerPosition.getY(), SCROLLER_POSITION_HORIZONTAL.getX(), SCROLLER_POSITION_HORIZONTAL.getY(), SCROLLER_DIMENSION_HORIZONTAL.getX(),SCROLLER_DIMENSION_HORIZONTAL.getY());
         }

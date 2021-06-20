@@ -37,7 +37,7 @@ public class ExchangeStationTile extends MachineMasterTile<ExchangeStationRecipe
     @Override
     protected MachineController<ExchangeStationRecipe> createMachineController() {
         MachineController<ExchangeStationRecipe> controller =  new MachineController<>(this, () -> this.worldPosition, EXCHANGE_STATION_DRAWABLE);
-        controller.setBackground(EXCHANGE_STATION_DRAWABLE, 176, 256);
+        controller.setBackground(EXCHANGE_STATION_DRAWABLE, 193, 230);
         controller.setPlayerInvSlotsXY(getPlayerInvSlotsXY());
         controller.setPlayerHotBarSlotsXY(getPlayerHotBarSlotsXY());
 
@@ -106,7 +106,7 @@ public class ExchangeStationTile extends MachineMasterTile<ExchangeStationRecipe
         Map<Integer, Pair<Integer, Integer>> playerInvSlotsXY = new HashMap<>();
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                playerInvSlotsXY.put(j + i * 9 + 9, Pair.of(7 + 1 + j * 18, 37 + 103 + i * 18));
+                playerInvSlotsXY.put(j + i * 9 + 9, Pair.of(16 + j * 18, 148 + i * 18));
             }
         }
         return playerInvSlotsXY;
@@ -115,7 +115,7 @@ public class ExchangeStationTile extends MachineMasterTile<ExchangeStationRecipe
     private Map<Integer, Pair<Integer, Integer>> getPlayerHotBarSlotsXY() {
         Map<Integer, Pair<Integer, Integer>> playerHotbarSlotsXY = new HashMap<>();
         for (int i1 = 0; i1 < 9; ++i1) {
-            playerHotbarSlotsXY.put(i1, Pair.of(7 + 1 + i1 * 18, 38 + 160));
+            playerHotbarSlotsXY.put(i1, Pair.of(16 + i1 * 18, 206));
         }
         return playerHotbarSlotsXY;
     }

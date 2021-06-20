@@ -1,13 +1,19 @@
 package software.bernie.techarium.display.screen;
 
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import software.bernie.techarium.display.container.AutomaticContainer;
 import software.bernie.techarium.display.container.ExchangeStationContainer;
 import software.bernie.techarium.display.screen.widget.ScrollBarWidget;
 import software.bernie.techarium.util.Vector2i;
 
+import static software.bernie.techarium.Techarium.ModID;
+
 public class ExchangeStationScreen extends AutomaticContainerScreen {
+
+    private static final ResourceLocation MACHINE_COMPONENTS = new ResourceLocation(ModID, "textures/gui/machine_components.png");
+
     //weird generic stuff, pls put only ExchangeStationStuff here
     public ExchangeStationScreen(AutomaticContainer container, PlayerInventory inv, ITextComponent containerName) {
         super(container, inv, containerName);
@@ -19,7 +25,7 @@ public class ExchangeStationScreen extends AutomaticContainerScreen {
     @Override
     protected void init() {
         super.init();
-        addButton(new ScrollBarWidget(new Vector2i(61+leftPos,17+topPos),108, true));
+        addButton(new ScrollBarWidget(new Vector2i(69+leftPos,25+topPos),108, true, false   ));
     }
 
     @Override
