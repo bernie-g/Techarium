@@ -32,7 +32,7 @@ public abstract class ClientToServerContainerPacket<MSG extends ClientToServerCo
     }
     @Override
     public boolean isValid(NetworkEvent.Context context) {
-        return true;
+        return getDirection().isPresent();
     }
 
     public Optional<Container> getContainer(NetworkEvent.Context context) {

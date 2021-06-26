@@ -1,6 +1,8 @@
 package software.bernie.techarium.display.screen.widget;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.ResourceLocation;
@@ -20,6 +22,8 @@ public class ScrollBarWidget extends Widget {
 
     private final boolean vertical;
 
+    @Getter
+    @Setter
     private float scrollPosition;
     private boolean isScrolling;
 

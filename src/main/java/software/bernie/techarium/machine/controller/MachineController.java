@@ -1,5 +1,7 @@
 package software.bernie.techarium.machine.controller;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
@@ -20,7 +22,6 @@ import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
 import software.bernie.techarium.recipe.AbstractMachineRecipe;
-import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import javax.annotation.Nonnull;
@@ -38,6 +39,8 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
     protected final Supplier<BlockPos> posSupplier;
     protected final MachineMasterTile<T> tile;
 
+    @Getter
+    @Setter
     private T currentRecipe;
     private boolean shouldCheckRecipe;
     private int recipeCheckTimer;
@@ -76,10 +79,6 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
 
     public void addProgressBar(ProgressBarAddon progressBarAddon) {
         this.multiProgressBar.add(progressBarAddon);
-    }
-
-    public T getCurrentRecipe() {
-        return currentRecipe;
     }
 
     @Nonnull

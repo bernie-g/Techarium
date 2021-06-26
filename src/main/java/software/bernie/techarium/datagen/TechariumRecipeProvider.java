@@ -96,7 +96,14 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
 
     private void registerExchangeStationRecipes(Consumer<IFinishedRecipe> consumer) {
         buildExchangeStationRecipe(Items.GOLD_INGOT, 1, Items.DIRT, 1, consumer);
-}
+        buildExchangeStationRecipe(Items.GOLD_INGOT, 3, Items.LIME_CONCRETE, 1, consumer);
+        buildExchangeStationRecipe(Items.GOLD_INGOT, 5, Items.ORANGE_BANNER, 1, consumer);
+        buildExchangeStationRecipe(Items.GOLD_INGOT, 7, Items.BARRIER, 1, consumer);
+        buildExchangeStationRecipe(Items.GOLD_INGOT, 9, Items.JUNGLE_SAPLING, 1, consumer);
+        buildExchangeStationRecipe(Items.GOLD_INGOT, 11, Items.NETHER_STAR, 1, consumer);
+        buildExchangeStationRecipe(Items.GOLD_INGOT, 13, Items.FIREWORK_ROCKET, 1, consumer);
+        buildExchangeStationRecipe(Items.GOLD_INGOT, 7, Items.LEVER, 1, consumer);
+    }
 
     private void registerVanillaArboretumRecipes(Consumer<IFinishedRecipe> consumer) {
         buildArboretumRecipe(Items.OAK_SAPLING, ChancedItemStackList

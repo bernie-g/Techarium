@@ -1,5 +1,6 @@
 package software.bernie.techarium.display.container;
 
+import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -20,6 +21,7 @@ import static software.bernie.techarium.registry.ContainerRegistry.AUTO_CONTAINE
 
 public class AutomaticContainer extends Container {
 
+    @Getter
     protected MachineMasterTile<?> tile;
 
     private final Block block;

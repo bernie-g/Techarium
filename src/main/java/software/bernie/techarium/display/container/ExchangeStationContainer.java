@@ -3,6 +3,8 @@ package software.bernie.techarium.display.container;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.ITextComponent;
+import software.bernie.techarium.machine.controller.MachineController;
+import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.registry.ContainerRegistry;
 import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
 
@@ -14,5 +16,8 @@ public class ExchangeStationContainer extends AutomaticContainer {
     public ExchangeStationContainer(int id, PlayerInventory inv, PacketBuffer packetBuffer) {
         super(id, inv, packetBuffer);
     }
-
+    @Override
+    public MachineController<ExchangeStationRecipe> getMachineController() {
+        return (MachineController<ExchangeStationRecipe>) tile.getController();
+    }
 }
