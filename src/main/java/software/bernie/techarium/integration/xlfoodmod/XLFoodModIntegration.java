@@ -1,7 +1,6 @@
 package software.bernie.techarium.integration.xlfoodmod;
 
 import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.item.crafting.Ingredient;
 import onelemonyboi.xlfoodmod.init.ItemList;
 import software.bernie.techarium.integration.Integration;
 import software.bernie.techarium.util.ChancedItemStackList;

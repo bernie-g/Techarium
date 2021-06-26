@@ -32,7 +32,7 @@ public class ArboretumRecipeManager implements IRecipeManager {
     @NotNull
     private ArboretumRecipe createArboretumRecipe(IIngredient cropIn, String name, IFluidStack inputFluid, IIngredient soilIn, MCWeightedItemStack[] output, int progressPerTick, int maxProgress, int rfPerTick) {
         ChancedItemStackList list = ChancedItemStackList.of(Arrays.stream(output)
-                .map((stack) -> ChancedItemStack.of(stack.getItemStack().getInternal(), stack.getWeight()))
+                .map(stack -> ChancedItemStack.of(stack.getItemStack().getInternal(), stack.getWeight()))
                 .toArray(ChancedItemStack[]::new));
 
         return new ArboretumRecipe(new ResourceLocation("crafttweaker", name), cropIn.asVanillaIngredient(), inputFluid.getImmutableInternal(),

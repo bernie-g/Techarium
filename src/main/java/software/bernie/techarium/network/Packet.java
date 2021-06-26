@@ -26,10 +26,11 @@ public abstract class Packet<MSG extends Packet<MSG>> {
      * Run on dummy instance of Packet
      */
     public void handle(MSG msg, Supplier<NetworkEvent.Context> context) {
-        if(msg.isValid(context.get())) {
+        if (msg.isValid(context.get())) {
             context.get().enqueueWork(() -> msg.doAction(context.get()));
+        } else {
+            LogCache.getLogger(Packet.class).warn("invalid packet " + (context.get().getSender() == null ? "from the server" : ("by " + context.get().getSender().getName().getContents() + " with IP-Address " + context.get().getSender().getIpAddress())));
         }
-        LogCache.getLogger(Packet.class).warn("invalid packet " + (context.get().getSender() == null ? "from the server" : ("by " + context.get().getSender().getName() + " with IP-Address " + context.get().getSender().getIpAddress())));
         context.get().setPacketHandled(true);
     }
 

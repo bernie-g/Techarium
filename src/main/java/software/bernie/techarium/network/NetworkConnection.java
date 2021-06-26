@@ -4,10 +4,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import software.bernie.techarium.Techarium;
-import software.bernie.techarium.network.container.ChangedMainConfigContainerPacket;
-import software.bernie.techarium.network.container.ChangedRedstoneControlTypeContainerPacket;
-import software.bernie.techarium.network.container.EnergyBarClickContainerPacket;
-import software.bernie.techarium.network.container.FluidTankClickContainerPacket;
+import software.bernie.techarium.network.container.*;
 
 public class NetworkConnection {
     private static final String PROTOCOL_VERSION = "1.0";
@@ -24,6 +21,7 @@ public class NetworkConnection {
         registerMessage(new EnergyBarClickContainerPacket());
         registerMessage(new ChangedRedstoneControlTypeContainerPacket());
         registerMessage(new ChangedMainConfigContainerPacket());
+        registerMessage(new RecipeWidgetClickContainerPacket());
     }
     public static <MSG extends Packet<MSG>> void registerMessage(MSG dummyPacket) {
         INSTANCE.registerMessage(getAndUpdateIndex(),

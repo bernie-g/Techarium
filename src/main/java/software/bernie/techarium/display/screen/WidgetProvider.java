@@ -45,9 +45,9 @@ public class WidgetProvider {
 
     private static List<IFactory<? extends Widget>> getMultiInventoryWidgets(MultiInventoryAddon multiInventoryAddon) {
         List<IFactory<? extends Widget>> widgets = new ArrayList<>();
-        multiInventoryAddon.getInventories().forEach(posInv -> {
-            widgets.addAll(getInventoryAddonWidgets(posInv));
-        });
+        multiInventoryAddon.getInventories().forEach(posInv ->
+            widgets.addAll(getInventoryAddonWidgets(posInv))
+        );
         return widgets;
     }
 

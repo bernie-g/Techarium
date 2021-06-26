@@ -8,8 +8,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
+import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.recipe.serializer.ArboretumRecipeSerializer;
 import software.bernie.techarium.recipe.serializer.BotariumRecipeSerializer;
+import software.bernie.techarium.recipe.serializer.ExchangeStationSerializer;
 
 import static software.bernie.techarium.Techarium.ModID;
 
@@ -23,8 +25,13 @@ public class RecipeRegistry {
     public static final RegistryObject<IRecipeSerializer<ArboretumRecipe>> ARBORETUM_SERIALIZER =
             RECIPE_SERIALIZER_REGISTRY.register("arboretum", ArboretumRecipeSerializer::new);
 
+    public static final RegistryObject<IRecipeSerializer<ExchangeStationRecipe>> EXCHANGE_STATION_SERIALIZER =
+            RECIPE_SERIALIZER_REGISTRY.register("exchange_station", ExchangeStationSerializer::new);
+
     public static IRecipeType<BotariumRecipe> BOTARIUM_RECIPE_TYPE = IRecipeType.register("techarium:botarium");
     public static IRecipeType<ArboretumRecipe> ARBORETUM_RECIPE_TYPE = IRecipeType.register("techarium:arboretum");
+
+    public static IRecipeType<ExchangeStationRecipe> EXCHANGE_STATION_RECIPE_TYPE = IRecipeType.register("techarium:exchange_station");
 
     public static void register(IEventBus bus) {
         RECIPE_SERIALIZER_REGISTRY.register(bus);
