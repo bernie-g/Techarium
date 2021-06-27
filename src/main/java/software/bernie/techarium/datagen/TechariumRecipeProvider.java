@@ -6,12 +6,15 @@ import net.minecraft.data.CookingRecipeBuilder;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.IItemProvider;
 import net.minecraftforge.fluids.FluidStack;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.datagen.base.TechariumRecipeProviderBase;
 import software.bernie.techarium.integration.ModIntegrations;
+import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.util.ChancedItemStack;
@@ -27,7 +30,11 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
     @Override
     protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
         registerVanillaBotariumRecipes(consumer);
+
+        registerExchangeStationRecipes(consumer);
+
         registerVanillaArboretumRecipes(consumer);
+
         registerSmeltingRecipes(consumer);
         registerCraftingRecipes(consumer);
         ModIntegrations.getIntegrations().forEach(wrapper -> wrapper.get().ifPresent(o -> o.generateRecipes(consumer)));
@@ -84,6 +91,18 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
         buildBotariumFlowerRecipe((FlowerBlock) Blocks.CORNFLOWER, consumer);
         buildBotariumFlowerRecipe((FlowerBlock) Blocks.LILY_OF_THE_VALLEY, consumer);
 
+    }
+
+
+    private void registerExchangeStationRecipes(Consumer<IFinishedRecipe> consumer) {
+        buildExchangeStationRecipe(Items.GOLD_INGOT, 1, Items.DIRT, 1, consumer);
+        buildExchangeStationRecipe(Items.GOLD_INGOT, 3, Items.LIME_CONCRETE, 1, consumer);
+        buildExchangeStationRecipe(Items.GOLD_INGOT, 5, Items.ORANGE_BANNER, 1, consumer);
+        buildExchangeStationRecipe(Items.GOLD_INGOT, 7, Items.BARRIER, 1, consumer);
+        buildExchangeStationRecipe(Items.GOLD_INGOT, 9, Items.JUNGLE_SAPLING, 1, consumer);
+        buildExchangeStationRecipe(Items.GOLD_INGOT, 11, Items.NETHER_STAR, 1, consumer);
+        buildExchangeStationRecipe(Items.GOLD_INGOT, 13, Items.FIREWORK_ROCKET, 1, consumer);
+        buildExchangeStationRecipe(Items.GOLD_INGOT, 7, Items.LEVER, 1, consumer);
     }
 
     private void registerVanillaArboretumRecipes(Consumer<IFinishedRecipe> consumer) {
@@ -143,5 +162,15 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .blasting(Ingredient.of(BlockRegistry.NICKEL_ORE.get()), ItemRegistry.NICKEL_INGOT.get(), 0.7f, 100)
                 .unlockedBy("has_item", has(BlockRegistry.NICKEL_ORE.get()))
                 .save(consumer, Techarium.rl("blasting/nickel_ore"));
+    }
+
+    private static void buildExchangeStationRecipe(IItemProvider input, int inputAmount, IItemProvider output, int outputAmount, Consumer<IFinishedRecipe> consumer) {
+        ExchangeStationRecipe.builder()
+                .input(new ItemStack(input, inputAmount))
+                .output(new ItemStack(output, outputAmount))
+                .construct()
+                .build(consumer,
+                        Techarium.rl(
+                                "exchange_station/" + output.asItem().getRegistryName().getNamespace() + "/" + output.asItem().getRegistryName().getPath()));
     }
 }

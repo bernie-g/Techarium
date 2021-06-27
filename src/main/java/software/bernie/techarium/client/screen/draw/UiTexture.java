@@ -25,26 +25,23 @@ public class UiTexture {
     }
 
     public IDrawable getFullArea() {
-        return new Area(0, 0, 1, 1, x, y);
+        return new Area(0, 0, 1, 1);
     }
 
     public IDrawable getArea(int x, int y, int w, int h) {
-        return new Area((float)x / this.x, (float)y / this.y, (float)w / this.x, h / this.y, w, h);
+        return new Area((float)x / this.x, (float)y / this.y, (float)w / this.x, h / this.y);
     }
 
     private class Area implements IDrawable {
 
         private final float v, u;
         private final float dv, du;
-        private final float width, height;
 
-        public Area(float u, float v, float du, float dv, float width, float height) {
+        public Area(float u, float v, float du, float dv) {
             this.v = v;
             this.u = u;
             this.du = du;
             this.dv = dv;
-            this.width = width;
-            this.height = height;
         }
 
         @Override
@@ -69,10 +66,6 @@ public class UiTexture {
             float vi = (v + dv * y1);
             float vf = (v + dv * y2);
 
-            //ui = (float) Math.round(ui * this.width) / this.width;
-            //uf = (float) Math.round(uf * this.width) / this.width;
-            //vi = (float) Math.floor(vi * this.height) / this.height;
-            //vf = (float) Math.floor(vf * this.height)   / this.height;
             Tessellator tesselator = Tessellator.getInstance();
             BufferBuilder buf = tesselator.getBuilder();
             RenderSystem.enableAlphaTest();

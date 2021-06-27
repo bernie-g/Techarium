@@ -4,6 +4,7 @@ import software.bernie.techarium.machine.sideness.FaceConfig;
 import software.bernie.techarium.machine.sideness.Side;
 import software.bernie.techarium.tile.base.MachineSlaveTile;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public class SlaveTile extends MachineSlaveTile {
 
     @Override
     protected Map<Side, FaceConfig> setFaceControl() {
-        Map<Side, FaceConfig> topMap = new HashMap<>();
+        Map<Side, FaceConfig> topMap = new EnumMap<>(Side.class);
         for(Side side: Side.values()){
             if(side != Side.UP) {
                 topMap.put(side, FaceConfig.NONE);

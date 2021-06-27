@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.StemBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
@@ -14,24 +13,16 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.Property;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.common.Tags;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
-import software.bernie.techarium.client.RenderUtils;
 import software.bernie.techarium.client.tile.model.ArboretumModel;
-import software.bernie.techarium.machine.addon.progressbar.ProgressBarAddon;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
-
 import javax.annotation.Nullable;
-import java.util.Comparator;
-import java.util.Optional;
 
 public class ArboretumRenderer extends GeoBlockRenderer<ArboretumTile> {
 	public ArboretumRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
@@ -98,8 +89,7 @@ public class ArboretumRenderer extends GeoBlockRenderer<ArboretumTile> {
 		ItemStack crop = tile.getCropInventory().getStackInSlot(0);
 		if (crop.isEmpty() || !(crop.getItem() instanceof BlockItem))
 			return Blocks.AIR.defaultBlockState();
-		BlockState state = ((BlockItem) crop.getItem()).getBlock().defaultBlockState();
-		return state;
+		return ((BlockItem) crop.getItem()).getBlock().defaultBlockState();
 	}
 
 	@Override

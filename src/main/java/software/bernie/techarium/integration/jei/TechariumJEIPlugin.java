@@ -12,6 +12,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.techarium.Techarium;
+import software.bernie.techarium.display.container.AutomaticContainer;
 import software.bernie.techarium.display.screen.AutomaticContainerScreen;
 import software.bernie.techarium.integration.jei.category.ArboretumRecipeCategory;
 import software.bernie.techarium.integration.jei.category.BotariumRecipeCategory;

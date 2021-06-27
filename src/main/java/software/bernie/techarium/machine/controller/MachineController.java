@@ -1,5 +1,7 @@
 package software.bernie.techarium.machine.controller;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
@@ -29,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 
 public class MachineController<T extends IMachineRecipe> implements IContainerComponentProvider, INBTSerializable<CompoundNBT> {
@@ -36,6 +39,8 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
     protected final Supplier<BlockPos> posSupplier;
     protected final MachineMasterTile<T> tile;
 
+    @Getter
+    @Setter
     private T currentRecipe;
     private boolean shouldCheckRecipe;
     private int recipeCheckTimer;
@@ -74,10 +79,6 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
 
     public void addProgressBar(ProgressBarAddon progressBarAddon) {
         this.multiProgressBar.add(progressBarAddon);
-    }
-
-    public T getCurrentRecipe() {
-        return currentRecipe;
     }
 
     @Nonnull
@@ -213,11 +214,7 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
         if (recipeCheckTimer-- <= 0 || shouldCheckRecipe) {
             recipeCheckTimer = 50;
             if (tile.shouldCheckForRecipe()) {
-                currentRecipe = tile.getLevel().getRecipeManager()
-                        .getRecipes()
-                        .stream()
-                        .filter(tile::checkRecipe)
-                        .map(tile::castRecipe)
+                currentRecipe = getRecipes()
                         .filter(tile::matchRecipe)
                         .findFirst()
                         .orElse(null);
@@ -232,6 +229,14 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
                 }
             }
         }
+    }
+
+    public Stream<T> getRecipes() {
+        return tile.getLevel().getRecipeManager()
+                .getRecipes()
+                .stream()
+                .filter(tile::checkRecipe)
+                .map(tile::castRecipe);
     }
 
     @Override

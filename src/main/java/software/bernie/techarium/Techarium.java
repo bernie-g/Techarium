@@ -15,7 +15,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
 import software.bernie.techarium.datagen.*;
+import software.bernie.techarium.display.container.AutomaticContainer;
 import software.bernie.techarium.display.screen.AutomaticContainerScreen;
+import software.bernie.techarium.display.screen.ExchangeStationScreen;
 import software.bernie.techarium.display.screen.PipeContainerScreen;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.integration.theoneprobe.TheOneProbeIntegration;
@@ -25,8 +27,7 @@ import software.bernie.techarium.registry.*;
 import software.bernie.techarium.util.LogCache;
 import software.bernie.techarium.world.WorldGen;
 
-import static software.bernie.techarium.registry.ContainerRegistry.AUTO_CONTAINER;
-import static software.bernie.techarium.registry.ContainerRegistry.PIPE_CONTAINER;
+import static software.bernie.techarium.registry.ContainerRegistry.*;
 
 @Mod(Techarium.ModID)
 public class Techarium
@@ -79,5 +80,6 @@ public class Techarium
 	{
 		ScreenManager.register(AUTO_CONTAINER.get(), AutomaticContainerScreen::new);
 		ScreenManager.register(PIPE_CONTAINER.get(), PipeContainerScreen::new);
+		ScreenManager.register(EXCHANGE_STATION_CONTAINER.get(), ExchangeStationScreen::new);
 	}
 }

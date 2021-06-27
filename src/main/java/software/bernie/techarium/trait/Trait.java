@@ -25,7 +25,7 @@ public class Trait {
      */
     public Consumer<Object> getTweaker(Class<?> clazz) {
         return tweakers.entrySet().stream().filter(entry -> entry.getKey().isAssignableFrom(clazz)).findFirst()
-                .map(entry -> entry.getValue()).orElse(null);
+                .map(Map.Entry::getValue).orElse(null);
     }
 
     protected <T> void addTweaker(Class<T> tweakerType, Consumer<T> tweaker) {
