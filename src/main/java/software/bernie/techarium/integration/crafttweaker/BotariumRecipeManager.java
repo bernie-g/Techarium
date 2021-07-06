@@ -37,7 +37,7 @@ public class BotariumRecipeManager implements IRecipeManager {
                 .toArray(ChancedItemStack[]::new));
 
         return new BotariumRecipe(new ResourceLocation("crafttweaker", name), cropIn.asVanillaIngredient(), inputFluid.getImmutableInternal(),
-                soilIn.asVanillaIngredient(), list, progressPerTick, maxProgress, rfPerTick);
+                soilIn.asVanillaIngredient(), list, null, progressPerTick, maxProgress, rfPerTick);
     }
 
     @Override

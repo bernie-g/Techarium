@@ -1,12 +1,15 @@
 package software.bernie.techarium.recipe.serializer;
 
 import com.google.gson.JsonObject;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.util.ChancedItemStackList;
@@ -26,7 +29,8 @@ public class BotariumRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializ
         int maxProgress = JSONUtils.getAsInt(json, "maxProgress");
         int ticksPerProgress = JSONUtils.getAsInt(json, "progressPerTick");
         int energy = JSONUtils.getAsInt(json, "rfPerTick");
-        return new BotariumRecipe(recipeId, crop, fluidIn, soil, output, ticksPerProgress, maxProgress, energy);
+        BlockItem renderSoil = json.has("renderSoil") ? (BlockItem) ForgeRegistries.ITEMS.getValue(new ResourceLocation(JSONUtils.getAsString(json, "renderSoil"))) : null;
+        return new BotariumRecipe(recipeId, crop, fluidIn, soil, output, renderSoil, ticksPerProgress, maxProgress, energy);
     }
 
     @Nullable
@@ -39,7 +43,8 @@ public class BotariumRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializ
         int maxProgress = buffer.readInt();
         int ticksPerProgress = buffer.readInt();
         int energy = buffer.readInt();
-        return new BotariumRecipe(recipeId, crop, fluidIn, soil, output, ticksPerProgress, maxProgress, energy);
+        BlockItem renderSoil = (BlockItem)buffer.readItem().getItem();
+        return new BotariumRecipe(recipeId, crop, fluidIn, soil, output, renderSoil, ticksPerProgress, maxProgress, energy);
     }
 
     @Override
@@ -51,5 +56,6 @@ public class BotariumRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializ
         buffer.writeInt(recipe.getMaxProgress());
         buffer.writeInt(recipe.getProgressPerTick());
         buffer.writeInt(recipe.getRfPerTick());
+        buffer.writeItem(recipe.getRenderSoil() != null ? recipe.getRenderSoil().getDefaultInstance() : ItemStack.EMPTY);
     }
 }
