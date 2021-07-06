@@ -8,8 +8,10 @@ import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.data.ShapedRecipeBuilder;
 import net.minecraft.data.ShapelessRecipeBuilder;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.data.ForgeRecipeProvider;
@@ -31,19 +33,24 @@ public abstract class TechariumRecipeProviderBase extends ForgeRecipeProvider {
         buildBotariumRecipe(flowerBlock.asItem(), ChancedItemStackList.of(new ItemStack(flowerBlock)), Ingredient
                 .of(Blocks.GRASS_BLOCK), 1000, 1000, consumer);
     }
-
     public void buildBotariumRecipe(Item seed, ChancedItemStackList drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
-        buildBotariumRecipe(seed, drop, Ingredient.of(TagRegistry.DIRT), amountWater, time, consumer);
+        buildBotariumRecipe(seed, drop, Ingredient.of(TagRegistry.DIRT), null, amountWater, time, consumer);
     }
-
+    public void buildBotariumFarmlandRecipe(Item seed, ChancedItemStackList drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+        buildBotariumRecipe(seed, drop, Ingredient.of(TagRegistry.DIRT), (BlockItem) Items.FARMLAND, amountWater, time, consumer);
+    }
     public void buildBotariumRecipe(Item seed, ChancedItemStackList drop, Ingredient soil, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
-        buildBotariumRecipe(seed, drop, soil, new FluidStack(Fluids.WATER, amountWater), time, consumer);
+        buildBotariumRecipe(seed, drop, soil, null, new FluidStack(Fluids.WATER, amountWater), time, consumer);
+    }
+    public void buildBotariumRecipe(Item seed, ChancedItemStackList drop, Ingredient soil, BlockItem renderSoil, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+        buildBotariumRecipe(seed, drop, soil, renderSoil, new FluidStack(Fluids.WATER, amountWater), time, consumer);
     }
 
-    public void buildBotariumRecipe(Item seed, ChancedItemStackList drop, Ingredient soil, FluidStack fluid, int time, Consumer<IFinishedRecipe> consumer) {
+    public void buildBotariumRecipe(Item seed, ChancedItemStackList drop, Ingredient soil, BlockItem renderSoil, FluidStack fluid, int time, Consumer<IFinishedRecipe> consumer) {
         BotariumRecipe.builder()
                 .cropType(Ingredient.of(seed))
                 .soilIn(soil)
+                .renderSoil(renderSoil)
                 .fluidIn(fluid)
                 .maxProgress(time)
                 .rfPerTick(10)

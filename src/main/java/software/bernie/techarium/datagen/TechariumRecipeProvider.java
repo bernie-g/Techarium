@@ -6,6 +6,7 @@ import net.minecraft.data.CookingRecipeBuilder;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
@@ -17,6 +18,7 @@ import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.ItemRegistry;
+import software.bernie.techarium.registry.TagRegistry;
 import software.bernie.techarium.util.ChancedItemStack;
 import software.bernie.techarium.util.ChancedItemStackList;
 
@@ -52,12 +54,12 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
     }
 
     private void registerVanillaBotariumRecipes(Consumer<IFinishedRecipe> consumer) {
-        buildBotariumRecipe(Items.CARROT, ChancedItemStackList.of(Items.CARROT), 1000, 800, consumer);
+        buildBotariumFarmlandRecipe(Items.CARROT, ChancedItemStackList.of(Items.CARROT), 1000, 800, consumer);
         buildBotariumRecipe(Items.COCOA_BEANS, ChancedItemStackList.of(Items.COCOA_BEANS), Ingredient
                 .of(Items.JUNGLE_LOG), 1000, 800, consumer);
-        buildBotariumRecipe(Items.POTATO, ChancedItemStackList.of(Items.POTATO), 1000, 800, consumer);
-        buildBotariumRecipe(Items.WHEAT_SEEDS, ChancedItemStackList.of(Items.WHEAT), 1000, 800, consumer);
-        buildBotariumRecipe(Items.BEETROOT_SEEDS, ChancedItemStackList.of(Items.BEETROOT), 1000, 800, consumer);
+        buildBotariumFarmlandRecipe(Items.POTATO, ChancedItemStackList.of(Items.POTATO), 1000, 800, consumer);
+        buildBotariumFarmlandRecipe(Items.WHEAT_SEEDS, ChancedItemStackList.of(Items.WHEAT), 1000, 800, consumer);
+        buildBotariumFarmlandRecipe(Items.BEETROOT_SEEDS, ChancedItemStackList.of(Items.BEETROOT), 1000, 800, consumer);
         buildBotariumRecipe(Items.SWEET_BERRIES, ChancedItemStackList.of(Items.SWEET_BERRIES), 1000, 800, consumer);
 
         buildBotariumRecipe(Items.SUGAR_CANE, ChancedItemStackList.of(Items.SUGAR_CANE), Ingredient
@@ -66,17 +68,17 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .of(Items.SAND), 1000, 600, consumer);
 
         buildBotariumRecipe(Items.NETHER_WART, ChancedItemStackList.of(Items.NETHER_WART), Ingredient
-                .of(Blocks.SOUL_SAND), new FluidStack(Fluids.LAVA, 50), 1000, consumer);
+                .of(Blocks.SOUL_SAND), null,new FluidStack(Fluids.LAVA, 50), 1000, consumer);
 
         buildBotariumRecipe(Items.RED_MUSHROOM, ChancedItemStackList.of(Items.RED_MUSHROOM), Ingredient
                 .of(Items.STONE, Items.MYCELIUM), 50, 1000, consumer);
         buildBotariumRecipe(Items.BROWN_MUSHROOM, ChancedItemStackList.of(Items.BROWN_MUSHROOM), Ingredient
                 .of(Items.STONE, Items.MYCELIUM), 50, 1000, consumer);
 
-        buildBotariumRecipe(Items.MELON_SEEDS, ChancedItemStackList.of(Items.MELON), 1500, 1200, consumer);
-        buildBotariumRecipe(Items.PUMPKIN_SEEDS, ChancedItemStackList.of(Items.PUMPKIN), 1500, 1200, consumer);
+        buildBotariumFarmlandRecipe(Items.MELON_SEEDS, ChancedItemStackList.of(Items.MELON), 1500, 1200, consumer);
+        buildBotariumFarmlandRecipe(Items.PUMPKIN_SEEDS, ChancedItemStackList.of(Items.PUMPKIN), 1500, 1200, consumer);
 
-        buildBotariumRecipe(Items.KELP, ChancedItemStackList.of(Items.KELP), 3000, 1000, consumer);
+        buildBotariumRecipe(Items.KELP, ChancedItemStackList.of(Items.KELP), Ingredient.of(TagRegistry.DIRT), (BlockItem) Items.DIRT, 3000, 1000, consumer);
 
         buildBotariumFlowerRecipe((FlowerBlock) Blocks.DANDELION, consumer);
         buildBotariumFlowerRecipe((FlowerBlock) Blocks.POPPY, consumer);
