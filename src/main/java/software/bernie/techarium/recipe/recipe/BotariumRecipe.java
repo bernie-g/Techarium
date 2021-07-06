@@ -3,11 +3,13 @@ package software.bernie.techarium.recipe.recipe;
 import com.google.gson.JsonObject;
 import lombok.Builder;
 import lombok.Getter;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.techarium.recipe.AbstractMachineRecipe;
 import software.bernie.techarium.util.ChancedItemStackList;
 import software.bernie.techarium.util.JsonCodecUtils;
@@ -23,16 +25,21 @@ public class BotariumRecipe extends AbstractMachineRecipe {
     private final FluidStack fluidIn;
     @Getter
     private final Ingredient soilIn;
+
+    @Getter
+    @Nullable
+    private final BlockItem renderSoil;
     @Getter
     private final ChancedItemStackList output;
 
     @Builder(buildMethodName = "construct")
-    public BotariumRecipe(ResourceLocation id, Ingredient cropType, FluidStack fluidIn, Ingredient soilIn, ChancedItemStackList output, int progressPerTick, int maxProgress, int rfPerTick) {
+    public BotariumRecipe(ResourceLocation id, Ingredient cropType, FluidStack fluidIn, Ingredient soilIn, ChancedItemStackList output, BlockItem renderSoil, int progressPerTick, int maxProgress, int rfPerTick) {
         super(id, BOTARIUM_RECIPE_TYPE, progressPerTick, maxProgress, rfPerTick);
         this.cropType = cropType;
         this.fluidIn = fluidIn;
         this.soilIn = soilIn;
         this.output = output;
+        this.renderSoil = renderSoil;
     }
 
     @Override
@@ -62,6 +69,7 @@ public class BotariumRecipe extends AbstractMachineRecipe {
             json.add("soilIn", getSoilIn().toJson());
             json.add("fluidIn", JsonCodecUtils.serialize(getFluidIn()));
             json.add("output", getOutput().toJSON());
+            if (getRenderSoil() != null) json.addProperty("renderSoil", getRenderSoil().getRegistryName().toString());
         }
     }
 
