@@ -1,0 +1,34 @@
+{
+  "type": "techarium:arboretum",
+  "conditions": [
+    {
+      "modid": "byg",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "progressPerTick": 1,
+  "maxProgress": 1000,
+  "rfPerTick": 10,
+  "cropIn": {
+    "item": "byg:lament_sapling"
+  },
+  "soilIn": {
+    "tag": "forge:dirt"
+  },
+  "fluidIn": {
+    "FluidName": "minecraft:water",
+    "Amount": 1000
+  },
+  "output": [
+    {
+      "item": "byg:lament_log",
+      "amount": 6,
+      "chance": 0.5
+    },
+    {
+      "item": "byg:lament_sapling",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ]
+}

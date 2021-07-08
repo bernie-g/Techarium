@@ -78,8 +78,9 @@ public class ChancedItemStackList {
     public void reloadCache() {
         cachedOutput = new ArrayList<>();
         for (ChancedItemStack stack : stackList) {
-            if (stack.roll()) {
-                cachedOutput.add(stack.getStack().copy());
+            ItemStack cache = stack.roll();
+            if (cache.getCount() > 0) {
+                cachedOutput.add(cache);
             }
         }
     }
