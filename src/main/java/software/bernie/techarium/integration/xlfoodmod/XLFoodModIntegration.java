@@ -14,13 +14,13 @@ public class XLFoodModIntegration extends Integration {
 
     @Override
     public void generateRecipes(Consumer<IFinishedRecipe> consumer) {
-        buildBotariumRecipe(ItemList.STRAWBERRY_SEEDS, ChancedItemStackList.of(ItemList.STRAWBERRY), 1000, 800, consumer);
-        buildBotariumRecipe(ItemList.CORN_SEEDS, ChancedItemStackList.of(ItemList.RAW_CORN), 1000, 800, consumer);
-        buildBotariumRecipe(ItemList.CUCUMBER_SEEDS, ChancedItemStackList.of(ItemList.CUCUMBER), 1000, 800, consumer);
-        buildBotariumRecipe(ItemList.LEMON_SEEDS, ChancedItemStackList.of(ItemList.LEMON), 1000, 800, consumer);
-        buildBotariumRecipe(ItemList.LETTUCE_SEEDS, ChancedItemStackList.of(ItemList.LETTUCE), 1000, 800, consumer);
-        buildBotariumRecipe(ItemList.PEPPER_SEEDS, ChancedItemStackList.of(ItemList.PEPPER), 1000, 800, consumer);
-        buildBotariumRecipe(ItemList.PINEAPPLE_SEEDS, ChancedItemStackList.of(ItemList.PINEAPPLE), 1000, 800, consumer);
-        buildBotariumRecipe(ItemList.TOMATO_SEEDS, ChancedItemStackList.of(ItemList.TOMATO), 1000, 800, consumer);
+        buildBotariumFarmlandRecipe(ItemList.STRAWBERRY_SEEDS, ChancedItemStackList.of(ItemList.STRAWBERRY), 1000, 800, consumer);
+        buildBotariumFarmlandRecipe(ItemList.CORN_SEEDS, ChancedItemStackList.of(ItemList.RAW_CORN), 1000, 800, consumer);
+        buildBotariumFarmlandRecipe(ItemList.CUCUMBER_SEEDS, ChancedItemStackList.of(ItemList.CUCUMBER), 1000, 800, consumer);
+        buildBotariumFarmlandRecipe(ItemList.LEMON_SEEDS, ChancedItemStackList.of(ItemList.LEMON), 1000, 800, consumer);
+        buildBotariumFarmlandRecipe(ItemList.LETTUCE_SEEDS, ChancedItemStackList.of(ItemList.LETTUCE), 1000, 800, consumer);
+        buildBotariumFarmlandRecipe(ItemList.PEPPER_SEEDS, ChancedItemStackList.of(ItemList.PEPPER), 1000, 800, consumer);
+        buildBotariumFarmlandRecipe(ItemList.PINEAPPLE_SEEDS, ChancedItemStackList.of(ItemList.PINEAPPLE), 1000, 800, consumer);
+        buildBotariumFarmlandRecipe(ItemList.TOMATO_SEEDS, ChancedItemStackList.of(ItemList.TOMATO), 1000, 800, consumer);
     }
 }
