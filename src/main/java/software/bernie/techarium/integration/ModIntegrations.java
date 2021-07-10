@@ -2,6 +2,8 @@ package software.bernie.techarium.integration;
 
 import lombok.Getter;
 import net.minecraftforge.common.util.LazyOptional;
+import software.bernie.techarium.integration.biomesoplenty.BiomesOPlentyIntegration;
+import software.bernie.techarium.integration.byg.BYGIntegration;
 import software.bernie.techarium.integration.farmersdelight.FarmersDelightIntegration;
 import software.bernie.techarium.integration.immersiveengineering.IEIntegration;
 import software.bernie.techarium.integration.mekanism.MekanismIntegration;
@@ -43,6 +45,14 @@ public class ModIntegrations {
     private static final Integration.Wrapper<IEIntegration> IMMERSIVE_ENGINEERING = Integration.Wrapper.of("immersive_engineering",
             IEIntegration::new).registerSelf();
 
+    private static final Integration.Wrapper<BiomesOPlentyIntegration> BIOMES_O_PLENTY = Integration.Wrapper.of("biomesoplenty",
+            BiomesOPlentyIntegration::new).registerSelf();
+
+    private static final Integration.Wrapper<BYGIntegration> BYG = Integration.Wrapper.of("byg",
+            BYGIntegration::new).registerSelf();
+
+
+
     public static LazyOptional<MekanismIntegration> getMekanism() {
         return MEKANISM.get();
     }
@@ -73,5 +83,13 @@ public class ModIntegrations {
 
     public static LazyOptional<XLFoodModIntegration> getXLFoodMod() {
         return XL_FOOD_MOD.get();
+    }
+
+    public static LazyOptional<BiomesOPlentyIntegration> getBiomesOPlenty() {
+        return BIOMES_O_PLENTY.get();
+    }
+
+    public static LazyOptional<BYGIntegration> getBYG() {
+        return BYG.get();
     }
 }

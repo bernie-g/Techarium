@@ -76,8 +76,14 @@ public class ChancedItemStack {
         buffer.writeDouble(this.chance);
     }
 
-    public boolean roll() {
-        return random.nextDouble() <= chance;
+    public ItemStack roll() {
+        int count = 0;
+        for (int x = 0; x < stack.getCount(); x++) {
+            count += random.nextDouble() <= chance ? 1 : 0;
+        }
+        ItemStack output = stack.copy();
+        output.setCount(count);
+        return output;
     }
 
     @Override
