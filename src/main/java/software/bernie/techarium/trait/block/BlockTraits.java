@@ -15,19 +15,31 @@ public class BlockTraits {
         public MaterialTrait() {
             this.addTweaker(AbstractBlock.Properties.class, this::tweakProperties);
         }
-        protected abstract void tweakProperties(AbstractBlock.Properties properties);
+
+        protected void tweakProperties(AbstractBlock.Properties properties) {
+
+        }
     }
 
-    public static class MachineMaterialTrait extends MaterialTrait{
+    public static class MachineMaterialTrait extends MaterialTrait {
         @Override
         protected void tweakProperties(AbstractBlock.Properties properties) {
-            properties.strength(4f).harvestLevel(2).harvestTool(ToolType.PICKAXE).noOcclusion().requiresCorrectToolForDrops();
+            properties.strength(4f).harvestLevel(2).harvestTool(ToolType.PICKAXE).noOcclusion()
+                    .requiresCorrectToolForDrops();
+        }
+    }
+
+    public static class StrengthTrait extends MaterialTrait {
+        @Override
+        protected void tweakProperties(AbstractBlock.Properties properties) {
+            properties.strength(4f).harvestLevel(2).harvestTool(ToolType.PICKAXE).noOcclusion()
+                    .requiresCorrectToolForDrops();
         }
     }
 
     @AllArgsConstructor
     public static class TileEntityTrait<T extends TileEntity> extends Trait {
-        private final Class<? extends T> tileClass;
+        final Class<? extends T> tileClass;
 
         @SneakyThrows
         public T createTileEntity() {
@@ -41,18 +53,14 @@ public class BlockTraits {
     }
 
     @Data
-    public static class BlockRenderTypeTrait extends Trait{
+    public static class BlockRenderTypeTrait extends Trait {
         private final BlockRenderType blockRenderType;
     }
 
     @Data
-    public static class VoxelShapeTrait extends Trait{
+    public static class VoxelShapeTrait extends Trait {
         private final VoxelShape boundingBox;
         private final VoxelShape collisionBox;
     }
 
-    @Data
-    public static class SlaveBlockTrait extends Trait{
-        private final BlockBehaviour masterTrait;
-    }
 }

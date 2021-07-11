@@ -20,17 +20,18 @@ public abstract class MachineTileBase extends TechariumTileEntity {
         super(tileEntityTypeIn);
     }
 
-    protected Map<Side, FaceConfig> setFaceControl(){
+    protected Map<Side, FaceConfig> setFaceControl() {
         Map<Side, FaceConfig> defaultSetUp = new HashMap<>();
-        for (Side side: Side.values()){
-            defaultSetUp.put(side,FaceConfig.NONE);
+        for (Side side : Side.values()) {
+            defaultSetUp.put(side, FaceConfig.NONE);
         }
         return defaultSetUp;
     }
 
     public Direction getFacingDirection() {
         assert this.level != null;
-        return this.level.getBlockState(this.worldPosition).hasProperty(FACING) ? this.level.getBlockState(this.worldPosition).getValue(FACING) : Direction.NORTH;
+        return this.level.getBlockState(this.worldPosition).hasProperty(FACING) ? this.level
+                .getBlockState(this.worldPosition).getValue(FACING) : Direction.NORTH;
     }
 
     public Map<Side, FaceConfig> getFaceConfigs() {

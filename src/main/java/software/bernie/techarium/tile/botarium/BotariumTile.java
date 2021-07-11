@@ -3,9 +3,7 @@ package software.bernie.techarium.tile.botarium;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -14,7 +12,6 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.item.UpgradeItem;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
@@ -28,7 +25,7 @@ import software.bernie.techarium.machine.sideness.FaceConfig;
 import software.bernie.techarium.machine.sideness.Side;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
-import software.bernie.techarium.tile.base.MultiblockMasterTile;
+import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,9 +34,8 @@ import java.util.Map;
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.BOTARIUM_DRAWABLE;
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.BOTARIUM_OUTPUT_SLOT;
 import static software.bernie.techarium.registry.BlockRegistry.BOTARIUM;
-import static software.bernie.techarium.registry.BlockRegistry.BOTARIUM_TOP;
 
-public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implements IAnimatable {
+public class BotariumTile extends MachineMasterTile<BotariumRecipe> implements IAnimatable {
     private static final int SIZE_X = 172;
     private static final int SIZE_Y = 184;
 
@@ -234,13 +230,6 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
             getController().setShouldCheckRecipe();
         }
         updateMachineTile();
-    }
-
-    @Override
-    public Map<BlockPos, MachineBlock<?>> getMachineSlaveLocations() {
-        Map<BlockPos, MachineBlock<?>> map = super.getMachineSlaveLocations();
-        map.put(worldPosition.above(), BOTARIUM_TOP.get());
-        return map;
     }
 
     @Override

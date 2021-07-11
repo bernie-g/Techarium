@@ -29,7 +29,7 @@ import software.bernie.techarium.machine.sideness.FaceConfig;
 import software.bernie.techarium.machine.sideness.Side;
 import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
-import software.bernie.techarium.tile.base.MultiblockMasterTile;
+import software.bernie.techarium.tile.base.MachineMasterTile;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -41,7 +41,7 @@ import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.ARBO
 import static software.bernie.techarium.registry.BlockRegistry.ARBORETUM;
 import static software.bernie.techarium.registry.BlockRegistry.ARBORETUM_TOP;
 
-public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> implements IAnimatable {
+public class ArboretumTile extends MachineMasterTile<ArboretumRecipe> implements IAnimatable {
     private static final int SIZE_X = 172;
     private static final int SIZE_Y = 184;
 
@@ -233,13 +233,6 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
             getController().setShouldCheckRecipe();
         }
         updateMachineTile();
-    }
-
-    @Override
-    public Map<BlockPos, MachineBlock<?>> getMachineSlaveLocations() {
-        Map<BlockPos, MachineBlock<?>> map = super.getMachineSlaveLocations();
-        map.put(worldPosition.above(), ARBORETUM_TOP.get());
-        return map;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package software.bernie.techarium.trait;
 
+import software.bernie.techarium.trait.behaviour.Behaviour;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -32,4 +34,18 @@ public class Trait {
         tweakers.put(tweakerType, (Consumer<Object>) tweaker);
     }
 
+    /**
+     * Make sure that this behaviour is configured properly for this trait and throw an exception if it isn't.
+     *
+     * @param behaviour the behaviour
+     * @throws Exception the exception
+     */
+    public void verifyTrait(Behaviour behaviour) throws Exception {
+
+    }
+
+    @Override
+    public Trait clone(){
+        return this;
+    }
 }

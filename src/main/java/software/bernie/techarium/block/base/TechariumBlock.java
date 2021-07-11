@@ -1,8 +1,10 @@
 package software.bernie.techarium.block.base;
 
-import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -10,18 +12,20 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import software.bernie.techarium.data.DataHolder;
 import software.bernie.techarium.trait.Traits;
 import software.bernie.techarium.trait.behaviour.Behaviour;
 import software.bernie.techarium.trait.behaviour.IHasBehaviour;
 import software.bernie.techarium.trait.block.BlockBehaviour;
 import software.bernie.techarium.trait.block.BlockTraits;
+import software.bernie.techarium.trait.block.MasterBlockTrait;
+import software.bernie.techarium.trait.block.SlaveBlockTrait;
+import software.bernie.techarium.util.Utils;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
 
 
-public abstract class TechariumBlock<T extends TileEntity> extends RotatableBlock implements IHasBehaviour {
+public abstract class TechariumBlock extends RotatableBlock implements IHasBehaviour {
 
     private final BlockBehaviour behaviour;
 
@@ -64,12 +68,46 @@ public abstract class TechariumBlock<T extends TileEntity> extends RotatableBloc
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState p_220071_1_, IBlockReader p_220071_2_, BlockPos p_220071_3_, ISelectionContext p_220071_4_) {
-        return super.getCollisionShape(p_220071_1_, p_220071_2_, p_220071_3_, p_220071_4_);
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader p_220071_2_, BlockPos p_220071_3_, ISelectionContext p_220071_4_) {
+        BlockTraits.VoxelShapeTrait voxelShapeTrait = behaviour.getRequired(BlockTraits.VoxelShapeTrait.class);
+        if(state.hasProperty(HorizontalBlock.FACING)){
+            return Utils.rotateVoxelShape(voxelShapeTrait.getCollisionBox(), state.getValue(HorizontalBlock.FACING));
+        }
+        return voxelShapeTrait.getCollisionBox();
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, IBlockReader p_220053_2_, BlockPos p_220053_3_, ISelectionContext p_220053_4_) {
+        BlockTraits.VoxelShapeTrait voxelShapeTrait = behaviour.getRequired(BlockTraits.VoxelShapeTrait.class);
+        if(state.hasProperty(HorizontalBlock.FACING)){
+            return Utils.rotateVoxelShape(voxelShapeTrait.getBoundingBox(), state.getValue(HorizontalBlock.FACING));
+        }
+        return voxelShapeTrait.getBoundingBox();
     }
 
     @Override
     public Behaviour getBehaviour() {
         return this.behaviour;
     }
+
+    @Deprecated
+    @Override
+    @SuppressWarnings("deprecared")
+    public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (world != null && state.getBlock() != newState.getBlock()) {
+            this.getBehaviour().get(SlaveBlockTrait.class).ifPresent(trait -> trait.handleDestruction(world, pos));
+            this.getBehaviour().get(MasterBlockTrait.class).ifPresent(trait -> trait.handleDestruction(world, pos, state));
+        }
+        super.onRemove(state, world, pos, newState, isMoving);
+    }
+
+    @Override
+    public void setPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        if (world != null) {
+            this.getBehaviour().get(SlaveBlockTrait.class).ifPresent(trait -> trait.placeSlaves(world, pos));
+            this.getBehaviour().get(MasterBlockTrait.class).ifPresent(trait -> trait.placeSlaves(world, pos));
+        }
+        super.setPlacedBy(world, pos, state, placer, stack);
+    }
+
 }

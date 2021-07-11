@@ -1,23 +1,18 @@
 package software.bernie.techarium.block.botarium;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.tile.botarium.BotariumTile;
 import software.bernie.techarium.trait.block.BlockBehaviours;
 import software.bernie.techarium.util.BlockRegion;
-
-import javax.annotation.Nonnull;
 
 public class BotariumMaster extends MachineBlock<BotariumTile> {
 
@@ -41,13 +36,6 @@ public class BotariumMaster extends MachineBlock<BotariumTile> {
             return Math.max(tile.getFluidInventory().getFluid().getFluid().defaultFluidState().createLegacyBlock().getLightValue(world, pos), super.getLightValue(state, world, pos));
         }
         return super.getLightValue(state, world, pos);
-    }
-
-    @Override
-    @Nonnull
-    @SuppressWarnings("deprecation")
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return Block.box(0.0D, 0.0D, 0.0D, 16.0D, 32.0D, 16.0D);
     }
 
     @Override

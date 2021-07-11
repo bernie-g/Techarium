@@ -9,6 +9,8 @@ public class BlockPartialBehaviours {
             .requiredTraits(BlockTraits.MaterialTrait.class)
             .requiredTraits(BlockTraits.BlockRenderTypeTrait.class)
             .requiredTraits(BlockTraits.VoxelShapeTrait.class)
+            .requiredTraits(MasterBlockTrait.class)
+            .with(new MasterBlockTrait())
             .staticModel()
             .showBreakParticles(true)
             .partial();
@@ -23,7 +25,7 @@ public class BlockPartialBehaviours {
             .partial();
 
     public static PartialBehaviour partialSlaveBlock = new BlockBehaviour.Builder()
-            .requiredTraits(BlockTraits.SlaveBlockTrait.class)
+            .requiredTraits(SlaveBlockTrait.class)
             .showBreakParticles(false)
             .tileEntity(SlaveTile.class)
             .animatedModel()

@@ -34,6 +34,8 @@ import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUM;
 public class BlockRegistry {
     public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES,
             Techarium.ModID);
+
+
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Techarium.ModID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Techarium.ModID);

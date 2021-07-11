@@ -1,15 +1,17 @@
 package software.bernie.techarium.trait.behaviour;
 
-import it.unimi.dsi.fastutil.ints.Int2ReferenceMap;
-import it.unimi.dsi.fastutil.ints.Int2ReferenceOpenHashMap;
 import software.bernie.techarium.trait.Trait;
+import software.bernie.techarium.util.ClassMap;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 public class Behaviour {
 
-    protected final Int2ReferenceMap<Trait> traits = new Int2ReferenceOpenHashMap<>();
     protected final List<Class<? extends Trait>> requiredTraits = new ArrayList<>();
+    protected final ClassMap<Trait> traits = new ClassMap<>(Trait.class);
 
     protected Behaviour() {
 
@@ -19,7 +21,7 @@ public class Behaviour {
      * Returns if this behaviour has a Trait
      */
     public boolean has(Class<? extends Trait> trait) {
-        return traits.containsKey(trait.hashCode());
+        return traits.containsKey(trait);
     }
 
     /**
@@ -33,17 +35,19 @@ public class Behaviour {
     /**
      * Returns any trait that matches using inheritence. For example, if `TraitApple` extends `TraitFruit`
      * and this behaviour has `TraitApple` then calling Behaviour#getBaseTrait(TraitFruit.class) would return the first trait that inherits from TraitFruit.
+     *
      * @return
      */
     public <T extends Trait> Optional<T> getBaseTrait(Class<T> matchTrait) {
-        return (Optional<T>) traits.values().stream().filter(trait -> matchTrait.isAssignableFrom(trait.getClass())).findFirst();
+        return (Optional<T>) traits.values().stream().filter(trait -> matchTrait.isAssignableFrom(trait.getClass()))
+                .findFirst();
     }
 
     /**
      * Gets a trait in this behaviour, if it exists.
      */
     public <T extends Trait> Optional<T> get(Class<T> trait) {
-        return (Optional<T>) Optional.ofNullable(traits.get(trait.hashCode()));
+        return traits.findFirst(trait);
     }
 
     /**
@@ -69,7 +73,7 @@ public class Behaviour {
      */
     @SafeVarargs
     public final <T> void tweak(Class<? extends Trait> traitType, T... objects) {
-        Trait trait = traits.get(traitType.hashCode());
+        Trait trait = traits.findFirst(traitType).orElseThrow(IllegalStateException::new);
         if (trait != null)
             trait.tweak(objects);
     }
@@ -135,10 +139,19 @@ public class Behaviour {
          */
         public BUILDER composeFrom(PartialBehaviour... partialBehaviours) {
             for (PartialBehaviour partialBehaviour : partialBehaviours) {
-                partialBehaviour.getPartialBehaviour().traits.forEach((i, t) -> this.behaviour.traits.put(i, t));
+                partialBehaviour.getPartialBehaviour().traits
+                        .forEach((t) -> this.behaviour.traits.add(t.clone()));
                 this.behaviour.requiredTraits.addAll(partialBehaviour.getPartialBehaviour().requiredTraits);
             }
             return getThis();
+        }
+
+
+        /**
+         * Replace a trait that's already in this builder
+         */
+        public BUILDER replace(Trait... traits) {
+            return with(traits);
         }
 
         /**
@@ -146,7 +159,7 @@ public class Behaviour {
          */
         public BUILDER with(Trait... traits) {
             for (Trait trait : traits) {
-                this.behaviour.traits.put(trait.getClass().hashCode(), trait);
+                this.behaviour.traits.add(trait);
             }
             return getThis();
         }
@@ -195,6 +208,14 @@ public class Behaviour {
                 if (!this.behaviour.hasBaseTrait(requiredTrait)) {
                     throw new IllegalStateException("Non-partial behaviour must have required trait of type: " + requiredTrait
                             .getName());
+                }
+            }
+
+            for (Trait trait : this.behaviour.traits.values()) {
+                try {
+                    trait.verifyTrait(this.behaviour);
+                } catch (Exception e) {
+                    throw new IllegalStateException("Could not verify trait: " + trait.getClass().getName(), e);
                 }
             }
 
