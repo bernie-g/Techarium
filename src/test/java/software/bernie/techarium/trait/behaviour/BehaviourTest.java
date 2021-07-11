@@ -16,10 +16,13 @@ class BehaviourTest {
         traits.put(new BlockTraits.MaterialTrait());
         traits.put(new Trait());
         traits.put(new BlockTraits.ParticlesTrait(true));
-        traits.put(new BlockTraits.StrengthTrait());
-        traits.put(new BlockTraits.StrengthTrait());
+        traits.put(new BlockTraits.SlaveMaterialTrait());
+        traits.put(new BlockTraits.SlaveMaterialTrait());
+        traits.remove(BlockTraits.ParticlesTrait.class);
         Optional<BlockTraits.MaterialTrait> trait = traits.getOptional(BlockTraits.MaterialTrait.class);
 
         Assertions.assertNotNull(trait.get());
+        Assertions.assertEquals(2, traits.size());
+        Assertions.assertNull(traits.get(BlockTraits.ParticlesTrait.class));
     }
 }

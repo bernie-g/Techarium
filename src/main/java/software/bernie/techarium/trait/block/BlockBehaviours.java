@@ -39,8 +39,8 @@ public class BlockBehaviours {
         // copy the master block's material trait to the slave
         return masterBehaviour.get(BlockTraits.MaterialTrait.class).map(trait -> new BlockBehaviour.Builder()
                 .composeFrom(BlockPartialBehaviours.partialSlaveBlock)
-                .with(trait)
                 .with(new SlaveBlockTrait(masterBehaviour))
+                .replace(new BlockTraits.SlaveMaterialTrait())
                 .tileEntity(SlaveTile.class)
                 .build()).orElseThrow(IllegalStateException::new);
     }

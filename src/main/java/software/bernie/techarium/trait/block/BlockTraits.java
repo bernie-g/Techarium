@@ -29,10 +29,10 @@ public class BlockTraits {
         }
     }
 
-    public static class StrengthTrait extends MaterialTrait {
+    public static class SlaveMaterialTrait extends MaterialTrait {
         @Override
         protected void tweakProperties(AbstractBlock.Properties properties) {
-            properties.strength(4f).harvestLevel(2).harvestTool(ToolType.PICKAXE).noOcclusion()
+            properties.strength(0).harvestLevel(2).harvestTool(ToolType.PICKAXE).noOcclusion()
                     .requiresCorrectToolForDrops();
         }
     }

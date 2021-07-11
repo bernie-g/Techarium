@@ -73,7 +73,7 @@ public class ClassInheritanceMap<T> extends AbstractMap<Class<T>, T> {
         for (Map.Entry<Class<?>, List<T>> entry : this.byClass.entrySet()) {
             if (entry.getKey().isAssignableFrom((Class<?>) key)) {
                 List<T> list = entry.getValue();
-                flag |= list.remove(key);
+                flag |= list.removeIf(t -> t.getClass() != baseClass && t.getClass().isAssignableFrom((Class<?>) key));
             }
         }
 
@@ -159,7 +159,7 @@ public class ClassInheritanceMap<T> extends AbstractMap<Class<T>, T> {
     @Override
     public T get(Object key) {
         if (!(key instanceof Class)) return null;
-        return _find((Class<T>) key).get(0);
+        return getOptional((Class<T>) key).orElse(null);
     }
 
     @Nullable
@@ -169,7 +169,7 @@ public class ClassInheritanceMap<T> extends AbstractMap<Class<T>, T> {
     }
 
     public <S> Optional<S> getOptional(Class<S> clazz) {
-        return Optional.ofNullable(_find(clazz)).map(s -> (S) s.get(0));
+        return Optional.ofNullable(_find(clazz)).map(s -> (S) (s.size() != 0 ? s.get(0) : null));
     }
 
     private final class ClassMapEntry implements Map.Entry<Class<T>, T> {
