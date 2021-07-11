@@ -1,7 +1,7 @@
 package software.bernie.techarium.trait.behaviour;
 
 import software.bernie.techarium.trait.Trait;
-import software.bernie.techarium.util.ClassMap;
+import software.bernie.techarium.util.ClassInheritanceMap;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import java.util.Optional;
 public class Behaviour {
 
     protected final List<Class<? extends Trait>> requiredTraits = new ArrayList<>();
-    protected final ClassMap<Trait> traits = new ClassMap<>(Trait.class);
+    protected final ClassInheritanceMap<Trait> traits = new ClassInheritanceMap<>(Trait.class);
 
     protected Behaviour() {
 
@@ -25,29 +25,10 @@ public class Behaviour {
     }
 
     /**
-     * Returns if this behaviour has any trait using inheritence. For example, if `TraitApple` extends `TraitFruit`
-     * and this behaviour has `TraitApple` then calling Behaviour#hasBaseTrait(TraitFruit.class) will return true.
-     */
-    public boolean hasBaseTrait(Class<? extends Trait> matchTrait) {
-        return traits.values().stream().anyMatch(trait -> matchTrait.isAssignableFrom(trait.getClass()));
-    }
-
-    /**
-     * Returns any trait that matches using inheritence. For example, if `TraitApple` extends `TraitFruit`
-     * and this behaviour has `TraitApple` then calling Behaviour#getBaseTrait(TraitFruit.class) would return the first trait that inherits from TraitFruit.
-     *
-     * @return
-     */
-    public <T extends Trait> Optional<T> getBaseTrait(Class<T> matchTrait) {
-        return (Optional<T>) traits.values().stream().filter(trait -> matchTrait.isAssignableFrom(trait.getClass()))
-                .findFirst();
-    }
-
-    /**
      * Gets a trait in this behaviour, if it exists.
      */
     public <T extends Trait> Optional<T> get(Class<T> trait) {
-        return traits.findFirst(trait);
+        return traits.getOptional(trait);
     }
 
     /**
@@ -73,7 +54,7 @@ public class Behaviour {
      */
     @SafeVarargs
     public final <T> void tweak(Class<? extends Trait> traitType, T... objects) {
-        Trait trait = traits.findFirst(traitType).orElseThrow(IllegalStateException::new);
+        Trait trait = traits.getOptional(traitType).orElseThrow(IllegalStateException::new);
         if (trait != null)
             trait.tweak(objects);
     }
@@ -139,8 +120,8 @@ public class Behaviour {
          */
         public BUILDER composeFrom(PartialBehaviour... partialBehaviours) {
             for (PartialBehaviour partialBehaviour : partialBehaviours) {
-                partialBehaviour.getPartialBehaviour().traits
-                        .forEach((t) -> this.behaviour.traits.add(t.clone()));
+                partialBehaviour.getPartialBehaviour().traits.values()
+                        .forEach((t) -> this.behaviour.traits.put(t.clone()));
                 this.behaviour.requiredTraits.addAll(partialBehaviour.getPartialBehaviour().requiredTraits);
             }
             return getThis();
@@ -159,7 +140,7 @@ public class Behaviour {
          */
         public BUILDER with(Trait... traits) {
             for (Trait trait : traits) {
-                this.behaviour.traits.add(trait);
+                this.behaviour.traits.put(trait);
             }
             return getThis();
         }
@@ -171,7 +152,7 @@ public class Behaviour {
          * @return the builder
          */
         public BUILDER without(Class<? extends Trait> trait) {
-            this.behaviour.traits.remove(trait.hashCode());
+            this.behaviour.traits.remove(trait);
             return getThis();
         }
 
@@ -205,7 +186,7 @@ public class Behaviour {
          */
         public BEHAVIOUR build() {
             for (Class<? extends Trait> requiredTrait : this.behaviour.requiredTraits) {
-                if (!this.behaviour.hasBaseTrait(requiredTrait)) {
+                if (!this.behaviour.has(requiredTrait)) {
                     throw new IllegalStateException("Non-partial behaviour must have required trait of type: " + requiredTrait
                             .getName());
                 }

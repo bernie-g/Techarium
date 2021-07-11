@@ -11,7 +11,7 @@ import net.minecraftforge.common.ToolType;
 import software.bernie.techarium.trait.Trait;
 
 public class BlockTraits {
-    public static abstract class MaterialTrait extends Trait {
+    public static class MaterialTrait extends Trait {
         public MaterialTrait() {
             this.addTweaker(AbstractBlock.Properties.class, this::tweakProperties);
         }

@@ -37,7 +37,7 @@ public class BlockBehaviours {
 
     public static BlockBehaviour createSlave(BlockBehaviour masterBehaviour) {
         // copy the master block's material trait to the slave
-        return masterBehaviour.getBaseTrait(BlockTraits.MaterialTrait.class).map(trait -> new BlockBehaviour.Builder()
+        return masterBehaviour.get(BlockTraits.MaterialTrait.class).map(trait -> new BlockBehaviour.Builder()
                 .composeFrom(BlockPartialBehaviours.partialSlaveBlock)
                 .with(trait)
                 .with(new SlaveBlockTrait(masterBehaviour))
