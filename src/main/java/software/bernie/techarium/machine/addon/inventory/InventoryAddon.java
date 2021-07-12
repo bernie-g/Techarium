@@ -11,6 +11,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.display.container.component.SlotComponent;
+import software.bernie.techarium.machine.addon.ExposeType;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.tile.base.MachineMasterTile;
@@ -36,7 +37,7 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
     private BiPredicate<ItemStack, Integer> insertPredicate;
     private BiPredicate<ItemStack, Integer> extractPredicate;
     private BiConsumer<ItemStack, Integer> onSlotChanged;
-
+    private ExposeType exposeType = ExposeType.BOTH;
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     private Map<Integer, Integer> slotStackSizes;
@@ -167,7 +168,7 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
 
     @Override
     public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-        return insertPredicate.test(stack, slot);
+        return insertPredicate.test(stack, slot) && stack.isEmpty() ? exposeType.canExtract() : exposeType.canInsert();
     }
 
     @Override

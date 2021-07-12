@@ -1,12 +1,10 @@
 package software.bernie.techarium.tile.exchangestation;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.nbt.CompoundNBT;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -16,11 +14,9 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.techarium.display.container.AutomaticContainer;
 import software.bernie.techarium.display.container.ExchangeStationContainer;
 import software.bernie.techarium.machine.addon.inventory.InventoryAddon;
 import software.bernie.techarium.machine.controller.MachineController;
-import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.tile.base.MachineMasterTile;
@@ -89,16 +85,15 @@ public class ExchangeStationTile extends MachineMasterTile<ExchangeStationRecipe
         if (getController().getCurrentRecipe() == null)
             return;
         if (inserted.isEmpty()) {
-            getController().getMultiInventory().getInventoryByName("input").ifPresent(input -> {
-                input.getStackInSlot(0).shrink(getController().getCurrentRecipe().getInput().getCount());
-                updateOutput(input.getStackInSlot(0), 0);
-            });
+            InventoryAddon input = getInventoryByName("input");
+            input.getStackInSlot(0).shrink(getController().getCurrentRecipe().getInput().getCount());
+            updateOutput(input.getStackInSlot(0), 0);
         }
     }
 
     @Override
     public void registerControllers(AnimationData animationData) {
-        animationData.addAnimationController(new AnimationController(this, "controller", 0, this::animationPredicate));
+        animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::animationPredicate));
     }
 
     private <E extends IAnimatable> PlayState animationPredicate(AnimationEvent<E> event) {

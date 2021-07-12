@@ -2,12 +2,14 @@ package software.bernie.techarium.machine.addon.fluid;
 
 import net.minecraft.inventory.container.Slot;
 import net.minecraftforge.common.util.LazyOptional;
+import software.bernie.techarium.machine.addon.inventory.InventoryAddon;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MultiFluidTankAddon implements IContainerComponentProvider {
 
@@ -43,5 +45,9 @@ public class MultiFluidTankAddon implements IContainerComponentProvider {
             components.addAll(posInv.getContainerComponents());
         });
         return components;
+    }
+
+    public Optional<FluidTankAddon> getInventoryByName(String name) {
+        return fluidTanks.stream().filter(inventoryAddon -> inventoryAddon.getName().equals(name)).findFirst();
     }
 }

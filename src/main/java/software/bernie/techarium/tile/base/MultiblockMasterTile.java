@@ -50,7 +50,7 @@ public abstract class MultiblockMasterTile<T extends IMachineRecipe> extends Mac
     public void masterHandleDestruction() {
         super.masterHandleDestruction();
         destroySlaves();
-        if(level != null)
-        level.destroyBlock(worldPosition,true);
+        if (level != null)
+            level.destroyBlock(worldPosition,true);
     }
 }
