@@ -7,8 +7,8 @@
     }
   ],
   "progressPerTick": 1,
-  "maxProgress": 2000,
-  "rfPerTick": 30,
+  "maxProgress": 8000,
+  "rfPerTick": 120,
   "cropIn": {
     "item": "mysticalagriculture:nickel_seeds"
   },
@@ -25,5 +25,6 @@
       "amount": 1,
       "chance": 1.0
     }
-  ]
+  ],
+  "renderSoil": "minecraft:farmland"
 }

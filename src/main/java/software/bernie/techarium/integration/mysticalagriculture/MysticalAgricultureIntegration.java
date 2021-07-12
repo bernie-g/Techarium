@@ -3,8 +3,10 @@ package software.bernie.techarium.integration.mysticalagriculture;
 import com.blakebr0.mysticalagriculture.item.MysticalSeedsItem;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
@@ -33,8 +35,9 @@ public class MysticalAgricultureIntegration extends Integration {
                         .cropType(Ingredient.of(new ItemStack(mysticalSeed)))
                         .soilIn(Ingredient.of(TagRegistry.DIRT))
                         .fluidIn(new FluidStack(Fluids.WATER, 1000))
-                        .maxProgress(2000)
-                        .rfPerTick(30)
+                        .maxProgress(2000*mysticalSeed.getCrop().getTier().getValue())
+                        .rfPerTick(30*mysticalSeed.getCrop().getTier().getValue())
+                        .renderSoil((BlockItem) Items.FARMLAND)
                         .progressPerTick(1)
                         .output(ChancedItemStackList.of(mysticalSeed.getCrop().getEssence()))
                         .construct()
