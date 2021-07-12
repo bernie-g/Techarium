@@ -25,5 +25,6 @@
       "amount": 1,
       "chance": 1.0
     }
-  ]
+  ],
+  "renderSoil": "minecraft:farmland"
 }

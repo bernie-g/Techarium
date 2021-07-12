@@ -1,0 +1,30 @@
+{
+  "type": "techarium:botarium",
+  "conditions": [
+    {
+      "modid": "pamhc2crops",
+      "type": "forge:mod_loaded"
+    }
+  ],
+  "progressPerTick": 1,
+  "maxProgress": 1000,
+  "rfPerTick": 10,
+  "cropIn": {
+    "item": "pamhc2crops:sesameseedsseeditem"
+  },
+  "soilIn": {
+    "tag": "forge:dirt"
+  },
+  "fluidIn": {
+    "FluidName": "minecraft:water",
+    "Amount": 1000
+  },
+  "output": [
+    {
+      "item": "pamhc2crops:sesameseedsseeditem",
+      "amount": 1,
+      "chance": 1.0
+    }
+  ],
+  "renderSoil": "minecraft:farmland"
+}

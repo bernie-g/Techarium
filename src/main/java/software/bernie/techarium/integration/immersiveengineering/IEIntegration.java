@@ -1,11 +1,11 @@
 package software.bernie.techarium.integration.immersiveengineering;
 
 import blusunrize.immersiveengineering.common.items.IEItems;
-import net.minecraft.block.Block;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.item.Item;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
@@ -34,6 +34,7 @@ public class IEIntegration extends Integration {
                 .rfPerTick(10)
                 .progressPerTick(1)
                 .output(ChancedItemStackList.of(IEItems.Ingredients.hempFiber))
+                .renderSoil((BlockItem) Items.FARMLAND)
                 .construct()
                 .addCondition(new ModLoadedCondition(ModIntegrations.getIE().orElseThrow(NullPointerException::new).getModID()))
                 .build(consumer,
