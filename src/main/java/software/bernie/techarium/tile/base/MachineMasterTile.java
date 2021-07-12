@@ -24,6 +24,8 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import software.bernie.techarium.display.container.AutomaticContainer;
+import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
+import software.bernie.techarium.machine.addon.inventory.InventoryAddon;
 import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.machine.interfaces.recipe.IForcedRecipe;
 import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
@@ -167,4 +169,11 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     }
 
     protected abstract MachineController<T> createMachineController();
+
+    protected InventoryAddon getInventoryByName(String name) {
+        return getController().getMultiInventory().getInventoryByName(name).orElseThrow(NullPointerException::new);
+    }
+    protected FluidTankAddon getFluidTankByName(String name) {
+        return getController().getMultiTank().getInventoryByName(name).orElseThrow(NullPointerException::new);
+    }
 }

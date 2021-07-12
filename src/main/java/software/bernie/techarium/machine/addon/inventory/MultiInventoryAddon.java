@@ -43,8 +43,7 @@ public class MultiInventoryAddon implements IContainerComponentProvider {
         return inventories;
     }
 
-    public Optional<InventoryAddon> getInventoryByName(String name)
-    {
+    public Optional<InventoryAddon> getInventoryByName(String name) {
         return inventories.stream().filter(inventoryAddon -> inventoryAddon.getName().equals(name)).findFirst();
     }
 }

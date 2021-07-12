@@ -28,7 +28,7 @@ public class MultiItemCapHandler extends ItemStackHandler {
     public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
         InventoryAddon inventory = getInvFromSlot(slot);
         if (inventory != null) {
-            if (inventory.getInsertPredicate().test(stack, slot)) {
+            if (inventory.getInsertPredicate().test(stack, slot) && inventory.getExposeType().canInsert()) {
                 return inventory.insertItem(getRelativeSlot(inventory, slot), stack, simulate);
             } else {
                 return stack;
@@ -43,7 +43,7 @@ public class MultiItemCapHandler extends ItemStackHandler {
         InventoryAddon inventory = getInvFromSlot(slot);
         if (inventory != null) {
             int rSlot = getRelativeSlot(inventory, slot);
-            if (!inventory.getExtractPredicate().test(inventory.getStackInSlot(rSlot), rSlot)) {
+            if (!inventory.getExtractPredicate().test(inventory.getStackInSlot(rSlot), rSlot) || !inventory.getExposeType().canExtract()) {
                 return ItemStack.EMPTY;
             } else {
                 return inventory.extractItem(rSlot, amount, simulate);

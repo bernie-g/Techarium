@@ -3,7 +3,6 @@ package software.bernie.techarium.tile.botarium;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -18,10 +17,9 @@ import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.item.UpgradeItem;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
-import software.bernie.techarium.machine.addon.fluid.MultiTankCapHandler;
 import software.bernie.techarium.machine.addon.inventory.DrawableInventoryAddon;
+import software.bernie.techarium.machine.addon.ExposeType;
 import software.bernie.techarium.machine.addon.inventory.InventoryAddon;
-import software.bernie.techarium.machine.addon.inventory.MultiItemCapHandler;
 import software.bernie.techarium.machine.addon.progressbar.ProgressBarAddon;
 import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.machine.sideness.FaceConfig;
@@ -30,7 +28,6 @@ import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.tile.base.MultiblockMasterTile;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -107,14 +104,14 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
                 })
         );
 
-        controller.addTank(new FluidTankAddon(this, "fluidIn", 10000, 23, 34,
-                (fluidStack -> true)));
+        controller.addTank(new FluidTankAddon(this, "fluidInput", 10000, 23, 34,
+                (fluidStack -> true)).setExposeType(ExposeType.INPUT));
 
         controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
                 .setInsertPredicate((itemStack, integer) -> this.level.getRecipeManager()
                         .getAllRecipesFor(RecipeRegistry.BOTARIUM_RECIPE_TYPE).stream()
                         .anyMatch(recipe -> recipe.getSoilIn().test(itemStack)))
-                .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 1));
+                .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 1).setExposeType(ExposeType.INPUT));
 
         controller.addInventory(new InventoryAddon(this, "cropInput", 49, 35, 1)
                 .setInsertPredicate((itemStack, integer) -> itemStack.isEmpty() || level.getRecipeManager().getRecipes()
@@ -122,43 +119,34 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
                         .filter(this::checkRecipe)
                         .map(this::castRecipe).anyMatch(
                                 recipe -> recipe.getCropType().test(itemStack))
-                ).setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 1)
-        );
+                ).setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotStackSize(0, 1).setExposeType(ExposeType.INPUT));
 
         controller.addInventory(new InventoryAddon(this, "upgradeSlot", 83, 81, 4)
                 .setInsertPredicate((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem)
-                .setSlotPositionWithOffset(20));
+                .setSlotPositionWithOffset(20).setExposeType(ExposeType.INPUT));
 
         controller.addInventory(
                 new DrawableInventoryAddon(this, "output", 182, 49, BOTARIUM_OUTPUT_SLOT, 178, 34, 65, 46, 3)
                         .setInsertPredicate((itemStack, integer) -> false)
-                        .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotLimit(64));
+                        .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotLimit(64).setExposeType(ExposeType.OUTPUT));
 
         return controller;
     }
 
     public InventoryAddon getCropInventory() {
-        return getController().getMultiInventory().getInvOptional().map(inv -> inv).orElse(
-                new MultiItemCapHandler(new ArrayList<>())).getInventories().stream().filter(
-                addon -> addon.getName().contains("cropInput")).findFirst().orElseThrow(NullPointerException::new);
+        return getInventoryByName("cropInput");
     }
 
     public InventoryAddon getOutputInventory() {
-        return getController().getMultiInventory().getInvOptional().map(inv -> inv).orElse(
-                new MultiItemCapHandler(new ArrayList<>())).getInventories().stream().filter(
-                addon -> addon.getName().contains("output")).findFirst().orElseThrow(NullPointerException::new);
+        return getInventoryByName("output");
     }
 
     public InventoryAddon getSoilInventory() {
-        return getController().getMultiInventory().getInvOptional().map(inv -> inv).orElse(
-                new MultiItemCapHandler(new ArrayList<>())).getInventories().stream().filter(
-                addon -> addon.getName().contains("soilInput")).findFirst().orElseThrow(NullPointerException::new);
+        return getInventoryByName("soilInput");
     }
 
     public FluidTankAddon getFluidInventory() {
-        return getController().getMultiTank().getTankOptional().map(tank -> tank).orElse(
-                new MultiTankCapHandler(new ArrayList<>())).getFluidTanks().stream().filter(
-                addon -> addon.getName().contains("fluidIn")).findFirst().orElseThrow(NullPointerException::new);
+        return getFluidTankByName("fluidInput");
     }
 
     @Override
@@ -201,7 +189,7 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
         if (!currentRecipe.getSoilIn().test(getSoilInventory().getStackInSlot(0))) {
             return false;
         }
-        if (!(getController().getEnergyStorage().getEnergyStored() >= currentRecipe.getRfPerTick())) {
+        if (getController().getEnergyStorage().getEnergyStored() < currentRecipe.getRfPerTick()) {
             return false;
         }
         if (!(getFluidInventory().getFluid().containsFluid(currentRecipe.getFluidIn()))) {
@@ -219,7 +207,7 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
         if (level.isClientSide()) {
             return;
         }
-        getFluidInventory().drain(currentRecipe.getFluidIn().getAmount(), IFluidHandler.FluidAction.EXECUTE);
+        getFluidInventory().drainForced(currentRecipe.getFluidIn().getAmount(), IFluidHandler.FluidAction.EXECUTE);
         getOutputInventory().insertItems(currentRecipe.getOutput().getCachedOutput(), false);
         currentRecipe.getOutput().reloadCache();
     }
