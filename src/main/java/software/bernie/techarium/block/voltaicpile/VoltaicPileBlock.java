@@ -11,13 +11,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.techarium.block.base.TechariumBlock;
 import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.tile.voltaicpile.VoltaicPileTile;
 import software.bernie.techarium.trait.block.BlockBehaviours;
 import software.bernie.techarium.util.TechariumMaterial;
 
-public class VoltaicPileBlock extends TechariumBlock<VoltaicPileTile> implements IAnimatable {
+public class VoltaicPileBlock extends TechariumBlock<VoltaicPileTile> {
     public VoltaicPileBlock() {
         super(BlockBehaviours.voltaicPile, AbstractBlock.Properties.of(TechariumMaterial.METAL));
     }
