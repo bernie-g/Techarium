@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.ItemStack;
@@ -19,11 +20,15 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.shapes.IBooleanFunction;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.DrawHighlightEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,7 +43,9 @@ import software.bernie.techarium.item.MachineItem;
 import software.bernie.techarium.util.BlockRegion;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = Techarium.ModID, value = Dist.CLIENT)
@@ -53,48 +60,47 @@ public class RenderUtils {
 	}
 
 	@SubscribeEvent
-	public static void renderEvent(RenderWorldLastEvent event) {
+	public static void renderHighlightEvent(DrawHighlightEvent.HighlightBlock event) {
 		ClientPlayerEntity player = Minecraft.getInstance().player;
 		if (player.isShiftKeyDown()) {
 			renderMachineHitBox(event, player.getItemInHand(Hand.MAIN_HAND));
 		}
 	}
 
-	private static void renderMachineHitBox(RenderWorldLastEvent event, ItemStack stack) {
+	private static void renderMachineHitBox(DrawHighlightEvent.HighlightBlock event, ItemStack stack) {
+		Minecraft mc = Minecraft.getInstance();
 		if (!(stack.getItem() instanceof MachineItem))
 			return;
-		RayTraceResult target = Minecraft.getInstance().hitResult;
+		RayTraceResult target = mc.hitResult;
 		if (!(target instanceof BlockRayTraceResult))
 			return;
 		BlockRayTraceResult blockTarget = (BlockRayTraceResult) target;
-		if (Minecraft.getInstance().level.getBlockState(blockTarget.getBlockPos()).isAir())
+		if (mc.level.getBlockState(blockTarget.getBlockPos()).isAir())
 			return;
 
 		BlockPos bottomCenter = blockTarget.getBlockPos().relative(blockTarget.getDirection());
 		MachineBlock block = (MachineBlock) (((MachineItem) stack.getItem()).getBlock());
 		BlockRegion region = block.getBlockSize();
-		MatrixStack matrixStack = event.getMatrixStack();
-		RenderSystem.pushMatrix();
-		RenderSystem.disableDepthTest();
-		GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
+		MatrixStack matrixStack = event.getMatrix();
 		matrixStack.pushPose();
 		matrixStack.translate(bottomCenter.getX(), bottomCenter.getY(), bottomCenter.getZ());
 		matrixStack.translate(region.xOff, region.yOff, region.zOff);
-		Vector3d camPos = Minecraft.getInstance().getEntityRenderDispatcher().camera.getPosition();
+		Vector3d camPos = mc.getEntityRenderDispatcher().camera.getPosition();
 		matrixStack.translate(-camPos.x, -camPos.y, -camPos.z);
-
-		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+		IRenderTypeBuffer.Impl buffer = mc.renderBuffers().bufferSource();
 		IVertexBuilder builder = buffer.getBuffer(RenderType.LINES);
 		Vector3f color;
-		if (block.canBePlaced(Minecraft.getInstance().level, bottomCenter)) {
+		VoxelShape blockShape = region.toVoxelShape().optimize();
+		if (block.canBePlaced(mc.level, bottomCenter)) {
 			color = new Vector3f(0f,1f,0f);
 		} else {
 			color = new Vector3f(1f, 0f, 0f);
 		}
-		WorldRenderer.renderShape(matrixStack, builder, region.toVoxelShape().optimize(), 0,0,0,color.x(),color.y(),color.z(),1);
+		WorldRenderer.renderShape(matrixStack, builder, blockShape, 0,0,0,color.x(),color.y(),color.z(),1);
 		buffer.endBatch(RenderType.LINES);
 		matrixStack.popPose();
-		RenderSystem.popMatrix();
+
+		event.setCanceled(true);
 	}
 
 	private static int calculateGlowLight(int combinedLight, @Nonnull FluidStack fluid) {
