@@ -21,35 +21,35 @@ public class ModIntegrations {
     private static final List<Integration.Wrapper<?>> integrations = new ArrayList<>();
 
     private static final Integration.Wrapper<MekanismIntegration> MEKANISM = Integration.Wrapper.of("mekanism",
-            MekanismIntegration::new).registerSelf();
+            MekanismIntegration.class).registerSelf();
 
     private static final Integration.Wrapper<MysticalAgricultureIntegration> MYSTICAL = Integration.Wrapper.of(
             "mysticalagriculture",
-            MysticalAgricultureIntegration::new).registerSelf();
+            MysticalAgricultureIntegration.class).registerSelf();
 
     private static final Integration.Wrapper<PamsHarvestCraftIntegration> PAMS = Integration.Wrapper.of("pamhc2crops",
-            PamsHarvestCraftIntegration::new).registerSelf();
+            PamsHarvestCraftIntegration.class).registerSelf();
 
     private static final Integration.Wrapper<ThermalCultivationIntegration> THERMAL_CULTIVATION = Integration.Wrapper.of("thermal_cultivation",
-            ThermalCultivationIntegration::new).registerSelf();
+            ThermalCultivationIntegration.class).registerSelf();
 
     private static final Integration.Wrapper<TheOneProbeIntegration> THE_ONE_PROBE = Integration.Wrapper.of("theoneprobe",
-            TheOneProbeIntegration::new).registerSelf();
+            TheOneProbeIntegration.class).registerSelf();
 
     private static final Integration.Wrapper<FarmersDelightIntegration> FARMERS_DELIGHT = Integration.Wrapper.of("farmersdelight",
-            FarmersDelightIntegration::new).registerSelf();
+            FarmersDelightIntegration.class).registerSelf();
 
     private static final Integration.Wrapper<XLFoodModIntegration> XL_FOOD_MOD = Integration.Wrapper.of("xlfoodmod",
-            XLFoodModIntegration::new).registerSelf();
+            XLFoodModIntegration.class).registerSelf();
 
     private static final Integration.Wrapper<IEIntegration> IMMERSIVE_ENGINEERING = Integration.Wrapper.of("immersive_engineering",
-            IEIntegration::new).registerSelf();
+            IEIntegration.class).registerSelf();
 
     private static final Integration.Wrapper<BiomesOPlentyIntegration> BIOMES_O_PLENTY = Integration.Wrapper.of("biomesoplenty",
-            BiomesOPlentyIntegration::new).registerSelf();
+            BiomesOPlentyIntegration.class).registerSelf();
 
     private static final Integration.Wrapper<BYGIntegration> BYG = Integration.Wrapper.of("byg",
-            BYGIntegration::new).registerSelf();
+            BYGIntegration.class).registerSelf();
 
 
 

@@ -1,6 +1,7 @@
 package software.bernie.techarium.integration;
 
 import lombok.Getter;
+import lombok.SneakyThrows;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowerBlock;
 import net.minecraft.data.IFinishedRecipe;
@@ -23,6 +24,8 @@ import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.TagRegistry;
 import software.bernie.techarium.util.ChancedItemStack;
 import software.bernie.techarium.util.ChancedItemStackList;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
 
 public abstract class Integration {
@@ -109,8 +112,15 @@ public abstract class Integration {
         private final Lazy<T> integration;
         private LazyOptional<T> optionalIntegration = LazyOptional.empty();
 
-        public static <T extends Integration> Wrapper<T> of(String modID, IntegrationProvider<T> integration) {
-            return new Wrapper<T>(modID, Lazy.of(() -> integration.create(modID)));
+        public static <T extends Integration> Wrapper<T> of(String modID, Class<T> integration) {
+            return new Wrapper<>(modID, Lazy.of(() -> {
+                try {
+                    return integration.getConstructor(String.class).newInstance(modID);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }));
         }
 
         public Wrapper(String modID, Lazy<T> integration) {
