@@ -1,6 +1,9 @@
 package software.bernie.techarium.machine.addon.fluid;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -11,6 +14,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.client.screen.draw.IDrawable;
+import software.bernie.techarium.machine.addon.ExposeType;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.machine.interfaces.IToolTippedAddon;
@@ -25,7 +29,7 @@ import java.util.function.Predicate;
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.DEFAULT_FLUID_TANK;
 
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
-
+@Accessors(chain = true)
 public class FluidTankAddon extends FluidTank implements IContainerComponentProvider, IToolTippedAddon {
 
     private final String name;
@@ -35,8 +39,6 @@ public class FluidTankAddon extends FluidTank implements IContainerComponentProv
     private final int posY;
 
     private final MachineMasterTile tile;
-
-    private TankType tankType;
 
     private IDrawable tankDrawable;
 
@@ -54,13 +56,16 @@ public class FluidTankAddon extends FluidTank implements IContainerComponentProv
 
     private Runnable onContentChange;
 
+    @Getter
+    @Setter
+    private ExposeType exposeType = ExposeType.BOTH;
+
     public FluidTankAddon(MachineMasterTile tile, String name, int capacity, int posX, int posY, Predicate<FluidStack> validator) {
         super(capacity, validator);
         this.tile = tile;
         this.name = name;
         this.posX = posX;
         this.posY = posY;
-        this.tankType = TankType.FILL_AND_DRAIN;
         this.onContentChange = () -> {
         };
     }
@@ -80,15 +85,6 @@ public class FluidTankAddon extends FluidTank implements IContainerComponentProv
     protected void onContentsChanged() {
         super.onContentsChanged();
         this.onContentChange.run();
-    }
-
-    public void setTankType(TankType tankType) {
-        this.tankType = tankType;
-    }
-
-
-    public TankType getTankType() {
-        return tankType;
     }
 
     public FluidTankAddon setOnContentChange(Runnable onContentChange) {
@@ -143,40 +139,40 @@ public class FluidTankAddon extends FluidTank implements IContainerComponentProv
         return name;
     }
 
+    @Override
     public int fill(FluidStack resource, FluidAction action) {
-        return this.getTankType().canBeFilled() ? super.fill(resource, action) : 0;
+        return exposeType.canInsert() ? super.fill(resource, action) : 0;
     }
 
     @Nonnull
+    @Override
     public FluidStack drain(FluidStack resource, FluidAction action) {
-        return this.getTankType().canBeDrained() ? this.drainInternal(resource, action) : FluidStack.EMPTY;
+        return exposeType.canExtract() ? this.drainInternal(resource, action) : FluidStack.EMPTY;
     }
 
-    private FluidStack drainInternal(FluidStack resource, FluidAction action) {
+    @Nonnull
+    @Override
+    public FluidStack drain(int maxDrain, FluidAction action) {
+        return exposeType.canExtract() ? this.drainInternal(maxDrain, action) : FluidStack.EMPTY;
+    }
+
+    public FluidStack drainInternal(FluidStack resource, FluidAction action) {
         return !resource.isEmpty() && resource.isFluidEqual(this.fluid)
                 ? this.drain(resource.getAmount(), action)
                 : FluidStack.EMPTY;
     }
 
     @Nonnull
-    public FluidStack drain(int maxDrain, FluidAction action) {
-        return this.getTankType().canBeDrained() ? this.drainInternal(maxDrain, action) : FluidStack.EMPTY;
-    }
-
-    @Nonnull
     private FluidStack drainInternal(int maxDrain, FluidAction action) {
-        int drained = maxDrain;
-        if (this.fluid.getAmount() < maxDrain) {
-            drained = this.fluid.getAmount();
-        }
 
-        FluidStack stack = new FluidStack(this.fluid, drained);
-        if (action.execute() && drained > 0) {
-            this.fluid.shrink(drained);
+        int toDrain = Math.min(fluid.getAmount(), maxDrain);
+
+        FluidStack drained = new FluidStack(this.fluid, toDrain);
+        if (action.execute() && toDrain > 0) {
+            this.fluid.shrink(toDrain);
             this.onContentsChanged();
         }
-
-        return stack;
+        return drained;
     }
 
     public int fillForced(FluidStack resource, FluidAction action) {
@@ -228,8 +224,7 @@ public class FluidTankAddon extends FluidTank implements IContainerComponentProv
         }
     }
 
-    public static String getFluidName(FluidStack stack)
-    {
+    public static String getFluidName(FluidStack stack) {
         return new TranslationTextComponent(stack.getFluid().getAttributes().getTranslationKey(stack)).getString();
     }
 

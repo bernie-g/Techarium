@@ -139,24 +139,17 @@ public class BotariumRenderer extends GeoBlockRenderer<BotariumTile> {
         }
         return GrowthType.DEFAULT;
     }
-
-    private static boolean testALlDirt(Ingredient ingredient) {
-        for (Block dirt : Tags.Blocks.DIRT.getValues()) {
-            if (!ingredient.test(dirt.asItem().getDefaultInstance())) return false;
-        }
-        return true;
-    }
-
     private BlockState getRenderSoilBlock(BotariumTile tile) {
         ItemStack soil = tile.getSoilInventory().getStackInSlot(0);
         if (soil.isEmpty() || !(soil.getItem() instanceof BlockItem))
             return Blocks.AIR.defaultBlockState();
-        BlockState state = ((BlockItem) soil.getItem()).getBlock().defaultBlockState();
-        if (state.is(Tags.Blocks.DIRT) && !(tile.getController().getCurrentRecipe() != null && !testALlDirt(tile.getController().getCurrentRecipe().getSoilIn()))) {
-            state = Blocks.FARMLAND.defaultBlockState();
-        }
+        if (tile.getController().getCurrentRecipe() != null && tile.getController().getCurrentRecipe().getRenderSoil() != null)
+            return withOptionalMoisture(tile.getController().getCurrentRecipe().getRenderSoil().getBlock().defaultBlockState());
+        return withOptionalMoisture(((BlockItem) soil.getItem()).getBlock().defaultBlockState());
+    }
+    private BlockState withOptionalMoisture(BlockState state) {
         if (state.hasProperty(BlockStateProperties.MOISTURE))
-            state = state.setValue(BlockStateProperties.MOISTURE, 7);
+            return state.setValue(BlockStateProperties.MOISTURE, 7);
         return state;
     }
 
