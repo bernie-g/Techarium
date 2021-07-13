@@ -19,6 +19,10 @@ public class TechariumBlockLootTableProvider extends BlockLootTables
 		super.dropSelf(block.get());
 	}
 
+	public void noDrop(Supplier<? extends Block> block) {
+		super.add(block.get(), noDrop());
+	}
+
 	public void dropAsSilk(Supplier<? extends Block> block) {
 		super.dropWhenSilkTouch(block.get());
 	}

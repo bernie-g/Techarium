@@ -40,15 +40,18 @@ public class TechariumLootTableProvider extends LootTableProvider {
 			dropSelf(BlockRegistry.COPPER_ORE);
 			dropSelf(BlockRegistry.LEAD_ORE);
 			dropSelf(BlockRegistry.NICKEL_ORE);
+			dropSelf(BlockRegistry.ZINC_ORE);
 
 			dropSelf(BlockRegistry.ALUMINIUM_BLOCK);
 			dropSelf(BlockRegistry.COPPER_BLOCK);
 			dropSelf(BlockRegistry.LEAD_BLOCK);
 			dropSelf(BlockRegistry.NICKEL_BLOCK);
+			dropSelf(BlockRegistry.ZINC_BLOCK);
 
-			dropSelf(BlockRegistry.ARBORETUM);
-			dropSelf(BlockRegistry.BOTARIUM);
-			dropSelf(BlockRegistry.EXCHANGE_STATION);
+			noDrop(BlockRegistry.ARBORETUM);
+			noDrop(BlockRegistry.BOTARIUM);
+			noDrop(BlockRegistry.EXCHANGE_STATION);
+			noDrop(BlockRegistry.VOLTAIC_PILE);
 			dropSelf(BlockRegistry.PIPE);
 		}
 

@@ -4,6 +4,9 @@ import software.bernie.techarium.registry.LangRegistry;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;
 import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
+import software.bernie.techarium.tile.voltaicpile.VoltaicPileTile;
+import software.bernie.techarium.trait.Trait;
+import software.bernie.techarium.trait.Traits;
 
 public class BlockBehaviours {
     public static BlockBehaviour botarium = new BlockBehaviour.Builder()
@@ -22,6 +25,13 @@ public class BlockBehaviours {
             .composeFrom(BlockPartialBehaviours.partialMachineBlock)
             .animatedModel()
             .tileEntity(ExchangeStationTile.class)
+            .description(LangRegistry.exchangeDescription)
+            .build();
+
+    public static BlockBehaviour voltaicPile = new BlockBehaviour.Builder()
+            .composeFrom(BlockPartialBehaviours.partialTileBlock)
+            .tileEntity(VoltaicPileTile.class)
+            .with(new BlockTraits.MachineMaterialTrait())
             .description(LangRegistry.exchangeDescription)
             .build();
 

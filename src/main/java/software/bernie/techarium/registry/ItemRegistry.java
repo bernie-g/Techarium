@@ -29,11 +29,13 @@ public class ItemRegistry
 	public static final RegistryObject<Item> COPPER_INGOT = ITEMS.register("copper_ingot", itemCreator());
 	public static final RegistryObject<Item> LEAD_INGOT = ITEMS.register("lead_ingot", itemCreator());
 	public static final RegistryObject<Item> NICKEL_INGOT = ITEMS.register("nickel_ingot", itemCreator());
+	public static final RegistryObject<Item> ZINC_INGOT = ITEMS.register("zinc_ingot", itemCreator());
 
 	public static final RegistryObject<Item> ALUMINIUM_NUGGET = ITEMS.register("aluminium_nugget", itemCreator());
 	public static final RegistryObject<Item> COPPER_NUGGET = ITEMS.register("copper_nugget", itemCreator());
 	public static final RegistryObject<Item> LEAD_NUGGET = ITEMS.register("lead_nugget", itemCreator());
 	public static final RegistryObject<Item> NICKEL_NUGGET = ITEMS.register("nickel_nugget", itemCreator());
+	public static final RegistryObject<Item> ZINC_NUGGET = ITEMS.register("zinc_nugget", itemCreator());
 
 	public static Supplier<Item> itemCreator() {
 		return () -> new Item(new Item.Properties().tab(TECHARIUM));
