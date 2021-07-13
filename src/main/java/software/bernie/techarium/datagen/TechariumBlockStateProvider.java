@@ -20,8 +20,6 @@ public class TechariumBlockStateProvider extends TechariumBlockStateProviderBase
         simpleMachineBox(BlockRegistry.BOTARIUM, models().modLoc("block/botarium_side"));
         simpleMachineBox(BlockRegistry.ARBORETUM, models().modLoc("block/botarium_side"));
 
-        invisMachine(BlockRegistry.BOTARIUM_TOP.get());
-        invisMachine(BlockRegistry.ARBORETUM_TOP.get());
         invisMachine(BlockRegistry.EXCHANGE_STATION.getBlock());
         invisBlock(BlockRegistry.PIPE.getBlock());
     }

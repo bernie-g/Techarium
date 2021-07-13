@@ -1,4 +1,4 @@
-package software.bernie.techarium.block.exchangestation;
+package software.bernie.techarium.block;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;

@@ -1,6 +1,7 @@
 package software.bernie.techarium.trait.block;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.tileentity.TileEntity;
@@ -8,10 +9,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.World;
-import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 import software.bernie.techarium.tile.base.MachineSlaveTile;
 import software.bernie.techarium.tile.base.TechariumTileEntity;
+import software.bernie.techarium.tile.slaves.SlaveTile;
 import software.bernie.techarium.trait.Trait;
 import software.bernie.techarium.trait.behaviour.Behaviour;
 import software.bernie.techarium.util.ShapeUtils;
@@ -22,7 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@RequiredArgsConstructor
 public class MasterBlockTrait extends Trait {
+    public final String name;
     private List<SlaveSpot> slaveSpots = new ArrayList<>();
     private List<SlaveSpot> slaveCollisions = new ArrayList<>();
 
@@ -42,7 +45,7 @@ public class MasterBlockTrait extends Trait {
         this.slaveCollisions = ShapeUtils.getSlaveOffsets(collisionBox);
     }
 
-    public void handleDestruction(World world, BlockPos pos, BlockState state) {
+    public void handleDestruction(World world, BlockPos pos, BlockState state, boolean shouldHarvest) {
         TileEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof MachineMasterTile) {
             MachineMasterTile<?> masterTile = (MachineMasterTile<?>) blockEntity;
@@ -61,7 +64,7 @@ public class MasterBlockTrait extends Trait {
                     world.destroyBlock(slavePos, false);
                 }
             }
-            world.destroyBlock(pos, true);
+            world.destroyBlock(pos, shouldHarvest);
         }
     }
 
@@ -75,7 +78,7 @@ public class MasterBlockTrait extends Trait {
                     rotatedOffset = VectorUtils
                             .rotateVector2D(rotatedOffset, state.getValue(HorizontalBlock.FACING).getOpposite());
                 }
-                world.setBlockAndUpdate(pos.offset(rotatedOffset), BlockRegistry.BOTARIUM_TOP.get()
+                world.setBlockAndUpdate(pos.offset(rotatedOffset), SlaveTile.getSlaveBlock(name).get()
                         .defaultBlockState());
                 TileEntity tile = world.getBlockEntity(pos.offset(rotatedOffset));
                 if (tile instanceof MachineSlaveTile) {
@@ -89,6 +92,6 @@ public class MasterBlockTrait extends Trait {
 
     @Override
     public Trait clone() {
-        return new MasterBlockTrait();
+        return new MasterBlockTrait(this.name);
     }
 }

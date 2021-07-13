@@ -43,9 +43,7 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
 
     protected void addBlocks() {
         addBlock(BlockRegistry.BOTARIUM, "Botarium");
-        addBlock(BlockRegistry.BOTARIUM_TOP, "Botarium");
         addBlock(BlockRegistry.ARBORETUM, "Arboretum");
-        addBlock(BlockRegistry.ARBORETUM_TOP, "Arboretum");
 
         addBlock(BlockRegistry.EXCHANGE_STATION, "Exchange Station");
 

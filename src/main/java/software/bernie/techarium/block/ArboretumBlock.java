@@ -1,4 +1,4 @@
-package software.bernie.techarium.block.arboretum;
+package software.bernie.techarium.block;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
@@ -14,9 +14,9 @@ import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.trait.block.BlockBehaviours;
 import software.bernie.techarium.util.BlockRegion;
 
-public class ArboretumMaster extends MachineBlock<ArboretumTile> {
+public class ArboretumBlock extends MachineBlock<ArboretumTile> {
 
-    public ArboretumMaster() {
+    public ArboretumBlock() {
         super(BlockBehaviours.arboretum, AbstractBlock.Properties.of(Material.METAL));
     }
 
@@ -24,7 +24,7 @@ public class ArboretumMaster extends MachineBlock<ArboretumTile> {
     public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(worldIn, pos, state, placer, stack);
         TileEntity tile = worldIn.getBlockEntity(pos);
-        if(tile instanceof ArboretumTile) {
+        if (tile instanceof ArboretumTile) {
             ((ArboretumTile) tile).setOpening(true);
         }
     }
@@ -33,13 +33,14 @@ public class ArboretumMaster extends MachineBlock<ArboretumTile> {
     public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
         if (world.getBlockEntity(pos) instanceof ArboretumTile) {
             ArboretumTile tile = (ArboretumTile) world.getBlockEntity(pos);
-            return Math.max(tile.getFluidInventory().getFluid().getFluid().defaultFluidState().createLegacyBlock().getLightValue(world, pos), super.getLightValue(state, world, pos));
+            return Math.max(tile.getFluidInventory().getFluid().getFluid().defaultFluidState().createLegacyBlock()
+                    .getLightValue(world, pos), super.getLightValue(state, world, pos));
         }
         return super.getLightValue(state, world, pos);
     }
 
     @Override
     public BlockRegion getBlockSize() {
-        return new BlockRegion(1,2,1);
+        return new BlockRegion(1, 2, 1);
     }
 }

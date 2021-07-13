@@ -2,6 +2,7 @@ package software.bernie.techarium.tile.base;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -83,6 +84,13 @@ public class MachineSlaveTile extends MachineTileBase {
             return null;
         }
         return level.getBlockEntity(this.getBlockPos().offset(masterOffset.get()));
+    }
+
+    public BlockState getMasterBlock() {
+        if(masterOffset.get() == null){
+            return null;
+        }
+        return level.getBlockState(this.getBlockPos().offset(masterOffset.get()));
     }
 
     public VoxelShape getBoundingBox() {

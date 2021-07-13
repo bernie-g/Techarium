@@ -3,7 +3,10 @@ package software.bernie.techarium.block.base;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -12,8 +15,8 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import software.bernie.techarium.trait.Traits;
-import software.bernie.techarium.trait.behaviour.Behaviour;
 import software.bernie.techarium.trait.behaviour.IHasBehaviour;
 import software.bernie.techarium.trait.block.BlockBehaviour;
 import software.bernie.techarium.trait.block.BlockTraits;
@@ -63,6 +66,16 @@ public abstract class TechariumBlock extends RotatableBlock implements IHasBehav
         return !behaviour.getRequired(BlockTraits.ParticlesTrait.class).isShowBreakParticles();
     }
 
+    @Override
+    public boolean addLandingEffects(BlockState state1, ServerWorld worldserver, BlockPos pos, BlockState state2, LivingEntity entity, int numberOfParticles) {
+        return !behaviour.getRequired(BlockTraits.ParticlesTrait.class).isShowBreakParticles();
+    }
+
+    @Override
+    public boolean addRunningEffects(BlockState state, World world, BlockPos pos, Entity entity) {
+        return !behaviour.getRequired(BlockTraits.ParticlesTrait.class).isShowBreakParticles();
+    }
+
     public Optional<Traits.DescriptionTrait> getDescription() {
         return behaviour.get(Traits.DescriptionTrait.class);
     }
@@ -86,7 +99,7 @@ public abstract class TechariumBlock extends RotatableBlock implements IHasBehav
     }
 
     @Override
-    public Behaviour getBehaviour() {
+    public BlockBehaviour getBehaviour() {
         return this.behaviour;
     }
 
@@ -95,10 +108,18 @@ public abstract class TechariumBlock extends RotatableBlock implements IHasBehav
     @SuppressWarnings("deprecared")
     public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
         if (world != null && state.getBlock() != newState.getBlock()) {
-            this.getBehaviour().get(SlaveBlockTrait.class).ifPresent(trait -> trait.handleDestruction(world, pos));
-            this.getBehaviour().get(MasterBlockTrait.class).ifPresent(trait -> trait.handleDestruction(world, pos, state));
+            this.getBehaviour().get(SlaveBlockTrait.class).ifPresent(trait -> trait.handleDestruction(world, pos, false));
+            this.getBehaviour().get(MasterBlockTrait.class).ifPresent(trait -> trait.handleDestruction(world, pos, state, false));
         }
         super.onRemove(state, world, pos, newState, isMoving);
+    }
+
+    @Override
+    public boolean removedByPlayer(BlockState blockState, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, FluidState fluid) {
+        if (world != null && willHarvest) {
+            this.getBehaviour().get(SlaveBlockTrait.class).ifPresent(trait -> trait.drop(world, pos, player));
+        }
+        return super.removedByPlayer(blockState, world, pos, player, willHarvest, fluid);
     }
 
     @Override
@@ -109,5 +130,4 @@ public abstract class TechariumBlock extends RotatableBlock implements IHasBehav
         }
         super.setPlacedBy(world, pos, state, placer, stack);
     }
-
 }

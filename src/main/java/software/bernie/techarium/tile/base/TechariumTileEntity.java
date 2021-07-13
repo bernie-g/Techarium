@@ -40,7 +40,8 @@ public class TechariumTileEntity extends TileEntity implements IDataProvider {
     @Override
     @Nonnull
     public CompoundNBT getUpdateTag() {
-        return this.serializeNBTNetwork();
+        CompoundNBT nbt = super.getUpdateTag();
+        return this.serializeNBTNetwork(nbt);
     }
 
     @Override
@@ -52,8 +53,8 @@ public class TechariumTileEntity extends TileEntity implements IDataProvider {
         this.getDataManager().deserialize(NBTDynamicOps.INSTANCE, nbt);
     }
 
-    public CompoundNBT serializeNBTNetwork() {
-        return (CompoundNBT) this.getDataManager().serialize(NBTDynamicOps.INSTANCE, new CompoundNBT(), DataType.NETWORK);
+    public CompoundNBT serializeNBTNetwork(@Nullable CompoundNBT nbt) {
+        return (CompoundNBT) this.getDataManager().serialize(NBTDynamicOps.INSTANCE, nbt == null ? new CompoundNBT() : nbt, DataType.NETWORK);
     }
 
     @Override
@@ -66,5 +67,13 @@ public class TechariumTileEntity extends TileEntity implements IDataProvider {
     public void load(BlockState p_230337_1_, CompoundNBT nbt) {
         super.load(p_230337_1_, nbt);
         this.getDataManager().deserialize(NBTDynamicOps.INSTANCE, nbt);
+    }
+
+    public void updateMachineTile() {
+        requestModelDataUpdate();
+        this.setChanged();
+        if (this.getLevel() != null) {
+            this.getLevel().sendBlockUpdated(worldPosition, this.getBlockState(), this.getBlockState(), 3);
+        }
     }
 }

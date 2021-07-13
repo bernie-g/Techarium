@@ -16,8 +16,6 @@ class BehaviourTest {
         traits.put(new BlockTraits.MaterialTrait());
         traits.put(new Trait());
         traits.put(new BlockTraits.ParticlesTrait(true));
-        traits.put(new BlockTraits.SlaveMaterialTrait());
-        traits.put(new BlockTraits.SlaveMaterialTrait());
         traits.remove(BlockTraits.ParticlesTrait.class);
         Optional<BlockTraits.MaterialTrait> trait = traits.getOptional(BlockTraits.MaterialTrait.class);
 

@@ -10,7 +10,6 @@ public class BlockPartialBehaviours {
             .requiredTraits(BlockTraits.BlockRenderTypeTrait.class)
             .requiredTraits(BlockTraits.VoxelShapeTrait.class)
             .requiredTraits(MasterBlockTrait.class)
-            .with(new MasterBlockTrait())
             .staticModel()
             .showBreakParticles(true)
             .partial();

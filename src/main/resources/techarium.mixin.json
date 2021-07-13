@@ -6,6 +6,7 @@
   "mixins": [
   ],
   "client": [
+    "BreakProgressMixin"
   ],
   "minVersion": "0.8"
 }

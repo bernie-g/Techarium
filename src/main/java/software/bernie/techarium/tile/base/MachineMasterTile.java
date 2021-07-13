@@ -111,8 +111,6 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
             if(isFirstLoad) {
                 updateMachineTile();
                 isFirstLoad = false;
-            } else if(level.getGameTime() % 3 == 0){
-                isFirstLoad = true;
             }
         }
     }
@@ -131,13 +129,6 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
         return super.save(nbt);
     }
 
-    protected void updateMachineTile() {
-        requestModelDataUpdate();
-        this.setChanged();
-        if (this.getLevel() != null) {
-            this.getLevel().sendBlockUpdated(worldPosition, this.getBlockState(), this.getBlockState(), 3);
-        }
-    }
 
     @Nullable
     @Override
@@ -153,13 +144,12 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     @Override
     @Nonnull
     public CompoundNBT getUpdateTag() {
-        return this.serializeNBTNetwork();
+        return this.serializeNBTNetwork(super.getUpdateTag());
     }
 
     @Override
     public void handleUpdateTag(BlockState state, CompoundNBT tag) {
         this.deserializeNBTNetwork(tag);
-        updateMachineTile();
     }
 
     public void masterHandleDestruction(){

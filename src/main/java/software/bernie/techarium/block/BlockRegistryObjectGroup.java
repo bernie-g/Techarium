@@ -8,6 +8,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
+import software.bernie.techarium.block.base.TechariumBlock;
+import software.bernie.techarium.tile.slaves.SlaveTile;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -78,8 +80,15 @@ public class BlockRegistryObjectGroup<B extends Block, I extends Item, T extends
                                                       DeferredRegister<TileEntityType<?>> tileEntityTypeRegistry) {
         this.register(blockRegistry, itemRegistry);
         if (tileSupplier != null) {
-            tileRegistryObject = tileEntityTypeRegistry.register(name, () -> TileEntityType.Builder.of(tileSupplier, this.getBlock())
-                    .build(null));
+            tileRegistryObject = tileEntityTypeRegistry
+                    .register(name, () -> TileEntityType.Builder.of(tileSupplier, this.getBlock())
+                            .build(null));
+        }
+        try {
+            SlaveTile.registerMaster(this.getName(), (RegistryObject<TechariumBlock>) this.getBlockRegistryObject());
+        }
+        catch(Exception e){
+            //ignored
         }
         return this;
     }
