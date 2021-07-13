@@ -57,6 +57,8 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .get(), consumer);
         buildMetalRecipe("nickel", ItemRegistry.NICKEL_INGOT.get(), ItemRegistry.NICKEL_NUGGET
                 .get(), BlockRegistry.NICKEL_BLOCK.get(), consumer);
+        buildMetalRecipe("nickel", ItemRegistry.ZINC_INGOT.get(), ItemRegistry.ZINC_NUGGET
+                .get(), BlockRegistry.ZINC_BLOCK.get(), consumer);
     }
 
     private void registerVanillaBotariumRecipes(Consumer<IFinishedRecipe> consumer) {
@@ -158,6 +160,10 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .smelting(Ingredient.of(BlockRegistry.NICKEL_ORE.get()), ItemRegistry.NICKEL_INGOT.get(), 0.7f, 200)
                 .unlockedBy("has_item", has(BlockRegistry.NICKEL_ORE.get()))
                 .save(consumer, Techarium.rl("smelting/nickel_ore"));
+        CookingRecipeBuilder
+                .smelting(Ingredient.of(BlockRegistry.ZINC_ORE.get()), ItemRegistry.ZINC_INGOT.get(), 0.7f, 200)
+                .unlockedBy("has_item", has(BlockRegistry.ZINC_ORE.get()))
+                .save(consumer, Techarium.rl("smelting/zinc_ore"));
 
         CookingRecipeBuilder
                 .blasting(Ingredient.of(BlockRegistry.ALUMINIUM_ORE.get()), ItemRegistry.ALUMINIUM_INGOT
@@ -176,6 +182,10 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .blasting(Ingredient.of(BlockRegistry.NICKEL_ORE.get()), ItemRegistry.NICKEL_INGOT.get(), 0.7f, 100)
                 .unlockedBy("has_item", has(BlockRegistry.NICKEL_ORE.get()))
                 .save(consumer, Techarium.rl("blasting/nickel_ore"));
+        CookingRecipeBuilder
+                .blasting(Ingredient.of(BlockRegistry.ZINC_ORE.get()), ItemRegistry.ZINC_INGOT.get(), 0.7f, 100)
+                .unlockedBy("has_item", has(BlockRegistry.ZINC_ORE.get()))
+                .save(consumer, Techarium.rl("blasting/zinc_ore"));
     }
 
     private static void buildExchangeStationRecipe(IItemProvider input, int inputAmount, IItemProvider output, int outputAmount, Consumer<IFinishedRecipe> consumer) {

@@ -6,6 +6,9 @@ import software.bernie.techarium.tile.botarium.BotariumTile;
 import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
 import software.bernie.techarium.tile.gravmagnet.GravMagnetTile;
 import software.bernie.techarium.tile.magneticcoils.MagneticCoilTile;
+import software.bernie.techarium.tile.voltaicpile.VoltaicPileTile;
+import software.bernie.techarium.trait.Trait;
+import software.bernie.techarium.trait.Traits;
 
 public class BlockBehaviours {
     public static BlockBehaviour botarium = new BlockBehaviour.Builder()
@@ -44,6 +47,13 @@ public class BlockBehaviours {
             .tileEntity(MagneticCoilTile.class)
             .rotation(BlockTraits.RotationType.XYZ)
             .description(LangRegistry.magneticCoilDescription)
+            .build();
+
+    public static BlockBehaviour voltaicPile = new BlockBehaviour.Builder()
+            .composeFrom(BlockPartialBehaviours.partialTileBlock)
+            .tileEntity(VoltaicPileTile.class)
+            .with(new BlockTraits.MachineMaterialTrait())
+            .description(LangRegistry.exchangeDescription)
             .build();
 
     public static BlockBehaviour createSlave(BlockBehaviour masterBehaviour) {
