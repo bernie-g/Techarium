@@ -1,5 +1,6 @@
 package software.bernie.techarium.trait.block;
 
+import net.minecraft.block.BlockRenderType;
 import software.bernie.techarium.registry.LangRegistry;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;

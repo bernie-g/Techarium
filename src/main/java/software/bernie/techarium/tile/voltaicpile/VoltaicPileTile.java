@@ -53,7 +53,9 @@ import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.EXCH
 import static software.bernie.techarium.registry.BlockRegistry.EXCHANGE_STATION;
 import static software.bernie.techarium.registry.BlockRegistry.VOLTAIC_PILE;
 
-public class VoltaicPileTile extends FunctionalTileBase {
+public class VoltaicPileTile extends FunctionalTileBase implements IAnimatable {
+    private AnimationFactory factory = new AnimationFactory(this);
+
     private TechariumEnergyStorage energyStorage;
     private final LazyOptional<IEnergyStorage> lazyEnergyStorage = LazyOptional.of(this::getEnergyStorage);
 
@@ -116,5 +118,19 @@ public class VoltaicPileTile extends FunctionalTileBase {
     public void explode() {
         level.explode(null, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), this.getEnergyStorage().getEnergyStored() / 100F, Explosion.Mode.DESTROY);
         level.setBlock(getBlockPos(), Blocks.AIR.defaultBlockState(), 3);
+    }
+
+    @Override
+    public void registerControllers(AnimationData animationData) {
+        animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::animationPredicate));
+    }
+
+    private <E extends IAnimatable> PlayState animationPredicate(AnimationEvent<E> event) {
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return this.factory;
     }
 }
