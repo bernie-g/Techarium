@@ -20,5 +20,6 @@ public class LangRegistry extends LangRegistryBase {
     public static final TranslationLangEntry botariumDescription = registerDescription(BlockRegistry.BOTARIUM.getBlockRegistryObject());
     public static final TranslationLangEntry arboretumDescription = registerDescription(BlockRegistry.ARBORETUM.getBlockRegistryObject());
     public static final TranslationLangEntry exchangeDescription = registerDescription(BlockRegistry.EXCHANGE_STATION.getBlockRegistryObject());
+    public static final TranslationLangEntry voltaicPileDescription = registerDescription(BlockRegistry.VOLTAIC_PILE.getBlockRegistryObject());
 
 }

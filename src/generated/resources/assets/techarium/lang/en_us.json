@@ -18,6 +18,7 @@
   "description.techarium.arboretum": "The Arboretum allows you to grow saplings in exchange for energy and water",
   "description.techarium.botarium": "The Botarium allows you to grow crops in exchange for energy and a suitable fluid",
   "description.techarium.exchange_station": "The Exchange Station allows you to unlock new machines with gold",
+  "description.techarium.voltaic_pile": "The Voltaic Pile is a single-use, portable medium capacity energy storage with low RF/t output.",
   "gui.techarium.pipe.input": "Input",
   "gui.techarium.pipe.output": "Output",
   "gui.techarium.pipe.round_robin": "Round-Robin",

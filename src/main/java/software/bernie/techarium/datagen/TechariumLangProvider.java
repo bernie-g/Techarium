@@ -72,6 +72,7 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addTranslation(LangRegistry.botariumDescription, "The Botarium allows you to grow crops in exchange for energy and a suitable fluid");
         addTranslation(LangRegistry.arboretumDescription, "The Arboretum allows you to grow saplings in exchange for energy and water");
         addTranslation(LangRegistry.exchangeDescription, "The Exchange Station allows you to unlock new machines with gold");
+        addTranslation(LangRegistry.voltaicPileDescription, "The Voltaic Pile is a single-use, portable medium capacity energy storage with low RF/t output.");
         addTranslation(LangRegistry.guiPipeInput, "Input");
         addTranslation(LangRegistry.guiPipeOutput, "Output");
         addTranslation(LangRegistry.guiPipeRoundRobin, "Round-Robin");

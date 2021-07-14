@@ -33,7 +33,7 @@ public class BlockBehaviours {
             .composeFrom(BlockPartialBehaviours.partialTileBlock)
             .tileEntity(VoltaicPileTile.class)
             .with(new BlockTraits.MachineMaterialTrait())
-            .description(LangRegistry.exchangeDescription)
+            .description(LangRegistry.voltaicPileDescription)
             .build();
 
     public static BlockBehaviour createSlave(BlockBehaviour masterBehaviour) {
