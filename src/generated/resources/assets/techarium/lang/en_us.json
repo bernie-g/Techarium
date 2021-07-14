@@ -22,6 +22,7 @@
   "description.techarium.exchange_station": "The Exchange Station allows you to unlock new machines with gold",
   "description.techarium.gravmagnet": "The Grav Magnet will attract or repel every entity in front of the block. Use a redstone signal to switch between the two mode. Can be boosted if a magnetic coil is place behind",
   "description.techarium.magneticcoil": "The Magnetic Coil is use to boost the Grav Magnet. Add coil inside to boost the power",
+  "description.techarium.voltaic_pile": "The Voltaic Pile is a single-use, portable medium capacity energy storage with low RF/t output.",
   "gui.techarium.pipe.input": "Input",
   "gui.techarium.pipe.output": "Output",
   "gui.techarium.pipe.round_robin": "Round-Robin",

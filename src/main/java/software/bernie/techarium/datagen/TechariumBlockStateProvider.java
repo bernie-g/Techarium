@@ -22,6 +22,7 @@ public class TechariumBlockStateProvider extends TechariumBlockStateProviderBase
         simpleMachineBox(BlockRegistry.ARBORETUM, models().modLoc("block/botarium_side"));
         simpleMachineXYZBox(BlockRegistry.GRAVMAGNET, models().modLoc("block/gravmagnet_side"));
         simpleMachineXYZBox(BlockRegistry.MAGNETIC_COIL, models().modLoc("block/magnetic_coil_side"));
+        simpleMachineBox(BlockRegistry.VOLTAIC_PILE, models().modLoc("block/botarium_side"));
 
         invisMachine(BlockRegistry.BOTARIUM_TOP.get());
         invisMachine(BlockRegistry.ARBORETUM_TOP.get());
@@ -34,6 +35,7 @@ public class TechariumBlockStateProvider extends TechariumBlockStateProviderBase
         simpleBlockAndItem(BlockRegistry.ALUMINIUM_ORE.get());
         simpleBlockAndItem(BlockRegistry.LEAD_ORE.get());
         simpleBlockAndItem(BlockRegistry.NICKEL_ORE.get());
+        simpleBlockAndItem(BlockRegistry.ZINC_ORE.get());
     }
     
     public void registerBlock(){

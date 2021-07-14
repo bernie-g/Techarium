@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "techarium:block/voltaic_pile"
+    },
+    "facing=south": {
+      "model": "techarium:block/voltaic_pile",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "techarium:block/voltaic_pile",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "techarium:block/voltaic_pile",
+      "y": 90
+    }
+  }
+}

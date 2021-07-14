@@ -116,13 +116,15 @@ public class VoltaicPileTile extends FunctionalTileBase implements IAnimatable {
     }
 
     public void explode() {
-        level.explode(null, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), this.getEnergyStorage().getEnergyStored() / 100F, Explosion.Mode.DESTROY);
-        level.setBlock(getBlockPos(), Blocks.AIR.defaultBlockState(), 3);
+        BlockPos pos = getBlockPos();
+        float explosionPower = this.getEnergyStorage().getEnergyStored() / 100F;
+        level.destroyBlock(pos, false);
+        level.explode(null, pos.getX(), pos.getY(), pos.getZ(), explosionPower, Explosion.Mode.DESTROY);
     }
 
     @Override
     public void registerControllers(AnimationData animationData) {
-        animationData.addAnimationController(new AnimationController<>(this, "controller", 0, this::animationPredicate));
+
     }
 
     private <E extends IAnimatable> PlayState animationPredicate(AnimationEvent<E> event) {

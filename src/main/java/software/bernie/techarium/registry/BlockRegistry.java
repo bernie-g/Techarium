@@ -15,6 +15,7 @@ import software.bernie.techarium.block.BlockRegistryObjectGroup;
 import software.bernie.techarium.block.arboretum.ArboretumMaster;
 import software.bernie.techarium.block.arboretum.ArboretumTop;
 import software.bernie.techarium.block.base.MachineBlock;
+import software.bernie.techarium.block.base.TechariumBlock;
 import software.bernie.techarium.block.botarium.BotariumTop;
 import software.bernie.techarium.block.coils.MagneticCoilBlock;
 import software.bernie.techarium.block.botarium.BotariumMaster;
@@ -22,6 +23,7 @@ import software.bernie.techarium.block.exchangestation.ExchangeStationBlock;
 import software.bernie.techarium.block.gravmagnet.GravMagnetBlock;
 import software.bernie.techarium.block.pipe.PipeBlock;
 import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
+import software.bernie.techarium.item.FunctionalBlockItem;
 import software.bernie.techarium.item.MachineItem;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;
@@ -77,7 +79,7 @@ public class BlockRegistry {
 
     // Voltaic Pile
     public static final BlockRegistryObjectGroup<VoltaicPileBlock, BlockItem, VoltaicPileTile> VOLTAIC_PILE =
-            new BlockRegistryObjectGroup<>("voltaic_pile", VoltaicPileBlock::new, blockItemCreator(), VoltaicPileTile::new).register(BLOCKS, ITEMS, TILES);
+            new BlockRegistryObjectGroup<>("voltaic_pile", VoltaicPileBlock::new, functionalBlockItemCreator(), VoltaicPileTile::new).register(BLOCKS, ITEMS, TILES);
 
     // Ores + Blocks
     public static final RegistryObject<Block> ALUMINIUM_ORE = registerBlock("aluminium_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)));
@@ -100,6 +102,10 @@ public class BlockRegistry {
 
     public static <B extends Block> Function<B, BlockItem> blockItemCreator() {
         return block -> new BlockItem(block, new Item.Properties().tab(TECHARIUM));
+    }
+
+    public static <B extends TechariumBlock> Function<B, BlockItem> functionalBlockItemCreator() {
+        return block -> new FunctionalBlockItem(block, new Item.Properties().tab(TECHARIUM));
     }
 
     public static <B extends MachineBlock> Function<B, BlockItem> machineItemCreator() {
