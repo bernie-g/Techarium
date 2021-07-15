@@ -5,6 +5,7 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
 import software.bernie.techarium.tile.voltaicpile.VoltaicPileTile;
+import software.bernie.techarium.trait.tile.TileTraits;
 
 public class VoltaicPileModel extends AnimatedGeoModel<VoltaicPileTile> {
     @Override
@@ -19,14 +20,18 @@ public class VoltaicPileModel extends AnimatedGeoModel<VoltaicPileTile> {
 
     @Override
     public ResourceLocation getTextureLocation(VoltaicPileTile tile) {
-        int stored = tile.getEnergyStorage().getEnergyStored();
-        if (stored <= 160) {
+        if (!tile.getPowerTrait().isPresent()) {
+            return new ResourceLocation(Techarium.ModID, "textures/block/voltaic_pile/voltaicpilefull.png");
+        }
+        TileTraits.PowerTrait trait = tile.getPowerTrait().get();
+        float percentStored = (float) trait.getEnergyStorage().getEnergyStored() / trait.getEnergyStorage().getMaxEnergyStored();
+        if (percentStored <= 0.16) {
             return new ResourceLocation(Techarium.ModID, "textures/block/voltaic_pile/voltaicpileempty.png");
         }
-        else if (stored <= 500) {
+        else if (percentStored <= 0.5) {
             return new ResourceLocation(Techarium.ModID, "textures/block/voltaic_pile/voltaicpile33.png");
         }
-        else if (stored <= 840) {
+        else if (percentStored <= 0.84) {
             return new ResourceLocation(Techarium.ModID, "textures/block/voltaic_pile/voltaicpile66.png");
         }
         return new ResourceLocation(Techarium.ModID, "textures/block/voltaic_pile/voltaicpilefull.png");

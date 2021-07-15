@@ -37,20 +37,21 @@ public class VoltaicPileBlock extends TechariumBlock<VoltaicPileTile> {
     @Override
     public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
         if (world.getBlockEntity(pos) instanceof VoltaicPileTile) {
-            int stored = ((VoltaicPileTile) world.getBlockEntity(pos)).getEnergyStorage().getEnergyStored();
-            if (stored > 0) {
-                ItemStack itemStack = new ItemStack(this);
-                CompoundNBT compoundNBT = world.getBlockEntity(pos).save(new CompoundNBT());
-                compoundNBT.remove("x");
-                compoundNBT.remove("y");
-                compoundNBT.remove("z");
-                itemStack.addTagElement("BlockEntityTag", compoundNBT);
-                InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
-            }
-            else {
+            VoltaicPileTile tile = ((VoltaicPileTile) world.getBlockEntity(pos));
+            tile.getPowerTrait().ifPresent(trait -> {
+                if (trait.getEnergyStorage().getEnergyStored() > 0) {
+                    ItemStack itemStack = new ItemStack(this);
+                    CompoundNBT compoundNBT = world.getBlockEntity(pos).save(new CompoundNBT());
+                    compoundNBT.remove("x");
+                    compoundNBT.remove("y");
+                    compoundNBT.remove("z");
+                    itemStack.addTagElement("BlockEntityTag", compoundNBT);
+                    InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
+                    return;
+                }
                 InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(ItemRegistry.COPPER_INGOT.get()));
                 InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(ItemRegistry.ZINC_INGOT.get()));
-            }
+            });
         }
         super.onRemove(state, world, pos, newState, isMoving);
     }
