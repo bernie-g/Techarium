@@ -3,7 +3,7 @@ package software.bernie.techarium.trait.tile;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.tileentity.TileEntity;
 import software.bernie.techarium.registry.lang.LangEntry;
-import software.bernie.techarium.trait.Traits;
+import software.bernie.techarium.trait.Trait;
 import software.bernie.techarium.trait.behaviour.Behaviour;
 import software.bernie.techarium.trait.block.BlockTraits;
 import software.bernie.techarium.util.TechariumEnergyStorage;
@@ -29,5 +29,13 @@ public class TileBehaviour extends Behaviour {
         public Builder powerTrait(int capacity, int maxReceive, int maxExtract, int energy) {
             return this.with(new TileTraits.PowerTrait(capacity, maxReceive, maxExtract, energy));
         }
+    }
+
+    public TileBehaviour copy() {
+        TileBehaviour.Builder builder = new TileBehaviour.Builder();
+        for (Trait trait : this.traits.values()) {
+            builder = builder.with((Trait) trait.deepCopy());
+        }
+        return builder.build();
     }
 }

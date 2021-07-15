@@ -29,7 +29,7 @@ public abstract class TechariumTileBase extends MachineTileBase implements ITick
 
     public TechariumTileBase(TileEntityType<?> tileEntityTypeIn, TileBehaviour behaviour) {
         super(tileEntityTypeIn);
-        this.behaviour = behaviour;
+        this.behaviour = behaviour.copy();
         behaviour.tweak(this);
     }
 
@@ -113,8 +113,11 @@ public abstract class TechariumTileBase extends MachineTileBase implements ITick
     }
 
     @Override
-    public void setRemoved() {
-        super.setRemoved();
+    protected void invalidateCaps() {
+        super.invalidateCaps();
+        if (behaviour.has(TileTraits.PowerTrait.class)) {
+            behaviour.getRequired(TileTraits.PowerTrait.class).getLazyEnergyStorage().invalidate();
+        }
     }
 
     @NotNull
