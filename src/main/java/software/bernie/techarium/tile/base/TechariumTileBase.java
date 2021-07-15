@@ -1,47 +1,28 @@
 package software.bernie.techarium.tile.base;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.techarium.display.container.AutomaticContainer;
-import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
-import software.bernie.techarium.machine.addon.inventory.InventoryAddon;
-import software.bernie.techarium.machine.controller.MachineController;
-import software.bernie.techarium.machine.interfaces.recipe.IForcedRecipe;
-import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
-import software.bernie.techarium.machine.interfaces.recipe.IRecipeMachine;
 import software.bernie.techarium.trait.behaviour.IHasBehaviour;
 import software.bernie.techarium.trait.tile.TileBehaviour;
 import software.bernie.techarium.trait.tile.TileTraits;
-import software.bernie.techarium.util.TechariumEnergyStorage;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Optional;
 
-import static software.bernie.techarium.util.StaticHandler.*;
+import static software.bernie.techarium.util.StaticHandler.getSideFromDirection;
 
 public abstract class TechariumTileBase extends MachineTileBase implements ITickableTileEntity, IHasBehaviour {
     private final TileBehaviour behaviour;
@@ -134,9 +115,6 @@ public abstract class TechariumTileBase extends MachineTileBase implements ITick
     @Override
     public void setRemoved() {
         super.setRemoved();
-        if (behaviour.has(TileTraits.PowerTrait.class)) {
-            behaviour.getRequired(TileTraits.PowerTrait.class).getLazyEnergyStorage().invalidate();
-        }
     }
 
     @NotNull
