@@ -30,10 +30,6 @@ public class ProbeInfoProvider implements IProbeInfoProvider {
             }
         } else if (tile instanceof MachineMasterTile) {
             addProbeInfo((MachineMasterTile) tile, iProbeInfo);
-        } else if (tile instanceof TechariumTileBase) {
-            ((TechariumTileBase) tile).getBehaviour().get(TileTraits.PowerTrait.class).ifPresent(trait -> {
-                iProbeInfo.progress(trait.getEnergyStorage().getEnergyStored(), trait.getEnergyStorage().getMaxEnergyStored(), iProbeInfo.defaultProgressStyle().suffix("RF").filledColor(Config.rfbarFilledColor).alternateFilledColor(Config.rfbarAlternateFilledColor).borderColor(Config.rfbarBorderColor).numberFormat((NumberFormat)Config.rfFormat.get()));
-            });
         }
     }
 
