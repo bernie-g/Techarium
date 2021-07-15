@@ -12,7 +12,7 @@ public class TileTraits {
     @Data
     public static class PowerTrait extends Trait {
         private TechariumEnergyStorage energyStorage;
-        private final LazyOptional<IEnergyStorage> lazyEnergyStorage = LazyOptional.of(this::getEnergyStorage);
+        private final LazyOptional<IEnergyStorage> lazyEnergyStorage = LazyOptional.of(() -> this.energyStorage);
 
         public PowerTrait(int capacity) {
             energyStorage = new TechariumEnergyStorage(capacity);
