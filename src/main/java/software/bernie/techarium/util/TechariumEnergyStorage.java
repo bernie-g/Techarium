@@ -32,4 +32,8 @@ public class TechariumEnergyStorage extends EnergyStorage implements INBTSeriali
     public void deserializeNBT(CompoundNBT nbt) {
         this.energy = nbt.getInt("energy");
     }
+
+    public TechariumEnergyStorage copy() {
+        return new TechariumEnergyStorage(capacity, maxReceive, maxExtract, energy);
+    }
 }

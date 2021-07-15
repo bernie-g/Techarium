@@ -29,5 +29,14 @@ public class TileTraits {
         public PowerTrait(int capacity, int maxReceive, int maxExtract, int energy) {
             energyStorage = new TechariumEnergyStorage(capacity, maxReceive, maxExtract, energy);
         }
+
+        public PowerTrait(TechariumEnergyStorage storage) {
+            energyStorage = storage;
+        }
+
+        @Override
+        public Object deepCopy() {
+            return new PowerTrait(this.getEnergyStorage().copy());
+        }
     }
 }
