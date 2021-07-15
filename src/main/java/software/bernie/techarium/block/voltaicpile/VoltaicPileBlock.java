@@ -27,6 +27,9 @@ import software.bernie.techarium.util.TechariumMaterial;
 public class VoltaicPileBlock extends TechariumBlock<VoltaicPileTile> {
     public VoltaicPileBlock() {
         super(BlockBehaviours.voltaicPile, AbstractBlock.Properties.of(TechariumMaterial.METAL));
+        for (Side side: Side.values()) {
+            getFaceConfigs().put(side, FaceConfig.PUSH_ONLY);
+        }
     }
 
     @Override
