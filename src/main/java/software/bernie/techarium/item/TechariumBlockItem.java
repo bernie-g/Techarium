@@ -16,9 +16,9 @@ import software.bernie.techarium.tile.base.MachineTileBase;
 
 import java.util.List;
 
-public class FunctionalBlockItem<B extends TechariumBlock<T>, T extends MachineTileBase> extends BlockItem {
+public class TechariumBlockItem<B extends TechariumBlock<T>, T extends MachineTileBase> extends BlockItem {
 
-    public FunctionalBlockItem(B blockIn, Properties builder) {
+    public TechariumBlockItem(B blockIn, Properties builder) {
         super(blockIn, builder);
     }
 

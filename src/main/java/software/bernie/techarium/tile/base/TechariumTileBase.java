@@ -23,6 +23,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.techarium.display.container.AutomaticContainer;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
 import software.bernie.techarium.machine.addon.inventory.InventoryAddon;
@@ -30,15 +31,25 @@ import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.machine.interfaces.recipe.IForcedRecipe;
 import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
 import software.bernie.techarium.machine.interfaces.recipe.IRecipeMachine;
+import software.bernie.techarium.trait.behaviour.IHasBehaviour;
+import software.bernie.techarium.trait.tile.TileBehaviour;
+import software.bernie.techarium.trait.tile.TileTraits;
+import software.bernie.techarium.util.TechariumEnergyStorage;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import java.util.Optional;
+
 import static software.bernie.techarium.util.StaticHandler.*;
 
-public abstract class FunctionalTileBase extends MachineTileBase implements ITickableTileEntity {
-    public FunctionalTileBase(TileEntityType<?> tileEntityTypeIn) {
+public abstract class TechariumTileBase extends MachineTileBase implements ITickableTileEntity, IHasBehaviour {
+    private final TileBehaviour behaviour;
+
+    public TechariumTileBase(TileEntityType<?> tileEntityTypeIn, TileBehaviour behaviour) {
         super(tileEntityTypeIn);
+        this.behaviour = behaviour;
+        behaviour.tweak(this);
     }
 
     @Nonnull
@@ -73,6 +84,9 @@ public abstract class FunctionalTileBase extends MachineTileBase implements ITic
 
     @Override
     public void load(BlockState state, CompoundNBT nbt) {
+        if (behaviour.has(TileTraits.PowerTrait.class)) {
+            behaviour.getRequired(TileTraits.PowerTrait.class).getEnergyStorage().deserializeNBT(nbt.getCompound("energy"));
+        }
         super.load(state, nbt);
         updateMachineTile();
     }
@@ -80,6 +94,9 @@ public abstract class FunctionalTileBase extends MachineTileBase implements ITic
 
     @Override
     public CompoundNBT save(CompoundNBT compound) {
+        if (behaviour.has(TileTraits.PowerTrait.class)) {
+            compound.put("energy", behaviour.getRequired(TileTraits.PowerTrait.class).getEnergyStorage().serializeNBT());
+        }
         return super.save(compound);
     }
 
@@ -112,5 +129,31 @@ public abstract class FunctionalTileBase extends MachineTileBase implements ITic
     public void handleUpdateTag(BlockState state, CompoundNBT tag) {
         this.deserializeNBT(tag);
         updateMachineTile();
+    }
+
+    @Override
+    public void setRemoved() {
+        super.setRemoved();
+        if (behaviour.has(TileTraits.PowerTrait.class)) {
+            behaviour.getRequired(TileTraits.PowerTrait.class).getLazyEnergyStorage().invalidate();
+        }
+    }
+
+    @NotNull
+    @Override
+    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
+        if (cap == CapabilityEnergy.ENERGY && behaviour.has(TileTraits.PowerTrait.class)) {
+            return behaviour.getRequired(TileTraits.PowerTrait.class).getLazyEnergyStorage().cast();
+        }
+        return super.getCapability(cap);
+    }
+
+    @Override
+    public TileBehaviour getBehaviour() {
+        return behaviour;
+    }
+
+    public Optional<TileTraits.PowerTrait> getPowerTrait() {
+        return behaviour.get(TileTraits.PowerTrait.class);
     }
 }

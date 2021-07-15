@@ -23,7 +23,7 @@ import software.bernie.techarium.block.exchangestation.ExchangeStationBlock;
 import software.bernie.techarium.block.gravmagnet.GravMagnetBlock;
 import software.bernie.techarium.block.pipe.PipeBlock;
 import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
-import software.bernie.techarium.item.FunctionalBlockItem;
+import software.bernie.techarium.item.TechariumBlockItem;
 import software.bernie.techarium.item.MachineItem;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;
@@ -79,7 +79,7 @@ public class BlockRegistry {
 
     // Voltaic Pile
     public static final BlockRegistryObjectGroup<VoltaicPileBlock, BlockItem, VoltaicPileTile> VOLTAIC_PILE =
-            new BlockRegistryObjectGroup<>("voltaic_pile", VoltaicPileBlock::new, functionalBlockItemCreator(), VoltaicPileTile::new).register(BLOCKS, ITEMS, TILES);
+            new BlockRegistryObjectGroup<>("voltaic_pile", VoltaicPileBlock::new, techariumBlockItemCreator(), VoltaicPileTile::new).register(BLOCKS, ITEMS, TILES);
 
     // Ores + Blocks
     public static final RegistryObject<Block> ALUMINIUM_ORE = registerBlock("aluminium_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)));
@@ -104,8 +104,8 @@ public class BlockRegistry {
         return block -> new BlockItem(block, new Item.Properties().tab(TECHARIUM));
     }
 
-    public static <B extends TechariumBlock> Function<B, BlockItem> functionalBlockItemCreator() {
-        return block -> new FunctionalBlockItem(block, new Item.Properties().tab(TECHARIUM));
+    public static <B extends TechariumBlock> Function<B, BlockItem> techariumBlockItemCreator() {
+        return block -> new TechariumBlockItem(block, new Item.Properties().tab(TECHARIUM));
     }
 
     public static <B extends MachineBlock> Function<B, BlockItem> machineItemCreator() {
