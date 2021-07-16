@@ -1,7 +1,0 @@
-{
-  "parent": "techarium:block/default_box",
-  "textures": {
-    "1": "techarium:block/botarium_side",
-    "particle": "techarium:block/botarium_side"
-  }
-}

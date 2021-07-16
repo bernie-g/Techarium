@@ -1,3 +1,67 @@
 {
-  "type": "minecraft:block"
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "techarium:voltaic_pile",
+              "properties": {
+                "charge": "full"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "energy",
+                  "target": "BlockEntityTag.energy",
+                  "op": "replace"
+                }
+              ]
+            }
+          ],
+          "name": "techarium:voltaic_pile"
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "techarium:voltaic_pile",
+              "properties": {
+                "charge": "empty"
+              }
+            }
+          ],
+          "name": "techarium:copper_ingot"
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "techarium:voltaic_pile",
+              "properties": {
+                "charge": "empty"
+              }
+            }
+          ],
+          "name": "techarium:zinc_ingot"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
 }

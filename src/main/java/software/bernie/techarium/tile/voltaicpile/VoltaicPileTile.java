@@ -3,30 +3,26 @@ package software.bernie.techarium.tile.voltaicpile;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FireBlock;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.techarium.block.voltaicpile.Charge;
+import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
+import software.bernie.techarium.machine.sideness.FaceConfig;
+import software.bernie.techarium.machine.sideness.Side;
 import software.bernie.techarium.tile.base.TechariumTileBase;
-import software.bernie.techarium.trait.tile.TileBehaviour;
 import software.bernie.techarium.trait.tile.TileBehaviours;
-import software.bernie.techarium.util.TechariumEnergyStorage;
-
-import javax.annotation.Nonnull;
 
 import static software.bernie.techarium.registry.BlockRegistry.VOLTAIC_PILE;
 
-public class VoltaicPileTile extends TechariumTileBase implements IAnimatable {
-    private AnimationFactory factory = new AnimationFactory(this);
-
+public class VoltaicPileTile extends TechariumTileBase {
     public VoltaicPileTile() {
         super(VOLTAIC_PILE.getTileEntityType(), TileBehaviours.voltaicPile);
+
+        for (Side side: Side.values()) {
+            getFaceConfigs().put(side, FaceConfig.PUSH_ONLY);
+        }
     }
 
     @Override
@@ -48,6 +44,33 @@ public class VoltaicPileTile extends TechariumTileBase implements IAnimatable {
         super.tick();
     }
 
+    @Override
+    protected void updateMachineTile() {
+        getPowerTrait().ifPresent(trait -> {
+            float percentStored = (float) trait.getEnergyStorage().getEnergyStored() / trait.getEnergyStorage().getMaxEnergyStored();
+            if (percentStored == 0) {
+                if (getBlockState().getValue(VoltaicPileBlock.CHARGE) != Charge.EMPTY) {
+                    this.getLevel().setBlockAndUpdate(worldPosition, this.getBlockState().setValue(VoltaicPileBlock.CHARGE, Charge.EMPTY));
+                }
+            }
+            else if (percentStored <= 0.33) {
+                if (getBlockState().getValue(VoltaicPileBlock.CHARGE) != Charge.ONE_THIRD) {
+                    this.getLevel().setBlockAndUpdate(worldPosition, this.getBlockState().setValue(VoltaicPileBlock.CHARGE, Charge.ONE_THIRD));
+                }
+            }
+            else if (percentStored <= 0.66) {
+                if (getBlockState().getValue(VoltaicPileBlock.CHARGE) != Charge.TWO_THIRD) {
+                    this.getLevel().setBlockAndUpdate(worldPosition, this.getBlockState().setValue(VoltaicPileBlock.CHARGE, Charge.TWO_THIRD));
+                }            }
+            else {
+                if (getBlockState().getValue(VoltaicPileBlock.CHARGE) != Charge.FULL) {
+                    this.getLevel().setBlockAndUpdate(worldPosition, this.getBlockState().setValue(VoltaicPileBlock.CHARGE, Charge.FULL));
+                }
+            }
+        });
+        super.updateMachineTile();
+    }
+
     public void explode() {
         getPowerTrait().ifPresent(trait -> {
             BlockPos pos = getBlockPos();
@@ -55,19 +78,5 @@ public class VoltaicPileTile extends TechariumTileBase implements IAnimatable {
             level.destroyBlock(pos, false);
             level.explode(null, pos.getX(), pos.getY(), pos.getZ(), explosionPower, Explosion.Mode.DESTROY);
         });
-    }
-
-    @Override
-    public void registerControllers(AnimationData animationData) {
-
-    }
-
-    private <E extends IAnimatable> PlayState animationPredicate(AnimationEvent<E> event) {
-        return PlayState.CONTINUE;
-    }
-
-    @Override
-    public AnimationFactory getFactory() {
-        return this.factory;
     }
 }
