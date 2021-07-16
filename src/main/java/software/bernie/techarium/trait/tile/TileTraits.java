@@ -1,6 +1,7 @@
 package software.bernie.techarium.trait.tile;
 
 import lombok.Data;
+import lombok.SneakyThrows;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 import software.bernie.techarium.trait.Trait;
@@ -35,7 +36,8 @@ public class TileTraits {
         }
 
         @Override
-        public Object deepCopy() {
+        @SneakyThrows
+        public Object clone() {
             return new PowerTrait(this.getEnergyStorage().copy());
         }
     }

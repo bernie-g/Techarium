@@ -30,6 +30,7 @@ import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.machine.interfaces.recipe.IForcedRecipe;
 import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
 import software.bernie.techarium.machine.interfaces.recipe.IRecipeMachine;
+import software.bernie.techarium.trait.tile.TileBehaviours;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -41,7 +42,7 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     private final MachineController<T> controller;
 
     public MachineMasterTile(TileEntityType<?> tileEntityTypeIn) {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, TileBehaviours.base);
         controller = createMachineController();
     }
 

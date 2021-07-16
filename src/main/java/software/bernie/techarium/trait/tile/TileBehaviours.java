@@ -13,4 +13,8 @@ public class TileBehaviours {
             .composeFrom(TilePartialBehaviours.partialEnergyTile)
             .with(new TileTraits.PowerTrait(1000, 0, 10, 1000))
             .build();
+
+    public static TileBehaviour base = new TileBehaviour.Builder()
+            .composeFrom(TilePartialBehaviours.partialBaseTile)
+            .build();
 }

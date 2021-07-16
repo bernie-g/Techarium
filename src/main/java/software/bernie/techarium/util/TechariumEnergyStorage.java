@@ -36,4 +36,8 @@ public class TechariumEnergyStorage extends EnergyStorage implements INBTSeriali
     public TechariumEnergyStorage copy() {
         return new TechariumEnergyStorage(capacity, maxReceive, maxExtract, energy);
     }
+
+    public float getPercentageFull() {
+        return (float) getEnergyStored() / getMaxEnergyStored();
+    }
 }

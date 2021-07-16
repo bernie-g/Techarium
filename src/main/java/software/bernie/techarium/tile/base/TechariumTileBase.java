@@ -24,13 +24,9 @@ import java.util.Optional;
 
 import static software.bernie.techarium.util.StaticHandler.getSideFromDirection;
 
-public abstract class TechariumTileBase extends MachineTileBase implements ITickableTileEntity, IHasBehaviour {
-    private final TileBehaviour behaviour;
-
+public abstract class TechariumTileBase extends MachineTileBase implements ITickableTileEntity {
     public TechariumTileBase(TileEntityType<?> tileEntityTypeIn, TileBehaviour behaviour) {
-        super(tileEntityTypeIn);
-        this.behaviour = behaviour.copy();
-        behaviour.tweak(this);
+        super(tileEntityTypeIn, behaviour);
     }
 
     @Nonnull
@@ -63,32 +59,6 @@ public abstract class TechariumTileBase extends MachineTileBase implements ITick
         }
     }
 
-    @Override
-    public void load(BlockState state, CompoundNBT nbt) {
-        if (behaviour.has(TileTraits.PowerTrait.class)) {
-            behaviour.getRequired(TileTraits.PowerTrait.class).getEnergyStorage().deserializeNBT(nbt.getCompound("energy"));
-        }
-        super.load(state, nbt);
-        updateMachineTile();
-    }
-
-
-    @Override
-    public CompoundNBT save(CompoundNBT compound) {
-        if (behaviour.has(TileTraits.PowerTrait.class)) {
-            compound.put("energy", behaviour.getRequired(TileTraits.PowerTrait.class).getEnergyStorage().serializeNBT());
-        }
-        return super.save(compound);
-    }
-
-    protected void updateMachineTile() {
-        requestModelDataUpdate();
-        this.setChanged();
-        if (this.getLevel() != null) {
-            this.getLevel().sendBlockUpdated(worldPosition, this.getBlockState(), this.getBlockState(), 3);
-        }
-    }
-
     @Nullable
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
@@ -110,31 +80,5 @@ public abstract class TechariumTileBase extends MachineTileBase implements ITick
     public void handleUpdateTag(BlockState state, CompoundNBT tag) {
         this.deserializeNBT(tag);
         updateMachineTile();
-    }
-
-    @Override
-    protected void invalidateCaps() {
-        super.invalidateCaps();
-        if (behaviour.has(TileTraits.PowerTrait.class)) {
-            behaviour.getRequired(TileTraits.PowerTrait.class).getLazyEnergyStorage().invalidate();
-        }
-    }
-
-    @NotNull
-    @Override
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
-        if (cap == CapabilityEnergy.ENERGY && behaviour.has(TileTraits.PowerTrait.class)) {
-            return behaviour.getRequired(TileTraits.PowerTrait.class).getLazyEnergyStorage().cast();
-        }
-        return super.getCapability(cap);
-    }
-
-    @Override
-    public TileBehaviour getBehaviour() {
-        return behaviour;
-    }
-
-    public Optional<TileTraits.PowerTrait> getPowerTrait() {
-        return behaviour.get(TileTraits.PowerTrait.class);
     }
 }

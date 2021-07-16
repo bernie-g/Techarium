@@ -4,24 +4,14 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CarrotBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.LootTableProvider;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.item.Items;
 import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.BlockStateProperty;
 import net.minecraft.loot.conditions.ILootCondition;
-import net.minecraft.loot.conditions.RandomChance;
-import net.minecraft.loot.functions.ApplyBonus;
 import net.minecraft.loot.functions.CopyNbt;
-import net.minecraft.loot.functions.SetNBT;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
 import net.minecraftforge.fml.RegistryObject;
-import software.bernie.techarium.block.voltaicpile.Charge;
 import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.ItemRegistry;
@@ -72,13 +62,13 @@ public class TechariumLootTableProvider extends LootTableProvider {
 
 			ILootCondition.IBuilder notEmpty = BlockStateProperty.hasBlockStateProperties(BlockRegistry.VOLTAIC_PILE.get())
 					.setProperties(StatePropertiesPredicate.Builder.properties()
-							.hasProperty(VoltaicPileBlock.CHARGE, Charge.ONE_THIRD)
-							.hasProperty(VoltaicPileBlock.CHARGE, Charge.TWO_THIRD)
-							.hasProperty(VoltaicPileBlock.CHARGE, Charge.FULL));
+							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.ONE_THIRD)
+							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.TWO_THIRD)
+							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.FULL));
 
 			ILootCondition.IBuilder empty = BlockStateProperty.hasBlockStateProperties(BlockRegistry.VOLTAIC_PILE.get())
 					.setProperties(StatePropertiesPredicate.Builder.properties()
-							.hasProperty(VoltaicPileBlock.CHARGE, Charge.EMPTY));
+							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.EMPTY));
 
 			customBlockLootTable(BlockRegistry.VOLTAIC_PILE.get(),
 					ItemLootEntry.lootTableItem(BlockRegistry.VOLTAIC_PILE.get())

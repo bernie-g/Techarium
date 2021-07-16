@@ -1,10 +1,13 @@
 package software.bernie.techarium.trait;
 
+import lombok.SneakyThrows;
+
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public abstract class Trait implements ICanCopy {
+public abstract class Trait implements Cloneable {
 
     private final Map<Class<?>, Consumer<Object>> tweakers = new HashMap<>();
 
@@ -32,4 +35,8 @@ public abstract class Trait implements ICanCopy {
         tweakers.put(tweakerType, (Consumer<Object>) tweaker);
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }
