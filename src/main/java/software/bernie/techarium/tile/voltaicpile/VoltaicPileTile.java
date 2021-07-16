@@ -53,12 +53,12 @@ public class VoltaicPileTile extends TechariumTileBase {
                     this.getLevel().setBlockAndUpdate(worldPosition, this.getBlockState().setValue(VoltaicPileBlock.CHARGE, Charge.EMPTY));
                 }
             }
-            else if (percentStored <= 0.33) {
+            else if (percentStored <= 0.5) {
                 if (getBlockState().getValue(VoltaicPileBlock.CHARGE) != Charge.ONE_THIRD) {
                     this.getLevel().setBlockAndUpdate(worldPosition, this.getBlockState().setValue(VoltaicPileBlock.CHARGE, Charge.ONE_THIRD));
                 }
             }
-            else if (percentStored <= 0.66) {
+            else if (percentStored < 1) {
                 if (getBlockState().getValue(VoltaicPileBlock.CHARGE) != Charge.TWO_THIRD) {
                     this.getLevel().setBlockAndUpdate(worldPosition, this.getBlockState().setValue(VoltaicPileBlock.CHARGE, Charge.TWO_THIRD));
                 }            }
