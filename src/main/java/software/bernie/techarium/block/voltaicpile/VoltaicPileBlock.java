@@ -1,61 +1,40 @@
 package software.bernie.techarium.block.voltaicpile;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
+import net.minecraft.block.*;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.techarium.block.base.TechariumBlock;
+import software.bernie.techarium.machine.sideness.Side;
 import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.tile.voltaicpile.VoltaicPileTile;
 import software.bernie.techarium.trait.block.BlockBehaviours;
 import software.bernie.techarium.util.TechariumMaterial;
 
 public class VoltaicPileBlock extends TechariumBlock<VoltaicPileTile> {
+    public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final EnumProperty<Charge> CHARGE = EnumProperty.create("charge", Charge.class);
+
     public VoltaicPileBlock() {
         super(BlockBehaviours.voltaicPile, AbstractBlock.Properties.of(TechariumMaterial.METAL));
-        for (Side side: Side.values()) {
-            getFaceConfigs().put(side, FaceConfig.PUSH_ONLY);
-        }
+
+        this.registerDefaultState(this.getStateDefinition().any().setValue(HORIZONTAL_FACING, Direction.NORTH).setValue(CHARGE, Charge.FULL));
     }
 
     @Override
     public BlockRenderType getRenderShape(BlockState state) {
-        return BlockRenderType.ENTITYBLOCK_ANIMATED;
+        return BlockRenderType.MODEL;
     }
 
     @Override
-    public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (world.getBlockEntity(pos) instanceof VoltaicPileTile) {
-            VoltaicPileTile tile = ((VoltaicPileTile) world.getBlockEntity(pos));
-            tile.getPowerTrait().ifPresent(trait -> {
-                if (trait.getEnergyStorage().getEnergyStored() > 0) {
-                    ItemStack itemStack = new ItemStack(this);
-                    CompoundNBT compoundNBT = world.getBlockEntity(pos).save(new CompoundNBT());
-                    compoundNBT.remove("x");
-                    compoundNBT.remove("y");
-                    compoundNBT.remove("z");
-                    itemStack.addTagElement("BlockEntityTag", compoundNBT);
-                    InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), itemStack);
-                    return;
-                }
-                InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(ItemRegistry.COPPER_INGOT.get()));
-                InventoryHelper.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(ItemRegistry.ZINC_INGOT.get()));
-            });
-        }
-        super.onRemove(state, world, pos, newState, isMoving);
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(HORIZONTAL_FACING, CHARGE);
     }
 }

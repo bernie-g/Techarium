@@ -16,6 +16,7 @@ import software.bernie.techarium.client.tile.render.ExchangeStationRenderer
 import software.bernie.techarium.client.tile.render.GravMagnetRenderer;
 import software.bernie.techarium.client.tile.render.MagneticCoilRenderer;
 import software.bernie.techarium.client.tile.render.VoltaicPileRenderer;
+import software.bernie.techarium.client.tile.render.ExchangeStationRenderer;
 import software.bernie.techarium.registry.BlockRegistry;
 
 @Mod.EventBusSubscriber(modid = Techarium.ModID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
