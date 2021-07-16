@@ -2,12 +2,9 @@ package software.bernie.techarium.datagen;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.Property;
 import net.minecraft.util.Direction;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import software.bernie.techarium.block.voltaicpile.Charge;
 import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
 import software.bernie.techarium.datagen.base.TechariumBlockStateProviderBase;
 import software.bernie.techarium.registry.BlockRegistry;
@@ -48,8 +45,8 @@ public class TechariumBlockStateProvider extends TechariumBlockStateProviderBase
         String pileSegmentPath = BLOCK_DIR + "/" + pileBlock.getRegistryName().getPath();
         VariantBlockStateBuilder multipart = getVariantBuilder(pileBlock);
 
-        for (Charge e : VoltaicPileBlock.CHARGE.getPossibleValues()) {
-            String add = e == Charge.EMPTY ? "_empty" : e == Charge.ONE_THIRD ? "_33" : e == Charge.TWO_THIRD ? "_66" : "_full";
+        for (VoltaicPileBlock.Charge e : VoltaicPileBlock.CHARGE.getPossibleValues()) {
+            String add = e == VoltaicPileBlock.Charge.EMPTY ? "_empty" : e == VoltaicPileBlock.Charge.ONE_THIRD ? "_33" : e == VoltaicPileBlock.Charge.TWO_THIRD ? "_66" : "_full";
             ModelFile.ExistingModelFile basemodel = models().getExistingFile(modLoc(pileSegmentPath + add));
             for (Direction r : VoltaicPileBlock.HORIZONTAL_FACING.getPossibleValues()) {
                 int rotation = r == Direction.WEST ? 90 : r == Direction.NORTH ? 180 : r == Direction.EAST ? 270 : 0;

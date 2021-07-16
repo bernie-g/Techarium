@@ -25,7 +25,6 @@ public class ClientUtils {
 		ClientRegistry.bindTileEntityRenderer(BlockRegistry.BOTARIUM.getTileEntityType(), BotariumRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(BlockRegistry.ARBORETUM.getTileEntityType(), ArboretumRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(BlockRegistry.EXCHANGE_STATION.getTileEntityType(), ExchangeStationRenderer::new);
-		// ClientRegistry.bindTileEntityRenderer(BlockRegistry.VOLTAIC_PILE.getTileEntityType(), VoltaicPileRenderer::new);
 	}
 
 	@SubscribeEvent

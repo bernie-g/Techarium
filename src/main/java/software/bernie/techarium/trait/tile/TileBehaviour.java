@@ -34,7 +34,11 @@ public class TileBehaviour extends Behaviour {
     public TileBehaviour copy() {
         TileBehaviour.Builder builder = new TileBehaviour.Builder();
         for (Trait trait : this.traits.values()) {
-            builder = builder.with((Trait) trait.deepCopy());
+            try {
+                builder = builder.with((Trait) trait.clone());
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
         }
         return builder.build();
     }

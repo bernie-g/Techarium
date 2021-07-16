@@ -6,7 +6,10 @@ import software.bernie.techarium.trait.block.BlockBehaviour;
 import software.bernie.techarium.trait.block.BlockTraits;
 
 public class TilePartialBehaviours {
-    public static PartialBehaviour partialEnergyTile = new TileBehaviour.Builder()
+    public static PartialBehaviour partialBaseTile = new TileBehaviour.Builder()
+            .partial();
+
+    public static PartialBehaviour partialEnergyTile = new TileBehaviour.Builder().composeFrom(partialBaseTile)
             .requiredTraits(TileTraits.PowerTrait.class)
             .partial();
 }

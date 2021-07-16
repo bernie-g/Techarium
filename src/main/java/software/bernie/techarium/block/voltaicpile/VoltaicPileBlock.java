@@ -1,19 +1,13 @@
 package software.bernie.techarium.block.voltaicpile;
 
 import net.minecraft.block.*;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.util.IStringSerializable;
 import software.bernie.techarium.block.base.TechariumBlock;
-import software.bernie.techarium.machine.sideness.Side;
-import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.tile.voltaicpile.VoltaicPileTile;
 import software.bernie.techarium.trait.block.BlockBehaviours;
 import software.bernie.techarium.util.TechariumMaterial;
@@ -36,5 +30,27 @@ public class VoltaicPileBlock extends TechariumBlock<VoltaicPileTile> {
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(HORIZONTAL_FACING, CHARGE);
+    }
+
+    public enum Charge implements IStringSerializable {
+        EMPTY("empty"),
+        ONE_THIRD("one_third"),
+        TWO_THIRD("two_third"),
+        FULL("full");
+
+        private final String name;
+
+        Charge(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return name;
+        }
     }
 }
