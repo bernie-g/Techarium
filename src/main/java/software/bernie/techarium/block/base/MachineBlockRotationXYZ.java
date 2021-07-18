@@ -21,7 +21,8 @@ public class MachineBlockRotationXYZ<T extends MachineTileBase> extends MachineB
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite());
+    	Direction dir = context.getPlayer().isShiftKeyDown() ? context.getNearestLookingDirection().getOpposite() : context.getNearestLookingDirection();
+        return this.defaultBlockState().setValue(FACING, dir);
     }
 
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {

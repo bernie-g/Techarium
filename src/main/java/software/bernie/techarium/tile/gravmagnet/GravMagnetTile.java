@@ -3,33 +3,22 @@ package software.bernie.techarium.tile.gravmagnet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ibm.icu.text.Normalizer.Mode;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.particles.ParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.datafix.fixes.EntityHealth;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.server.ServerWorld;
-import onelemonyboi.xlfoodmod.ModRegistry;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -41,7 +30,6 @@ import software.bernie.geckolib3.resource.GeckoLibCache;
 import software.bernie.techarium.block.base.MachineBlockRotationXYZ;
 import software.bernie.techarium.block.gravmagnet.GravMagnetBlock;
 import software.bernie.techarium.helper.BlockPosHelper;
-import software.bernie.techarium.helper.EntityHelper;
 import software.bernie.techarium.recipe.recipe.GravMagnetRecipe;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.RecipeRegistry;
@@ -53,8 +41,9 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 	  
 	public static String identifier = "gravMagnet_";
 	
-	private int 	  power = 8;
-	private boolean   pull  = false;	
+	private static int basePower = 3;
+	private int 	   power     = 8;
+	private boolean    pull      = false;	
 
 	private List<ProcessingItemEntity> processing = new ArrayList<ProcessingItemEntity>(); 
 	private List<ProcessingItemEntity> toRemove   = new ArrayList<ProcessingItemEntity>();
@@ -92,15 +81,23 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 		BlockState state = level.getBlockState(getBlockPos());
 		pull 			 = state.getValue(GravMagnetBlock.POWERED);
 		Direction dir    = state.getValue(MachineBlockRotationXYZ.FACING);
+		updatePower(dir);
 		interactWithEntity(dir, MODE.fromBoolean(pull));
-		if (level.getBlockState(getBlockPos().relative(dir.getOpposite())).is(BlockRegistry.LEAD_BLOCK.get()))
-			power = 8;
-		else power = 3;
-		
 	}
 	
-	public void setPower(int value) {
-		power = value;
+	public void updatePower(Direction dir) {
+		power = basePower;
+		if (level.getBlockState(getBlockPos().relative(dir.getOpposite())).is(BlockRegistry.LEAD_BLOCK.get()))
+			power = 8;
+		
+		for (int i = 1; i < power; i++) {
+			BlockPos offset = getBlockPos().relative(dir, i);
+			BlockState state = level.getBlockState(offset);
+			if (state.isCollisionShapeFullBlock(level, offset)) {
+				power = i;
+				break;
+			}
+		}
 	}
 
 	// return the working zone 
@@ -132,6 +129,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 				dir.getStepZ() * distPower * mul);
 	}
 	
+	// ehhh Im lazy to write lol
 	private void interactWithEntity(Direction dir, MODE mode) {
 		AxisAlignedBB box = getBox(dir);
 		
@@ -165,21 +163,25 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 	}
 	
 	private BlockPos getFacingGravMagnet(Direction dir) {
-		for (int i = 1; i <= power; i++) {
+		for (int i = 1; i <= power * 2; i++) {
 			BlockPos posOffset 		= getBlockPos().relative(dir, i);
 			BlockState localMagnet 	= level.getBlockState(getBlockPos());
 			BlockState state 		= level.getBlockState(posOffset);
 			
-			if (state.getBlock() != BlockRegistry.GRAVMAGNET.getBlock()) continue;
+			
 			
 			if (state == localMagnet.setValue(GravMagnetBlock.FACING, dir.getOpposite())) {
 				TileEntity te = level.getBlockEntity(posOffset);
 				
 				if (te != null && te instanceof GravMagnetTile) {
-					if (((GravMagnetTile) te).power == power)
+					if (((GravMagnetTile) te).power == power) {
 						return posOffset;
+					}
 				}
-			} else return null;
+			} else if (state.isCollisionShapeFullBlock(level, posOffset)) {
+				return null;
+			}
+			
 		}
 		return null;
 	}
@@ -236,7 +238,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 		//===== Beurk maybe a batter way to check, but it's working fine like that xD ========
 		item.setCustomNameVisible(false);
 		
-		int multiplicator = getCurrentMagnetPower(item) + 1;
+		int multiplicator = getMagnetsOnItem(item) + 1;
 		item.setCustomName(new StringTextComponent(identifier + multiplicator));		
 	}
 	
@@ -260,7 +262,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 		processing.removeAll(toRemove);
 	}
 	
-	public static int getCurrentMagnetPower(ItemEntity item) {
+	public static int getMagnetsOnItem(ItemEntity item) {
 		if (item.hasCustomName()) {
 			String name = item.getCustomName().getString();
 			

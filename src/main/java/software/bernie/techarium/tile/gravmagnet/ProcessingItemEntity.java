@@ -27,7 +27,7 @@ public class ProcessingItemEntity {
 	
 	public void update() {
 		
-		int multiplicator = Math.max(1, GravMagnetTile.getCurrentMagnetPower(item) / 2);
+		int multiplicator = Math.max(1, GravMagnetTile.getMagnetsOnItem(item) / 2);
 		timer += multiplicator;
 		item.setExtendedLifetime();
 		
