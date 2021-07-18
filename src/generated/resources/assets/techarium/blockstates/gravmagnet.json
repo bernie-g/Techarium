@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,powered=false": {
+      "model": "techarium:block/gravmagnet"
+    },
+    "facing=south,powered=false": {
+      "model": "techarium:block/gravmagnet",
+      "y": 180
+    },
+    "facing=west,powered=false": {
+      "model": "techarium:block/gravmagnet",
+      "y": 270
+    },
+    "facing=east,powered=false": {
+      "model": "techarium:block/gravmagnet",
+      "y": 90
+    },
+    "facing=north,powered=true": {
+      "model": "techarium:block/gravmagnet"
+    },
+    "facing=south,powered=true": {
+      "model": "techarium:block/gravmagnet",
+      "y": 180
+    },
+    "facing=west,powered=true": {
+      "model": "techarium:block/gravmagnet",
+      "y": 270
+    },
+    "facing=east,powered=true": {
+      "model": "techarium:block/gravmagnet",
+      "y": 90
+    }
+  }
+}

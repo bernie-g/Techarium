@@ -19,6 +19,7 @@ import net.minecraftforge.fluids.FluidStack;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
+import software.bernie.techarium.recipe.recipe.GravMagnetRecipe;
 import software.bernie.techarium.registry.TagRegistry;
 import software.bernie.techarium.util.ChancedItemStackList;
 
@@ -87,6 +88,15 @@ public abstract class TechariumRecipeProviderBase extends ForgeRecipeProvider {
                                         .getRegistryName().getPath()));
     }
 
+    public void buildGravMagnetRecipe(String name, ItemStack output1, ItemStack output2, ItemStack input, Consumer<IFinishedRecipe> consumer) {
+        GravMagnetRecipe.builder()
+        		.output1(output1)
+        		.output2(output2)
+        		.input(input)
+                .construct()
+                .build(consumer, new ResourceLocation(Techarium.ModID, "gravmagnet/" + name));
+    }
+    
     public void buildMetalRecipe(String name, Item ingot, Item nugget, Block block, Consumer<IFinishedRecipe> consumer) {
         String nuggetName = nugget.getRegistryName().getPath();
         String ingotName = ingot.getRegistryName().getPath();

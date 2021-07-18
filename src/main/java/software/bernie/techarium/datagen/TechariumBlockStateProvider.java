@@ -19,6 +19,7 @@ public class TechariumBlockStateProvider extends TechariumBlockStateProviderBase
     public void registerMachines(){
         simpleMachineBox(BlockRegistry.BOTARIUM, models().modLoc("block/botarium_side"));
         simpleMachineBox(BlockRegistry.ARBORETUM, models().modLoc("block/botarium_side"));
+        simpleMachineBox(BlockRegistry.GRAVMAGNET, models().modLoc("block/gravmagnet_side"));
 
         invisMachine(BlockRegistry.BOTARIUM_TOP.get());
         invisMachine(BlockRegistry.ARBORETUM_TOP.get());
