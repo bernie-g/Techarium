@@ -2,8 +2,6 @@ package software.bernie.techarium.block.gravmagnet;
 
 import javax.annotation.Nullable;
 
-import com.ibm.icu.text.Normalizer2.Mode;
-
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -12,14 +10,13 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import software.bernie.techarium.block.base.MachineBlock;
+import software.bernie.techarium.block.base.MachineBlockRotationXYZ;
 import software.bernie.techarium.tile.gravmagnet.GravMagnetTile;
 import software.bernie.techarium.trait.block.BlockBehaviours;
 
-public class GravMagnetBlock extends MachineBlock<GravMagnetTile> {
+public class GravMagnetBlock extends MachineBlockRotationXYZ<GravMagnetTile> {
 
 	public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 	

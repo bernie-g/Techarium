@@ -20,7 +20,10 @@ public class GravMagnetRecipeSerializer extends ForgeRegistryEntry<IRecipeSerial
     	ItemStack output1 = JsonCodecUtils.deserializeItemStack(json.get("output1"));
     	ItemStack output2 = JsonCodecUtils.deserializeItemStack(json.get("output2"));
     	
-        return new GravMagnetRecipe(recipeId, output1, output2, input);
+    	int time = json.get("processTime").getAsInt();
+    	boolean pull = json.get("pull").getAsBoolean();
+    	
+        return new GravMagnetRecipe(recipeId, output1, output2, input, time, pull);
     }
 
     @Nullable
@@ -29,7 +32,9 @@ public class GravMagnetRecipeSerializer extends ForgeRegistryEntry<IRecipeSerial
     	ItemStack input   = buffer.readItem();
     	ItemStack output1 = buffer.readItem();
     	ItemStack output2 = buffer.readItem();
-        return new GravMagnetRecipe(recipeId, output1, output2, input);
+    	int time 		  = buffer.readInt();
+    	boolean pull  	  = buffer.readBoolean();	
+        return new GravMagnetRecipe(recipeId, output1, output2, input, time, pull);
     }
 
     @Override
@@ -37,5 +42,8 @@ public class GravMagnetRecipeSerializer extends ForgeRegistryEntry<IRecipeSerial
     	buffer.writeItem(recipe.getInput());
     	buffer.writeItem(recipe.getOutput1());
     	buffer.writeItem( recipe.getOutput2());
+    	buffer.writeInt(recipe.getProcessTime());
+    	buffer.writeBoolean(recipe.isPull());
+    	
     }
 }

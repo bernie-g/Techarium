@@ -7,13 +7,15 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
+import software.bernie.techarium.tile.base.MachineTileBase;
+import software.bernie.techarium.trait.block.BlockBehaviour;
 
-public class RotatableBlock extends Block {
+public class MachineBlockRotationXZ<T extends MachineTileBase> extends MachineBlock<T> {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    public RotatableBlock(Properties properties) {
-        super(properties);
+    public MachineBlockRotationXZ(BlockBehaviour behaviour, Properties properties) {
+        super(behaviour, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 

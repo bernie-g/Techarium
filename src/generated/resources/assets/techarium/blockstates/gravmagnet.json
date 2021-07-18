@@ -1,33 +1,55 @@
 {
   "variants": {
-    "facing=north,powered=false": {
+    "facing=down,powered=false": {
+      "model": "techarium:block/gravmagnet",
+      "x": 180
+    },
+    "facing=up,powered=false": {
       "model": "techarium:block/gravmagnet"
+    },
+    "facing=north,powered=false": {
+      "model": "techarium:block/gravmagnet",
+      "x": 90
     },
     "facing=south,powered=false": {
       "model": "techarium:block/gravmagnet",
+      "x": 90,
       "y": 180
     },
     "facing=west,powered=false": {
       "model": "techarium:block/gravmagnet",
+      "x": 90,
       "y": 270
     },
     "facing=east,powered=false": {
       "model": "techarium:block/gravmagnet",
+      "x": 90,
       "y": 90
     },
-    "facing=north,powered=true": {
+    "facing=down,powered=true": {
+      "model": "techarium:block/gravmagnet",
+      "x": 180
+    },
+    "facing=up,powered=true": {
       "model": "techarium:block/gravmagnet"
+    },
+    "facing=north,powered=true": {
+      "model": "techarium:block/gravmagnet",
+      "x": 90
     },
     "facing=south,powered=true": {
       "model": "techarium:block/gravmagnet",
+      "x": 90,
       "y": 180
     },
     "facing=west,powered=true": {
       "model": "techarium:block/gravmagnet",
+      "x": 90,
       "y": 270
     },
     "facing=east,powered=true": {
       "model": "techarium:block/gravmagnet",
+      "x": 90,
       "y": 90
     }
   }

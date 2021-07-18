@@ -11,7 +11,7 @@ import software.bernie.techarium.machine.sideness.Side;
 import java.util.HashMap;
 import java.util.Map;
 
-import static software.bernie.techarium.block.base.RotatableBlock.FACING;
+import static software.bernie.techarium.block.base.MachineBlockRotationXZ.FACING;
 
 public abstract class MachineTileBase extends TileEntity {
 

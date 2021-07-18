@@ -88,11 +88,13 @@ public abstract class TechariumRecipeProviderBase extends ForgeRecipeProvider {
                                         .getRegistryName().getPath()));
     }
 
-    public void buildGravMagnetRecipe(String name, ItemStack output1, ItemStack output2, ItemStack input, Consumer<IFinishedRecipe> consumer) {
+    public void buildGravMagnetRecipe(String name, ItemStack output1, ItemStack output2, ItemStack input, int processTime, boolean pull, Consumer<IFinishedRecipe> consumer) {
         GravMagnetRecipe.builder()
         		.output1(output1)
         		.output2(output2)
         		.input(input)
+        		.processTime(processTime)
+        		.pull(pull)
                 .construct()
                 .build(consumer, new ResourceLocation(Techarium.ModID, "gravmagnet/" + name));
     }

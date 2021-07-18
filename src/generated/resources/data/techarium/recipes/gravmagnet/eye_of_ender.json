@@ -2,7 +2,7 @@
   "type": "techarium:gravmagnet",
   "output1": {
     "id": "minecraft:blaze_powder",
-    "Count": 2
+    "Count": 1
   },
   "output2": {
     "id": "minecraft:ender_pearl",
@@ -11,5 +11,7 @@
   "input": {
     "id": "minecraft:ender_eye",
     "Count": 1
-  }
+  },
+  "pull": true,
+  "processTime": 6
 }

@@ -1,5 +1,6 @@
 package software.bernie.techarium.block.base;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.tileentity.TileEntity;
@@ -18,7 +19,7 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 
-public abstract class TechariumBlock<T extends TileEntity> extends RotatableBlock implements IHasBehaviour {
+public abstract class TechariumBlock<T extends TileEntity> extends Block implements IHasBehaviour {
 
     private final BlockBehaviour behaviour;
 
