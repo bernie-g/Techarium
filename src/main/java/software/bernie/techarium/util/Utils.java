@@ -3,7 +3,9 @@ package software.bernie.techarium.util;
 import com.google.gson.JsonObject;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.Direction;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -31,27 +33,32 @@ public class Utils {
     }
 
     public static Ingredient deserializeIngredient(JsonObject json, String key) {
-        return Ingredient.fromJson((JSONUtils.isArrayNode(json, key) ? JSONUtils.getAsJsonArray(json, key) : JSONUtils.getAsJsonObject(json, key)));
+        return Ingredient.fromJson((JSONUtils.isArrayNode(json, key) ? JSONUtils.getAsJsonArray(json, key) : JSONUtils
+                .getAsJsonObject(json, key)));
     }
 
     /**
      * Rotates a VoxelShape around the center to the specified Direction, Origin is SOUTH
+     *
      * @param toRotate
      * @param direction
      * @return the rotated VoxelShape
      */
     public static VoxelShape rotateVoxelShape(VoxelShape toRotate, Direction direction) {
-        VoxelShape[] buffer = new VoxelShape[]{toRotate, VoxelShapes.empty() };
+        VoxelShape[] buffer = new VoxelShape[]{toRotate, VoxelShapes.empty()};
         if (direction.get2DDataValue() == -1) {
             if (direction == Direction.DOWN) {
-                buffer[0].forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) -> buffer[1] = VoxelShapes.or(buffer[1], VoxelShapes.box(minX, 1-maxZ, minY, maxX, 1 - minZ, maxY)));
+                buffer[0].forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) -> buffer[1] = VoxelShapes
+                        .or(buffer[1], VoxelShapes.box(minX, 1 - maxZ, minY, maxX, 1 - minZ, maxY)));
             } else {
-                buffer[0].forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) -> buffer[1] = VoxelShapes.or(buffer[1], VoxelShapes.box(minX, minZ, minY, maxX, maxZ, maxY)));
+                buffer[0].forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) -> buffer[1] = VoxelShapes
+                        .or(buffer[1], VoxelShapes.box(minX, minZ, minY, maxX, maxZ, maxY)));
             }
             return buffer[1];
         }
         for (int i = 0; i < direction.get2DDataValue() % 4; i++) {
-            buffer[0].forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) -> buffer[1] = VoxelShapes.or(buffer[1], VoxelShapes.box(1-maxZ, minY, minX, 1-minZ, maxY, maxX)));
+            buffer[0].forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) -> buffer[1] = VoxelShapes
+                    .or(buffer[1], VoxelShapes.box(1 - maxZ, minY, minX, 1 - minZ, maxY, maxX)));
             buffer[0] = buffer[1];
             buffer[1] = VoxelShapes.empty();
         }
@@ -62,6 +69,19 @@ public class Utils {
         double x = blockRay.getLocation().x - blockRay.getBlockPos().getX();
         double y = blockRay.getLocation().y - blockRay.getBlockPos().getY();
         double z = blockRay.getLocation().z - blockRay.getBlockPos().getZ();
-        return x >= shape.bounds().minX && x <= shape.bounds().maxX && y >= shape.bounds().minY && y <= shape.bounds().maxY && z >= shape.bounds().minZ && z <= shape.bounds().maxZ;
+        return x >= shape.bounds().minX && x <= shape.bounds().maxX && y >= shape.bounds().minY && y <= shape
+                .bounds().maxY && z >= shape.bounds().minZ && z <= shape.bounds().maxZ;
+    }
+
+    public static void addEffect(LivingEntity entity, EffectInstance effect) {
+        if (!entity.level.isClientSide) {
+            effect.getEffect().addAttributeModifiers(entity, entity.getAttributes(), effect.getAmplifier());
+        }
+    }
+
+    public static void removeEffect(LivingEntity entity, EffectInstance effect) {
+        if (!entity.level.isClientSide) {
+            effect.getEffect().removeAttributeModifiers(entity, entity.getAttributes(), effect.getAmplifier());
+        }
     }
 }

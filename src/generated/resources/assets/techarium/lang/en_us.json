@@ -33,6 +33,10 @@
   "item.techarium.nickel_ingot": "Nickel Ingot",
   "item.techarium.nickel_nugget": "Nickel Nugget",
   "item.techarium.pipe_stick": "Pipe Stick",
+  "item.techarium.survivalist_exosuit_boots": "Survivalist Exosuit Boots",
+  "item.techarium.survivalist_exosuit_chestplate": "Survivalist Exosuit Chestplate",
+  "item.techarium.survivalist_exosuit_helmet": "Survivalist Exosuit Helmet",
+  "item.techarium.survivalist_exosuit_leggings": "Survivalist Exosuit Leggings",
   "itemGroup.techarium": "Techarium",
   "shift.techarium.description": "Hold [LShift] for description",
   "top.techarium.progress.eta": "ETA: "

@@ -16,6 +16,7 @@ public class TechariumItemModelProvider extends TechariumItemModelProviderBase {
     protected void registerModels() {
         registerPipes();
         registerIngots();
+        registerArmor();
 
         simpleTexture(ItemRegistry.DEBUGSTICK.get(), "item/pipe/pipe_stick");
         simpleTexture(BlockRegistry.EXCHANGE_STATION.getItem(), "item/exchange_station");
@@ -38,5 +39,12 @@ public class TechariumItemModelProvider extends TechariumItemModelProviderBase {
         simpleTexture(ItemRegistry.ALUMINIUM_NUGGET.get(), "item/nugget/aluminium_nugget");
         simpleTexture(ItemRegistry.LEAD_NUGGET.get(), "item/nugget/lead_nugget");
         simpleTexture(ItemRegistry.NICKEL_NUGGET.get(), "item/nugget/nickel_nugget");
+    }
+
+    public void registerArmor(){
+        simpleTexture(ItemRegistry.SURVIVALIST_EXOSUIT_HELMET.get(), "armor/survivalist_exosuit_helmet");
+        simpleTexture(ItemRegistry.SURVIVALIST_EXOSUIT_CHESTPLATE.get(), "armor/survivalist_exosuit_chestplate");
+        simpleTexture(ItemRegistry.SURVIVALIST_EXOSUIT_LEGGINGS.get(), "armor/survivalist_exosuit_leggings");
+        simpleTexture(ItemRegistry.SURVIVALIST_EXOSUIT_BOOTS.get(), "armor/survivalist_exosuit_boots");
     }
 }

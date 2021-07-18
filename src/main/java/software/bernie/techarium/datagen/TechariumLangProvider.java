@@ -39,6 +39,11 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addItem(ItemRegistry.COPPER_NUGGET, "Copper Nugget");
         addItem(ItemRegistry.LEAD_NUGGET, "Lead Nugget");
         addItem(ItemRegistry.NICKEL_NUGGET, "Nickel Nugget");
+
+        addItem(ItemRegistry.SURVIVALIST_EXOSUIT_HELMET, "Survivalist Exosuit Helmet");
+        addItem(ItemRegistry.SURVIVALIST_EXOSUIT_CHESTPLATE, "Survivalist Exosuit Chestplate");
+        addItem(ItemRegistry.SURVIVALIST_EXOSUIT_LEGGINGS, "Survivalist Exosuit Leggings");
+        addItem(ItemRegistry.SURVIVALIST_EXOSUIT_BOOTS, "Survivalist Exosuit Boots");
     }
 
     protected void addBlocks() {
