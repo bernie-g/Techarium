@@ -87,7 +87,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 	public void tick() {
 		BlockState state = level.getBlockState(getBlockPos());
 		pull 			 = state.getValue(GravMagnetBlock.POWERED);
-		Direction dir    = getFacingDirection();
+		Direction dir    = state.getValue(MachineBlockRotationXYZ.FACING);
 		updatePower(dir);
 		interactWithEntity(dir, MODE.fromBoolean(pull));
 	}
@@ -101,7 +101,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 			BlockPos offset = getBlockPos().relative(dir, i);
 			BlockState state = level.getBlockState(offset);
 			if (state.isCollisionShapeFullBlock(level, offset)) {
-				power = i;
+				power = i - 1;
 				break;
 			}
 		}
@@ -146,7 +146,6 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 			secondMagnet = getFacingGravMagnet(dir); // check for the closest 
 			updateProcess(secondMagnet, dir);		 // update runnning recipies
 		}
-		
 		
 		for (Entity entity : level.getEntitiesOfClass(Entity.class, box)) {
 			entity.setDeltaMovement(getMotionPower(entity, dir, mode));
@@ -199,7 +198,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 	}
 	
 	private boolean isItemCenter(ItemEntity item, BlockPos secondMagnet, Direction dir) {
-		float marge = 0.4f;
+		float marge = 0.5f;
 		
 		Vector3d pos1 = BlockPosHelper.getCenter(getBlockPos());
 		Vector3d pos2 = BlockPosHelper.getCenter(secondMagnet);
@@ -241,7 +240,10 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 		if (currentStack.getCount() >= 9 && mode == MODE.PUSH) {
 			List<ICraftingRecipe> compressRecipies = level.getRecipeManager().getAllRecipesFor(IRecipeType.CRAFTING);
 			for (ICraftingRecipe recipe : compressRecipies) {
-				if (IngredientsHelper.isItemInIngredient(currentStack, recipe.getIngredients().get(0)) && is9x9Craft(recipe)) {
+				NonNullList<Ingredient> ingredients = recipe.getIngredients();
+				if (ingredients.size() < 9) continue;
+				
+				if (IngredientsHelper.isItemInIngredient(currentStack, ingredients.get(0)) && is9x9Craft(recipe)) {
 					setupItem(item);
 					ProcessCompressItemEntity processItem = new ProcessCompressItemEntity(item, recipe);
 					processing.add(processItem);
@@ -274,6 +276,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 	
 	private void resetItem(ItemEntity item) {
 		item.setCustomName(null);
+		item.setExtendedLifetime();
 	}
 	
 	private void updateProcess(BlockPos secondMagnet, Direction dir) {

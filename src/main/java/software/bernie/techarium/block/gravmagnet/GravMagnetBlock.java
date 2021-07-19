@@ -6,11 +6,15 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 import software.bernie.techarium.block.base.MachineBlockRotationXYZ;
 import software.bernie.techarium.tile.gravmagnet.GravMagnetTile;
@@ -29,6 +33,13 @@ public class GravMagnetBlock extends MachineBlockRotationXYZ<GravMagnetTile> {
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		return super.getStateForPlacement(context).setValue(POWERED,
 				Boolean.valueOf(context.getLevel().hasNeighborSignal(context.getClickedPos())));
+	}
+	
+	@Override
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn,
+			BlockRayTraceResult hit) {
+		// TODO Auto-generated method stub
+		return ActionResultType.PASS;
 	}
 
 	public void neighborChanged(BlockState state, World world, BlockPos pos1, Block block, BlockPos pos2, boolean f) {
