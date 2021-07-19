@@ -14,12 +14,12 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import software.bernie.techarium.block.base.MachineBlockRotation;
+import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.tile.botarium.BotariumTile;
 import software.bernie.techarium.trait.block.BlockBehaviours;
 import software.bernie.techarium.util.BlockRegion;
 
-public class BotariumMaster extends MachineBlockRotation<BotariumTile> {
+public class BotariumMaster extends MachineBlock<BotariumTile> {
 
     public BotariumMaster() {
         super(BlockBehaviours.botarium, AbstractBlock.Properties.of(Material.METAL));

@@ -11,12 +11,12 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.ToolType;
-import software.bernie.techarium.block.base.MachineBlockRotation;
+import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
 import software.bernie.techarium.trait.block.BlockBehaviours;
 
-public class BotariumTop extends MachineBlockRotation<TopEnabledOnlySlave> {
+public class BotariumTop extends MachineBlock<TopEnabledOnlySlave> {
 
     public BotariumTop() {
         super(BlockBehaviours.createSlave(BlockBehaviours.botarium), 

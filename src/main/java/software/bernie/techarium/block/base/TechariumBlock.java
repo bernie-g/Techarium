@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -29,6 +30,8 @@ public abstract class TechariumBlock<T extends TileEntity> extends Block impleme
 		super(configure(properties, behaviour));
 		this.behaviour = behaviour;
 		behaviour.tweak(this);
+		
+		this.registerDefaultState(this.stateDefinition.any().setValue(getBehaviour().get(BlockTraits.BlockRotationTrait.class).get().getDirectionProperty(), Direction.NORTH));
 	}
 
 	public static Properties configure(Properties properties, BlockBehaviour behaviour) {
@@ -68,4 +71,17 @@ public abstract class TechariumBlock<T extends TileEntity> extends Block impleme
 	public Behaviour getBehaviour() {
 		return this.behaviour;
 	}
+	
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+    	return getBehaviour().get(BlockTraits.BlockRotationTrait.class).get().getStateForPlacement(this, context);
+    }
+
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    	builder.add(getDirectionProperty());
+   }
+    
+    public DirectionProperty getDirectionProperty() {
+    	return getBehaviour().get(BlockTraits.BlockRotationTrait.class).get().getDirectionProperty();
+    }
 }
