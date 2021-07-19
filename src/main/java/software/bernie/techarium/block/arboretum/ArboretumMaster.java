@@ -1,5 +1,7 @@
 package software.bernie.techarium.block.arboretum;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -12,15 +14,12 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import software.bernie.techarium.block.base.MachineBlock;
-import software.bernie.techarium.block.base.MachineBlockRotationXZ;
+import software.bernie.techarium.block.base.MachineBlockRotation;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.trait.block.BlockBehaviours;
 import software.bernie.techarium.util.BlockRegion;
 
-import javax.annotation.Nonnull;
-
-public class ArboretumMaster extends MachineBlockRotationXZ<ArboretumTile> {
+public class ArboretumMaster extends MachineBlockRotation<ArboretumTile> {
 
     public ArboretumMaster() {
         super(BlockBehaviours.arboretum, AbstractBlock.Properties.of(Material.METAL));

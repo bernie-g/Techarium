@@ -2,7 +2,6 @@ package software.bernie.techarium.block.arboretum;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.block.AbstractBlock.Properties;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -12,15 +11,16 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.ToolType;
-import software.bernie.techarium.block.base.MachineBlockRotationXZ;
+import software.bernie.techarium.block.base.MachineBlockRotation;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
 import software.bernie.techarium.trait.block.BlockBehaviours;
 
-public class ArboretumTop extends MachineBlockRotationXZ<TopEnabledOnlySlave> {
+public class ArboretumTop extends MachineBlockRotation<TopEnabledOnlySlave> {
 
     public ArboretumTop() {
-        super(BlockBehaviours.createSlave(BlockBehaviours.arboretum), Properties.of(Material.METAL).strength(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).noOcclusion().requiresCorrectToolForDrops().noDrops());
+        super(BlockBehaviours.createSlave(BlockBehaviours.arboretum), 
+        	  Properties.of(Material.METAL).strength(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).noOcclusion().requiresCorrectToolForDrops().noDrops());
     }
 
     @Override

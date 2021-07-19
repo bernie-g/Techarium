@@ -102,7 +102,10 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
     }
 
     private void registerGravMagnetRecipes(Consumer<IFinishedRecipe> consumer) {
-    	buildGravMagnetRecipe("eye_of_ender", new ItemStack(Items.BLAZE_POWDER), new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_EYE), 6, true, consumer);
+    	buildGravMagnetRecipe("eye_of_ender", 
+    			new ItemStack(Items.BLAZE_POWDER), 
+    			new ItemStack(Items.ENDER_PEARL), 
+    			new ItemStack(Items.ENDER_EYE), 20 * 6, true, consumer);
     }
 
     private void registerExchangeStationRecipes(Consumer<IFinishedRecipe> consumer) {

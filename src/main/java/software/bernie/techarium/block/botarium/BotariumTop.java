@@ -11,15 +11,16 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.ToolType;
-import software.bernie.techarium.block.base.MachineBlockRotationXZ;
+import software.bernie.techarium.block.base.MachineBlockRotation;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
 import software.bernie.techarium.trait.block.BlockBehaviours;
 
-public class BotariumTop extends MachineBlockRotationXZ<TopEnabledOnlySlave> {
+public class BotariumTop extends MachineBlockRotation<TopEnabledOnlySlave> {
 
     public BotariumTop() {
-        super(BlockBehaviours.createSlave(BlockBehaviours.botarium), Block.Properties.of(Material.METAL).strength(3.5f).harvestLevel(2)
+        super(BlockBehaviours.createSlave(BlockBehaviours.botarium), 
+        		Block.Properties.of(Material.METAL).strength(3.5f).harvestLevel(2)
                 .harvestTool(ToolType.PICKAXE).noOcclusion().requiresCorrectToolForDrops().noDrops());
     }
 

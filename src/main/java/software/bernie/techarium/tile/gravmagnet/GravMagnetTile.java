@@ -2,21 +2,27 @@ package software.bernie.techarium.tile.gravmagnet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import corgiaoc.byg.client.gui.BYGWorkbenchContainer;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.WorkbenchContainer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.ICraftingRecipe;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.StringTextComponent;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -27,9 +33,9 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.resource.GeckoLibCache;
-import software.bernie.techarium.block.base.MachineBlockRotationXYZ;
 import software.bernie.techarium.block.gravmagnet.GravMagnetBlock;
 import software.bernie.techarium.helper.BlockPosHelper;
+import software.bernie.techarium.helper.IngredientsHelper;
 import software.bernie.techarium.recipe.recipe.GravMagnetRecipe;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.RecipeRegistry;
@@ -45,8 +51,8 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 	private int 	   power     = 8;
 	private boolean    pull      = false;	
 
-	private List<ProcessingItemEntity> processing = new ArrayList<ProcessingItemEntity>(); 
-	private List<ProcessingItemEntity> toRemove   = new ArrayList<ProcessingItemEntity>();
+	private List<ProcessingItemEntityBase> processing = new ArrayList<ProcessingItemEntityBase>(); 
+	private List<ProcessingItemEntityBase> toRemove   = new ArrayList<ProcessingItemEntityBase>();
 	
 	public GravMagnetTile() {
 		super(BlockRegistry.GRAVMAGNET.getTileEntityType());
@@ -80,7 +86,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 	public void tick() {
 		BlockState state = level.getBlockState(getBlockPos());
 		pull 			 = state.getValue(GravMagnetBlock.POWERED);
-		Direction dir    = state.getValue(MachineBlockRotationXYZ.FACING);
+		Direction dir    = getFacingDirection();
 		updatePower(dir);
 		interactWithEntity(dir, MODE.fromBoolean(pull));
 	}
@@ -170,7 +176,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 			
 			
 			
-			if (state == localMagnet.setValue(GravMagnetBlock.FACING, dir.getOpposite())) {
+			if (state == localMagnet.setValue(BlockRegistry.GRAVMAGNET.getBlock().getDirectionProperty(), dir.getOpposite())) {
 				TileEntity te = level.getBlockEntity(posOffset);
 				
 				if (te != null && te instanceof GravMagnetTile) {
@@ -187,7 +193,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 	}
 	
 	private boolean isItemAlreadyProcess(ItemEntity item) {
-		for (ProcessingItemEntity process : processing) {
+		for (ProcessingItemEntityBase process : processing) {
 			if (process.getItem().equals(item)) return true;
 		}
 		return false;
@@ -227,11 +233,36 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 			ItemStack input = recipe.getInput().copy();
 			if (input.sameItem(currentStack)) {
 				setupItem(item);
-				ProcessingItemEntity processItem = new ProcessingItemEntity(item, recipe);
+				ProcessingPullItemEntity processItem = new ProcessingPullItemEntity(item, recipe);
 				processing.add(processItem);
 				return;
 			}
 		}
+		
+		if (currentStack.getCount() >= 9 && mode == MODE.PUSH) {
+			List<ICraftingRecipe> compressRecipies = level.getRecipeManager().getAllRecipesFor(IRecipeType.CRAFTING);
+			for (ICraftingRecipe recipe : compressRecipies) {
+				if (IngredientsHelper.isItemInIngredient(currentStack, recipe.getIngredients().get(0)) && is9x9Craft(recipe)) {
+					setupItem(item);
+					ProcessCompressItemEntity processItem = new ProcessCompressItemEntity(item, recipe);
+					processing.add(processItem);
+					return;
+				}
+			}
+		}
+	}
+
+	private boolean is9x9Craft(ICraftingRecipe recipe) {
+		NonNullList<Ingredient> ingredients = recipe.getIngredients();
+		ItemStack first = IngredientsHelper.getFirstIngredient(ingredients.get(0));
+		
+		if (first == ItemStack.EMPTY) return false;
+		
+		for (Ingredient ingredient : ingredients) {
+			if (!IngredientsHelper.isItemInIngredient(first, ingredient)) return false;
+		}
+		
+		return true;
 	}
 	
 	private void setupItem(ItemEntity item) {
@@ -254,7 +285,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 		
 		toRemove.clear();
 		
-		for (ProcessingItemEntity process : processing) {
+		for (ProcessingItemEntityBase process : processing) {
 			process.update();
 			if (process.shouldRemove() || !isItemCenter(process.getItem(), secondMagnet, dir)) toRemove.add(process);
 		}
