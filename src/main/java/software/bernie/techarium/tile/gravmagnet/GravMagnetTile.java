@@ -137,7 +137,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 		
 		if (!level.isClientSide) {
 			secondMagnet = getFacingGravMagnet(dir); // check for the closest 
-			udpateProcess(secondMagnet, dir);		 // update runnning recipies
+			updateProcess(secondMagnet, dir);		 // update runnning recipies
 		}
 		
 		
@@ -246,7 +246,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 		item.setCustomName(null);
 	}
 	
-	private void udpateProcess(BlockPos secondMagnet, Direction dir) {
+	private void updateProcess(BlockPos secondMagnet, Direction dir) {
 		if (secondMagnet == null) {
 			processing.clear();
 			return;

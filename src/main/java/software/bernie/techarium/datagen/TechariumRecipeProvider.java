@@ -41,7 +41,7 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
 
         registerVanillaArboretumRecipes(consumer);
         
-        registerGravmagnetRecipes(consumer);
+        registerGravMagnetRecipes(consumer);
 
         registerSmeltingRecipes(consumer);
         registerCraftingRecipes(consumer);
@@ -101,7 +101,7 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
 
     }
 
-    private void registerGravmagnetRecipes(Consumer<IFinishedRecipe> consumer) {
+    private void registerGravMagnetRecipes(Consumer<IFinishedRecipe> consumer) {
     	buildGravMagnetRecipe("eye_of_ender", new ItemStack(Items.BLAZE_POWDER), new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_EYE), 6, true, consumer);
     }
 
