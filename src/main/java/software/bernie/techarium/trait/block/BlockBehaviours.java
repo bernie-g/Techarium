@@ -5,21 +5,18 @@ import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;
 import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
 import software.bernie.techarium.tile.gravmagnet.GravMagnetTile;
-import software.bernie.techarium.trait.block.BlockTraits.RotationType;
 
 public class BlockBehaviours {
     public static BlockBehaviour botarium = new BlockBehaviour.Builder()
             .composeFrom(BlockPartialBehaviours.partialMachineBlock)
             .tileEntity(BotariumTile.class)
             .description(LangRegistry.botariumDescription)
-            .rotation(RotationType.XZ)
             .build();
 
     public static BlockBehaviour arboretum = new BlockBehaviour.Builder()
             .composeFrom(BlockPartialBehaviours.partialMachineBlock)
             .tileEntity(ArboretumTile.class)
             .description(LangRegistry.arboretumDescription)
-            .rotation(RotationType.XZ)
             .build();
 
     public static BlockBehaviour exchangeStation = new BlockBehaviour.Builder()
@@ -27,7 +24,6 @@ public class BlockBehaviours {
             .animatedModel()
             .tileEntity(ExchangeStationTile.class)
             .description(LangRegistry.exchangeDescription)
-            .rotation(RotationType.XZ)
             .build();
     
     public static BlockBehaviour gravMagnet = new BlockBehaviour.Builder()
@@ -35,7 +31,6 @@ public class BlockBehaviours {
             .animatedModel()
             .tileEntity(GravMagnetTile.class)
             .description(LangRegistry.gravMagnetDescription)
-            .rotation(RotationType.XYZ)
             .build();
 
     public static BlockBehaviour createSlave(BlockBehaviour masterBehaviour) {

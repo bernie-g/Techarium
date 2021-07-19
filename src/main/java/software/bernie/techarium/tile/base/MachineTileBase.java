@@ -1,16 +1,15 @@
 package software.bernie.techarium.tile.base;
 
+import static software.bernie.techarium.block.base.MachineBlockRotationXZ.FACING;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.state.DirectionProperty;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
-import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.machine.sideness.FaceConfig;
 import software.bernie.techarium.machine.sideness.Side;
 
@@ -32,12 +31,7 @@ public abstract class MachineTileBase extends TileEntity {
 
     public Direction getFacingDirection() {
         assert this.level != null;
-        BlockState state = this.level.getBlockState(this.worldPosition);
-        if (state.getBlock() instanceof MachineBlock) {
-        	DirectionProperty direction = ((MachineBlock) state.getBlock()).getDirectionProperty();
-        	return state.getValue(direction);
-        }
-        return Direction.NORTH;
+        return this.level.getBlockState(this.worldPosition).hasProperty(FACING) ? this.level.getBlockState(this.worldPosition).getValue(FACING) : Direction.NORTH;
     }
 
     public Map<Side, FaceConfig> getFaceConfigs() {

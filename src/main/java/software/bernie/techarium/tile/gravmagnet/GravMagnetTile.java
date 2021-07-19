@@ -33,6 +33,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.resource.GeckoLibCache;
+import software.bernie.techarium.block.base.MachineBlockRotationXYZ;
 import software.bernie.techarium.block.gravmagnet.GravMagnetBlock;
 import software.bernie.techarium.helper.BlockPosHelper;
 import software.bernie.techarium.helper.IngredientsHelper;
@@ -173,10 +174,8 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 			BlockPos posOffset 		= getBlockPos().relative(dir, i);
 			BlockState localMagnet 	= level.getBlockState(getBlockPos());
 			BlockState state 		= level.getBlockState(posOffset);
-			
-			
-			
-			if (state == localMagnet.setValue(BlockRegistry.GRAVMAGNET.getBlock().getDirectionProperty(), dir.getOpposite())) {
+
+			if (state == localMagnet.setValue(MachineBlockRotationXYZ.FACING, dir.getOpposite())) {
 				TileEntity te = level.getBlockEntity(posOffset);
 				
 				if (te != null && te instanceof GravMagnetTile) {

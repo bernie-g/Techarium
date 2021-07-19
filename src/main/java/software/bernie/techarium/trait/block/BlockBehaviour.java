@@ -31,9 +31,5 @@ public class BlockBehaviour extends Behaviour {
         public Builder description(LangEntry description) {
             return this.with(new Traits.DescriptionTrait(description));
         }
-        
-        public Builder rotation(BlockTraits.RotationType rotation) {
-        	return this.with(new BlockTraits.BlockRotationTrait(rotation));
-        }
     }
 }
