@@ -8,7 +8,7 @@ public class IngredientsHelper {
 	public static ItemStack getFirstIngredient(Ingredient ingredient) {
 		if (ingredient == null) return ItemStack.EMPTY;
 		
-		ItemStack [] stacks = ingredient.getItems();
+		ItemStack[] stacks = ingredient.getItems();
 		if (stacks.length == 0) return ItemStack.EMPTY;
 		return stacks[0];
 	}
