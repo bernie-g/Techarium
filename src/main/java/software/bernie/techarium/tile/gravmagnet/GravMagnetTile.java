@@ -100,7 +100,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 		if (state.getBlock() instanceof MagneticCoilBlock) {
 			if (state.getValue(BlockRegistry.MAGNETIC_COIL.getBlock().getDirectionProperty()) == dir) {
 				TileEntity te = level.getBlockEntity(behind);
-				if (te != null && te instanceof MagneticCoilTile) 
+				if (te instanceof MagneticCoilTile) 
 					power = ((MagneticCoilTile) te).getCoilType().getPower();
 			}
 		}

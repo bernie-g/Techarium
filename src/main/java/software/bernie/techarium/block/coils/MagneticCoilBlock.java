@@ -31,8 +31,6 @@ public class MagneticCoilBlock extends MachineBlock<MagneticCoilTile> {
 			BlockRayTraceResult hit) {
 		TileEntity t = world.getBlockEntity(pos);
 		
-		if (t == null) 
-			return ActionResultType.PASS;
 		if (!(t instanceof MagneticCoilTile)) 
 			return ActionResultType.PASS;
 		

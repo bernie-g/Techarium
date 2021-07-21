@@ -10,16 +10,13 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.techarium.recipe.AbstractMachineRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
+import software.bernie.techarium.util.ChancedItemStackList;
 import software.bernie.techarium.util.JsonCodecUtils;
 
 public class GravMagnetRecipe extends AbstractMachineRecipe {
 	@Getter
 	@Setter
-	ItemStack output1;
-
-	@Getter
-	@Setter
-	ItemStack output2;
+	ChancedItemStackList output;
 
 	@Getter
 	@Setter
@@ -34,12 +31,11 @@ public class GravMagnetRecipe extends AbstractMachineRecipe {
 	boolean pull;
 
 	@Builder(buildMethodName = "construct")
-	public GravMagnetRecipe(ResourceLocation id, ItemStack output1, ItemStack output2, ItemStack input, int processTime,
+	public GravMagnetRecipe(ResourceLocation id, ChancedItemStackList output, ItemStack input, int processTime,
 			boolean pull) {
 		super(id, RecipeRegistry.GRAVMAGNET_RECIPE_TYPE, 0, 0, 0);
 
-		this.output1 = output1;
-		this.output2 = output2;
+		this.output = output;
 		this.input = input;
 		this.processTime = processTime;
 		this.pull = pull;
@@ -63,8 +59,7 @@ public class GravMagnetRecipe extends AbstractMachineRecipe {
 
 		@Override
 		public void serializeRecipeData(JsonObject json) {
-			json.add("output1", JsonCodecUtils.serialize(getOutput1()));
-			json.add("output2", JsonCodecUtils.serialize(getOutput2()));
+			json.add("output", getOutput().toJSON());
 			json.add("input", JsonCodecUtils.serialize(getInput()));
 			json.addProperty("pull", pull);
 			json.addProperty("processTime", processTime);
