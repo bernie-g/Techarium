@@ -11,7 +11,7 @@ import software.bernie.techarium.util.ChancedItemStack;
 public class ProcessingPullItemEntity extends ProcessingItemEntityBase {
 
 	private GravMagnetRecipe recipe;
-	
+
 	public ProcessingPullItemEntity(ItemEntity item, GravMagnetRecipe recipe) {
 		super(item);
 		this.recipe = recipe;
@@ -24,7 +24,7 @@ public class ProcessingPullItemEntity extends ProcessingItemEntityBase {
 
 	@Override
 	protected void processRecipe() {
-		ItemStack input 	   = recipe.getInput().copy();
+		ItemStack input = recipe.getInput().copy();
 		ItemStack currentStack = item.getItem();
 
 		while (input.getCount() <= currentStack.getCount()) {
@@ -36,5 +36,5 @@ public class ProcessingPullItemEntity extends ProcessingItemEntityBase {
 			}
 			level.playSound(null, item.blockPosition(), SoundEvents.TURTLE_EGG_BREAK, SoundCategory.BLOCKS, 1F, 1F);
 		}
-	}	
+	}
 }

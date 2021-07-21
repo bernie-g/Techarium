@@ -26,21 +26,21 @@ import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.tile.base.MachineTileBase;
 
 public class MagneticCoilTile extends MachineTileBase implements IAnimatable {
-	
-	AnimationFactory factory     = new AnimationFactory(this);
-	
+
+	AnimationFactory factory = new AnimationFactory(this);
+
 	@Setter
 	@Getter
 	private MagneticCoilType coilType = MagneticCoilType.TIER_NULL;
-	
+
 	public MagneticCoilTile() {
 		super(BlockRegistry.MAGNETIC_COIL.getTileEntityType());
 	}
-	
-    private <E extends IAnimatable> PlayState animationPredicate(AnimationEvent<E> event) {
-    	event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
-    	return PlayState.CONTINUE;
-    }
+
+	private <E extends IAnimatable> PlayState animationPredicate(AnimationEvent<E> event) {
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		return PlayState.CONTINUE;
+	}
 
 	@Override
 	public void registerControllers(AnimationData data) {
@@ -51,18 +51,18 @@ public class MagneticCoilTile extends MachineTileBase implements IAnimatable {
 	public AnimationFactory getFactory() {
 		return factory;
 	}
-	
+
 	public void removeCoil() {
 		if (!level.isClientSide())
 			EntityHelper.spawnItemEntity(level, new ItemStack(getItemInCoil()), getBlockPos());
-		
+
 		coilType = MagneticCoilType.TIER_NULL;
 	}
-	
+
 	public boolean isCoilEmpty() {
 		return coilType == MagneticCoilType.TIER_NULL;
 	}
-	
+
 	public Item getItemInCoil() {
 		for (CoilItem coil : CoilItem.getCoils()) {
 			if (coil.getCoilType() == coilType)
@@ -70,13 +70,13 @@ public class MagneticCoilTile extends MachineTileBase implements IAnimatable {
 		}
 		return Items.AIR;
 	}
-	
+
 	@Override
 	public CompoundNBT save(CompoundNBT coumpound) {
 		coumpound.putInt("typeCoil", coilType.ordinal());
 		return super.save(coumpound);
 	}
-	
+
 	@Override
 	public void load(BlockState p_230337_1_, CompoundNBT coumpound) {
 		coilType = MagneticCoilType.values()[coumpound.getInt("typeCoil")];
@@ -87,22 +87,22 @@ public class MagneticCoilTile extends MachineTileBase implements IAnimatable {
 	public ActionResultType onTileActivated(PlayerEntity player) {
 		return ActionResultType.SUCCESS;
 	}
-	
+
 	@Override
 	public SUpdateTileEntityPacket getUpdatePacket() {
 		// TODO Auto-generated method stub
 		return new SUpdateTileEntityPacket(getBlockPos(), 3, getUpdateTag());
 	}
-	
+
 	@Override
 	public CompoundNBT getUpdateTag() {
 		// TODO Auto-generated method stub
 		return save(new CompoundNBT());
 	}
-	
+
 	@Override
 	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
 		load(state, tag);
 	}
-	
+
 }

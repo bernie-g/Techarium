@@ -11,7 +11,7 @@ public class ProcessCompressItemEntity extends ProcessingItemEntityBase {
 
 	private ICraftingRecipe recipe;
 	private static final int compressSize = 9;
-	
+
 	public ProcessCompressItemEntity(ItemEntity item, ICraftingRecipe recipe) {
 		super(item);
 		this.recipe = recipe;
@@ -24,7 +24,7 @@ public class ProcessCompressItemEntity extends ProcessingItemEntityBase {
 
 	@Override
 	protected void processRecipe() {
-		ItemStack output 	   = recipe.getResultItem();
+		ItemStack output = recipe.getResultItem();
 		ItemStack currentStack = item.getItem();
 
 		while (compressSize <= currentStack.getCount()) {
