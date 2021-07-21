@@ -43,7 +43,7 @@ public class BlockBehaviours {
             .animatedModel()
             .tileEntity(MagneticCoilTile.class)
             .rotation(BlockTraits.RotationType.XYZ)
-            .description(LangRegistry.gravMagnetDescription)
+            .description(LangRegistry.magneticCoilDescription)
             .build();
 
     public static BlockBehaviour createSlave(BlockBehaviour masterBehaviour) {

@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 import software.bernie.techarium.block.base.MachineBlock;
-import software.bernie.techarium.item.WireItem;
+import software.bernie.techarium.item.CoilItem;
 import software.bernie.techarium.tile.magneticcoils.MagneticCoilTile;
 import software.bernie.techarium.trait.block.BlockBehaviours;
 
@@ -56,11 +56,11 @@ public class MagneticCoilBlock extends MachineBlock<MagneticCoilTile> {
 		return false;
 	}
 	
-	private boolean isWireInHand(ItemStack inHand) {
+	private boolean isCoilInHand(ItemStack inHand) {
 		Item item = inHand.getItem();
-		if (!(item instanceof WireItem)) return false;
+		if (!(item instanceof CoilItem)) return false;
 		
-		for (WireItem wire : WireItem.getWires()) {
+		for (CoilItem wire : CoilItem.getCoils()) {
 			if (item == wire) return true;
 		}
 		
@@ -70,8 +70,8 @@ public class MagneticCoilBlock extends MachineBlock<MagneticCoilTile> {
 	private boolean placeTileCoil(World world, PlayerEntity player, MagneticCoilTile tileBlock) {
 		ItemStack inHand = player.getMainHandItem();
 		
-		if (!isWireInHand(inHand) || !tileBlock.isCoilEmpty()) return false;
-		MagneticCoilType type = ((WireItem) inHand.getItem()).getWireType(); 
+		if (!isCoilInHand(inHand) || !tileBlock.isCoilEmpty()) return false;
+		MagneticCoilType type = ((CoilItem) inHand.getItem()).getCoilType(); 
 		
 		tileBlock.setCoilType(type);
 		

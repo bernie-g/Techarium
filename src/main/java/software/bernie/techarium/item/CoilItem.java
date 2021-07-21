@@ -9,17 +9,17 @@ import lombok.Getter;
 import net.minecraft.item.Item;
 import software.bernie.techarium.block.coils.MagneticCoilType;
 
-public class WireItem extends Item{
+public class CoilItem extends Item{
 
 	@Getter
-	private MagneticCoilType wireType;
+	private MagneticCoilType coilType;
 	
 	@Getter
-	private static final List<WireItem> wires = new ArrayList<WireItem>();
+	private static final List<CoilItem> coils = new ArrayList<CoilItem>();
 	
-	public WireItem(MagneticCoilType wireType) {
+	public CoilItem(MagneticCoilType coilType) {
 		super(new Item.Properties().tab(TECHARIUM));
-		this.wireType = wireType;
-		wires.add(this);
+		this.coilType = coilType;
+		coils.add(this);
 	}
 }

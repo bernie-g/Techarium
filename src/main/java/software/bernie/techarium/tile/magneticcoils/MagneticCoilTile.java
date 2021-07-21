@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.ActionResultType;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -20,7 +21,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.techarium.block.coils.MagneticCoilBlock;
 import software.bernie.techarium.block.coils.MagneticCoilType;
 import software.bernie.techarium.helper.EntityHelper;
-import software.bernie.techarium.item.WireItem;
+import software.bernie.techarium.item.CoilItem;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.tile.base.MachineTileBase;
 
@@ -63,9 +64,9 @@ public class MagneticCoilTile extends MachineTileBase implements IAnimatable {
 	}
 	
 	public Item getItemInCoil() {
-		for (WireItem wire : WireItem.getWires()) {
-			if (wire.getWireType() == coilType)
-				return wire;
+		for (CoilItem coil : CoilItem.getCoils()) {
+			if (coil.getCoilType() == coilType)
+				return coil;
 		}
 		return Items.AIR;
 	}
@@ -86,4 +87,22 @@ public class MagneticCoilTile extends MachineTileBase implements IAnimatable {
 	public ActionResultType onTileActivated(PlayerEntity player) {
 		return ActionResultType.SUCCESS;
 	}
+	
+	@Override
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		// TODO Auto-generated method stub
+		return new SUpdateTileEntityPacket(getBlockPos(), 3, getUpdateTag());
+	}
+	
+	@Override
+	public CompoundNBT getUpdateTag() {
+		// TODO Auto-generated method stub
+		return save(new CompoundNBT());
+	}
+	
+	@Override
+	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+		load(state, tag);
+	}
+	
 }
