@@ -1,7 +1,5 @@
 package software.bernie.techarium.block.gravmagnet;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -16,11 +14,13 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
-import software.bernie.techarium.block.base.MachineBlockRotationXYZ;
+import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.tile.gravmagnet.GravMagnetTile;
 import software.bernie.techarium.trait.block.BlockBehaviours;
 
-public class GravMagnetBlock extends MachineBlockRotationXYZ<GravMagnetTile> {
+import javax.annotation.Nullable;
+
+public class GravMagnetBlock extends MachineBlock<GravMagnetTile> {
 
 	public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
@@ -30,9 +30,9 @@ public class GravMagnetBlock extends MachineBlockRotationXYZ<GravMagnetTile> {
 	}
 
 	@Nullable
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return super.getStateForPlacement(context).setValue(POWERED,
-				Boolean.valueOf(context.getLevel().hasNeighborSignal(context.getClickedPos())));
+	public BlockState getStateForPlacement(BlockItemUseContext useContext) {
+		return super.getStateForPlacement(useContext).setValue(POWERED,
+				Boolean.valueOf(useContext.getLevel().hasNeighborSignal(useContext.getClickedPos())));
 	}
 	
 	@Override
@@ -51,9 +51,9 @@ public class GravMagnetBlock extends MachineBlockRotationXYZ<GravMagnetTile> {
 		}
 	}
 
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> container) {
-		super.createBlockStateDefinition(container);
-		container.add(POWERED);
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		super.createBlockStateDefinition(builder);
+		builder.add(POWERED);
 	}
 
 }

@@ -11,18 +11,21 @@ public class BlockBehaviours {
             .composeFrom(BlockPartialBehaviours.partialMachineBlock)
             .tileEntity(BotariumTile.class)
             .description(LangRegistry.botariumDescription)
+            .rotation(BlockRotationTrait.RotationType.XZ)
             .build();
 
     public static BlockBehaviour arboretum = new BlockBehaviour.Builder()
             .composeFrom(BlockPartialBehaviours.partialMachineBlock)
             .tileEntity(ArboretumTile.class)
             .description(LangRegistry.arboretumDescription)
+            .rotation(BlockRotationTrait.RotationType.XZ)
             .build();
 
     public static BlockBehaviour exchangeStation = new BlockBehaviour.Builder()
             .composeFrom(BlockPartialBehaviours.partialMachineBlock)
             .animatedModel()
             .tileEntity(ExchangeStationTile.class)
+            .rotation(BlockRotationTrait.RotationType.XZ)
             .description(LangRegistry.exchangeDescription)
             .build();
     
@@ -30,6 +33,7 @@ public class BlockBehaviours {
             .composeFrom(BlockPartialBehaviours.partialMachineBlock)
             .animatedModel()
             .tileEntity(GravMagnetTile.class)
+            .rotation(BlockRotationTrait.RotationType.XYZ)
             .description(LangRegistry.gravMagnetDescription)
             .build();
 
@@ -38,6 +42,7 @@ public class BlockBehaviours {
         return masterBehaviour.getBaseTrait(BlockTraits.MaterialTrait.class).map(trait -> new BlockBehaviour.Builder()
                 .composeFrom(BlockPartialBehaviours.partialSlaveBlock)
                 .with(trait)
+                .with(masterBehaviour.getRequired(BlockRotationTrait.class))
                 .build()).orElseThrow(IllegalStateException::new);
     }
 }
