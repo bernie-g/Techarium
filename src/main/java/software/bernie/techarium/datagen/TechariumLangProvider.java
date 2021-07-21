@@ -18,6 +18,7 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addItems();
         addTranslationComponents();
         addItemGroups();
+        addDescriptions();
     }
 
     private void addItemGroups() {
@@ -69,15 +70,18 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addTranslation(LangRegistry.topProgressETA, "ETA: ");
         addTranslation(LangRegistry.hwylaProgressETA, "ETA: %s seconds remaining");
         addTranslation(LangRegistry.hwylaProgressNoRecipe, "ETA: No valid recipe");
-        addTranslation(LangRegistry.botariumDescription, "The Botarium allows you to grow crops in exchange for energy and a suitable fluid");
-        addTranslation(LangRegistry.arboretumDescription, "The Arboretum allows you to grow saplings in exchange for energy and water");
-        addTranslation(LangRegistry.exchangeDescription, "The Exchange Station allows you to unlock new machines with gold");
+
         addTranslation(LangRegistry.guiPipeInput, "Input");
         addTranslation(LangRegistry.guiPipeOutput, "Output");
         addTranslation(LangRegistry.guiPipeRoundRobin, "Round-Robin");
         addTranslation(LangRegistry.guiPipeSelfFeed, "Self Feed");
-        addTranslation(LangRegistry.machineShiftDescription, "Hold [LShift] for description");
+    }
 
-
+    private void addDescriptions() {
+        addDescription(LangRegistry.botariumDescription, "The Botarium allows you to grow crops in exchange for energy and a suitable fluid");
+        addDescription(LangRegistry.arboretumDescription, "The Arboretum allows you to grow saplings in exchange for energy and water");
+        addDescription(LangRegistry.exchangeDescription, "The Exchange Station allows you to unlock new machines with gold");
+        addDescription(LangRegistry.machineShiftDescription, "&6Hold &b[LShift] &6for a description");
+        addDescription(LangRegistry.survivalistExosuitDescription, "The survivalist exosuit is an early-game powersuit that gives haste and speed when wearing a full set.");
     }
 }

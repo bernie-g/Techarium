@@ -12,9 +12,10 @@
   "block.techarium.lead_ore": "Lead Ore",
   "block.techarium.nickel_block": "Nickel Block",
   "block.techarium.nickel_ore": "Nickel Ore",
-  "description.techarium.arboretum": "The Arboretum allows you to grow saplings in exchange for energy and water",
-  "description.techarium.botarium": "The Botarium allows you to grow crops in exchange for energy and a suitable fluid",
-  "description.techarium.exchange_station": "The Exchange Station allows you to unlock new machines with gold",
+  "description.techarium.arboretum": "\u00A76The Arboretum allows you to grow saplings in exchange for energy and water",
+  "description.techarium.botarium": "\u00A76The Botarium allows you to grow crops in exchange for energy and a suitable fluid",
+  "description.techarium.exchange_station": "\u00A76The Exchange Station allows you to unlock new machines with gold",
+  "description.techarium.survivalist_exosuit": "\u00A76The survivalist exosuit is an early-game powersuit that gives haste and speed when wearing a full set.",
   "gui.techarium.pipe.input": "Input",
   "gui.techarium.pipe.output": "Output",
   "gui.techarium.pipe.round_robin": "Round-Robin",
@@ -38,6 +39,6 @@
   "item.techarium.survivalist_exosuit_helmet": "Survivalist Exosuit Helmet",
   "item.techarium.survivalist_exosuit_leggings": "Survivalist Exosuit Leggings",
   "itemGroup.techarium": "Techarium",
-  "shift.techarium.description": "Hold [LShift] for description",
+  "shift.techarium.description": "\u00A76\u00A76Hold \u00A7b[LShift] \u00A76for a description",
   "top.techarium.progress.eta": "ETA: "
 }

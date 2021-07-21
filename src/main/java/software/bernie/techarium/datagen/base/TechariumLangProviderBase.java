@@ -32,9 +32,21 @@ public abstract class TechariumLangProviderBase extends LanguageProvider {
         add(text.get().getKey(), name);
     }
 
+    public void addDescription(TranslationLangEntry text, String name) {
+        add(text.get().getKey(), "&6" + name);
+    }
+
     public void add(ItemGroup group, String name){
         TranslationTextComponent displayName = (TranslationTextComponent) group.getDisplayName();
         add(displayName.getKey(), name);
     }
 
+    @Override
+    public void add(String key, String value) {
+        super.add(key, formatString(value));
+    }
+
+    private String formatString(String input){
+        return input.replace("&", "\u00A7");
+    }
 }
