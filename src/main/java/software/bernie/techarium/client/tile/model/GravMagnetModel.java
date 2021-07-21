@@ -20,6 +20,7 @@ public class GravMagnetModel extends AnimatedGeoModel<GravMagnetTile>
 
 	@Override
 	public ResourceLocation getTextureLocation(GravMagnetTile tile) {
-		return new ResourceLocation(Techarium.ModID, "textures/block/animated/gravmagnet.png");
+		String mode = tile.isPull() ? "pull" : "push";		
+		return new ResourceLocation(Techarium.ModID, "textures/block/animated/gravmagnet_" + mode + ".png");
 	}
 }

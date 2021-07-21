@@ -1,5 +1,9 @@
 package software.bernie.techarium.block.base;
 
+import java.util.Optional;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.particle.ParticleManager;
@@ -15,11 +19,7 @@ import software.bernie.techarium.trait.Traits;
 import software.bernie.techarium.trait.behaviour.Behaviour;
 import software.bernie.techarium.trait.behaviour.IHasBehaviour;
 import software.bernie.techarium.trait.block.BlockBehaviour;
-import software.bernie.techarium.trait.block.BlockRotationTrait;
 import software.bernie.techarium.trait.block.BlockTraits;
-
-import javax.annotation.Nullable;
-import java.util.Optional;
 
 public abstract class TechariumBlock<T extends TileEntity> extends Block implements IHasBehaviour {
 
@@ -73,19 +73,19 @@ public abstract class TechariumBlock<T extends TileEntity> extends Block impleme
     }
 
     public DirectionProperty getDirectionProperty() {
-        return getBehaviour().getRequired(BlockRotationTrait.class).getDirectionProperty();
+        return getBehaviour().getRequired(BlockTraits.BlockRotationTrait.class).getDirectionProperty();
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext useContext) {
-        return getBehaviour().getRequired(BlockRotationTrait.class).getStateForPlacement(this, useContext);
+        return getBehaviour().getRequired(BlockTraits.BlockRotationTrait.class).getStateForPlacement(this, useContext);
     }
 
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         if (this.behaviour != null)
-            getBehaviour().getRequired(BlockRotationTrait.class).createBlockStateDefinition(builder);
+            getBehaviour().getRequired(BlockTraits.BlockRotationTrait.class).createBlockStateDefinition(builder);
     }
 
     @Override

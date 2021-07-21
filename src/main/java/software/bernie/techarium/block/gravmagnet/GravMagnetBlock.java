@@ -34,13 +34,6 @@ public class GravMagnetBlock extends MachineBlock<GravMagnetTile> {
 		return super.getStateForPlacement(useContext).setValue(POWERED,
 				Boolean.valueOf(useContext.getLevel().hasNeighborSignal(useContext.getClickedPos())));
 	}
-	
-	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn,
-			BlockRayTraceResult hit) {
-		// TODO Auto-generated method stub
-		return ActionResultType.PASS;
-	}
 
 	public void neighborChanged(BlockState state, World world, BlockPos pos1, Block block, BlockPos pos2, boolean f) {
 		if (!world.isClientSide()) {
@@ -49,6 +42,12 @@ public class GravMagnetBlock extends MachineBlock<GravMagnetTile> {
 				world.setBlock(pos1, state.setValue(POWERED, flag), 2);
 			}
 		}
+	}
+	
+	@Override
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn,
+			BlockRayTraceResult hit) {
+		return ActionResultType.PASS;
 	}
 
 	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
