@@ -1,5 +1,7 @@
 package software.bernie.techarium.block.arboretum;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -13,8 +15,6 @@ import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
 import software.bernie.techarium.trait.block.BlockBehaviours;
-
-import javax.annotation.Nonnull;
 
 public class ArboretumTop extends MachineBlock<TopEnabledOnlySlave> {
 

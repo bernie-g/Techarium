@@ -1,5 +1,9 @@
 package software.bernie.techarium.registry;
 
+import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUM;
+
+import java.util.function.Supplier;
+
 import lombok.Getter;
 import net.minecraft.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -7,13 +11,11 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.techarium.Techarium;
+import software.bernie.techarium.block.coils.MagneticCoilType;
 import software.bernie.techarium.item.PipeItem;
 import software.bernie.techarium.item.PowerStickDebug;
+import software.bernie.techarium.item.CoilItem;
 import software.bernie.techarium.pipe.util.PipeType;
-
-import java.util.function.Supplier;
-
-import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUM;
 
 
 public class ItemRegistry
@@ -35,6 +37,10 @@ public class ItemRegistry
 	public static final RegistryObject<Item> LEAD_NUGGET = ITEMS.register("lead_nugget", itemCreator());
 	public static final RegistryObject<Item> NICKEL_NUGGET = ITEMS.register("nickel_nugget", itemCreator());
 
+	public static final RegistryObject<Item> COPPER_COIL   = ITEMS.register("copper_coil", () -> new CoilItem(MagneticCoilType.TIER_1));
+	public static final RegistryObject<Item> COBALT_COIL   = ITEMS.register("cobalt_coil", () -> new CoilItem(MagneticCoilType.TIER_2));
+	public static final RegistryObject<Item> SOLARIUM_COIL = ITEMS.register("solarium_coil", () -> new CoilItem(MagneticCoilType.TIER_3));
+	
 	public static Supplier<Item> itemCreator() {
 		return () -> new Item(new Item.Properties().tab(TECHARIUM));
 	}

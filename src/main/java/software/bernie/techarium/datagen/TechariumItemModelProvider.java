@@ -39,4 +39,10 @@ public class TechariumItemModelProvider extends TechariumItemModelProviderBase {
         simpleTexture(ItemRegistry.LEAD_NUGGET.get(), "item/nugget/lead_nugget");
         simpleTexture(ItemRegistry.NICKEL_NUGGET.get(), "item/nugget/nickel_nugget");
     }
+    
+    public void registerWire() {
+        simpleTexture(ItemRegistry.COPPER_COIL.get(), "item/coil/copper_coil");
+        simpleTexture(ItemRegistry.COBALT_COIL.get(), "item/coil/cobalt_coil");
+        simpleTexture(ItemRegistry.SOLARIUM_COIL.get(), "item/coil/solarium_coil");
+    }
 }

@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.IItemProvider;
+import net.minecraftforge.common.crafting.StackList;
 import net.minecraftforge.fluids.FluidStack;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.datagen.base.TechariumRecipeProviderBase;
@@ -22,7 +23,10 @@ import software.bernie.techarium.registry.TagRegistry;
 import software.bernie.techarium.util.ChancedItemStack;
 import software.bernie.techarium.util.ChancedItemStackList;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
     public TechariumRecipeProvider(DataGenerator generatorIn) {
@@ -36,6 +40,8 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
         registerExchangeStationRecipes(consumer);
 
         registerVanillaArboretumRecipes(consumer);
+        
+        registerGravMagnetRecipes(consumer);
 
         registerSmeltingRecipes(consumer);
         registerCraftingRecipes(consumer);
@@ -95,6 +101,12 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
 
     }
 
+    private void registerGravMagnetRecipes(Consumer<IFinishedRecipe> consumer) {
+    	buildGravMagnetRecipe("eye_of_ender", 
+    			ChancedItemStackList.of(
+    					ChancedItemStack.of(Items.ENDER_PEARL, 1, 1d),
+    					ChancedItemStack.of(Items.BLAZE_POWDER, 1, 1d)), new ItemStack(Items.ENDER_EYE), 6 * 20, true, consumer);
+    }
 
     private void registerExchangeStationRecipes(Consumer<IFinishedRecipe> consumer) {
         buildExchangeStationRecipe(Items.GOLD_INGOT, 1, Items.DIRT, 1, consumer);
