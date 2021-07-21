@@ -16,7 +16,7 @@ public class IngredientsHelper {
 	public static boolean isItemInIngredient(ItemStack stack, Ingredient ingredient) {
 		if (ingredient == null) return false;
 		
-		ItemStack [] stacks = ingredient.getItems();
+		ItemStack[] stacks = ingredient.getItems();
 		if (stacks.length == 0) return false;
 		
 		for (ItemStack s : stacks) {
