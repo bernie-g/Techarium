@@ -140,15 +140,14 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 		double entityMass  = PhysicHelper.getEntityMass(entity);
 		Vector3d centerPos = BlockPosHelper.getCenter(getBlockPos());  
 		
-		double dist  	  = EntityHelper.getDistanceFromCenter(entity, centerPos) / (power);
+		double dist  	  = Math.max(EntityHelper.getDistanceFromCenter(entity, centerPos), 1) / (power);
 		double distPower  = Math.max(0, (Math.sqrt(power + entityMass) * 0.05f) / dist); 
 		
 		int mul 		  = mode == MODE.PULL ? -1 : 1;
-		double axisYMul   = dir == Direction.UP && mode == MODE.PUSH ? 0.4d : 1d;
 		
 		return entity.getDeltaMovement().add(
 				dir.getStepX() * distPower * mul, 
-				dir.getStepY() * distPower * mul * axisYMul, 
+				dir.getStepY() * distPower * mul, 
 				dir.getStepZ() * distPower * mul);
 	}
 	

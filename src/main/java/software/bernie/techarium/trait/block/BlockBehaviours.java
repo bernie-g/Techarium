@@ -42,6 +42,7 @@ public class BlockBehaviours {
             .composeFrom(BlockPartialBehaviours.partialMachineBlock)
             .animatedModel()
             .tileEntity(MagneticCoilTile.class)
+            .rotation(BlockTraits.RotationType.XYZ)
             .description(LangRegistry.gravMagnetDescription)
             .build();
 

@@ -1,6 +1,7 @@
 package software.bernie.techarium.tile.magneticcoils;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -16,17 +17,18 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.techarium.block.coils.MagneticCoilBlock;
 import software.bernie.techarium.block.coils.MagneticCoilType;
 import software.bernie.techarium.helper.EntityHelper;
 import software.bernie.techarium.item.WireItem;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.tile.base.MachineTileBase;
 
-public class MagneticCoilTile extends MachineTileBase implements IAnimatable, ITickableTileEntity {
+public class MagneticCoilTile extends MachineTileBase implements IAnimatable {
 	
 	AnimationFactory factory     = new AnimationFactory(this);
-	private boolean shouldUpdate = false;
 	
+	@Setter
 	@Getter
 	private MagneticCoilType coilType = MagneticCoilType.TIER_NULL;
 	
@@ -49,16 +51,14 @@ public class MagneticCoilTile extends MachineTileBase implements IAnimatable, IT
 		return factory;
 	}
 	
-	private void removeCoil() {
-		EntityHelper.spawnItemEntity(level, new ItemStack(getItemInCoil()), getBlockPos());
+	public void removeCoil() {
+		if (!level.isClientSide())
+			EntityHelper.spawnItemEntity(level, new ItemStack(getItemInCoil()), getBlockPos());
+		
 		coilType = MagneticCoilType.TIER_NULL;
 	}
 	
-	private void setCoil(WireItem wire) {
-		if (isCoilEmpty()) coilType = wire.getWireType();
-	}
-	
-	private boolean isCoilEmpty() {
+	public boolean isCoilEmpty() {
 		return coilType == MagneticCoilType.TIER_NULL;
 	}
 	
@@ -84,15 +84,6 @@ public class MagneticCoilTile extends MachineTileBase implements IAnimatable, IT
 
 	@Override
 	public ActionResultType onTileActivated(PlayerEntity player) {
-		if (isCoilEmpty()) coilType = MagneticCoilType.TIER_1;
-		else coilType = MagneticCoilType.TIER_NULL;
 		return ActionResultType.SUCCESS;
-	}
-
-	@Override
-	public void tick() {
-		if (shouldUpdate) {
-			
-		}
 	}
 }
