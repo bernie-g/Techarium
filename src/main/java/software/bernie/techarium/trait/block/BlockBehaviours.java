@@ -2,6 +2,7 @@ package software.bernie.techarium.trait.block;
 
 import software.bernie.techarium.registry.LangRegistry;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
+import software.bernie.techarium.tile.assembler.AssemblerTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;
 import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
 import software.bernie.techarium.tile.gravmagnet.GravMagnetTile;
@@ -46,6 +47,14 @@ public class BlockBehaviours {
             .description(LangRegistry.magneticCoilDescription)
             .build();
 
+    public static BlockBehaviour assembler = new BlockBehaviour.Builder()
+            .composeFrom(BlockPartialBehaviours.partialMachineBlock)
+            .animatedModel()
+            .tileEntity(AssemblerTile.class)
+            .rotation(BlockTraits.RotationType.XZ)
+            .description(LangRegistry.assemblerDescription)
+            .build();
+    
     public static BlockBehaviour createSlave(BlockBehaviour masterBehaviour) {
         // copy the master block's material trait to the slave
         return masterBehaviour.getBaseTrait(BlockTraits.MaterialTrait.class).map(trait -> new BlockBehaviour.Builder()

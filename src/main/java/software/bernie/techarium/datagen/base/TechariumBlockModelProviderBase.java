@@ -20,4 +20,5 @@ public abstract class TechariumBlockModelProviderBase extends BlockModelProvider
         return this.withExistingParent(name, modLoc("block/default_box")).texture("1", texture)
                 .texture("particle", texture);
     }
+    
 }

@@ -1,0 +1,12 @@
+{
+  "type": "techarium:assembler",
+  "isShapeless": true,
+  "output": {
+    "id": "techarium:arboretum",
+    "Count": 1
+  },
+  "patern": "XOOOOOOOO",
+  "slot_0": {
+    "item": "minecraft:stone_axe"
+  }
+}

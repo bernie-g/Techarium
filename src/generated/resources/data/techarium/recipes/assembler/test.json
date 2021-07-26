@@ -1,0 +1,24 @@
+{
+  "type": "techarium:assembler",
+  "isShapeless": false,
+  "output": {
+    "id": "techarium:gravmagnet",
+    "Count": 1
+  },
+  "patern": "XOXOXOXOX",
+  "slot_0": {
+    "item": "minecraft:iron_ingot"
+  },
+  "slot_2": {
+    "item": "minecraft:iron_ingot"
+  },
+  "slot_4": {
+    "item": "minecraft:iron_ingot"
+  },
+  "slot_6": {
+    "item": "minecraft:iron_ingot"
+  },
+  "slot_8": {
+    "item": "minecraft:iron_ingot"
+  }
+}

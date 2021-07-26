@@ -11,7 +11,9 @@ import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.recipe.recipe.GravMagnetRecipe;
+import software.bernie.techarium.recipe.recipe.assembler.AssemblerRecipe;
 import software.bernie.techarium.recipe.serializer.ArboretumRecipeSerializer;
+import software.bernie.techarium.recipe.serializer.AssemblerSerializer;
 import software.bernie.techarium.recipe.serializer.BotariumRecipeSerializer;
 import software.bernie.techarium.recipe.serializer.ExchangeStationSerializer;
 import software.bernie.techarium.recipe.serializer.GravMagnetRecipeSerializer;
@@ -33,13 +35,17 @@ public class RecipeRegistry {
 
     public static final RegistryObject<IRecipeSerializer<ExchangeStationRecipe>> EXCHANGE_STATION_SERIALIZER =
             RECIPE_SERIALIZER_REGISTRY.register("exchange_station", ExchangeStationSerializer::new);
+    
+    public static final RegistryObject<IRecipeSerializer<AssemblerRecipe>> ASSEMBLER_SERIALIZER =
+            RECIPE_SERIALIZER_REGISTRY.register("assembler", AssemblerSerializer::new);
 
     public static IRecipeType<BotariumRecipe> BOTARIUM_RECIPE_TYPE = IRecipeType.register("techarium:botarium");
     public static IRecipeType<ArboretumRecipe> ARBORETUM_RECIPE_TYPE = IRecipeType.register("techarium:arboretum");
     public static IRecipeType<GravMagnetRecipe> GRAVMAGNET_RECIPE_TYPE = IRecipeType.register("techarium:gravmagnet");
 
     public static IRecipeType<ExchangeStationRecipe> EXCHANGE_STATION_RECIPE_TYPE = IRecipeType.register("techarium:exchange_station");
-
+    public static IRecipeType<AssemblerRecipe> ASSEMBLER_RECIPE_TYPE = IRecipeType.register("techarium:assembleur");
+    
     public static void register(IEventBus bus) {
         RECIPE_SERIALIZER_REGISTRY.register(bus);
     }

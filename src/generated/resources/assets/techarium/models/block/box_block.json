@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "side": "techarium:block/default_box_top",
+    "end": "techarium:block/default_box_top"
+  }
+}

@@ -35,7 +35,7 @@ import software.bernie.techarium.block.coils.MagneticCoilType;
 import software.bernie.techarium.block.gravmagnet.GravMagnetBlock;
 import software.bernie.techarium.helper.BlockPosHelper;
 import software.bernie.techarium.helper.EntityHelper;
-import software.bernie.techarium.helper.IngredientsHelper;
+import software.bernie.techarium.helper.ItemsHelper;
 import software.bernie.techarium.helper.physic.PhysicHelper;
 import software.bernie.techarium.recipe.recipe.GravMagnetRecipe;
 import software.bernie.techarium.registry.BlockRegistry;
@@ -262,7 +262,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 				if (ingredients.size() < 9)
 					continue;
 
-				if (IngredientsHelper.isItemInIngredient(currentStack, ingredients.get(0)) && is9x9Craft(recipe)) {
+				if (ItemsHelper.isItemInIngredient(currentStack, ingredients.get(0)) && is9x9Craft(recipe)) {
 					setupItem(item);
 					ProcessCompressItemEntity processItem = new ProcessCompressItemEntity(item, recipe);
 					processing.add(processItem);
@@ -274,13 +274,13 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 
 	private boolean is9x9Craft(ICraftingRecipe recipe) {
 		NonNullList<Ingredient> ingredients = recipe.getIngredients();
-		ItemStack first = IngredientsHelper.getFirstIngredient(ingredients.get(0));
+		ItemStack first = ItemsHelper.getFirstIngredient(ingredients.get(0));
 
 		if (first == ItemStack.EMPTY)
 			return false;
 
 		for (Ingredient ingredient : ingredients) {
-			if (!IngredientsHelper.isItemInIngredient(first, ingredient))
+			if (!ItemsHelper.isItemInIngredient(first, ingredient))
 				return false;
 		}
 

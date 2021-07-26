@@ -1,0 +1,36 @@
+{
+  "type": "techarium:assembler",
+  "isShapeless": true,
+  "output": {
+    "id": "techarium:aluminium_block",
+    "Count": 1
+  },
+  "patern": "XXXXXXXXX",
+  "slot_0": {
+    "item": "minecraft:stone_axe"
+  },
+  "slot_1": {
+    "item": "minecraft:stone_shovel"
+  },
+  "slot_2": {
+    "item": "minecraft:stone_sword"
+  },
+  "slot_3": {
+    "item": "minecraft:stone_hoe"
+  },
+  "slot_4": {
+    "item": "minecraft:stone_pickaxe"
+  },
+  "slot_5": {
+    "item": "minecraft:iron_axe"
+  },
+  "slot_6": {
+    "item": "minecraft:iron_shovel"
+  },
+  "slot_7": {
+    "item": "minecraft:iron_sword"
+  },
+  "slot_8": {
+    "item": "minecraft:iron_hoe"
+  }
+}

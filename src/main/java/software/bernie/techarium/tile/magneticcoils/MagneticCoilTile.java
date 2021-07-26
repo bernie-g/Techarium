@@ -90,13 +90,11 @@ public class MagneticCoilTile extends MachineTileBase implements IAnimatable {
 
 	@Override
 	public SUpdateTileEntityPacket getUpdatePacket() {
-		// TODO Auto-generated method stub
 		return new SUpdateTileEntityPacket(getBlockPos(), 3, getUpdateTag());
 	}
 
 	@Override
 	public CompoundNBT getUpdateTag() {
-		// TODO Auto-generated method stub
 		return save(new CompoundNBT());
 	}
 

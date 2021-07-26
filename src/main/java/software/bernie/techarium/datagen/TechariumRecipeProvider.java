@@ -17,6 +17,7 @@ import software.bernie.techarium.Techarium;
 import software.bernie.techarium.datagen.base.TechariumRecipeProviderBase;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
+import software.bernie.techarium.recipe.recipe.assembler.AssemblerRecipePatern;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.registry.TagRegistry;
@@ -42,6 +43,8 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
         registerVanillaArboretumRecipes(consumer);
         
         registerGravMagnetRecipes(consumer);
+        
+        registerAssemblerRecieps(consumer);
 
         registerSmeltingRecipes(consumer);
         registerCraftingRecipes(consumer);
@@ -106,6 +109,35 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
     			ChancedItemStackList.of(
     					ChancedItemStack.of(Items.ENDER_PEARL, 1, 1d),
     					ChancedItemStack.of(Items.BLAZE_POWDER, 1, 1d)), new ItemStack(Items.ENDER_EYE), 6 * 20, true, consumer);
+    }
+    
+    private void registerAssemblerRecieps(Consumer<IFinishedRecipe> consumer) {
+    	AssemblerRecipePatern test = new AssemblerRecipePatern()
+    			.setItemInSlot(0, Ingredient.of(Items.IRON_INGOT))
+    			.setItemInSlot(2, Ingredient.of(Items.IRON_INGOT))
+    			.setItemInSlot(4, Ingredient.of(Items.IRON_INGOT))
+    			.setItemInSlot(6, Ingredient.of(Items.IRON_INGOT))
+    			.setItemInSlot(8, Ingredient.of(Items.IRON_INGOT));
+    	
+    	buildAssemblerRecipe("test", test, new ItemStack(BlockRegistry.GRAVMAGNET.getItem()), false, consumer);
+    	
+    	AssemblerRecipePatern test2 = new AssemblerRecipePatern()
+    			.setItemInSlot(0, Ingredient.of(Items.STONE_AXE))
+    			.setItemInSlot(1, Ingredient.of(Items.STONE_SHOVEL))
+    			.setItemInSlot(2, Ingredient.of(Items.STONE_SWORD))
+    			.setItemInSlot(3, Ingredient.of(Items.STONE_HOE))
+				.setItemInSlot(4, Ingredient.of(Items.STONE_PICKAXE))
+    			.setItemInSlot(5, Ingredient.of(Items.IRON_AXE))
+    			.setItemInSlot(6, Ingredient.of(Items.IRON_SHOVEL))
+    			.setItemInSlot(7, Ingredient.of(Items.IRON_SWORD))
+    			.setItemInSlot(8, Ingredient.of(Items.IRON_HOE));
+    	
+    	buildAssemblerRecipe("test2", test2, new ItemStack(BlockRegistry.ALUMINIUM_BLOCK.get()), true, consumer);
+    	
+    	AssemblerRecipePatern test3 = new AssemblerRecipePatern()
+    			.setItemInSlot(0, Ingredient.of(Items.STONE_AXE));
+    	
+    	buildAssemblerRecipe("test3", test3, new ItemStack(BlockRegistry.ARBORETUM.get()), true, consumer);
     }
 
     private void registerExchangeStationRecipes(Consumer<IFinishedRecipe> consumer) {
