@@ -35,6 +35,11 @@ public class GuiAddonTextures {
             new ResourceLocation(ModID, "textures/gui/arboretum/arboretum.png"), 203, 184
     ).getFullArea();
 
+    //Assembler Gui Background
+    public static final IDrawable ASSEMBLER_DRAWABLE = new UiTexture(
+    		new ResourceLocation(ModID, "textures/gui/assembler/assembler.png"), 201, 195
+    ).getFullArea();
+	
 
 
     //Defaults

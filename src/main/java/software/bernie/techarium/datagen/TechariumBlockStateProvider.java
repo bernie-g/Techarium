@@ -41,6 +41,5 @@ public class TechariumBlockStateProvider extends TechariumBlockStateProviderBase
         simpleBlockAndItem(BlockRegistry.ALUMINIUM_BLOCK.get());
         simpleBlockAndItem(BlockRegistry.LEAD_BLOCK.get());
         simpleBlockAndItem(BlockRegistry.NICKEL_BLOCK.get());
-        //simpleBlockAndItem(BlockRegistry.BOX_BLOCK.get(), models().modLoc("block/default_box_side"), models().modLoc("block/default_box_top"));
     }
 }

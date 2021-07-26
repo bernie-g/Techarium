@@ -13,6 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import software.bernie.techarium.display.container.component.OutputSlot;
 import software.bernie.techarium.display.container.component.WhiteListItemSlot;
 import software.bernie.techarium.helper.ItemsHelper;
+import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.ContainerRegistry;
 import software.bernie.techarium.tile.assembler.AssemblerTile;
 
@@ -53,7 +54,7 @@ public class AssemblerContainer extends Container {
     	int boxSlotId   = 36 + AssemblerTile.boxSlotId;
     	
     	if (index < 36) {
-    		if (stack.getItem() == AssemblerTile.boxItem) {
+    		if (stack.getItem() == BlockRegistry.BOX_BLOCK.get().asItem()) {
     			if (getSlot(boxSlotId).getItem().isEmpty()) {
     				getSlot(boxSlotId).set(stack.copy());
     				stack.setCount(0);
@@ -63,7 +64,8 @@ public class AssemblerContainer extends Container {
     			}
     		}
     	} else if (index == boxSlotId) {
-    		if (moveItemStackTo(stack, 0, 36, false)) return true;
+    		if (moveItemStackTo(stack, 0, 36, false)) 
+    			return true;
     	}
     	
     	return false;
@@ -140,7 +142,7 @@ public class AssemblerContainer extends Container {
 		}
 		
 		//box slot
-		this.addSlot(new WhiteListItemSlot(tile, 9, 4, 37, List.of(new ItemStack(AssemblerTile.boxItem))));
+		this.addSlot(new WhiteListItemSlot(tile, 9, 4, 37, new ItemStack(BlockRegistry.BOX_BLOCK.get())));
 		
 		//output slot 
 		this.addSlot(new OutputSlot(tile, 10, 125, 37));

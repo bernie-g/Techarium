@@ -24,8 +24,8 @@ public class AssemblerRecipeHelper {
 		for (int i = 0; i < AssemblerRecipePatern.craftingGridSize; i++) {
 			ItemStack stack = inventory.get(i);
 			
-			RESULT result = isInside(stack, recipePatern, alreadyCount);
-			if (result == RESULT.NOT_HERE) return false;
+			Result result = isInside(stack, recipePatern, alreadyCount);
+			if (result == Result.NOT_HERE) return false;
 		}
 		
 		return true;
@@ -46,19 +46,19 @@ public class AssemblerRecipeHelper {
 		return amountPatern == amountInventory;
 	}
 
-	private static RESULT isInside(ItemStack stack, Ingredient [] recipePatern, List<Ingredient> alreadyCount) {
-		if (stack.isEmpty()) return RESULT.COUNT; 
+	private static Result isInside(ItemStack stack, Ingredient [] recipePatern, List<Ingredient> alreadyCount) {
+		if (stack.isEmpty()) return Result.COUNT; 
 		
 		for (Ingredient ingredient : recipePatern) {
 			if (isAlreadyCount(ingredient, alreadyCount)) continue;
 			
 			if (ItemsHelper.isItemInIngredient(stack, ingredient)) {
 				alreadyCount.add(ingredient);
-				return RESULT.COUNT;
+				return Result.COUNT;
 			}
 		}
 		
-		return RESULT.NOT_HERE;
+		return Result.NOT_HERE;
 	}
 
 	private static boolean isAlreadyCount(Ingredient check, List<Ingredient> alreadyCount) {
@@ -179,7 +179,7 @@ public class AssemblerRecipeHelper {
 		return offsetY;
 	}
 
-	private static enum RESULT {
+	private enum Result {
 		COUNT,
 		NOT_HERE;
 	}

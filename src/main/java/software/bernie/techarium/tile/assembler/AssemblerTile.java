@@ -57,9 +57,7 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
     public static final int outputSlotId = 10;
     public static final int inventorySize = 11;
     
-	public static final Item boxItem = BlockRegistry.BOX_BLOCK.get().asItem();
-    
-	private CRAFTING_TYPE craftingType = CRAFTING_TYPE.ASSEMBLER;
+	private CraftinType craftingType = CraftinType.ASSEMBLER;
 	
 	private NonNullList<ItemStack> inventory;
 	
@@ -133,10 +131,10 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
 		
 		ItemStack stackReturn = ItemStack.EMPTY;
 		
-		if (count >= stack.getCount()) 
+		if (count >= stack.getCount()) {
 			stackReturn = removeItemNoUpdate(index);
-		
-		else {
+			
+		} else {
 			stack.shrink(count);
 			stackReturn = new ItemStack(stack.getItem(), count);
 		}
@@ -183,7 +181,7 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
 			if (stackSize < min) min = stackSize;
 		}
 		
-		if (craftingType == CRAFTING_TYPE.ASSEMBLER) {
+		if (craftingType == CraftinType.ASSEMBLER) {
 			int stackSize = inventory.get(boxSlotId).getCount();
 			if (stackSize < min) min = stackSize;
 		}
@@ -197,33 +195,33 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
 		
 		ItemStack output = ItemStack.EMPTY;
 		
-		craftingType = CRAFTING_TYPE.ASSEMBLER;
-		output = lookForAssemblerRecipies();
+		craftingType = CraftinType.ASSEMBLER;
+		output = lookForAssemblerrecipes ();
 		if (output.isEmpty())  {
-			craftingType = CRAFTING_TYPE.CRAFTING;
-			output = lookForCraftingRecipies();
+			craftingType = CraftinType.CRAFTING;
+			output = lookForCraftingrecipes ();
 		}
 		
 		setItem(outputSlotId, output.copy());
 	}
 
-	private ItemStack lookForCraftingRecipies() {
-		List<ICraftingRecipe> recipies = level.getRecipeManager().getAllRecipesFor(IRecipeType.CRAFTING);
+	private ItemStack lookForCraftingrecipes () {
+		List<ICraftingRecipe> recipes  = level.getRecipeManager().getAllRecipesFor(IRecipeType.CRAFTING);
 		
-		for (ICraftingRecipe recipe : recipies) {
+		for (ICraftingRecipe recipe : recipes ) {
 			if (checkVanillaCraft(recipe)) return recipe.getResultItem();
 		}
 		
 		return ItemStack.EMPTY;
 	}
 
-	private ItemStack lookForAssemblerRecipies() {
-		if (getItem(boxSlotId).getItem() != boxItem) return ItemStack.EMPTY;
-		List<AssemblerRecipe> recipies = level.getRecipeManager().getAllRecipesFor(RecipeRegistry.ASSEMBLER_RECIPE_TYPE);
+	private ItemStack lookForAssemblerrecipes () {
+		if (getItem(boxSlotId).getItem() != BlockRegistry.BOX_BLOCK.get().asItem()) return ItemStack.EMPTY;
+		List<AssemblerRecipe> recipes  = level.getRecipeManager().getAllRecipesFor(RecipeRegistry.ASSEMBLER_RECIPE_TYPE);
 		
-		for (AssemblerRecipe recipie : recipies) {
-			boolean isShapeless = recipie.isShapeless();			
-			if (recipie.getRecipePatern().isRecipeValide(inventory, isShapeless)) return recipie.getOutput();
+		for (AssemblerRecipe recipe : recipes) {
+			boolean isShapeless = recipe.isShapeless();			
+			if (recipe.getRecipePatern().isRecipeValide(inventory, isShapeless)) return recipe.getOutput();
 		}
 		
 		return ItemStack.EMPTY;
@@ -235,7 +233,7 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
 				inventory.get(i).shrink(count);
 		}
 		
-		if (craftingType == CRAFTING_TYPE.ASSEMBLER)
+		if (craftingType == CraftinType.ASSEMBLER)
 			inventory.get(boxSlotId).shrink(count);
 		
 		updateOutputSlot();
@@ -321,7 +319,7 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
 		return new int [0];
 	}
 
-	private enum CRAFTING_TYPE {
+	private enum CraftinType {
 		ASSEMBLER,
 		CRAFTING;
 	}

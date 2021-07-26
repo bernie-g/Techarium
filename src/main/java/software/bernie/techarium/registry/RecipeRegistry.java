@@ -44,7 +44,7 @@ public class RecipeRegistry {
     public static IRecipeType<GravMagnetRecipe> GRAVMAGNET_RECIPE_TYPE = IRecipeType.register("techarium:gravmagnet");
 
     public static IRecipeType<ExchangeStationRecipe> EXCHANGE_STATION_RECIPE_TYPE = IRecipeType.register("techarium:exchange_station");
-    public static IRecipeType<AssemblerRecipe> ASSEMBLER_RECIPE_TYPE = IRecipeType.register("techarium:assembleur");
+    public static IRecipeType<AssemblerRecipe> ASSEMBLER_RECIPE_TYPE = IRecipeType.register("techarium:assembler");
     
     public static void register(IEventBus bus) {
         RECIPE_SERIALIZER_REGISTRY.register(bus);
