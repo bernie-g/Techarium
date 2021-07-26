@@ -1,12 +1,11 @@
 package software.bernie.techarium.display.container.component;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import software.bernie.techarium.helper.ItemsHelper;
 
 public class WhiteListItemSlot extends Slot{
@@ -15,12 +14,7 @@ public class WhiteListItemSlot extends Slot{
 
 	public WhiteListItemSlot(IInventory inv, int id, int posX, int posY, ItemStack ... itemStacks) {
 		super(inv, id, posX, posY);
-		stacks = new ArrayList<>();
-		
-		for (ItemStack stack : itemStacks) {
-			stacks.add(stack);
-		}
-		
+		stacks = Arrays.asList(itemStacks);
 	}
 
 	@Override
