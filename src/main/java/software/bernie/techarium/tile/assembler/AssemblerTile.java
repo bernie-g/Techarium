@@ -34,6 +34,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.network.NetworkHooks;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
@@ -57,7 +58,7 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
     public static final int outputSlotId = 10;
     public static final int inventorySize = 11;
     
-	private CraftinType craftingType = CraftinType.ASSEMBLER;
+	private CraftingType craftingType = CraftingType.ASSEMBLER;
 	
 	private NonNullList<ItemStack> inventory;
 	
@@ -66,7 +67,7 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
 		inventory = NonNullList.withSize(inventorySize, ItemStack.EMPTY);
 	}
 
-    private <E extends IAnimatable> PlayState animationPredicate(AnimationEvent<E> event) {       
+    private <E extends IAnimatable> PlayState animationPredicate(AnimationEvent<E> event) {  
         return PlayState.CONTINUE;
     }
     
@@ -181,7 +182,7 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
 			if (stackSize < min) min = stackSize;
 		}
 		
-		if (craftingType == CraftinType.ASSEMBLER) {
+		if (craftingType == CraftingType.ASSEMBLER) {
 			int stackSize = inventory.get(boxSlotId).getCount();
 			if (stackSize < min) min = stackSize;
 		}
@@ -194,28 +195,28 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
 	public void updateOutputSlot() {
 		
 		ItemStack output = ItemStack.EMPTY;
+		craftingType = CraftingType.ASSEMBLER;
+		output = lookForAssemblerRecipes();
 		
-		craftingType = CraftinType.ASSEMBLER;
-		output = lookForAssemblerrecipes ();
 		if (output.isEmpty())  {
-			craftingType = CraftinType.CRAFTING;
-			output = lookForCraftingrecipes ();
+			craftingType = CraftingType.CRAFTING;
+			output = lookForCraftingRecipes();
 		}
 		
 		setItem(outputSlotId, output.copy());
 	}
 
-	private ItemStack lookForCraftingrecipes () {
+	private ItemStack lookForCraftingRecipes() {
 		List<ICraftingRecipe> recipes  = level.getRecipeManager().getAllRecipesFor(IRecipeType.CRAFTING);
 		
-		for (ICraftingRecipe recipe : recipes ) {
+		for (ICraftingRecipe recipe : recipes) {
 			if (checkVanillaCraft(recipe)) return recipe.getResultItem();
 		}
 		
 		return ItemStack.EMPTY;
 	}
 
-	private ItemStack lookForAssemblerrecipes () {
+	private ItemStack lookForAssemblerRecipes() {
 		if (getItem(boxSlotId).getItem() != BlockRegistry.BOX_BLOCK.get().asItem()) return ItemStack.EMPTY;
 		List<AssemblerRecipe> recipes  = level.getRecipeManager().getAllRecipesFor(RecipeRegistry.ASSEMBLER_RECIPE_TYPE);
 		
@@ -233,7 +234,7 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
 				inventory.get(i).shrink(count);
 		}
 		
-		if (craftingType == CraftinType.ASSEMBLER)
+		if (craftingType == CraftingType.ASSEMBLER)
 			inventory.get(boxSlotId).shrink(count);
 		
 		updateOutputSlot();
@@ -319,7 +320,7 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
 		return new int [0];
 	}
 
-	private enum CraftinType {
+	private enum CraftingType {
 		ASSEMBLER,
 		CRAFTING;
 	}
