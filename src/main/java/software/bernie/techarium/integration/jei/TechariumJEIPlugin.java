@@ -3,10 +3,7 @@ package software.bernie.techarium.integration.jei;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.registration.IGuiHandlerRegistration;
-import mezz.jei.api.registration.IRecipeCatalystRegistration;
-import mezz.jei.api.registration.IRecipeCategoryRegistration;
-import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
@@ -22,16 +19,13 @@ import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.LangRegistry;
 import software.bernie.techarium.registry.RecipeRegistry;
-
 import java.util.List;
 
 @JeiPlugin
-public class TechariumJEIPlugin implements IModPlugin
-{
+public class TechariumJEIPlugin implements IModPlugin {
 	@Override
-	public ResourceLocation getPluginUid()
-	{
-		return new ResourceLocation(Techarium.ModID, "techarium_jei_plugin");
+	public ResourceLocation getPluginUid() {
+		return Techarium.rl( "techarium_jei_plugin");
 	}
 
 	@Override
@@ -56,14 +50,17 @@ public class TechariumJEIPlugin implements IModPlugin
 			List<ArboretumRecipe> recipesArboretum = world.getRecipeManager().getAllRecipesFor(RecipeRegistry.ARBORETUM_RECIPE_TYPE);
 			registration.addRecipes(recipesArboretum, ArboretumRecipeCategory.UID);
 		}
-
-		registration.addIngredientInfo(new ItemStack(BlockRegistry.BOTARIUM.getBlock()), VanillaTypes.ITEM, LangRegistry.botariumDescription.getKey());
-		registration.addIngredientInfo(new ItemStack(BlockRegistry.ARBORETUM.getBlock()), VanillaTypes.ITEM, LangRegistry.arboretumDescription.getKey());
-		registration.addIngredientInfo(new ItemStack(BlockRegistry.EXCHANGE_STATION.getBlock()), VanillaTypes.ITEM, LangRegistry.exchangeDescription.getKey());
+		registration.addIngredientInfo(new ItemStack(BlockRegistry.BOTARIUM.getBlock()), VanillaTypes.ITEM, LangRegistry.botariumDescription.get());
+		registration.addIngredientInfo(new ItemStack(BlockRegistry.ARBORETUM.getBlock()), VanillaTypes.ITEM, LangRegistry.arboretumDescription.get());
+		registration.addIngredientInfo(new ItemStack(BlockRegistry.EXCHANGE_STATION.getBlock()), VanillaTypes.ITEM, LangRegistry.exchangeDescription.get());
 	}
 
 	@Override
 	public void registerGuiHandlers(IGuiHandlerRegistration registration) {
 		registration.addGuiContainerHandler(AutomaticContainerScreen.class, new PanelBoundHandler());
+	}
+
+	public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
+		registration.addRecipeTransferHandler(AutomaticContainer.class, ArboretumRecipeCategory.UID, 36, 2, 0, 36);
 	}
 }

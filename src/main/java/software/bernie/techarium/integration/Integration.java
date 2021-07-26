@@ -12,12 +12,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
@@ -113,6 +116,8 @@ public abstract class Integration {
         private LazyOptional<T> optionalIntegration = LazyOptional.empty();
 
         public static <T extends Integration> Wrapper<T> of(String modID, Class<T> integration) {
+            if (ClientIntegration.class.isAssignableFrom(integration) && FMLEnvironment.dist == Dist.DEDICATED_SERVER)
+                return new Wrapper<>("invalidMod:Name", Lazy.of(() -> null));
             return new Wrapper<>(modID, Lazy.of(() -> {
                 try {
                     return integration.getConstructor(String.class).newInstance(modID);
