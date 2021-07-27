@@ -8,8 +8,8 @@ import net.minecraftforge.fml.network.NetworkEvent.Context;
 public abstract class ServerToClientPacket<MSG extends ServerToClientPacket<MSG>> extends Packet<MSG>{
 
 	@Override
-	public boolean isValid(Context context) {
-		return getDirection().isPresent();
+	public final boolean isValid(Context context) {
+		return true;
 	}
 
 	@Override
