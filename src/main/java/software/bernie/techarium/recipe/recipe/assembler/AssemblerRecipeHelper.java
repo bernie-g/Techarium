@@ -3,9 +3,7 @@ package software.bernie.techarium.recipe.recipe.assembler;
 import java.util.ArrayList;
 import java.util.List;
 
-import cofh.lib.util.helpers.ItemHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import software.bernie.techarium.helper.ItemsHelper;

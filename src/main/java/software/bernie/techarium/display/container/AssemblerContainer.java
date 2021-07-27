@@ -1,6 +1,5 @@
 package software.bernie.techarium.display.container;
 
-import java.util.List;
 import java.util.Objects;
 
 import net.minecraft.entity.player.PlayerEntity;
