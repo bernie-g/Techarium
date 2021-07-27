@@ -6,7 +6,7 @@ import net.minecraft.util.text.ITextComponent;
 import software.bernie.techarium.util.Vector2i;
 import java.util.List;
 
-public interface ITooltipAddon {
+public interface ITooltipAddon extends ITooltipProvider {
 
     default void renderToolTip(Screen screen, int offsetX, int offsetY, int xSize, int ySize, int mouseX, int mouseY) {
         if (isHovering(offsetX, offsetY, mouseX, mouseY)) {
@@ -22,4 +22,9 @@ public interface ITooltipAddon {
     int getPosX();
     int getPosY();
     Vector2i getSize();
+
+    @Override
+    default ITooltipAddon getTooltip() {
+        return this;
+    }
 }

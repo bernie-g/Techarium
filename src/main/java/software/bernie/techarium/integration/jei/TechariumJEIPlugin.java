@@ -2,6 +2,7 @@ package software.bernie.techarium.integration.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.MethodsReturnNonnullByDefault;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
@@ -19,9 +20,13 @@ import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.LangRegistry;
 import software.bernie.techarium.registry.RecipeRegistry;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 @JeiPlugin
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class TechariumJEIPlugin implements IModPlugin {
 	@Override
 	public ResourceLocation getPluginUid() {
@@ -60,6 +65,7 @@ public class TechariumJEIPlugin implements IModPlugin {
 		registration.addGuiContainerHandler(AutomaticContainerScreen.class, new PanelBoundHandler());
 	}
 
+	@Override
 	public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
 		registration.addRecipeTransferHandler(AutomaticContainer.class, ArboretumRecipeCategory.UID, 36, 2, 0, 36);
 	}

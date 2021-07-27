@@ -68,9 +68,9 @@ public class JeiIntegration extends ClientIntegration {
         if (!isJeiGui(screen))
             return;
         RecipesGui recipesGui = (RecipesGui) screen;
-        if (!isTechariumRecipeCategory(recipesGui))
-            return;
         BaseRecipeCategory<?> category = (BaseRecipeCategory<?>) getRecipeCategory(recipesGui);
+        if (!(category instanceof BaseRecipeCategory))
+            return;
         List<RecipeTransferButton> recipeWidgets = new ArrayList<>();
         for (Widget widget: recipesGui.buttons) {
             if (widget instanceof RecipeTransferButton) {
@@ -108,11 +108,6 @@ public class JeiIntegration extends ClientIntegration {
                 LogCache.getLogger(JeiIntegration.class).warn(e);
             }
         }
-    }
-
-    public static boolean isTechariumRecipeCategory(RecipesGui recipesGui) {
-        IRecipeCategory<?> category = getRecipeCategory(recipesGui);
-        return category instanceof BaseRecipeCategory;
     }
 
     @Nullable

@@ -27,7 +27,7 @@ public class BotariumRecipeCategory extends BaseRecipeCategory<BotariumRecipe> {
 	public static final ResourceLocation UID = new ResourceLocation(Techarium.ModID, "botarium");
 
 	public BotariumRecipeCategory(IRecipeCategoryRegistration registration) {
-		super(UID, registration, BotariumRecipe.class, BlockRegistry.BOTARIUM.getBlock().getName(), BlockRegistry.BOTARIUM.getItem(), Techarium.rl("textures/gui/jei/botarium.png"),0,0,176,79);
+		super(UID, registration, BotariumRecipe.class, BlockRegistry.BOTARIUM.getBlock().getName(), BlockRegistry.BOTARIUM.getItem(), Techarium.rl("textures/gui/jei/botarium.png"),new Vector2i(0,0), new Vector2i(176,79));
 	}
 
 	@Override

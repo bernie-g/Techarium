@@ -27,7 +27,7 @@ public class ArboretumRecipeCategory extends BaseRecipeCategory<ArboretumRecipe>
 	public static final ResourceLocation UID = new ResourceLocation(Techarium.ModID, "arboretum");
 
 	public ArboretumRecipeCategory(IRecipeCategoryRegistration registration) {
-		super(UID, registration, ArboretumRecipe.class, BlockRegistry.ARBORETUM.getBlock().getName(), BlockRegistry.ARBORETUM.getItem(), Techarium.rl("textures/gui/jei/arboretum.png"),0,0,176,79);
+		super(UID, registration, ArboretumRecipe.class, BlockRegistry.ARBORETUM.getBlock().getName(), BlockRegistry.ARBORETUM.getItem(), Techarium.rl("textures/gui/jei/arboretum.png"),new Vector2i(0,0),new Vector2i(176,79));
 	}
 
 	@Override

@@ -44,13 +44,13 @@ public abstract class BaseRecipeCategory<T extends IRecipe<?>> implements IRecip
 	private final IDrawable background;
 	private List<Widget> widgets = new ArrayList<>();
 
-	protected BaseRecipeCategory(ResourceLocation id, IRecipeCategoryRegistration registration, Class<? extends T> recipeClass, ITextComponent title, Object iconItemBlock, ResourceLocation background, int xOffset, int yOffset, int width, int height) {
+	protected BaseRecipeCategory(ResourceLocation id, IRecipeCategoryRegistration registration, Class<? extends T> recipeClass, ITextComponent title, Object iconItemBlock, ResourceLocation background, Vector2i texturePos, Vector2i size) {
 		this.id = id;
 		this.registration = registration;
 		this.recipeClass = recipeClass;
 		this.title = title;
 		this.iconItemBlock = iconItemBlock;
-		this.background = registration.getJeiHelpers().getGuiHelper().createDrawable(background, xOffset, yOffset, width, height);
+		this.background = registration.getJeiHelpers().getGuiHelper().createDrawable(background, texturePos.getX(), texturePos.getY(), size.getX(), size.getY());
 	}
 
 	@Override
