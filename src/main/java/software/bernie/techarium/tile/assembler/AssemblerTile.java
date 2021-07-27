@@ -68,6 +68,13 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
 	}
 
     private <E extends IAnimatable> PlayState animationPredicate(AnimationEvent<E> event) {  
+        if (isOpening) {
+            event.getController().setAnimation(
+                    new AnimationBuilder().addAnimation("deploy", false).addAnimation(
+                            "idle", true));
+        } else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+        }
         return PlayState.CONTINUE;
     }
     
