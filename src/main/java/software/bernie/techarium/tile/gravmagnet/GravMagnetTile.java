@@ -17,6 +17,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -80,7 +81,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 	}
 
 	@Override
-	public ActionResultType onTileActivated(PlayerEntity player) {
+	public ActionResultType onTileActivated(PlayerEntity player, Hand hand) {
 		return ActionResultType.PASS;
 	}
 
@@ -194,7 +195,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 					dir.getOpposite())) {
 				TileEntity te = level.getBlockEntity(posOffset);
 
-				if (te != null && te instanceof GravMagnetTile) {
+				if (te instanceof GravMagnetTile) {
 					if (((GravMagnetTile) te).power == power) {
 						return posOffset;
 					}

@@ -1,14 +1,11 @@
 package software.bernie.techarium.block.coils;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -23,7 +20,7 @@ import software.bernie.techarium.trait.block.BlockBehaviours;
 public class MagneticCoilBlock extends MachineBlock<MagneticCoilTile> {
 	
 	public MagneticCoilBlock() {
-		super(BlockBehaviours.magenticCoil, AbstractBlock.Properties.of(Material.METAL));
+		super(BlockBehaviours.MAGNETIC_COIL, AbstractBlock.Properties.of(Material.METAL));
 	}
 	
 	@Override

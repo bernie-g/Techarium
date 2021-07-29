@@ -39,17 +39,17 @@ public abstract class MachineBlock<T extends MachineTileBase> extends TechariumB
         ActionResultType result = ActionResultType.SUCCESS;
         if (!world.isClientSide()) {
             if (player instanceof ServerPlayerEntity) {
-                handleTileEntity(world, pos, (ServerPlayerEntity) player);
+                handleTileEntity(world, pos, (ServerPlayerEntity) player, handIn);
             }
         }
         return result;
     }
 
-    protected void handleTileEntity(IWorld world, BlockPos pos, ServerPlayerEntity player) {
+    protected void handleTileEntity(IWorld world, BlockPos pos, ServerPlayerEntity player, Hand hand) {
         Optional.ofNullable(world.getBlockEntity(pos))
                 .filter(tileEntity -> tileEntity instanceof MachineTileBase)
                 .map(tileEntity -> (MachineTileBase) tileEntity)
-                .ifPresent(tile -> tile.onTileActivated(player));
+                .ifPresent(tile -> tile.onTileActivated(player, hand));
     }
 
     @Deprecated
@@ -80,11 +80,6 @@ public abstract class MachineBlock<T extends MachineTileBase> extends TechariumB
             MultiblockMasterTile<?> master = (MultiblockMasterTile<?>) tileentity;
             master.placeSlaves();
         }
-    }
-
-    @Override
-    public BlockRenderType getRenderShape(BlockState state) {
-        return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     public boolean canBePlaced(World world, BlockPos pos) {

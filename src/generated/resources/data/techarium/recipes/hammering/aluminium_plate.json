@@ -1,0 +1,16 @@
+{
+  "type": "techarium:hammering",
+  "input0": {
+    "tag": "forge:ingots/aluminium"
+  },
+  "input1": {
+    "tag": "forge:ingots/aluminium"
+  },
+  "input2": {
+    "tag": "forge:ingots/aluminium"
+  },
+  "output": {
+    "id": "techarium:aluminium_plate",
+    "Count": 1
+  }
+}

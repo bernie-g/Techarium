@@ -24,20 +24,15 @@ public class GravMagnetRecipe extends AbstractMachineRecipe {
 
 	@Getter
 	@Setter
-	int processTime;
-
-	@Getter
-	@Setter
 	boolean pull;
 
 	@Builder(buildMethodName = "construct")
 	public GravMagnetRecipe(ResourceLocation id, ChancedItemStackList output, ItemStack input, int processTime,
 			boolean pull) {
-		super(id, RecipeRegistry.GRAVMAGNET_RECIPE_TYPE, 0, 0, 0);
+		super(id, RecipeRegistry.GRAVMAGNET_RECIPE_TYPE, 1, processTime, 0);
 
 		this.output = output;
 		this.input = input;
-		this.processTime = processTime;
 		this.pull = pull;
 	}
 
@@ -59,10 +54,10 @@ public class GravMagnetRecipe extends AbstractMachineRecipe {
 
 		@Override
 		public void serializeRecipeData(JsonObject json) {
+			super.serializeRecipeData(json);
 			json.add("output", getOutput().toJSON());
 			json.add("input", JsonCodecUtils.serialize(getInput()));
 			json.addProperty("pull", pull);
-			json.addProperty("processTime", processTime);
 		}
 	}
 }

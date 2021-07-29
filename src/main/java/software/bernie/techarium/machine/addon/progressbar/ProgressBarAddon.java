@@ -60,12 +60,8 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IContain
         this.progress = 0;
         this.progressToAdd = 1;
         this.maxProgress = maxProgress;
-        this.canProgress = (tileEntity) -> {
-            return true;
-        };
-        this.canReset = (tileEntity) -> {
-            return true;
-        };
+        this.canProgress = tileEntity -> true;
+        this.canReset = tileEntity -> true;
         this.onProgressFull = () -> {
         };
         this.onProgressTick = () -> {

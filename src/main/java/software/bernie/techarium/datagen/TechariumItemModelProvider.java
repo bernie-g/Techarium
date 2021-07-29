@@ -18,6 +18,7 @@ public class TechariumItemModelProvider extends TechariumItemModelProviderBase {
         registerIngots();
 
         simpleTexture(ItemRegistry.DEBUGSTICK.get(), "item/pipe/pipe_stick");
+        simpleTexture(ItemRegistry.HAMMER.get(), "item/hammer");
         simpleTexture(BlockRegistry.EXCHANGE_STATION.getItem(), "item/exchange_station");
         emptyModel("multi_pipe");
     }

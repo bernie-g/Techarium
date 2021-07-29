@@ -69,16 +69,18 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
         this.isPowered = false;
     }
 
-    public void addInventory(InventoryAddon invAddon) {
+    public MachineController<T> addInventory(InventoryAddon invAddon) {
         this.multiInventory.add(invAddon);
+        return this;
     }
 
     public void addTank(FluidTankAddon fluidAddon) {
         this.multiTank.add(fluidAddon);
     }
 
-    public void addProgressBar(ProgressBarAddon progressBarAddon) {
+    public MachineController<T> addProgressBar(ProgressBarAddon progressBarAddon) {
         this.multiProgressBar.add(progressBarAddon);
+        return this;
     }
 
     @Nonnull

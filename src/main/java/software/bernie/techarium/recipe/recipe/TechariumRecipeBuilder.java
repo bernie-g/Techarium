@@ -14,13 +14,14 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.conditions.ICondition;
+import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public abstract class TechariumRecipeBuilder<B extends TechariumRecipeBuilder<B>> implements IRecipe<IInventory> {
+public abstract class TechariumRecipeBuilder<B extends TechariumRecipeBuilder<B>> implements IMachineRecipe {
     protected final List<ICondition> conditions = new ArrayList();
     protected final Advancement.Builder advancementBuilder = Advancement.Builder.advancement();
 

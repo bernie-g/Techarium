@@ -76,6 +76,7 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addTranslation(LangRegistry.guiPipeSelfFeed, "Self Feed");
         addTranslation(LangRegistry.machineShiftDescription, "Hold [LShift] for description");
         addTranslation(LangRegistry.gravMagnetDescription, "The Grav Magnet will attract or repel every entity in front of the block. Use a redstone signal to switch between the two mode. Can be boosted if a magnetic coil is place behind");
-        addTranslation(LangRegistry.magneticCoilDescription, "The Magnetic Coil is use to boost the Grav Magnet. Add coil inside to boost the power");
+        addTranslation(LangRegistry.magneticCoilDescription, "The Magnetic Coil is used to boost the Grav Magnet. Add a coil inside to boost the power");
+        addTranslation(LangRegistry.depotDescription, "The Depot is used to create Plates and automate the GravMagnet Recipes.");
     }
 }

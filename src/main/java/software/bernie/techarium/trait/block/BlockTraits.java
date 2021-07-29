@@ -16,6 +16,8 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.ToolType;
 import software.bernie.techarium.trait.Trait;
 
+import javax.annotation.Nullable;
+
 public class BlockTraits {
     public static abstract class MaterialTrait extends Trait {
         public MaterialTrait() {
@@ -79,12 +81,12 @@ public class BlockTraits {
     }
 
 	public enum RotationType {
-		XZ(BlockStateProperties.HORIZONTAL_FACING),
+        XZ(BlockStateProperties.HORIZONTAL_FACING),
 		XYZ(BlockStateProperties.FACING);
 
 		DirectionProperty direction;
 
-		private RotationType(DirectionProperty dir) {
+		RotationType(DirectionProperty dir) {
 			direction = dir;
 		}
 	}

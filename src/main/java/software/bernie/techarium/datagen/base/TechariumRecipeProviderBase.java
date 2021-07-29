@@ -13,13 +13,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tags.ITag;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.data.ForgeRecipeProvider;
 import net.minecraftforge.fluids.FluidStack;
 import software.bernie.techarium.Techarium;
-import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
-import software.bernie.techarium.recipe.recipe.BotariumRecipe;
-import software.bernie.techarium.recipe.recipe.GravMagnetRecipe;
+import software.bernie.techarium.recipe.recipe.*;
 import software.bernie.techarium.registry.TagRegistry;
 import software.bernie.techarium.util.ChancedItemStackList;
 
@@ -59,9 +59,20 @@ public abstract class TechariumRecipeProviderBase extends ForgeRecipeProvider {
                 .output(drop)
                 .construct()
                 .build(consumer,
-                        new ResourceLocation(Techarium.ModID,
+                        Techarium.rl(
                                 "botarium/" + seed.getRegistryName().getNamespace() + "/" + seed.getRegistryName()
                                         .getPath()));
+    }
+
+    public void buildHammerPlateRecipe(Item ingot, Item plate, Consumer<IFinishedRecipe> consumer) {
+        buildHammerRecipe(Ingredient.of(ingot), Ingredient.of(ingot), Ingredient.of(ingot), plate.getDefaultInstance(), consumer);
+    }
+    public void buildHammerPlateRecipe(ITag<Item> ingot, Item plate, Consumer<IFinishedRecipe> consumer) {
+        buildHammerRecipe(Ingredient.of(ingot), Ingredient.of(ingot),Ingredient.of(ingot), plate.getDefaultInstance(), consumer);
+    }
+    public void buildHammerRecipe(Ingredient input0, Ingredient input1, Ingredient input2, ItemStack output, Consumer<IFinishedRecipe> consumer) {
+        ResourceLocation rl = new ResourceLocation(output.getItem().getRegistryName().getNamespace(),"hammering/" + output.getItem().getRegistryName().getPath());
+        new HammerRecipe(rl,input0, input1, input2, output).build(consumer, rl);
     }
 
     public void buildArboretumRecipe(Item sapling, ChancedItemStackList drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
