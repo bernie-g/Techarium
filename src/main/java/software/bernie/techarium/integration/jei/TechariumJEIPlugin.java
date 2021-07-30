@@ -68,5 +68,6 @@ public class TechariumJEIPlugin implements IModPlugin {
 	@Override
 	public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
 		registration.addRecipeTransferHandler(AutomaticContainer.class, ArboretumRecipeCategory.UID, 36, 2, 0, 36);
+		registration.addRecipeTransferHandler(AutomaticContainer.class, BotariumRecipeCategory.UID, 36, 2, 0, 36);
 	}
 }

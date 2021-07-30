@@ -87,7 +87,6 @@ public class JeiIntegration extends ClientIntegration {
         if (automaticContainer.getTile().getRecipeClass() == category.getRecipeClass()) {
             for (RecipeTransferButton recipeWidget: recipeWidgets) {
                 createRecipeWidget(recipeWidget, baseRecipeCategory);
-                recipeWidget.visible = true;
             }
         } else {
             for (RecipeTransferButton recipeWidget: recipeWidgets) {
