@@ -91,6 +91,7 @@ public abstract class BaseRecipeCategory<T extends IRecipe<?>> implements IRecip
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, T recipe, IIngredients ingredients) {
 		widgets.clear();
+		recipeLayout.moveRecipeTransferButton(getJeiButtonPosition().getX(), getJeiButtonPosition().getY());
 	}
 
 	public void addGuiElement(Widget widget) {

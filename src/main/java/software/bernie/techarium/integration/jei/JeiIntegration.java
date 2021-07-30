@@ -68,9 +68,10 @@ public class JeiIntegration extends ClientIntegration {
         if (!isJeiGui(screen))
             return;
         RecipesGui recipesGui = (RecipesGui) screen;
-        BaseRecipeCategory<?> category = (BaseRecipeCategory<?>) getRecipeCategory(recipesGui);
+        IRecipeCategory<?> category = getRecipeCategory(recipesGui);
         if (!(category instanceof BaseRecipeCategory))
             return;
+        BaseRecipeCategory<?> baseRecipeCategory = (BaseRecipeCategory<?>) category;
         List<RecipeTransferButton> recipeWidgets = new ArrayList<>();
         for (Widget widget: recipesGui.buttons) {
             if (widget instanceof RecipeTransferButton) {
@@ -85,7 +86,8 @@ public class JeiIntegration extends ClientIntegration {
         AutomaticContainer automaticContainer = (AutomaticContainer) container;
         if (automaticContainer.getTile().getRecipeClass() == category.getRecipeClass()) {
             for (RecipeTransferButton recipeWidget: recipeWidgets) {
-                createRecipeWidget(recipeWidget, category);
+                createRecipeWidget(recipeWidget, baseRecipeCategory);
+                recipeWidget.visible = true;
             }
         } else {
             for (RecipeTransferButton recipeWidget: recipeWidgets) {
@@ -97,9 +99,6 @@ public class JeiIntegration extends ClientIntegration {
     public static void createRecipeWidget(RecipeTransferButton widget, BaseRecipeCategory category) {
         if (manipulatedButtons.containsKey(widget))
             return;
-        manipulatedButtons.put(widget, null);
-        widget.x -= category.getJeiButtonPosition().getX();
-        widget.y -= category.getJeiButtonPosition().getY();
         IDrawable icon = getIcon(widget);
         if (icon != null && iconField != null) {
             try {

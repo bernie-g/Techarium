@@ -40,7 +40,7 @@ public class ArboretumRecipeCategory extends BaseRecipeCategory<ArboretumRecipe>
 	 */
 	@Override
 	public Vector2i getJeiButtonPosition() {
-		return new Vector2i(28,13);
+		return new Vector2i(154,53);
 	}
 
 	@Override
