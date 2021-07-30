@@ -1,6 +1,5 @@
 package software.bernie.techarium.block.base;
 
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,7 +18,6 @@ import software.bernie.techarium.tile.base.MachineTileBase;
 import software.bernie.techarium.tile.base.MultiblockMasterTile;
 import software.bernie.techarium.trait.block.BlockBehaviour;
 import software.bernie.techarium.util.BlockRegion;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
