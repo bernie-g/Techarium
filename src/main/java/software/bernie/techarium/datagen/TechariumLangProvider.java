@@ -29,11 +29,17 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addItem(ItemRegistry.ITEM_PIPE, "Item Pipe");
         addItem(ItemRegistry.FLUID_PIPE, "Fluid Pipe");
         addItem(ItemRegistry.ENERGY_PIPE, "Energy Pipe");
+        addItem(ItemRegistry.HAMMER, "Hammer");
 
         addItem(ItemRegistry.ALUMINIUM_INGOT, "Aluminium Ingot");
         addItem(ItemRegistry.COPPER_INGOT, "Copper Ingot");
         addItem(ItemRegistry.LEAD_INGOT, "Lead Ingot");
         addItem(ItemRegistry.NICKEL_INGOT, "Nickel Ingot");
+
+        addItem(ItemRegistry.ALUMINIUM_PLATE, "Aluminium Plate");
+        addItem(ItemRegistry.COPPER_PLATE, "Copper Plate");
+        addItem(ItemRegistry.LEAD_PLATE, "Lead Plate");
+        addItem(ItemRegistry.NICKEL_PLATE, "Nickel Plate");
 
         addItem(ItemRegistry.ALUMINIUM_NUGGET, "Aluminium Nugget");
         addItem(ItemRegistry.COPPER_NUGGET, "Copper Nugget");
@@ -46,7 +52,7 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addBlock(BlockRegistry.BOTARIUM_TOP, "Botarium");
         addBlock(BlockRegistry.ARBORETUM, "Arboretum");
         addBlock(BlockRegistry.ARBORETUM_TOP, "Arboretum");
-        
+        addBlock(BlockRegistry.DEPOT, "Depot");
         addBlock(BlockRegistry.GRAVMAGNET, "Grav Magnet");
         addBlock(BlockRegistry.MAGNETIC_COIL, "Magnetic Coil");
 
@@ -57,10 +63,10 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addBlock(BlockRegistry.LEAD_ORE, "Lead Ore");
         addBlock(BlockRegistry.NICKEL_ORE, "Nickel Ore");
 
-        addBlock(BlockRegistry.NICKEL_BLOCK, "Nickel Block");
-        addBlock(BlockRegistry.ALUMINIUM_BLOCK, "Aluminum Block");
-        addBlock(BlockRegistry.COPPER_BLOCK, "Copper Block");
-        addBlock(BlockRegistry.LEAD_BLOCK, "Lead Block");
+        addBlock(BlockRegistry.NICKEL_BLOCK, "Block of Nickel");
+        addBlock(BlockRegistry.ALUMINIUM_BLOCK, "Block of Aluminum");
+        addBlock(BlockRegistry.COPPER_BLOCK, "Block of Copper");
+        addBlock(BlockRegistry.LEAD_BLOCK, "Block of Lead");
     }
 
     private void addTranslationComponents() {
@@ -75,7 +81,7 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addTranslation(LangRegistry.guiPipeRoundRobin, "Round-Robin");
         addTranslation(LangRegistry.guiPipeSelfFeed, "Self Feed");
         addTranslation(LangRegistry.machineShiftDescription, "Hold [LShift] for description");
-        addTranslation(LangRegistry.gravMagnetDescription, "The Grav Magnet will attract or repel every entity in front of the block. Use a redstone signal to switch between the two mode. Can be boosted if a magnetic coil is place behind");
+        addTranslation(LangRegistry.gravMagnetDescription, "The Grav Magnet will attract or repel every entity in front of the block. Use a redstone signal to switch between the two modes. Can be boosted if a magnetic coil is placed behind");
         addTranslation(LangRegistry.magneticCoilDescription, "The Magnetic Coil is used to boost the Grav Magnet. Add a coil inside to boost the power");
         addTranslation(LangRegistry.depotDescription, "The Depot is used to create Plates and automate the GravMagnet Recipes.");
     }

@@ -6,8 +6,13 @@ import lombok.Setter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -38,10 +43,10 @@ public class DepotTileEntity extends MachineMasterTile<IMachineRecipe> implement
 
     @Getter
     @Setter
-    private boolean isMagnetPull = true;
+    private boolean isMagnetPull = false;
     @Getter
     @Setter
-    private boolean isMagnetPush = true;
+    private boolean isMagnetPush = false;
     private int numHammered = 0;
     private AnimationFactory factory = new AnimationFactory(this);
 
@@ -63,27 +68,95 @@ public class DepotTileEntity extends MachineMasterTile<IMachineRecipe> implement
                 }
                 return ActionResultType.SUCCESS;
             }
+        } else {
+            ItemStack inHand = player.getItemInHand(hand);
+            if (inHand.isEmpty()) {
+                handleEmpty(player);
+            } else {
+                handleFull(inHand);
+            }
         }
         return ActionResultType.PASS;
+    }
+
+    private void handleEmpty(PlayerEntity player) {
+        for (int i = SLOTS - 1; i >= 0; i--) {
+            ItemStack stack = getOutput().getStackInSlot(i);
+            if (!stack.isEmpty()) {
+                if (!player.addItem(stack.copy())) {
+                    player.drop(stack.copy(), false);
+                }
+                getOutput().setStackInSlot(i, ItemStack.EMPTY);
+                return;
+            }
+        }
+        for (int i = SLOTS - 1; i >= 0; i--) {
+            ItemStack stack = getInput().getStackInSlot(i);
+            if (!stack.isEmpty()) {
+                if (!player.addItem(stack.copy())) {
+                    player.drop(stack.copy(), false);
+                }
+                getInput().setStackInSlot(i, ItemStack.EMPTY);
+                return;
+            }
+        }
+    }
+
+    private void handleFull(ItemStack inHand) {
+        for (int i = 0; i < SLOTS; i++) {
+            ItemStack inSlot = getInput().getStackInSlot(i);
+            if (inSlot.isEmpty()) {
+                if (getInput().getInsertPredicate().test(inHand, i)) {
+                    ItemStack toInsert = inHand.copy();
+                    toInsert.setCount(1);
+                    getInput().setStackInSlot(i, toInsert);
+                    inHand.setCount(inHand.getCount()-1);
+                    return;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        isMagnetPush = false;
+        isMagnetPull = false;
     }
 
     @Override
     protected MachineController<IMachineRecipe> createMachineController() {
         return new MachineController<>(this, this::getBlockPos, null)
-                .addInventory(new InventoryAddon(this, "input", 0,0, SLOTS).
-                        setAllSlotStackSizes(1).setExposeType(ExposeType.INPUT)
-                        .setInsertPredicate((stack, slot) -> getInventoryByName("output").getStackInSlot(slot).isEmpty() && getController().getCurrentRecipe() == null)
+                .addInventory(new InventoryAddon(this, "input", 0,0, SLOTS)
+                        .setAllSlotStackSizes(1).setExposeType(ExposeType.INPUT)
+                        .setInsertPredicate((stack, slot) -> isOutputEmpty() && getController().getCurrentRecipe() == null)
                         .setOnSlotChanged((itemStack, integer) -> {numHammered = 0; forceCheckRecipe();})) //you can insert when corresponding output slot is empty
                 .addInventory(new InventoryAddon(this, "output", 0,0, SLOTS).setExposeType(ExposeType.OUTPUT))
                 .addProgressBar(new ProgressBarAddon(this, 0, 0, 500, "main")
-                .setCanProgress(value -> {
-                    IMachineRecipe recipe = getController().getCurrentRecipe();
-                    return recipe != null && matchRecipe(recipe) && recipe.getType() != RecipeRegistry.HAMMER_RECIPE_TYPE;
-                }).setOnProgressFull(() -> handleProgressFinish(getController().getCurrentRecipe())));
+                        .setCanProgress(value -> {
+                            IMachineRecipe recipe = getController().getCurrentRecipe();
+                            return recipe != null && matchRecipe(recipe) && recipe.getType() != RecipeRegistry.HAMMER_RECIPE_TYPE;})
+                        .setOnProgressFull(() -> handleProgressFinish(getController().getCurrentRecipe()))
+                        .setOnProgressTick(() -> {
+                            if (level instanceof ServerWorld) {
+                                ((ServerWorld) level).sendParticles(ParticleTypes.CRIT, getBlockPos().getX() + 0.5f, getBlockPos().getY() + 1.3f,
+                                        getBlockPos().getZ() + 0.5f, 5, 0, 0, 0, 0.1f);
+                            }
+                        })
+                );
     }
 
     public InventoryAddon getInput() {
         return getController().getMultiInventory().getInventoryByName("input").get();
+    }
+
+    private boolean isOutputEmpty() {
+        InventoryAddon output = getOutput();
+        for (int i = 0; i < output.getSlots(); i++) {
+            if (!output.getStackInSlot(i).isEmpty())
+                return false;
+        }
+        return true;
     }
 
     public InventoryAddon getOutput() {

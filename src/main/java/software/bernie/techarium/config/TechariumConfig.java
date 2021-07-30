@@ -10,6 +10,7 @@ public class TechariumConfig {
 
     private static ForgeConfigSpec.Builder SERVER = new ForgeConfigSpec.Builder();
     private static ForgeConfigSpec SERVER_SPEC;
+    //This config is synced from server to client
     public static TechariumServerConfig SERVER_CONFIG;
 
 
@@ -24,14 +25,13 @@ public class TechariumConfig {
     }
 
     public static class TechariumServerConfig {
-
         public final ForgeConfigSpec.ConfigValue<Integer> numHammerForDepotRecipe;
 
         private TechariumServerConfig() {
             SERVER.push("General");
 
             numHammerForDepotRecipe = SERVER
-                    .comment("The amount of times you need to hammer before the hammering recipe is complete. 20 equals to 1 second")
+                    .comment("The amount of times you need to hammer before the hammering recipe is complete. Hammering 5 times takes 1 second")
                     .defineInRange("numHammerings", 5, 1, Integer.MAX_VALUE);
 
             SERVER.pop();
