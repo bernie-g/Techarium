@@ -16,7 +16,7 @@ public abstract class TechariumBlockStateProviderBase extends BlockStateProvider
     public ExistingFileHelper helper;
 
     public TechariumBlockStateProviderBase(DataGenerator gen, ExistingFileHelper exFileHelper) {
-        super(gen, Techarium.ModID, exFileHelper);
+        super(gen, Techarium.MOD_ID, exFileHelper);
         this.blockProvider = new TechariumBlockModelProviderBase(gen, exFileHelper) {
             @Override
             protected void registerModels() {

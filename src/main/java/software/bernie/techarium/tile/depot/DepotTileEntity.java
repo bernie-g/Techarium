@@ -14,6 +14,7 @@ import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.techarium.config.TechariumConfig;
 import software.bernie.techarium.helper.IngredientsHelper;
 import software.bernie.techarium.machine.addon.ExposeType;
 import software.bernie.techarium.machine.addon.inventory.InventoryAddon;
@@ -56,7 +57,7 @@ public class DepotTileEntity extends MachineMasterTile<IMachineRecipe> implement
         if (player.getItemInHand(hand).getItem() == ItemRegistry.HAMMER.get()) {
             if (getController().getCurrentRecipe() instanceof HammerRecipe) {
                 numHammered++;
-                if (numHammered == 5) {
+                if (numHammered >= TechariumConfig.SERVER_CONFIG.numHammerForDepotRecipe.get()) {
                     numHammered = 0;
                     handleProgressFinish(getController().getCurrentRecipe());
                 }

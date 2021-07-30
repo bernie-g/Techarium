@@ -10,7 +10,7 @@ import software.bernie.techarium.registry.ItemRegistry;
 
 public class TechariumItemTagsProvider extends ItemTagsProvider {
     public TechariumItemTagsProvider(DataGenerator dataGenerator, BlockTagsProvider blockTagProvider, ExistingFileHelper existingFileHelper) {
-        super(dataGenerator, blockTagProvider, Techarium.ModID, existingFileHelper);
+        super(dataGenerator, blockTagProvider, Techarium.MOD_ID, existingFileHelper);
     }
 
     @Override

@@ -9,11 +9,10 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import software.bernie.techarium.Techarium;
-import software.bernie.techarium.client.tile.model.MagneticCoilModel;
 import software.bernie.techarium.client.tile.render.*;
 import software.bernie.techarium.registry.BlockRegistry;
 
-@Mod.EventBusSubscriber(modid = Techarium.ModID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Techarium.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientUtils {
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {

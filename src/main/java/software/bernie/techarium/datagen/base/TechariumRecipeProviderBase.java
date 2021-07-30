@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ITag;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.data.ForgeRecipeProvider;
 import net.minecraftforge.fluids.FluidStack;
@@ -94,7 +93,7 @@ public abstract class TechariumRecipeProviderBase extends ForgeRecipeProvider {
                 .output(drop)
                 .construct()
                 .build(consumer,
-                        new ResourceLocation(Techarium.ModID,
+                        new ResourceLocation(Techarium.MOD_ID,
                                 "arboretum/" + sapling.getRegistryName().getNamespace() + "/" + sapling
                                         .getRegistryName().getPath()));
     }
@@ -106,7 +105,7 @@ public abstract class TechariumRecipeProviderBase extends ForgeRecipeProvider {
         		.processTime(processTime)
         		.pull(pull)
                 .construct()
-                .build(consumer, new ResourceLocation(Techarium.ModID, "gravmagnet/" + name));
+                .build(consumer, new ResourceLocation(Techarium.MOD_ID, "gravmagnet/" + name));
     }
     
     public void buildMetalRecipe(String name, Item ingot, Item nugget, Block block, Consumer<IFinishedRecipe> consumer) {

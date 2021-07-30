@@ -1,22 +1,20 @@
 package software.bernie.techarium.registry;
 
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import software.bernie.techarium.client.tile.render.GravMagnetRenderer;
 import software.bernie.techarium.recipe.recipe.*;
 import software.bernie.techarium.recipe.serializer.*;
 
-import static software.bernie.techarium.Techarium.ModID;
+import static software.bernie.techarium.Techarium.MOD_ID;
 
 public class RecipeRegistry {
 
     public static final DeferredRegister<IRecipeSerializer<?>> RECIPE_SERIALIZER_REGISTRY = DeferredRegister.create(
-            ForgeRegistries.RECIPE_SERIALIZERS, ModID);
+            ForgeRegistries.RECIPE_SERIALIZERS, MOD_ID);
 
     public static final RegistryObject<IRecipeSerializer<BotariumRecipe>> BOTARIUM_SERIALIZER =
             RECIPE_SERIALIZER_REGISTRY.register("botarium", BotariumRecipeSerializer::new);

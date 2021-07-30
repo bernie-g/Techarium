@@ -19,10 +19,10 @@ import java.util.List;
 
 public class ArboretumRecipeCategory extends BaseRecipeCategory<ArboretumRecipe> {
 
-	public static final ResourceLocation UID = new ResourceLocation(Techarium.ModID, "arboretum");
+	public static final ResourceLocation UID = new ResourceLocation(Techarium.MOD_ID, "arboretum");
 
 	public ArboretumRecipeCategory(IRecipeCategoryRegistration registration) {
-		super(UID, registration, ArboretumRecipe.class, BlockRegistry.ARBORETUM.getBlock().getName(), BlockRegistry.ARBORETUM.getItem(), new ResourceLocation(Techarium.ModID, "textures/gui/arboretum/arboretum.png"),0,0,256,256);
+		super(UID, registration, ArboretumRecipe.class, BlockRegistry.ARBORETUM.getBlock().getName(), BlockRegistry.ARBORETUM.getItem(), new ResourceLocation(Techarium.MOD_ID, "textures/gui/arboretum/arboretum.png"),0,0,256,256);
 	}
 
 	@Override

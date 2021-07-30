@@ -1,7 +1,6 @@
 package software.bernie.techarium.integration;
 
 import lombok.Getter;
-import lombok.SneakyThrows;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowerBlock;
 import net.minecraft.data.IFinishedRecipe;
@@ -22,10 +21,8 @@ import software.bernie.techarium.Techarium;
 import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.TagRegistry;
-import software.bernie.techarium.util.ChancedItemStack;
 import software.bernie.techarium.util.ChancedItemStackList;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
 
 public abstract class Integration {
@@ -77,7 +74,7 @@ public abstract class Integration {
                 .construct()
                 .addCondition(new ModLoadedCondition(modID))
                 .build(consumer,
-                        new ResourceLocation(Techarium.ModID,
+                        new ResourceLocation(Techarium.MOD_ID,
                                 "botarium/" + seed.getRegistryName().getNamespace() + "/" + seed.getRegistryName()
                                         .getPath()));
     }
@@ -102,7 +99,7 @@ public abstract class Integration {
                 .construct()
                 .addCondition(new ModLoadedCondition(modID))
                 .build(consumer,
-                        new ResourceLocation(Techarium.ModID,
+                        new ResourceLocation(Techarium.MOD_ID,
                                 "arboretum/" + modID + "/" + sapling.getRegistryName().getPath()));
     }
 

@@ -16,14 +16,13 @@ import software.bernie.techarium.util.Vector2i;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static software.bernie.techarium.Techarium.ModID;
+import static software.bernie.techarium.Techarium.MOD_ID;
 
 public class ExchangeStationScreen extends AutomaticContainerScreen {
 
-    private static final ResourceLocation MACHINE_COMPONENTS = new ResourceLocation(ModID, "textures/gui/machine_components.png");
+    private static final ResourceLocation MACHINE_COMPONENTS = new ResourceLocation(MOD_ID, "textures/gui/machine_components.png");
     private List<ExchangeStationRecipe> recipes;
 
     private final ExchangeStationContainer exchangeStationContainer;

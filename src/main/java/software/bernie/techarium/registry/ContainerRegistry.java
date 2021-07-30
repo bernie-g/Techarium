@@ -13,7 +13,7 @@ import software.bernie.techarium.display.container.PipeContainer;
 
 public class ContainerRegistry
 {
-	public static DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, Techarium.ModID);
+	public static DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, Techarium.MOD_ID);
 
 	public static RegistryObject<ContainerType<AutomaticContainer>> AUTO_CONTAINER = CONTAINERS.register("auto_bot", () -> IForgeContainerType.create(AutomaticContainer::new));
 	public static RegistryObject<ContainerType<PipeContainer>> PIPE_CONTAINER = CONTAINERS.register("pipe_container", () -> IForgeContainerType.create(PipeContainer::new));

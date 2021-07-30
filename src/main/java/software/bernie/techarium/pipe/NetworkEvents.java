@@ -23,7 +23,7 @@ import software.bernie.techarium.pipe.capability.PipeNetworkManagerCapability;
 import software.bernie.techarium.pipe.capability.PipeNetworkManagerStorage;
 
 
-@Mod.EventBusSubscriber(modid = Techarium.ModID)
+@Mod.EventBusSubscriber(modid = Techarium.MOD_ID)
 public class NetworkEvents {
 
     @SubscribeEvent
@@ -62,7 +62,7 @@ public class NetworkEvents {
             }
         };
 
-        event.addCapability(new ResourceLocation(Techarium.ModID, "network_manager"), provider);
+        event.addCapability(new ResourceLocation(Techarium.MOD_ID, "network_manager"), provider);
     }
 
     public static void onCommonSetup(FMLCommonSetupEvent event) {
