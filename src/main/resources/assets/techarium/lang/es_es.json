@@ -20,11 +20,11 @@
     "description.techarium.botarium": "El Botarium te permite hacer crecer cultivos a cambio de energía y un fluído adecuado",
     "description.techarium.exchange_station": "La Estación de Intercambios te permite obtener nuevas máquinas a cambio de oro",
     "description.techarium.gravmagnet": "El Imán Gravitacional atreará o repelerá cualquier entidad en frente del bloque. Usa una señal de redstone para cambiar de modo. Se puede amplificar su efecto si una Bobina Magnética se coloca detrás",
-    "description.techarium.magneticcoil": "La Bobina Magnética se utiliza para amplificar el efecto del Imán Gravitacional. Add coil inside to boost the power",
+    "description.techarium.magneticcoil": "La Bobina Magnética se utiliza para amplificar el efecto del Imán Gravitacional. Añade algún tipo de Bobina (Cobre, Cobalto...) para amplificar el efecto",
 
     "gui.techarium.pipe.input": "Entrada",
     "gui.techarium.pipe.output": "Salida",
-    "gui.techarium.pipe.round_robin": "Distribución Equitativa?",
+    "gui.techarium.pipe.round_robin": "Distribución Equitativa",
     "gui.techarium.pipe.self_feed": "Auto Alimentación",
 
     "hwyla.techarium.progress.eta": "Tiempo Estimado Restante: %s segundos restantes",
@@ -41,7 +41,7 @@
     "item.techarium.lead_nugget": "Pepita de Plomo",
     "item.techarium.nickel_ingot": "Lingote de Níquel",
     "item.techarium.nickel_nugget": "Pepita de Níquel",
-    "item.techarium.pipe_stick": "Tubería Palo?",
+    "item.techarium.pipe_stick": "Tubería Palo",
     "item.techarium.copper_coil": "Bobina de Cobre",
     "item.techarium.cobalt_coil": "Bobina de Cobalto",
     "item.techarium.solarium_coil": "Bobina de Solarium",
