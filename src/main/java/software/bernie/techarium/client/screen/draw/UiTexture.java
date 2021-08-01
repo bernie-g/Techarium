@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.techarium.util.Vector2i;
-import java.util.function.Supplier;
 
 public class UiTexture {
     private final ResourceLocation texture;
@@ -38,7 +37,7 @@ public class UiTexture {
         private final Vector2i texturePos;
         private final Vector2i size;
         @Setter
-        private Supplier<Vector2i> drawOffset = Vector2i::new;
+        private Vector2i drawOffset = new Vector2i();
         @Override
         public Vector2i getTexturePos() {
             return texturePos;
@@ -50,20 +49,20 @@ public class UiTexture {
         }
 
         @Override
-        public void updateOffset(Supplier<Vector2i> offset) {
+        public void updateOffset(Vector2i offset) {
             drawOffset = offset;
         }
 
         @Override
         public Vector2i getDrawOffset() {
-            return drawOffset.get();
+            return drawOffset;
         }
 
         @Override
         public void drawPartial(MatrixStack stack, Vector2i drawPos, Vector2i size, Vector2i texturePos) {
             bindTexture();
             Screen screen = Minecraft.getInstance().screen;
-            drawPos = drawPos.add(drawOffset.get());
+            drawPos = drawPos.add(drawOffset);
             screen.blit(stack, drawPos.getX(), drawPos.getY(), texturePos.getX(), texturePos.getY(),size.getX(), size.getY());
         }
     }

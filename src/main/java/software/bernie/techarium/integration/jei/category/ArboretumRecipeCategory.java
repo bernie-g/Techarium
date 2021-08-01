@@ -61,8 +61,8 @@ public class ArboretumRecipeCategory extends BaseRecipeCategory<ArboretumRecipe>
 		super.setRecipe(layout, recipe, ingredients);
 
 		IGuiFluidStackGroup fluidStacks = layout.getFluidStacks();
-		addFluid(recipe.getFluidIn(), 10000, 29, 22, fluidStacks, true, 0);
-		addEnergyWidget(recipe.getMaxProgress() * recipe.getProgressPerTick() * recipe.getRfPerTick(), 10000, recipe.getRfPerTick(), 10, 23);
+		addFluid(recipe.getFluidIn(), 10000, new Vector2i(29, 22), fluidStacks, true, 0);
+		addEnergyWidget(recipe, recipe.getMaxProgress() * recipe.getProgressPerTick() * recipe.getRfPerTick(), 10000, recipe.getRfPerTick(), 10, 23);
 		IGuiItemStackGroup group = layout.getItemStacks();
 		List<List<ItemStack>> inputs = ingredients.getInputs(VanillaTypes.ITEM);
 		List<List<ItemStack>> outputs = ingredients.getOutputs(VanillaTypes.ITEM);
@@ -71,7 +71,7 @@ public class ArboretumRecipeCategory extends BaseRecipeCategory<ArboretumRecipe>
 		group.set(0, inputs.get(0));
 		group.set(1, inputs.get(1));
 		for (int i = 0; i < Math.min(3, outputs.size()); i++) {
-			addChancedItemStack(recipe.getOutput().getStackList().get(i), 102 + 21*i, 30, group, layout, 2 + i);
+			addChancedItemStack(recipe.getOutput().getStackList().get(i), new Vector2i(102 + 21*i, 30), group, layout, 2 + i);
 		}
 	}
 }

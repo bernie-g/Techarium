@@ -10,11 +10,12 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.techarium.Techarium;
-import software.bernie.techarium.display.container.AutomaticContainer;
 import software.bernie.techarium.display.screen.AutomaticContainerScreen;
 import software.bernie.techarium.integration.jei.category.ArboretumRecipeCategory;
+import software.bernie.techarium.integration.jei.category.BaseRecipeCategory;
 import software.bernie.techarium.integration.jei.category.BotariumRecipeCategory;
 import software.bernie.techarium.integration.jei.panel.PanelBoundHandler;
+import software.bernie.techarium.integration.jei.transferhandler.TechariumTransferInfo;
 import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.BlockRegistry;
@@ -28,6 +29,7 @@ import java.util.List;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class TechariumJEIPlugin implements IModPlugin {
+
 	@Override
 	public ResourceLocation getPluginUid() {
 		return Techarium.rl( "techarium_jei_plugin");
@@ -67,7 +69,8 @@ public class TechariumJEIPlugin implements IModPlugin {
 
 	@Override
 	public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
-		registration.addRecipeTransferHandler(AutomaticContainer.class, ArboretumRecipeCategory.UID, 36, 2, 0, 36);
-		registration.addRecipeTransferHandler(AutomaticContainer.class, BotariumRecipeCategory.UID, 36, 2, 0, 36);
+		registration.addRecipeTransferHandler(new TechariumTransferInfo(BaseRecipeCategory.INSTANCES.get(ArboretumRecipeCategory.class), 36, 2, 0, 36));
+		registration.addRecipeTransferHandler(new TechariumTransferInfo(BaseRecipeCategory.INSTANCES.get(BotariumRecipeCategory.class), 36, 2, 0, 36));
 	}
+
 }

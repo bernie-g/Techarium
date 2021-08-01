@@ -3,8 +3,6 @@ package software.bernie.techarium.client.screen.draw;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import software.bernie.techarium.util.Vector2i;
 
-import java.util.function.Supplier;
-
 public interface IDrawable {
 
     default void draw(MatrixStack stack, Vector2i drawPos) {
@@ -19,7 +17,7 @@ public interface IDrawable {
 
     Vector2i getSize();
 
-    void updateOffset(Supplier<Vector2i> offset);
+    void updateOffset(Vector2i offset);
 
     Vector2i getDrawOffset();
 

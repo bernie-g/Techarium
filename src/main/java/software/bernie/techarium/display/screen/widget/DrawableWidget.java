@@ -6,8 +6,6 @@ import net.minecraft.util.text.ITextComponent;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.util.Vector2i;
 
-import java.util.function.Supplier;
-
 public class DrawableWidget extends Widget {
 
     private final IDrawable drawable;
@@ -17,7 +15,7 @@ public class DrawableWidget extends Widget {
         this.drawable = drawable;
     }
 
-    public void setDrawOffset(Supplier<Vector2i> offset) {
+    public void setDrawOffset(Vector2i offset) {
         drawable.updateOffset(offset);
     }
 

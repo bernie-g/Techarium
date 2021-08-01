@@ -33,7 +33,7 @@ public class AutomaticContainerScreen extends DrawableContainerScreen<AutomaticC
         if (!widgets.isEmpty())
             widgets.forEach(factory -> {
                 DrawableWidget widget = factory.create();
-                widget.setDrawOffset(() -> new Vector2i(leftPos, topPos));
+                widget.setDrawOffset(new Vector2i(leftPos, topPos));
                 this.addButton(widget);
             });
     }

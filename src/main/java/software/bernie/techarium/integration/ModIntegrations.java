@@ -7,7 +7,6 @@ import software.bernie.techarium.integration.biomesoplenty.BiomesOPlentyIntegrat
 import software.bernie.techarium.integration.byg.BYGIntegration;
 import software.bernie.techarium.integration.farmersdelight.FarmersDelightIntegration;
 import software.bernie.techarium.integration.immersiveengineering.IEIntegration;
-import software.bernie.techarium.integration.jei.JeiIntegration;
 import software.bernie.techarium.integration.mekanism.MekanismIntegration;
 import software.bernie.techarium.integration.mysticalagriculture.MysticalAgricultureIntegration;
 import software.bernie.techarium.integration.pams.PamsHarvestCraftIntegration;
@@ -53,9 +52,6 @@ public class ModIntegrations {
     private static final Integration.Wrapper<BYGIntegration> BYG = Integration.Wrapper.of("byg",
             BYGIntegration.class).registerSelf();
 
-    private static final Integration.Wrapper<JeiIntegration> JEI = Integration.Wrapper.of("jei",
-            JeiIntegration.class).registerSelf();
-
     public static LazyOptional<MekanismIntegration> getMekanism() {
         return MEKANISM.get();
     }
@@ -94,9 +90,5 @@ public class ModIntegrations {
 
     public static LazyOptional<BYGIntegration> getBYG() {
         return BYG.get();
-    }
-
-    public static LazyOptional<JeiIntegration> getJEI() {
-        return JEI.get();
     }
 }
