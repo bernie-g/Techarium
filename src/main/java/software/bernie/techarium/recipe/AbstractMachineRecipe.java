@@ -13,7 +13,7 @@ import software.bernie.techarium.recipe.recipe.TechariumRecipeBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractMachineRecipe extends TechariumRecipeBuilder<AbstractMachineRecipe> {
+public abstract class AbstractMachineRecipe extends TechariumRecipeBuilder<AbstractMachineRecipe> implements IMachineRecipe{
 
     @Getter
     protected final ResourceLocation id;

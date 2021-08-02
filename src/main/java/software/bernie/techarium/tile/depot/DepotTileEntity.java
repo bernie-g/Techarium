@@ -185,11 +185,11 @@ public class DepotTileEntity extends MachineMasterTile<IMachineRecipe> implement
         return (recipe.getType() == RecipeRegistry.GRAVMAGNET_RECIPE_TYPE && recipe instanceof GravMagnetRecipe) || (recipe.getType() == RecipeRegistry.HAMMER_RECIPE_TYPE && recipe instanceof HammerRecipe);
     }
 
-    @Override
-    public IMachineRecipe castRecipe(IRecipe<?> iRecipe) {
-        return (IMachineRecipe) iRecipe;
-    }
 
+    @Override
+    public Class<IMachineRecipe> getRecipeClass() {
+        return IMachineRecipe.class;
+    }
     @Override
     public boolean matchRecipe(IMachineRecipe toCheck) {
         if (toCheck instanceof HammerRecipe) {
