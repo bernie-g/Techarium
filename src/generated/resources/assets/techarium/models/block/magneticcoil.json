@@ -1,0 +1,7 @@
+{
+  "parent": "techarium:block/default_box",
+  "textures": {
+    "1": "techarium:block/magnetic_coil_side",
+    "particle": "techarium:block/magnetic_coil_side"
+  }
+}

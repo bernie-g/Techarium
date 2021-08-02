@@ -20,32 +20,25 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.DrawHighlightEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Mod;
-import org.lwjgl.opengl.GL11;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.client.render.Color;
 import software.bernie.techarium.item.MachineItem;
 import software.bernie.techarium.util.BlockRegion;
-
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = Techarium.ModID, value = Dist.CLIENT)

@@ -1,40 +1,41 @@
 package software.bernie.techarium.display.screen.widget;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.text.StringTextComponent;
-import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
+import software.bernie.techarium.machine.interfaces.ITooltipAddon;
+import software.bernie.techarium.machine.interfaces.ITooltipProvider;
+import software.bernie.techarium.util.Vector2i;
 
-public class EnergyAutoWidget extends Widget {
+public class EnergyAutoWidget extends DrawableWidget implements ITooltipProvider {
 
     private final EnergyStorageAddon addon;
 
     public EnergyAutoWidget(EnergyStorageAddon addon) {
-        super(addon.getPosX(), addon.getPosY(), 200, 20, new StringTextComponent("Power"));
+        super(addon.getAsset(), addon.getPosX(), addon.getPosY(), 12, 48, new StringTextComponent("Power"));
         this.addon = addon;
     }
 
-    public Pair<Integer, Integer> getAssetSizeXY() {
-        return addon.getAssetSizeXY();
-    }
-
-    public Pair<Integer, Integer> getGuiXY() {
-        return addon.getGuiXY();
+    public Vector2i getAssetSizeXY() {
+        return addon.getSize();
     }
 
     @Override
     public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        Minecraft minecraft = Minecraft.getInstance();
-        int screenY = minecraft.getWindow().getGuiScaledHeight() / 2;
-        int screenX = minecraft.getWindow().getGuiScaledWidth() / 2;
+        float relativeDrawHeight = Math.min(((float) addon.getEnergyStored())/addon.getMaxEnergyStored(), 1);
+        float relativeDrawPositionY = 1 - relativeDrawHeight;
+        int absoluteDrawHeight = (int) Math.ceil(relativeDrawHeight * getAssetSizeXY().getY());
+        int absoluteDrawPositionY = (int) Math.floor(relativeDrawPositionY * getAssetSizeXY().getY());
+        Vector2i size = new Vector2i(12, absoluteDrawHeight);
+        Vector2i drawPos = new Vector2i(x,y + (int)(relativeDrawPositionY * getAssetSizeXY().getY()));
+        Vector2i texturePos = addon.getAsset().getTexturePos().add(0, absoluteDrawPositionY);
 
-        float drawHeight = 1- ((float) addon.getEnergyStored()) / addon.getMaxEnergyStored();
 
-        addon.getAsset().drawPartial(screenX - getGuiXY().getKey() / 2 + x,
-                screenY - getGuiXY().getValue() / 2 + y, getAssetSizeXY().getKey(),
-                getAssetSizeXY().getValue(), 1, 1, 0, drawHeight);
+        addon.getAsset().drawPartial(matrixStack, drawPos, size,texturePos);
     }
 
+    @Override
+    public ITooltipAddon getTooltip() {
+        return addon;
+    }
 }

@@ -1,6 +1,7 @@
 package software.bernie.techarium.integration;
 
 import lombok.Getter;
+import lombok.experimental.UtilityClass;
 import net.minecraftforge.common.util.LazyOptional;
 import software.bernie.techarium.integration.biomesoplenty.BiomesOPlentyIntegration;
 import software.bernie.techarium.integration.byg.BYGIntegration;
@@ -12,10 +13,10 @@ import software.bernie.techarium.integration.pams.PamsHarvestCraftIntegration;
 import software.bernie.techarium.integration.theoneprobe.TheOneProbeIntegration;
 import software.bernie.techarium.integration.thermal.cultivation.ThermalCultivationIntegration;
 import software.bernie.techarium.integration.xlfoodmod.XLFoodModIntegration;
-
 import java.util.ArrayList;
 import java.util.List;
 
+@UtilityClass
 public class ModIntegrations {
     @Getter
     private static final List<Integration.Wrapper<?>> integrations = new ArrayList<>();
@@ -50,8 +51,6 @@ public class ModIntegrations {
 
     private static final Integration.Wrapper<BYGIntegration> BYG = Integration.Wrapper.of("byg",
             BYGIntegration.class).registerSelf();
-
-
 
     public static LazyOptional<MekanismIntegration> getMekanism() {
         return MEKANISM.get();

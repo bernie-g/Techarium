@@ -7,8 +7,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'me.sizableshrimp.parchmenttest', name: 'ForgeGradle', version: '4.1.+', changing: true
-        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
         classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
     }
 }
@@ -125,11 +125,11 @@ dependencies {
     //Geckolib
     implementation fg.deobf("software.bernie.geckolib:${geckolib_version}")
 
-    //adventure
-    implementation "net.kyori:adventure-api:$adventure_version"
-    implementation "net.kyori:adventure-text-serializer-gson:$adventure_version"
-    implementation "net.kyori:adventure-text-serializer-legacy:$adventure_version"
-    implementation "net.kyori:adventure-text-serializer-plain:$adventure_version"
+    //Kyori Adventure Deps. Must be shadowed into the final jar
+    shadow implementation("net.kyori:adventure-api:$adventure_version")
+    shadow implementation("net.kyori:adventure-text-serializer-gson:$adventure_version")
+    shadow implementation("net.kyori:adventure-text-serializer-legacy:$adventure_version")
+    shadow implementation("net.kyori:adventure-text-serializer-plain:$adventure_version")
 
     //Integration mods
     compileOnly fg.deobf("mezz.jei:jei-${jei_mc_version}:${jei_version}:api")
@@ -185,7 +185,8 @@ if (System.getProperty("idea.sync.active") == "true") {
 // Populates mods.toml file with gradle variables. Reference: https://github.com/SizableShrimp/ForgeTemplate/blob/1.16.x/build.gradle#L158-L188
 def resource_targets = ["META-INF/mods.toml", "pack.mcmeta"]
 task replaceResources(type: Copy) {
-    dependsOn(jar)
+    //Comment out dependency on jar process. This fixes an issue where this task is run too late when other projects use Techarium as a dependency.
+    //dependsOn(jar)
     outputs.upToDateWhen { false }
     def spec = copySpec {
         from(sourceSets.main.resources) {
@@ -243,12 +244,14 @@ task createBuildscriptProperties(type: Copy) {
 }
 
 shadowJar {
-    dependencies {
-        include(dependency('net.kyori:.*'))
-    }
-    relocate 'net.kyori', 'software.bernie.shadowed.net.kyori'
-
     classifier ''
+    configurations = [project.configurations.shadow]
+
+    //Disable the use of include dependency due to use of the shadow configuration. Do not uncomment this, this will break shadow jar.
+    //dependencies {
+    //    include(dependency('net.kyori:.*'))
+    //}
+    relocate 'net.kyori', 'software.bernie.shadowed.net.kyori'
 }
 
 jar {

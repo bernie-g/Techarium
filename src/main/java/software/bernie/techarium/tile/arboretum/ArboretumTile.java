@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -15,7 +14,6 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.item.UpgradeItem;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
@@ -29,7 +27,7 @@ import software.bernie.techarium.machine.sideness.Side;
 import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.tile.base.MachineMasterTile;
-
+import software.bernie.techarium.util.Vector2i;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -104,7 +102,7 @@ public class ArboretumTile extends MachineMasterTile<ArboretumRecipe> implements
                 })
         );
 
-        controller.addTank(new FluidTankAddon(this, "fluidInput", 10000, 23, 34,
+        controller.addTank(new FluidTankAddon(controller.getBackgroundSizeXY(),"fluidInput", 10000, 23, 34,
                 (fluidStack -> true)).setExposeType(ExposeType.INPUT));
 
         controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
@@ -121,9 +119,12 @@ public class ArboretumTile extends MachineMasterTile<ArboretumRecipe> implements
                 .setInsertPredicate((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem).setSlotPositionWithOffset(20).setExposeType(ExposeType.INPUT));
 
         controller.addInventory(
-                new DrawableInventoryAddon(this, "output", 182, 49, ARBORETUM_OUTPUT_SLOT, 178, 34, 65, 46, 3)
+                new DrawableInventoryAddon(this, "output", 172, 34, ARBORETUM_OUTPUT_SLOT, 172, 34, 29, 81, 3)
                         .setInsertPredicate((itemStack, integer) -> false)
-                        .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotLimit(64).setExposeType(ExposeType.OUTPUT));
+                        .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe())
+                        .setSlotLimit(64)
+                        .setSlotPosition(index -> new Vector2i(10,8).add(0, index*18))
+                        .setExposeType(ExposeType.OUTPUT));
 
         return controller;
     }
@@ -176,8 +177,8 @@ public class ArboretumTile extends MachineMasterTile<ArboretumRecipe> implements
     }
 
     @Override
-    public ArboretumRecipe castRecipe(IRecipe<?> iRecipe) {
-        return (ArboretumRecipe) iRecipe;
+    public Class<ArboretumRecipe> getRecipeClass() {
+        return ArboretumRecipe.class;
     }
 
     @Override
