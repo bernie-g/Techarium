@@ -29,7 +29,7 @@ public class ExchangeStationBlock extends MachineBlock<ExchangeStationTile> {
         super.setPlacedBy(worldIn, pos, state, placer, stack);
         TileEntity tile = worldIn.getBlockEntity(pos);
         if(tile instanceof ExchangeStationTile) {
-            ((ExchangeStationTile) tile).isOpening = true;
+            ((ExchangeStationTile) tile).setOpening(true);
         }
     }
 

@@ -1,5 +1,6 @@
 package software.bernie.techarium.client;
 
+import lombok.experimental.UtilityClass;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.InputMappings;
 import net.minecraftforge.api.distmarker.Dist;
@@ -12,6 +13,7 @@ import software.bernie.techarium.Techarium;
 import software.bernie.techarium.client.tile.render.*;
 import software.bernie.techarium.registry.BlockRegistry;
 
+@UtilityClass
 @Mod.EventBusSubscriber(modid = Techarium.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientUtils {
 	@SubscribeEvent
@@ -30,11 +32,15 @@ public class ClientUtils {
 
 	@SubscribeEvent
 	public static void modelBakeEvent(ModelBakeEvent event) {
-
+		//TODO: Add Pipe ModelBaking
 	}
 
 	public static boolean isShift() {
 		return InputMappings.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 340)
 			|| InputMappings.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 344);
+	}
+
+	public static boolean isAdvancedItem() {
+		return Minecraft.getInstance().options.advancedItemTooltips;
 	}
 }

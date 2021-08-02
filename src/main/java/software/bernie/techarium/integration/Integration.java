@@ -11,18 +11,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.TagRegistry;
 import software.bernie.techarium.util.ChancedItemStackList;
-
 import java.util.function.Consumer;
 
 public abstract class Integration {
@@ -30,7 +31,7 @@ public abstract class Integration {
     @Getter
     private final String modID;
 
-    public Integration(String modID) {
+    protected Integration(String modID) {
         MinecraftForge.EVENT_BUS.register(this);
         this.modID = modID;
     }
@@ -142,8 +143,26 @@ public abstract class Integration {
         }
     }
 
-    @FunctionalInterface
-    public interface IntegrationProvider<T extends Integration> {
-        T create(String modID);
+    public static class ClientWrapper<T extends Integration> extends Wrapper<T> {
+
+        public static <T extends Integration> Wrapper<T> of(String modID, Class<T> integration) {
+            return new ClientWrapper<>(modID, Lazy.of(() -> {
+                try {
+                    return integration.getConstructor(String.class).newInstance(modID);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }));
+        }
+
+        private ClientWrapper(String modID, Lazy<T> integration) {
+            super(modID, integration);
+        }
+
+        @Override
+        public boolean isPresent() {
+            return FMLEnvironment.dist != Dist.DEDICATED_SERVER && super.isPresent();
+        }
     }
 }

@@ -1,22 +1,19 @@
 package software.bernie.techarium.machine.addon.progressbar;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.util.INBTSerializable;
-import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
-import software.bernie.techarium.machine.interfaces.IToolTippedAddon;
+import software.bernie.techarium.machine.interfaces.ITooltipAddon;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 import software.bernie.techarium.util.Utils;
-
+import software.bernie.techarium.util.Vector2i;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +22,13 @@ import java.util.function.Predicate;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.DEFAULT_PROGRESS_BAR;
 
-public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IContainerComponentProvider, IToolTippedAddon {
+public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IContainerComponentProvider, ITooltipAddon {
 
     private final String name;
-
     private int posX;
     private int posY;
-
     private IDrawable drawable;
-    private int sizeX;
-    private int sizeY;
-
+    private Vector2i size = new Vector2i(28,2);
     private int progress;
     private int maxProgress;
     private int progressToAdd;
@@ -62,17 +55,12 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IContain
         this.maxProgress = maxProgress;
         this.canProgress = tileEntity -> true;
         this.canReset = tileEntity -> true;
-        this.onProgressFull = () -> {
-        };
-        this.onProgressTick = () -> {
-        };
-        this.onProgressStart = () -> {
-        };
+        this.onProgressFull = () -> {};
+        this.onProgressTick = () -> {};
+        this.onProgressStart = () -> {};
         this.progressUp = true;
         this.tickingTime = 1;
         this.drawable = DEFAULT_PROGRESS_BAR;
-        this.sizeX = 28;
-        this.sizeY = 2;
     }
 
     public ProgressBarAddon setOnProgressFull(Runnable onProgressFull) {
@@ -124,10 +112,9 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IContain
         return this;
     }
 
-    public void setDrawable(IDrawable drawable, int sizeY, int sizeX) {
+    public void setDrawable(IDrawable drawable) {
         this.drawable = drawable;
-        this.sizeY = sizeY;
-        this.sizeX = sizeX;
+        this.size = drawable.getSize();
     }
 
     public int getProgress() {
@@ -146,16 +133,8 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IContain
         return drawable;
     }
 
-    public Pair<Integer, Integer> getBackgroundSizeXY() {
+    public Vector2i getBackgroundSizeXY() {
         return tile.getController().getBackgroundSizeXY();
-    }
-
-    public int getSizeX() {
-        return sizeX;
-    }
-
-    public int getSizeY() {
-        return sizeY;
     }
 
     public int getPosX() {
@@ -164,6 +143,11 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IContain
 
     public int getPosY() {
         return posY;
+    }
+
+    @Override
+    public Vector2i getSize() {
+        return size;
     }
 
     public String getName() {
@@ -225,27 +209,22 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IContain
     }
 
     @Override
-    public void renderToolTip(Screen screen, int x, int y, int xCenter,int yCenter,int mouseX, int mouseY) {
-        if (mouseX >= x + getPosX() && mouseX <= x + getPosX() + sizeX) {
-            if (mouseY >= y + getPosY() && mouseY <= y + getPosY() + sizeY) {
-                DecimalFormat decimalFormat = new DecimalFormat();
-                int progress = (this.getMaxProgress() - this.getProgress()) / this.getProgressToAdd();
-                if (!this.canProgressUp()) {
-                    progress = this.getMaxProgress() - progress;
-                }
-
-                TextComponent component = Component.text("Progress: ", NamedTextColor.GOLD)
-                        .append(Component.text(decimalFormat.format(this.getProgress()), NamedTextColor.WHITE))
-                        .append(Component.text("/", NamedTextColor.WHITE))
-                        .append(Component.text(decimalFormat.format(this.getMaxProgress()), NamedTextColor.WHITE));
-
-                TextComponent progressComponent = Component.text("ETA: ", NamedTextColor.GOLD)
-                        .append(Component.text(decimalFormat.format(Math.ceil(
-                                (progress * this.getTickingTime() / 20.0D))), NamedTextColor.WHITE))
-                        .append(Component.text("s", NamedTextColor.DARK_AQUA));
-
-                screen.renderComponentTooltip(new MatrixStack(), Utils.wrapText(component, progressComponent), mouseX - xCenter, mouseY - yCenter);
-            }
+    public List<ITextComponent> createToolTipMessage() {
+        DecimalFormat decimalFormat = new DecimalFormat();
+        int progress = (this.getMaxProgress() - this.getProgress()) / this.getProgressToAdd();
+        if (!this.canProgressUp()) {
+            progress = this.getMaxProgress() - progress;
         }
+
+        TextComponent component = Component.text("Progress: ", NamedTextColor.GOLD)
+                .append(Component.text(decimalFormat.format(this.getProgress()), NamedTextColor.WHITE))
+                .append(Component.text("/", NamedTextColor.WHITE))
+                .append(Component.text(decimalFormat.format(this.getMaxProgress()), NamedTextColor.WHITE));
+
+        TextComponent progressComponent = Component.text("ETA: ", NamedTextColor.GOLD)
+                .append(Component.text(decimalFormat.format(Math.ceil(
+                        (progress * this.getTickingTime() / 20.0D))), NamedTextColor.WHITE))
+                .append(Component.text("s", NamedTextColor.DARK_AQUA));
+        return Utils.wrapMultipleText(component, progressComponent);
     }
 }

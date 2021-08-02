@@ -36,7 +36,6 @@ import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.client.render.Color;
 import software.bernie.techarium.item.MachineItem;
 import software.bernie.techarium.util.BlockRegion;
-
 import javax.annotation.Nonnull;
 import java.util.EnumMap;
 import java.util.Random;

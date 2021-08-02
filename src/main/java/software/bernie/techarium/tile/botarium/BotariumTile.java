@@ -25,10 +25,11 @@ import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.machine.sideness.FaceConfig;
 import software.bernie.techarium.machine.sideness.Side;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
+import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.tile.base.MultiblockMasterTile;
-
-import java.util.HashMap;
+import software.bernie.techarium.util.Vector2i;
+import java.util.EnumMap;
 import java.util.Map;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.BOTARIUM_DRAWABLE;
@@ -104,7 +105,7 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
                 })
         );
 
-        controller.addTank(new FluidTankAddon(this, "fluidInput", 10000, 23, 34,
+        controller.addTank(new FluidTankAddon(controller.getBackgroundSizeXY(), "fluidInput", 10000, 23, 34,
                 (fluidStack -> true)).setExposeType(ExposeType.INPUT));
 
         controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
@@ -126,9 +127,12 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
                 .setSlotPositionWithOffset(20).setExposeType(ExposeType.INPUT));
 
         controller.addInventory(
-                new DrawableInventoryAddon(this, "output", 182, 49, BOTARIUM_OUTPUT_SLOT, 178, 34, 65, 46, 3)
+                new DrawableInventoryAddon(this, "output", 172, 34, BOTARIUM_OUTPUT_SLOT, 172, 34, 29, 81, 3)
                         .setInsertPredicate((itemStack, integer) -> false)
-                        .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotLimit(64).setExposeType(ExposeType.OUTPUT));
+                        .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe())
+                        .setSlotLimit(64)
+                        .setSlotPosition(index -> new Vector2i(10,8).add(0, index*18))
+                        .setExposeType(ExposeType.OUTPUT));
 
         return controller;
     }
@@ -151,7 +155,7 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
 
     @Override
     protected Map<Side, FaceConfig> setFaceControl() {
-        Map<Side, FaceConfig> faceMap = new HashMap<>();
+        Map<Side, FaceConfig> faceMap = new EnumMap<>(Side.class);
         for (Side side : Side.values()) {
             if (side == Side.FRONT || side == Side.UP) {
                 faceMap.put(side, FaceConfig.NONE);
@@ -177,8 +181,8 @@ public class BotariumTile extends MultiblockMasterTile<BotariumRecipe> implement
     }
 
     @Override
-    public BotariumRecipe castRecipe(IRecipe<?> iRecipe) {
-        return (BotariumRecipe) iRecipe;
+    public Class<BotariumRecipe> getRecipeClass() {
+        return BotariumRecipe.class;
     }
 
     @Override

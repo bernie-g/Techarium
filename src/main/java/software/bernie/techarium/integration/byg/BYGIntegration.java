@@ -19,37 +19,37 @@ public class BYGIntegration extends Integration {
     @Override
     public void generateRecipes(Consumer<IFinishedRecipe> consumer) {
         Map<Block, Block> saplings = new HashMap<>();
-        saplings.put(LAMENT_LOG, LAMENT_SAPLING);
-        saplings.put(ASPEN_LOG, ASPEN_SAPLING);
-        saplings.put(BAOBAB_LOG, BAOBAB_SAPLING);
-        saplings.put(CHERRY_LOG, PINK_CHERRY_SAPLING);
-        saplings.put(CHERRY_LOG, WHITE_CHERRY_SAPLING);
-        saplings.put(ARAUCARIA_LEAVES, ARAUCARIA_SAPLING);
-        saplings.put(CYPRESS_LOG, CYPRESS_SAPLING);
-        saplings.put(EBONY_LOG, EBONY_SAPLING);
-        saplings.put(CIKA_LOG, CIKA_SAPLING);
-        saplings.put(ETHER_LOG, ETHER_SAPLING);
-        saplings.put(FIR_LOG, FIR_SAPLING);
-        saplings.put(HOLLY_LOG, HOLLY_SAPLING);
-        saplings.put(JACARANDA_LOG, JACARANDA_SAPLING);
-        saplings.put(MAHOGANY_LOG, MAHOGANY_SAPLING);
-        saplings.put(MAPLE_LOG, MAPLE_SAPLING);
-        saplings.put(PALM_LOG, PALM_SAPLING);
-        saplings.put(NIGHTSHADE_LOG, NIGHTSHADE_SAPLING);
-        saplings.put(REDWOOD_LOG, REDWOOD_SAPLING);
-        saplings.put(SKYRIS_LOG, SKYRIS_SAPLING);
-        saplings.put(WILLOW_LOG, WILLOW_SAPLING);
-        saplings.put(ZELKOVA_LOG, ZELKOVA_SAPLING);
-        saplings.put(MANGROVE_LOG, MANGROVE_SAPLING);
-        saplings.put(PINE_LOG, PINE_SAPLING);
-        saplings.put(BLUE_ENCHANTED_LOG, BLUE_ENCHANTED_SAPLING);
-        saplings.put(GREEN_ENCHANTED_LOG, GREEN_ENCHANTED_SAPLING);
-        saplings.put(PALO_VERDE_LOG, PALO_VERDE_SAPLING);
-        saplings.put(WITCH_HAZEL_LOG, WITCH_HAZEL_SAPLING);
-        saplings.put(RAINBOW_EUCALYPTUS_LOG, RAINBOW_EUCALYPTUS_SAPLING);
-        saplings.put(WITHERING_OAK_LOG, WITHERING_OAK_SAPLING);
+        saplings.put(LAMENT_SAPLING, LAMENT_LOG);
+        saplings.put(ASPEN_SAPLING, ASPEN_LOG);
+        saplings.put(BAOBAB_SAPLING, BAOBAB_LOG);
+        saplings.put(PINK_CHERRY_SAPLING, CHERRY_LOG);
+        saplings.put(WHITE_CHERRY_SAPLING, CHERRY_LOG);
+        saplings.put(ARAUCARIA_SAPLING, PINE_LOG);
+        saplings.put(CYPRESS_SAPLING, CYPRESS_LOG);
+        saplings.put(EBONY_SAPLING, EBONY_LOG);
+        saplings.put(CIKA_SAPLING, CIKA_LOG);
+        saplings.put(ETHER_SAPLING, ETHER_LOG);
+        saplings.put(FIR_SAPLING, FIR_LOG);
+        saplings.put(HOLLY_SAPLING, HOLLY_LOG);
+        saplings.put(JACARANDA_SAPLING, JACARANDA_LOG);
+        saplings.put(MAHOGANY_SAPLING, MAHOGANY_LOG);
+        saplings.put(MAPLE_SAPLING, MAPLE_LOG);
+        saplings.put(PALM_SAPLING, PALM_LOG);
+        saplings.put(NIGHTSHADE_SAPLING, NIGHTSHADE_LOG);
+        saplings.put(REDWOOD_SAPLING, REDWOOD_LOG);
+        saplings.put(SKYRIS_SAPLING, SKYRIS_LOG);
+        saplings.put(WILLOW_SAPLING, WILLOW_LOG);
+        saplings.put(ZELKOVA_SAPLING, ZELKOVA_LOG);
+        saplings.put(MANGROVE_SAPLING, MANGROVE_LOG);
+        saplings.put(PINE_SAPLING, PINE_LOG);
+        saplings.put(BLUE_ENCHANTED_SAPLING, BLUE_ENCHANTED_LOG);
+        saplings.put(GREEN_ENCHANTED_SAPLING, GREEN_ENCHANTED_LOG);
+        saplings.put(PALO_VERDE_SAPLING, PALO_VERDE_LOG);
+        saplings.put(WITCH_HAZEL_SAPLING, WITCH_HAZEL_LOG);
+        saplings.put(RAINBOW_EUCALYPTUS_SAPLING, RAINBOW_EUCALYPTUS_LOG);
+        saplings.put(WITHERING_OAK_SAPLING, WITHERING_OAK_LOG);
         for (Map.Entry<Block, Block> entry : saplings.entrySet()) {
-            buildArboretumRecipe(entry.getValue().asItem(), ChancedItemStackList.of(ChancedItemStack.of(entry.getKey().asItem(), 6, 0.5), ChancedItemStack.of(entry.getValue().asItem())), 1000, 1000, consumer);
+            buildArboretumRecipe(entry.getKey().asItem(), ChancedItemStackList.of(ChancedItemStack.of(entry.getValue().asItem(), 6, 0.5), ChancedItemStack.of(entry.getKey().asItem())), 1000, 1000, consumer);
         }
     }
 }

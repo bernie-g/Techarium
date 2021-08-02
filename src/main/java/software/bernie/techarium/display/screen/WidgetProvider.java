@@ -1,7 +1,7 @@
 package software.bernie.techarium.display.screen;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.gui.widget.Widget;
+import lombok.experimental.UtilityClass;
 import net.minecraft.util.text.StringTextComponent;
 import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
@@ -17,13 +17,13 @@ import software.bernie.techarium.display.screen.widget.DrawableWidget;
 import software.bernie.techarium.display.screen.widget.EnergyAutoWidget;
 import software.bernie.techarium.display.screen.widget.ProgressBarWidget;
 import software.bernie.techarium.display.screen.widget.TankWidget;
-
 import java.util.ArrayList;
 import java.util.List;
 
+@UtilityClass
 public class WidgetProvider {
-    public static List<IFactory<? extends Widget>> getWidgets(MachineController controller) {
-        List<IFactory<? extends Widget>> widgets = new ArrayList<>();
+    public static List<IFactory<DrawableWidget>> getWidgets(MachineController controller) {
+        List<IFactory<DrawableWidget>> widgets = new ArrayList<>();
         if (controller.isPowered()) {
             widgets.addAll(getEnergyWidgets(controller.getEnergyStorage()));
         }
@@ -39,43 +39,43 @@ public class WidgetProvider {
         return widgets;
     }
 
-    private static List<IFactory<? extends Widget>> getEnergyWidgets(EnergyStorageAddon energyStorageAddon) {
+    private static List<IFactory<DrawableWidget>> getEnergyWidgets(EnergyStorageAddon energyStorageAddon) {
         return Lists.newArrayList(() -> new EnergyAutoWidget(energyStorageAddon));
     }
 
-    private static List<IFactory<? extends Widget>> getMultiInventoryWidgets(MultiInventoryAddon multiInventoryAddon) {
-        List<IFactory<? extends Widget>> widgets = new ArrayList<>();
+    private static List<IFactory<DrawableWidget>> getMultiInventoryWidgets(MultiInventoryAddon multiInventoryAddon) {
+        List<IFactory<DrawableWidget>> widgets = new ArrayList<>();
         multiInventoryAddon.getInventories().forEach(posInv ->
             widgets.addAll(getInventoryAddonWidgets(posInv))
         );
         return widgets;
     }
 
-    private static List<IFactory<? extends Widget>> getInventoryAddonWidgets(InventoryAddon inventoryAddon) {
+    private static List<IFactory<DrawableWidget>> getInventoryAddonWidgets(InventoryAddon inventoryAddon) {
         if (inventoryAddon instanceof DrawableInventoryAddon) {
             DrawableInventoryAddon drawableInventoryAddon = (DrawableInventoryAddon) inventoryAddon;
-            return Lists.newArrayList(() -> new DrawableWidget(drawableInventoryAddon.getMachineTile().getController(), drawableInventoryAddon.getBackground(), drawableInventoryAddon.getBackgroundXPos(), drawableInventoryAddon.getBackgroundYPos(), drawableInventoryAddon.getBackgroundXSize(), drawableInventoryAddon.getBackgroundYSize(), new StringTextComponent("inventory")));
+            return Lists.newArrayList(() -> new DrawableWidget(drawableInventoryAddon.getBackground(), drawableInventoryAddon.getBackgroundXPos(), drawableInventoryAddon.getBackgroundYPos(), drawableInventoryAddon.getBackgroundXSize(), drawableInventoryAddon.getBackgroundYSize(), new StringTextComponent("inventory")));
         }
         return new ArrayList<>();
     }
 
-    private static List<IFactory<? extends Widget>> getMultiTankWidgets(MultiFluidTankAddon multiFluidTankAddon) {
-        List<IFactory<? extends Widget>> widgets = new ArrayList<>();
+    private static List<IFactory<DrawableWidget>> getMultiTankWidgets(MultiFluidTankAddon multiFluidTankAddon) {
+        List<IFactory<DrawableWidget>> widgets = new ArrayList<>();
         multiFluidTankAddon.getFluidTanks().forEach(fluidTankAddon -> widgets.addAll(getFluidTankWidgets(fluidTankAddon)));
         return widgets;
     }
 
-    private static List<IFactory<? extends Widget>> getFluidTankWidgets(FluidTankAddon fluidTankAddon) {
-        return Lists.newArrayList(() -> new TankWidget(fluidTankAddon, fluidTankAddon.getTankDrawable(), fluidTankAddon.getPosX(), fluidTankAddon.getPosY(), fluidTankAddon.getSizeX(), fluidTankAddon.getSizeY(), fluidTankAddon.getName()));
+    private static List<IFactory<DrawableWidget>> getFluidTankWidgets(FluidTankAddon fluidTankAddon) {
+        return Lists.newArrayList(() -> new TankWidget(fluidTankAddon, fluidTankAddon.getTankDrawable(), fluidTankAddon.getPosX(), fluidTankAddon.getPosY(), fluidTankAddon.getSize().getX(), fluidTankAddon.getSize().getY(), fluidTankAddon.getName()));
     }
 
-    private static List<IFactory<? extends Widget>> getMultiProgressBarWidgets(MultiProgressBarAddon multiProgressBarAddon) {
-        List<IFactory<? extends Widget>> widgets = new ArrayList<>();
+    private static List<IFactory<DrawableWidget>> getMultiProgressBarWidgets(MultiProgressBarAddon multiProgressBarAddon) {
+        List<IFactory<DrawableWidget>> widgets = new ArrayList<>();
         multiProgressBarAddon.getProgressBarAddons().forEach(posPBar -> widgets.addAll(getProgressBarWidget(posPBar)));
         return widgets;
     }
 
-    private static List<IFactory<? extends Widget>> getProgressBarWidget(ProgressBarAddon progressBarAddon) {
-        return Lists.newArrayList(() -> new ProgressBarWidget(progressBarAddon, progressBarAddon.getPosX(), progressBarAddon.getPosY(), progressBarAddon.getSizeX(), progressBarAddon.getSizeY(), new StringTextComponent(progressBarAddon.getName())));
+    private static List<IFactory<DrawableWidget>> getProgressBarWidget(ProgressBarAddon progressBarAddon) {
+        return Lists.newArrayList(() -> new ProgressBarWidget(progressBarAddon, progressBarAddon.getPosX(), progressBarAddon.getPosY(), progressBarAddon.getSize(), new StringTextComponent(progressBarAddon.getName())));
     }
 }

@@ -9,7 +9,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
-import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
@@ -21,10 +20,8 @@ import software.bernie.techarium.machine.addon.progressbar.ProgressBarAddon;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
-import software.bernie.techarium.recipe.AbstractMachineRecipe;
 import software.bernie.techarium.tile.base.MachineMasterTile;
-
-import javax.annotation.Nonnull;
+import software.bernie.techarium.util.Vector2i;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,12 +42,12 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
     private boolean shouldCheckRecipe;
     private int recipeCheckTimer;
 
-    private Pair<Integer, Integer> backgroundSizeXY;
+    private Vector2i backgroundSizeXY;
 
     private IDrawable background;
 
-    private Map<Integer, Pair<Integer, Integer>> playerInvSlotsXY = new HashMap<>();
-    private Map<Integer, Pair<Integer, Integer>> playerHotbarSlotsXY = new HashMap<>();
+    private Map<Integer, Vector2i> playerInvSlotsXY = new HashMap<>();
+    private Map<Integer, Vector2i> playerHotbarSlotsXY = new HashMap<>();
     private boolean isPowered;
     private EnergyStorageAddon energyStorage;
     private final LazyOptional<IEnergyStorage> lazyEnergyStorage = LazyOptional.of(this::getEnergyStorage);
@@ -65,7 +62,7 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
         this.posSupplier = posSupplier;
         this.tile = tile;
         this.background = background;
-        this.backgroundSizeXY = Pair.of(204, 183);
+        this.backgroundSizeXY = new Vector2i(204, 183);
         this.isPowered = false;
     }
 
@@ -83,7 +80,6 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
         return this;
     }
 
-    @Nonnull
     public EnergyStorageAddon getEnergyStorage() {
         return energyStorage;
     }
@@ -102,56 +98,56 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
 
     public void setEnergyStorage(int capacity, int maxIO, int xPos, int yPos) {
         int newX = xPos;
-        if (backgroundSizeXY.getKey() % 2 != 0) {
+        if (backgroundSizeXY.getX() % 2 != 0) {
             newX++;
         }
-        energyStorage = new EnergyStorageAddon((MachineController<? extends AbstractMachineRecipe>) this, capacity, maxIO, newX, yPos, backgroundSizeXY);
+        energyStorage = new EnergyStorageAddon(capacity, maxIO, newX, yPos);
     }
 
-    public Pair<Integer, Integer> getBackgroundSizeXY() {
+    public Vector2i getBackgroundSizeXY() {
         return backgroundSizeXY;
     }
 
     public void setBackground(IDrawable background, int sizeX, int sizeY) {
-        this.backgroundSizeXY = Pair.of(sizeX, sizeY);
+        this.backgroundSizeXY = new Vector2i(sizeX, sizeY);
         this.background = background;
     }
 
-    public Map<Integer, Pair<Integer, Integer>> getPlayerInvSlotsXY() {
+    public Map<Integer, Vector2i> getPlayerInvSlotsXY() {
         if (playerInvSlotsXY.isEmpty()) {
             return getNormalSlotLocations();
         }
         return playerInvSlotsXY;
     }
 
-    public Map<Integer, Pair<Integer, Integer>> getPlayerHotBarSlotsXY() {
+    public Map<Integer, Vector2i> getPlayerHotBarSlotsXY() {
         if (playerHotbarSlotsXY.isEmpty()) {
             return getNormalHotBarLocations();
         }
         return playerHotbarSlotsXY;
     }
 
-    public void setPlayerInvSlotsXY(Map<Integer, Pair<Integer, Integer>> playerInvSlotsXY) {
+    public void setPlayerInvSlotsXY(Map<Integer, Vector2i> playerInvSlotsXY) {
         this.playerInvSlotsXY = playerInvSlotsXY;
     }
 
-    public void setPlayerHotBarSlotsXY(Map<Integer, Pair<Integer, Integer>> playerHotbarSlotsXY) {
+    public void setPlayerHotBarSlotsXY(Map<Integer, Vector2i> playerHotbarSlotsXY) {
         this.playerHotbarSlotsXY = playerHotbarSlotsXY;
     }
 
-    private Map<Integer, Pair<Integer, Integer>> getNormalSlotLocations() {
+    private Map<Integer, Vector2i> getNormalSlotLocations() {
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                playerInvSlotsXY.put(j + i * 9 + 9, Pair.of(7 + j * 18, 103 + i * 18));
+                playerInvSlotsXY.put(j + i * 9 + 9, new Vector2i(7 + j * 18, 103 + i * 18));
             }
         }
         return playerInvSlotsXY;
     }
 
 
-    private Map<Integer, Pair<Integer, Integer>> getNormalHotBarLocations() {
+    private Map<Integer, Vector2i> getNormalHotBarLocations() {
         for (int i1 = 0; i1 < 9; ++i1) {
-            playerHotbarSlotsXY.put(i1, Pair.of(7 + i1 * 18, 160));
+            playerHotbarSlotsXY.put(i1, new Vector2i(7 + i1 * 18, 160));
         }
         return playerHotbarSlotsXY;
     }
@@ -196,6 +192,7 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
     }
 
     public void tick() {
+        int lastEnergy = getEnergyStorage() != null ? getEnergyStorage().getEnergyStored() : 0;
         if (multiProgressBar != null) {
             this.multiProgressBar.attemptTickAllBars();
         }
@@ -210,6 +207,8 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
             handleRecipeNull(shouldCheckRecipe);
         }
         shouldCheckRecipe = false;
+        if (getEnergyStorage() != null)
+            getEnergyStorage().setLastDrained(lastEnergy - getEnergyStorage().getEnergyStored());
     }
 
     private void handleRecipeNull(boolean shouldCheckRecipe) {

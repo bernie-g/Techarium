@@ -9,12 +9,12 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
-import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.display.container.component.SlotComponent;
 import software.bernie.techarium.machine.addon.ExposeType;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.tile.base.MachineMasterTile;
+import software.bernie.techarium.util.Vector2i;
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +42,7 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
     @Setter(AccessLevel.NONE)
     private Map<Integer, Integer> slotStackSizes;
 
-    private Function<Integer, Pair<Integer, Integer>> slotPosition;
+    private Function<Integer, Vector2i> slotPosition;
 
     private MachineMasterTile<?> tile;
 
@@ -140,7 +140,7 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
     }
 
     public InventoryAddon setSlotPositionWithOffset(int dx, int dy) {
-        setSlotPosition(integer -> Pair.of(dx * (integer % xSize), dy * (integer / xSize)));
+        setSlotPosition(index -> new Vector2i(dx * (index % xSize), dy * (index / xSize)));
         return this;
     }
 
@@ -184,8 +184,8 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
         for (AtomicInteger x = new AtomicInteger(); x.get() < xSize; x.incrementAndGet()) {
             for (AtomicInteger y = new AtomicInteger(); y.get() < ySize; y.incrementAndGet()) {
                 int index = x.get() + y.get()*ySize;
-                Pair<Integer, Integer> position = slotPosition.apply(index);
-                slots.add(() -> new SlotComponent(this, index, position.getLeft() + getXPos(), position.getRight() + getYPos()));
+                Vector2i position = slotPosition.apply(index);
+                slots.add(() -> new SlotComponent(this, index, position.getX() + getXPos(), position.getY() + getYPos()));
             }
         }
         return slots;
