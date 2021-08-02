@@ -34,8 +34,6 @@ public abstract class AbstractMachineRecipe extends TechariumRecipeBuilder<Abstr
         this.progressPerTick = progressPerTick;
     }
 
-
-    @Override
     public List<Integer> getMaxProgressTimes() {
         List<Integer> progressList = new ArrayList<>();
         progressList.add(getMaxProgress());
