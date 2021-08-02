@@ -8,8 +8,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.Random;
+import java.text.DecimalFormat;
+import java.util.*;
 
 public class ChancedItemStack {
     @Getter
@@ -61,7 +65,7 @@ public class ChancedItemStack {
     }
 
     public static ChancedItemStack fromJSON(JsonObject jsonObject) {
-        Item item = Registry.ITEM.get(new ResourceLocation(jsonObject.get("item").getAsString()));
+        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(jsonObject.get("item").getAsString()));
         return ChancedItemStack.of(new ItemStack(item, jsonObject.get("amount").getAsInt()), jsonObject.get("chance").getAsDouble());
     }
 
@@ -84,6 +88,46 @@ public class ChancedItemStack {
         ItemStack output = stack.copy();
         output.setCount(count);
         return output;
+    }
+
+    public List<ITextComponent> getDisplayPercentages() {
+        List<ITextComponent> components = new ArrayList<>();
+        for (int i = 0; i <= stack.getCount(); i++) {
+            components.add(getDisplayText(i));
+        }
+        components.removeIf(Objects::isNull);
+        return components;
+    }
+
+    private ITextComponent getDisplayText(int count) {
+        String displayPercentage = getDisplayPercentage(count);
+        if (displayPercentage.equals("0%"))
+            return null;
+        return new StringTextComponent(count + "x: " + getDisplayPercentage(count));
+    }
+
+    private String getDisplayPercentage(int k) {
+        Locale normalLocale = Locale.getDefault();
+        Locale.setDefault(Locale.US);
+        DecimalFormat format = new DecimalFormat("##.##%");
+        String percentage = format.format(binomialPercentage(k));
+        Locale.setDefault(normalLocale);
+        return percentage;
+    }
+
+    private double binomialPercentage(int k) {
+        return binomialCoefficient(stack.getCount(), k) * Math.pow(chance, k) * Math.pow(1 - chance, stack.getCount() - k);
+    }
+
+    //thanks stackOverflow
+    private static long binomialCoefficient(int n, int k) {
+        if (k>n-k)
+            k=n-k;
+
+        long b=1;
+        for (int i=1, m=n; i<=k; i++, m--)
+            b=b*m/i;
+        return b;
     }
 
     @Override

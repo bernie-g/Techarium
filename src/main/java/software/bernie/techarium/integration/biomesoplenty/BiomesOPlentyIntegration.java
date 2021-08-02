@@ -19,20 +19,20 @@ public class BiomesOPlentyIntegration extends Integration {
     @Override
     public void generateRecipes(Consumer<IFinishedRecipe> consumer) {
         Map<Block, Block> saplings = new HashMap<>();
-        saplings.put(cherry_log, white_cherry_sapling);
-        saplings.put(cherry_log, pink_cherry_sapling);
-        saplings.put(dead_log, dead_sapling);
-        saplings.put(fir_log, fir_sapling);
-        saplings.put(hellbark_log, hellbark_sapling);
-        saplings.put(jacaranda_log, jacaranda_sapling);
-        saplings.put(magic_log, magic_sapling);
-        saplings.put(mahogany_log, mahogany_sapling);
-        saplings.put(palm_log, palm_sapling);
-        saplings.put(redwood_log, redwood_sapling);
-        saplings.put(umbran_log, umbran_sapling);
-        saplings.put(willow_log, willow_sapling);
+        saplings.put(white_cherry_sapling, cherry_log);
+        saplings.put(pink_cherry_sapling, cherry_log);
+        saplings.put(dead_sapling, dead_log);
+        saplings.put(fir_sapling, fir_log);
+        saplings.put(hellbark_sapling, hellbark_log);
+        saplings.put(jacaranda_sapling, jacaranda_log);
+        saplings.put(magic_sapling, magic_log);
+        saplings.put(mahogany_sapling, mahogany_log);
+        saplings.put(palm_sapling, palm_log);
+        saplings.put(redwood_sapling, redwood_log);
+        saplings.put(umbran_sapling, umbran_log);
+        saplings.put(willow_sapling, willow_log);
         for (Map.Entry<Block, Block> entry : saplings.entrySet()) {
-            buildArboretumRecipe(entry.getValue().asItem(), ChancedItemStackList.of(ChancedItemStack.of(entry.getKey().asItem(), 6, 0.5), ChancedItemStack.of(entry.getValue().asItem())), 1000, 1000, consumer);
+            buildArboretumRecipe(entry.getKey().asItem(), ChancedItemStackList.of(ChancedItemStack.of(entry.getValue().asItem(), 6, 0.5), ChancedItemStack.of(entry.getKey().asItem())), 1000, 1000, consumer);
         }
     }
 }
