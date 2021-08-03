@@ -34,16 +34,14 @@ import software.bernie.techarium.world.WorldGen;
 import static software.bernie.techarium.registry.ContainerRegistry.*;
 
 @Mod(Techarium.ModID)
-public class Techarium
-{
+public class Techarium {
 	public final static String ModID = "techarium";
 	public static Logger LOGGER;
 
-	public Techarium()
-	{
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        GeckoLib.initialize();
-        LOGGER = LogCache.getLogger(getClass());
+	public Techarium() {
+		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+		GeckoLib.initialize();
+		LOGGER = LogCache.getLogger(getClass());
 		ItemRegistry.register(bus);
 		BlockRegistry.register(bus);
 		ContainerRegistry.register(bus);
@@ -57,12 +55,11 @@ public class Techarium
 		NetworkConnection.registerMessages();
 	}
 
-	public static ResourceLocation rl(String path){
+	public static ResourceLocation rl(String path) {
 		return new ResourceLocation(Techarium.ModID, path);
 	}
 
-	private void gatherData(GatherDataEvent event)
-	{
+	private void gatherData(GatherDataEvent event) {
 		DataGenerator generator = event.getGenerator();
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 		TechariumBlockTagsProvider provider = new TechariumBlockTagsProvider(generator, existingFileHelper);
@@ -80,8 +77,7 @@ public class Techarium
 		ModIntegrations.getTheOneProbe().ifPresent(TheOneProbeIntegration::requestTheOneProbe);
 	}
 
-	public void onClientSetup(FMLClientSetupEvent event)
-	{
+	public void onClientSetup(FMLClientSetupEvent event) {
 		ScreenManager.register(AUTO_CONTAINER.get(), AutomaticContainerScreen::new);
 		ScreenManager.register(PIPE_CONTAINER.get(), PipeContainerScreen::new);
 		ScreenManager.register(EXCHANGE_STATION_CONTAINER.get(), ExchangeStationScreen::new);

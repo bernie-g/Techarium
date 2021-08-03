@@ -1,53 +1,51 @@
 package software.bernie.techarium.machine.addon.energy;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import lombok.Getter;
+import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.energy.EnergyStorage;
-import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.client.screen.draw.IDrawable;
-import software.bernie.techarium.machine.controller.MachineController;
-import software.bernie.techarium.machine.interfaces.IToolTippedAddon;
-import software.bernie.techarium.recipe.AbstractMachineRecipe;
+import software.bernie.techarium.machine.interfaces.ITooltipAddon;
 import software.bernie.techarium.util.Utils;
-
+import software.bernie.techarium.util.Vector2i;
 import java.text.DecimalFormat;
+import java.util.List;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.DEFAULT_ENERGY_BAR;
 
-public class EnergyStorageAddon extends EnergyStorage implements INBTSerializable<CompoundNBT>, IToolTippedAddon {
+public class EnergyStorageAddon extends EnergyStorage implements INBTSerializable<CompoundNBT>, ITooltipAddon {
 
     private final int posX;
     private final int posY;
-
-    private MachineController<? extends AbstractMachineRecipe> controller;
-
     private IDrawable asset;
+    private Vector2i size;
 
-    private Pair<Integer, Integer> assetSizeXY;
+    @Getter
+    @Setter
+    private int lastDrained = 0;
 
-    private Pair<Integer, Integer> guiXY;
-
-    public EnergyStorageAddon(MachineController<? extends AbstractMachineRecipe> controller, int totalEnergy, int posX, int posY, Pair<Integer, Integer> guiXY) {
-        this(controller, totalEnergy, totalEnergy, posX, posY, guiXY);
+    public EnergyStorageAddon(int totalEnergy, int posX, int posY) {
+        this(totalEnergy, totalEnergy, posX, posY);
     }
 
-    public EnergyStorageAddon(MachineController<? extends AbstractMachineRecipe> controller, int totalEnergy, int maxIO, int posX, int posY, Pair<Integer, Integer> guiXY) {
-        this(controller, totalEnergy, maxIO, maxIO, posX, posY, guiXY);
+    public void forceSetEnergy(int energy) {
+        this.energy = energy;
     }
 
-    public EnergyStorageAddon(MachineController<? extends AbstractMachineRecipe> controller, int totalEnergy, int maxIn, int maxOut, int posX, int posY,
-                              Pair<Integer, Integer> guiXY) {
+    public EnergyStorageAddon(int totalEnergy, int maxIO, int posX, int posY) {
+        this(totalEnergy, maxIO, maxIO, posX, posY);
+    }
+
+    public EnergyStorageAddon(int totalEnergy, int maxIn, int maxOut, int posX, int posY) {
         super(totalEnergy, maxIn, maxOut);
-        this.controller = controller;
         this.posY = posY;
         this.posX = posX;
-        this.assetSizeXY = Pair.of(12, 48);
-        this.guiXY = guiXY;
+        this.size = new Vector2i(12, 48);
     }
 
     public int getPosY() {
@@ -59,19 +57,16 @@ public class EnergyStorageAddon extends EnergyStorage implements INBTSerializabl
     }
 
     public int getSizeX() {
-        return assetSizeXY.getLeft();
+        return size.getX();
     }
 
     public int getSizeY() {
-        return assetSizeXY.getRight();
+        return size.getY();
     }
 
-    public Pair<Integer, Integer> getAssetSizeXY() {
-        return assetSizeXY;
-    }
-
-    public Pair<Integer, Integer> getGuiXY() {
-        return guiXY;
+    @Override
+    public Vector2i getSize() {
+        return size;
     }
 
     public IDrawable getAsset() {
@@ -79,12 +74,6 @@ public class EnergyStorageAddon extends EnergyStorage implements INBTSerializabl
             asset = DEFAULT_ENERGY_BAR;
         }
         return asset;
-    }
-
-    public EnergyStorageAddon setAsset(IDrawable asset, int sizeX, int sizeY) {
-        this.assetSizeXY = Pair.of(sizeX, sizeY);
-        this.asset = asset;
-        return this;
     }
 
     @Override
@@ -99,25 +88,23 @@ public class EnergyStorageAddon extends EnergyStorage implements INBTSerializabl
         this.energy = nbt.getInt("energy");
     }
 
-    @Override
-    public void renderToolTip(Screen screen, int x, int y, int xCenter, int yCenter, int mouseX, int mouseY) {
-        if (mouseX >= x + getPosX() && mouseX <= x + getPosX() + getAssetSizeXY().getKey()) {
-            if (mouseY >= y + getPosY() && mouseY <= y + getPosY() + getAssetSizeXY().getValue()) {
-                DecimalFormat decimalFormat = new DecimalFormat();
-                TextComponent component = Component.text("Power: ", NamedTextColor.GOLD)
-                        .append(Component.text(decimalFormat.format(getEnergyStored()), NamedTextColor.GOLD))
-                        .append(Component.text("/", NamedTextColor.WHITE))
-                        .append(Component.text(decimalFormat.format(getMaxEnergyStored()), NamedTextColor.GOLD))
-                        .append(Component.text(" FE", NamedTextColor.DARK_AQUA));
 
-                int energyCost = controller.getCurrentRecipe() == null || controller.getEnergyStorage().getEnergyStored() == 0 ? 0 : controller.getCurrentRecipe().getRfPerTick();
-                TextComponent usage = Component.text("Using: ", NamedTextColor.GOLD)
-                        .append(Component.text(
-                                energyCost,
-                                NamedTextColor.GOLD))
-                        .append(Component.text(" FE/t", NamedTextColor.DARK_AQUA));
-                screen.renderComponentTooltip(new MatrixStack(), Utils.wrapText(component, usage), mouseX - xCenter, mouseY - yCenter);
-            }
-        }
+    @Override
+    public List<ITextComponent> createToolTipMessage() {
+        DecimalFormat decimalFormat = new DecimalFormat();
+        TextComponent component = Component.text("Power: ", NamedTextColor.GOLD)
+                .append(Component.text(decimalFormat.format(getEnergyStored()), NamedTextColor.GOLD))
+                .append(Component.text("/", NamedTextColor.WHITE))
+                .append(Component.text(decimalFormat.format(getMaxEnergyStored()), NamedTextColor.GOLD))
+                .append(Component.text(" FE", NamedTextColor.DARK_AQUA));
+
+        int energyCost = getEnergyStored() == 0 ? 0 : lastDrained;
+        TextComponent usage = Component.text("Using: ", NamedTextColor.GOLD)
+                .append(Component.text(
+                        energyCost,
+                        NamedTextColor.GOLD))
+                .append(Component.text(" FE/t", NamedTextColor.DARK_AQUA));
+        return Utils.wrapMultipleText(component, usage);
+
     }
 }

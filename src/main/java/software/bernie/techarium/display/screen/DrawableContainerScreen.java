@@ -9,7 +9,7 @@ import software.bernie.techarium.client.screen.draw.IDrawable;
 
 public abstract class DrawableContainerScreen<CONTAINER extends Container> extends ContainerScreen<CONTAINER> {
 
-    public DrawableContainerScreen(CONTAINER screenContainer, PlayerInventory inv, ITextComponent titleIn) {
+    protected DrawableContainerScreen(CONTAINER screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
         titleLabelX = Integer.MIN_VALUE;
         inventoryLabelX = Integer.MIN_VALUE;
@@ -18,7 +18,7 @@ public abstract class DrawableContainerScreen<CONTAINER extends Container> exten
     @Override
     protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
         this.renderBackground(matrixStack);
-        getBackground().draw(getGuiLeft(), getGuiTop(), getXSize(), getYSize());
+        getBackground().draw(matrixStack, getGuiLeft(), getGuiTop());
     }
 
     @Override
@@ -33,5 +33,5 @@ public abstract class DrawableContainerScreen<CONTAINER extends Container> exten
         renderTooltip(matrixStack, mouseX - xCenter, mouseY - yCenter);
     }
 
-    abstract protected IDrawable getBackground();
+    protected abstract IDrawable getBackground();
 }

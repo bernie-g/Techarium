@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "techarium:block/magneticcoil",
+      "x": 180
+    },
+    "facing=up": {
+      "model": "techarium:block/magneticcoil"
+    },
+    "facing=north": {
+      "model": "techarium:block/magneticcoil",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "techarium:block/magneticcoil",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west": {
+      "model": "techarium:block/magneticcoil",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east": {
+      "model": "techarium:block/magneticcoil",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

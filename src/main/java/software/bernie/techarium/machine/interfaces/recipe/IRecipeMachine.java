@@ -9,7 +9,11 @@ public interface IRecipeMachine<T extends IRecipe<IInventory>> {
 
     boolean checkRecipe(IRecipe<?> recipe);
 
-    T castRecipe(IRecipe<?> iRecipe);
+    default T castRecipe(IRecipe<?> iRecipe) {
+        return (T)iRecipe;
+    }
+
+    Class<T> getRecipeClass();
 
     boolean matchRecipe(T currentRecipe);
 

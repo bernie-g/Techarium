@@ -1,6 +1,7 @@
 package software.bernie.techarium.util;
 
 import com.google.gson.JsonObject;
+import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.entity.LivingEntity;
@@ -13,17 +14,17 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
-
 import java.util.ArrayList;
 import java.util.List;
 
+@UtilityClass
 public class Utils {
     public static IFormattableTextComponent wrapText(Component adventureComponent) {
         String serialized = GsonComponentSerializer.gson().serialize(adventureComponent);
         return ITextComponent.Serializer.fromJson(serialized);
     }
 
-    public static List<ITextComponent> wrapText(Component... adventureComponent) {
+    public static List<ITextComponent> wrapMultipleText(Component... adventureComponent) {
         List<ITextComponent> components = new ArrayList<>();
         for (Component component : adventureComponent) {
             String serialized = GsonComponentSerializer.gson().serialize(component);
