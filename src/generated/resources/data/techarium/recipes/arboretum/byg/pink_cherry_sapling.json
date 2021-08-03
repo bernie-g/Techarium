@@ -10,7 +10,7 @@
   "maxProgress": 1000,
   "rfPerTick": 10,
   "cropIn": {
-    "item": "byg:araucaria_sapling"
+    "item": "byg:pink_cherry_sapling"
   },
   "soilIn": {
     "tag": "forge:dirt"
@@ -21,12 +21,12 @@
   },
   "output": [
     {
-      "item": "byg:pine_log",
+      "item": "byg:cherry_log",
       "amount": 6,
       "chance": 0.5
     },
     {
-      "item": "byg:araucaria_sapling",
+      "item": "byg:pink_cherry_sapling",
       "amount": 1,
       "chance": 1.0
     }
