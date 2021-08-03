@@ -18,7 +18,6 @@ import software.bernie.techarium.tile.base.MachineSlaveTile;
 import software.bernie.techarium.tile.base.MachineTileBase;
 import software.bernie.techarium.tile.base.MultiblockMasterTile;
 import software.bernie.techarium.trait.block.BlockBehaviour;
-import software.bernie.techarium.util.BlockRegion;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -85,23 +84,5 @@ public abstract class MachineBlock<T extends MachineTileBase> extends TechariumB
     @Override
     public BlockRenderType getRenderShape(BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
-    }
-
-    public boolean canBePlaced(World world, BlockPos pos) {
-        BlockRegion region = getBlockSize();
-        for (int x = region.xOff; x < region.xSize - region.xOff; x++) {
-            for (int y = region.yOff; y < region.ySize - region.yOff; y++) {
-                for (int z = region.zOff; z < region.zSize - region.zOff; z++) {
-                    if (!world.getBlockState(pos.offset(x, y, z)).getMaterial().isReplaceable()) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
-    public BlockRegion getBlockSize() {
-        return BlockRegion.FULL_BLOCK;
     }
 }

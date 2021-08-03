@@ -13,15 +13,21 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
+import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
+import software.bernie.techarium.client.item.armor.render.SurvivalistExosuitRenderer;
 import software.bernie.techarium.datagen.*;
 import software.bernie.techarium.display.screen.AutomaticContainerScreen;
 import software.bernie.techarium.display.screen.ExchangeStationScreen;
 import software.bernie.techarium.display.screen.PipeContainerScreen;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.integration.theoneprobe.TheOneProbeIntegration;
+import software.bernie.techarium.item.armor.SurvivalistExosuitItem;
 import software.bernie.techarium.network.NetworkConnection;
 import software.bernie.techarium.pipe.NetworkEvents;
-import software.bernie.techarium.registry.*;
+import software.bernie.techarium.registry.BlockRegistry;
+import software.bernie.techarium.registry.ContainerRegistry;
+import software.bernie.techarium.registry.ItemRegistry;
+import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.util.LogCache;
 import software.bernie.techarium.world.WorldGen;
 
@@ -75,5 +81,8 @@ public class Techarium {
 		ScreenManager.register(AUTO_CONTAINER.get(), AutomaticContainerScreen::new);
 		ScreenManager.register(PIPE_CONTAINER.get(), PipeContainerScreen::new);
 		ScreenManager.register(EXCHANGE_STATION_CONTAINER.get(), ExchangeStationScreen::new);
+
+		//armor
+		GeoArmorRenderer.registerArmorRenderer(SurvivalistExosuitItem.class, new SurvivalistExosuitRenderer());
 	}
 }

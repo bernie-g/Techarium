@@ -20,6 +20,7 @@ import software.bernie.techarium.trait.behaviour.Behaviour;
 import software.bernie.techarium.trait.behaviour.IHasBehaviour;
 import software.bernie.techarium.trait.block.BlockBehaviour;
 import software.bernie.techarium.trait.block.BlockTraits;
+import software.bernie.techarium.util.BlockRegion;
 
 public abstract class TechariumBlock<T extends TileEntity> extends Block implements IHasBehaviour {
 
@@ -91,5 +92,23 @@ public abstract class TechariumBlock<T extends TileEntity> extends Block impleme
     @Override
     public Behaviour getBehaviour() {
         return this.behaviour;
+    }
+
+    public boolean canBePlaced(World world, BlockPos pos) {
+        BlockRegion region = getBlockSize();
+        for (int x = region.xOff; x < region.xSize - region.xOff; x++) {
+            for (int y = region.yOff; y < region.ySize - region.yOff; y++) {
+                for (int z = region.zOff; z < region.zSize - region.zOff; z++) {
+                    if (!world.getBlockState(pos.offset(x, y, z)).getMaterial().isReplaceable()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public BlockRegion getBlockSize() {
+        return BlockRegion.FULL_BLOCK;
     }
 }

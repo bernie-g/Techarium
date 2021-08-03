@@ -1,6 +1,5 @@
 package software.bernie.techarium.registry.lang;
 
-import net.minecraft.block.Block;
 import net.minecraftforge.fml.RegistryObject;
 import software.bernie.techarium.Techarium;
 
@@ -15,8 +14,11 @@ public class LangRegistryBase {
         return new TranslationLangEntry(type + "." + Techarium.ModID + "." + name).registerSelf();
     }
 
-    public static TranslationLangEntry registerDescription(RegistryObject<? extends Block> block) {
-        return new TranslationLangEntry("description." + Techarium.ModID + "." + block.getId().getPath()).registerSelf();
+    public static TranslationLangEntry registerDescription(RegistryObject<?> block) {
+        return registerDescription(block.getId().getPath());
     }
 
+    public static TranslationLangEntry registerDescription(String path) {
+        return new TranslationLangEntry("description." + Techarium.ModID + "." + path).registerSelf();
+    }
 }

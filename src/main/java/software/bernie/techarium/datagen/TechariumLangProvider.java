@@ -18,6 +18,7 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addItems();
         addTranslationComponents();
         addItemGroups();
+        addDescriptions();
     }
 
     private void addItemGroups() {
@@ -39,6 +40,11 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addItem(ItemRegistry.COPPER_NUGGET, "Copper Nugget");
         addItem(ItemRegistry.LEAD_NUGGET, "Lead Nugget");
         addItem(ItemRegistry.NICKEL_NUGGET, "Nickel Nugget");
+
+        addItem(ItemRegistry.SURVIVALIST_EXOSUIT_HELMET, "Survivalist Exosuit Helmet");
+        addItem(ItemRegistry.SURVIVALIST_EXOSUIT_CHESTPLATE, "Survivalist Exosuit Chestplate");
+        addItem(ItemRegistry.SURVIVALIST_EXOSUIT_LEGGINGS, "Survivalist Exosuit Leggings");
+        addItem(ItemRegistry.SURVIVALIST_EXOSUIT_BOOTS, "Survivalist Exosuit Boots");
     }
 
     protected void addBlocks() {
@@ -67,15 +73,21 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addTranslation(LangRegistry.topProgressETA, "ETA: ");
         addTranslation(LangRegistry.hwylaProgressETA, "ETA: %s seconds remaining");
         addTranslation(LangRegistry.hwylaProgressNoRecipe, "ETA: No valid recipe");
-        addTranslation(LangRegistry.botariumDescription, "The Botarium allows you to grow crops in exchange for energy and a suitable fluid");
-        addTranslation(LangRegistry.arboretumDescription, "The Arboretum allows you to grow saplings in exchange for energy and water");
-        addTranslation(LangRegistry.exchangeDescription, "The Exchange Station allows you to unlock new machines with gold");
+
         addTranslation(LangRegistry.guiPipeInput, "Input");
         addTranslation(LangRegistry.guiPipeOutput, "Output");
         addTranslation(LangRegistry.guiPipeRoundRobin, "Round-Robin");
         addTranslation(LangRegistry.guiPipeSelfFeed, "Self Feed");
-        addTranslation(LangRegistry.machineShiftDescription, "Hold [LShift] for description");
-        addTranslation(LangRegistry.gravMagnetDescription, "The Grav Magnet will attract or repel every entity in front of the block. Use a redstone signal to switch between the two mode. Can be boosted if a magnetic coil is place behind");
-        addTranslation(LangRegistry.magneticCoilDescription, "The Magnetic Coil is use to boost the Grav Magnet. Add coil inside to boost the power");
+    }
+
+    private void addDescriptions() {
+        addDescription(LangRegistry.machineShiftDescription, "Hold [LShift] for description");
+
+        addDescription(LangRegistry.botariumDescription, "The Botarium allows you to grow crops in exchange for energy and a suitable fluid");
+        addDescription(LangRegistry.arboretumDescription, "The Arboretum allows you to grow saplings in exchange for energy and water");
+        addDescription(LangRegistry.exchangeDescription, "The Exchange Station allows you to unlock new machines with gold");
+        addDescription(LangRegistry.survivalistExosuitDescription, "The survivalist exosuit is an early-game powersuit that gives haste and speed when wearing a full set.");
+        addDescription(LangRegistry.gravMagnetDescription, "The Grav Magnet will attract or repel every entity in front of the block. Use a redstone signal to switch between the two mode. Can be boosted if a magnetic coil is place behind");
+        addDescription(LangRegistry.magneticCoilDescription, "The Magnetic Coil is use to boost the Grav Magnet. Add coil inside to boost the power");
     }
 }
