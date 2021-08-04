@@ -1,36 +1,29 @@
 package software.bernie.techarium.display.screen.widget;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.text.ITextComponent;
-import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.techarium.machine.addon.progressbar.ProgressBarAddon;
+import software.bernie.techarium.machine.interfaces.ITooltipAddon;
+import software.bernie.techarium.machine.interfaces.ITooltipProvider;
+import software.bernie.techarium.util.Vector2i;
 
-public class ProgressBarWidget extends Widget {
+public class ProgressBarWidget extends DrawableWidget implements ITooltipProvider {
 
     private final ProgressBarAddon progressBar;
 
-    public ProgressBarWidget(ProgressBarAddon progressBar, int xIn, int yIn, int widthIn, int heightIn, ITextComponent msg) {
-        super(xIn, yIn, widthIn, heightIn, msg);
+    public ProgressBarWidget(ProgressBarAddon progressBar, int xIn, int yIn, Vector2i size, ITextComponent msg) {
+        super(progressBar.getDrawable(), xIn, yIn, size.getX(), size.getY(), msg);
         this.progressBar = progressBar;
-    }
-
-    public ProgressBarAddon getProgressBar() {
-        return progressBar;
-    }
-
-    private Pair<Integer, Integer> getBackgroundSize() {
-        return progressBar.getBackgroundSizeXY();
     }
 
     @Override
     public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        Minecraft minecraft = Minecraft.getInstance();
-        int screenY = minecraft.getWindow().getGuiScaledHeight() / 2;
-        int screenX = minecraft.getWindow().getGuiScaledWidth() / 2;
-        int guiLeft = getBackgroundSize().getKey() / 2;
-        int guiTop = getBackgroundSize().getValue() / 2;
-        getProgressBar().getDrawable().drawPartial(screenX - guiLeft + x, screenY - guiTop + y, getWidth(), getHeight(), (float)getProgressBar().getProgress() / getProgressBar().getMaxProgress(), 1, 0, 0);
+        int length = (int)(((float)progressBar.getProgress() / progressBar.getMaxProgress()) * getWidth());
+        progressBar.getDrawable().drawPartial(matrixStack, new Vector2i(x, y), progressBar.getDrawable().getSize().copy().setX(length), progressBar.getDrawable().getTexturePos());
+    }
+
+    @Override
+    public ITooltipAddon getTooltip() {
+        return progressBar;
     }
 }

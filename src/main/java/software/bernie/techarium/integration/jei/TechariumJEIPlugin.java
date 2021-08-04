@@ -2,36 +2,37 @@ package software.bernie.techarium.integration.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.MethodsReturnNonnullByDefault;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.registration.IGuiHandlerRegistration;
-import mezz.jei.api.registration.IRecipeCatalystRegistration;
-import mezz.jei.api.registration.IRecipeCategoryRegistration;
-import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.techarium.Techarium;
-import software.bernie.techarium.display.container.AutomaticContainer;
 import software.bernie.techarium.display.screen.AutomaticContainerScreen;
 import software.bernie.techarium.integration.jei.category.ArboretumRecipeCategory;
+import software.bernie.techarium.integration.jei.category.BaseRecipeCategory;
 import software.bernie.techarium.integration.jei.category.BotariumRecipeCategory;
 import software.bernie.techarium.integration.jei.panel.PanelBoundHandler;
+import software.bernie.techarium.integration.jei.transferhandler.TechariumTransferInfo;
 import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.LangRegistry;
 import software.bernie.techarium.registry.RecipeRegistry;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 @JeiPlugin
-public class TechariumJEIPlugin implements IModPlugin
-{
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+public class TechariumJEIPlugin implements IModPlugin {
+
 	@Override
-	public ResourceLocation getPluginUid()
-	{
-		return new ResourceLocation(Techarium.ModID, "techarium_jei_plugin");
+	public ResourceLocation getPluginUid() {
+		return Techarium.rl( "techarium_jei_plugin");
 	}
 
 	@Override
@@ -67,4 +68,11 @@ public class TechariumJEIPlugin implements IModPlugin
 	public void registerGuiHandlers(IGuiHandlerRegistration registration) {
 		registration.addGuiContainerHandler(AutomaticContainerScreen.class, new PanelBoundHandler());
 	}
+
+	@Override
+	public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
+		registration.addRecipeTransferHandler(new TechariumTransferInfo(BaseRecipeCategory.INSTANCES.get(ArboretumRecipeCategory.class), 36, 2, 0, 36));
+		registration.addRecipeTransferHandler(new TechariumTransferInfo(BaseRecipeCategory.INSTANCES.get(BotariumRecipeCategory.class), 36, 2, 0, 36));
+	}
+
 }

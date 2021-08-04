@@ -1,11 +1,12 @@
 package software.bernie.techarium.tile.exchangestation;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -17,10 +18,11 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.techarium.display.container.ExchangeStationContainer;
 import software.bernie.techarium.machine.addon.inventory.InventoryAddon;
 import software.bernie.techarium.machine.controller.MachineController;
+import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.tile.base.MachineMasterTile;
-
+import software.bernie.techarium.util.Vector2i;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +33,9 @@ import static software.bernie.techarium.registry.BlockRegistry.EXCHANGE_STATION;
 
 public class ExchangeStationTile extends MachineMasterTile<ExchangeStationRecipe> implements IAnimatable {
 
-    public boolean isOpening = false;
+    @Getter
+    @Setter
+    private boolean isOpening = false;
     private AnimationFactory factory = new AnimationFactory(this);
 
     public ExchangeStationTile() {
@@ -110,7 +114,7 @@ public class ExchangeStationTile extends MachineMasterTile<ExchangeStationRecipe
     @Nullable
     @Override
     public Container createMenu(int id, PlayerInventory inv, PlayerEntity player) {
-        return new ExchangeStationContainer(this, inv, id, getDisplayName());
+        return new ExchangeStationContainer(this, inv, id);
     }
 
     @Override
@@ -134,10 +138,9 @@ public class ExchangeStationTile extends MachineMasterTile<ExchangeStationRecipe
     }
 
     @Override
-    public ExchangeStationRecipe castRecipe(IRecipe<?> iRecipe) {
-        return (ExchangeStationRecipe) iRecipe;
+    public Class<ExchangeStationRecipe> getRecipeClass() {
+        return ExchangeStationRecipe.class;
     }
-
 
     @Override
     public boolean matchRecipe(ExchangeStationRecipe currentRecipe) {
@@ -149,20 +152,20 @@ public class ExchangeStationTile extends MachineMasterTile<ExchangeStationRecipe
 
     }
 
-    private Map<Integer, Pair<Integer, Integer>> getPlayerInvSlotsXY() {
-        Map<Integer, Pair<Integer, Integer>> playerInvSlotsXY = new HashMap<>();
+    private Map<Integer, Vector2i> getPlayerInvSlotsXY() {
+        Map<Integer, Vector2i> playerInvSlotsXY = new HashMap<>();
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                playerInvSlotsXY.put(j + i * 9 + 9, Pair.of(16 + j * 18, 148 + i * 18));
+                playerInvSlotsXY.put(j + i * 9 + 9, new Vector2i(16 + j * 18, 148 + i * 18));
             }
         }
         return playerInvSlotsXY;
     }
 
-    private Map<Integer, Pair<Integer, Integer>> getPlayerHotBarSlotsXY() {
-        Map<Integer, Pair<Integer, Integer>> playerHotbarSlotsXY = new HashMap<>();
+    private Map<Integer, Vector2i> getPlayerHotBarSlotsXY() {
+        Map<Integer, Vector2i> playerHotbarSlotsXY = new HashMap<>();
         for (int i1 = 0; i1 < 9; ++i1) {
-            playerHotbarSlotsXY.put(i1, Pair.of(16 + i1 * 18, 206));
+            playerHotbarSlotsXY.put(i1, new Vector2i(16 + i1 * 18, 206));
         }
         return playerHotbarSlotsXY;
     }
