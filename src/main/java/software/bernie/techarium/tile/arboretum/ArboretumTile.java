@@ -29,6 +29,7 @@ import software.bernie.techarium.machine.sideness.Side;
 import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.tile.base.MultiblockMasterTile;
+import software.bernie.techarium.util.Vector2i;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -105,7 +106,7 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
                 })
         );
 
-        controller.addTank(new FluidTankAddon(this, "fluidInput", 10000, 23, 34,
+        controller.addTank(new FluidTankAddon(controller.getBackgroundSizeXY(),"fluidInput", 10000, 23, 34,
                 (fluidStack -> true)).setExposeType(ExposeType.INPUT));
 
         controller.addInventory(new InventoryAddon(this, "soilInput", 49, 67, 1)
@@ -122,9 +123,12 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
                 .setInsertPredicate((itemStack, integer) -> itemStack.getItem() instanceof UpgradeItem).setSlotPositionWithOffset(20).setExposeType(ExposeType.INPUT));
 
         controller.addInventory(
-                new DrawableInventoryAddon(this, "output", 182, 49, ARBORETUM_OUTPUT_SLOT, 178, 34, 65, 46, 3)
+                new DrawableInventoryAddon(this, "output", 172, 34, ARBORETUM_OUTPUT_SLOT, 172, 34, 29, 81, 3)
                         .setInsertPredicate((itemStack, integer) -> false)
-                        .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe()).setSlotLimit(64).setExposeType(ExposeType.OUTPUT));
+                        .setOnSlotChanged((itemStack, integer) -> forceCheckRecipe())
+                        .setSlotLimit(64)
+                        .setSlotPosition(index -> new Vector2i(10,8).add(0, index*18))
+                        .setExposeType(ExposeType.OUTPUT));
 
         return controller;
     }
@@ -177,8 +181,8 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
     }
 
     @Override
-    public ArboretumRecipe castRecipe(IRecipe<?> iRecipe) {
-        return (ArboretumRecipe) iRecipe;
+    public Class<ArboretumRecipe> getRecipeClass() {
+        return ArboretumRecipe.class;
     }
 
     @Override

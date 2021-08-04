@@ -1,22 +1,25 @@
 package software.bernie.techarium.block.coils;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer.Builder;
+import net.minecraft.network.PacketDirection;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkDirection;
+import net.minecraftforge.fml.network.NetworkHooks;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.item.CoilItem;
+import software.bernie.techarium.network.NetworkConnection;
+import software.bernie.techarium.network.tile.UpdateCoilTypePacket;
 import software.bernie.techarium.tile.magneticcoils.MagneticCoilTile;
 import software.bernie.techarium.trait.block.BlockBehaviours;
 
@@ -24,6 +27,17 @@ public class MagneticCoilBlock extends MachineBlock<MagneticCoilTile> {
 	
 	public MagneticCoilBlock() {
 		super(BlockBehaviours.magenticCoil, AbstractBlock.Properties.of(Material.METAL));
+	}
+	
+	@Override
+	public void onPlace(BlockState state1, World level, BlockPos pos, BlockState state2, boolean flag) {
+		TileEntity te = level.getBlockEntity(pos);
+		if (te instanceof MagneticCoilTile) {
+			for (PlayerEntity player : level.players()) {
+				UpdateCoilTypePacket packet = new UpdateCoilTypePacket(pos, ((MagneticCoilTile) te).getCoilType());
+				NetworkConnection.INSTANCE.sendTo(packet, ((ServerPlayerEntity) player).connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
+			}
+		}
 	}
 	
 	@Override

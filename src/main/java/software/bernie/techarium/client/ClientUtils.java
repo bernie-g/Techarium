@@ -1,5 +1,6 @@
 package software.bernie.techarium.client;
 
+import lombok.experimental.UtilityClass;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.InputMappings;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,6 +20,7 @@ import software.bernie.techarium.client.tile.render.VoltaicPileRenderer;
 import software.bernie.techarium.client.tile.render.ExchangeStationRenderer;
 import software.bernie.techarium.registry.BlockRegistry;
 
+@UtilityClass
 @Mod.EventBusSubscriber(modid = Techarium.ModID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientUtils {
 	@SubscribeEvent
@@ -43,5 +45,9 @@ public class ClientUtils {
 	public static boolean isShift() {
 		return InputMappings.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 340)
 			|| InputMappings.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 344);
+	}
+
+	public static boolean isAdvancedItem() {
+		return Minecraft.getInstance().options.advancedItemTooltips;
 	}
 }

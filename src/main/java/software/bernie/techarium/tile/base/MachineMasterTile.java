@@ -64,12 +64,12 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     @Nullable
     @Override
     public Container createMenu(int id, PlayerInventory inv, PlayerEntity player) {
-        return new AutomaticContainer(this, inv, id, getDisplayName());
+        return new AutomaticContainer(this, inv, id);
     }
 
     @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+    public <Cap> LazyOptional<Cap> getCapability(@Nonnull Capability<Cap> cap, @Nullable Direction side) {
         if (cap == CapabilityEnergy.ENERGY || cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             if (level != null && getFaceConfigs().get(getSideFromDirection(side, getFacingDirection())).allowsConnection()) {
                 return this.getCapability(cap);
@@ -93,10 +93,9 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
 
     @Override
     public ActionResultType onTileActivated(PlayerEntity player) {
-        NetworkHooks.openGui((ServerPlayerEntity) player, this, packetBuffer -> {
-            packetBuffer.writeBlockPos(this.getBlockPos());
-            packetBuffer.writeComponent(this.getDisplayName());
-        });
+        NetworkHooks.openGui((ServerPlayerEntity) player, this,
+                packetBuffer -> packetBuffer.writeBlockPos(this.getBlockPos())
+        );
         return ActionResultType.SUCCESS;
     }
 
