@@ -26,7 +26,6 @@ public class GravMagnetBlock extends MachineBlock<GravMagnetTile> {
 
 	public GravMagnetBlock() {
 		super(BlockBehaviours.gravMagnet, AbstractBlock.Properties.of(Material.METAL));
-		this.registerDefaultState(this.defaultBlockState().setValue(POWERED, Boolean.valueOf(false)));
 	}
 
 	@Nullable
@@ -49,10 +48,4 @@ public class GravMagnetBlock extends MachineBlock<GravMagnetTile> {
 			BlockRayTraceResult hit) {
 		return ActionResultType.PASS;
 	}
-
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-		super.createBlockStateDefinition(builder);
-		builder.add(POWERED);
-	}
-
 }

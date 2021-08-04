@@ -13,14 +13,12 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
-import org.jetbrains.annotations.NotNull;
-import software.bernie.techarium.trait.behaviour.IHasBehaviour;
+import software.bernie.techarium.machine.sideness.FaceConfig;
 import software.bernie.techarium.trait.tile.TileBehaviour;
 import software.bernie.techarium.trait.tile.TileTraits;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Optional;
 
 import static software.bernie.techarium.util.StaticHandler.getSideFromDirection;
 
@@ -49,6 +47,17 @@ public abstract class TechariumTileBase extends MachineTileBase implements ITick
 
     @Override
     public void tick() {
+        getPowerTrait().ifPresent(trait -> {
+            for (Direction d : Direction.values()) {
+                FaceConfig faceConfig = getFaceConfigs().get(getSideFromDirection(d, getFacingDirection()));
+                switch (faceConfig) {
+                    case PUSH_ONLY:
+                        trait.getEnergyStorage().outputToSide(getLevel(), getBlockPos(), d, Integer.MAX_VALUE);
+                    case PULL_ONLY:
+                        trait.getEnergyStorage().inputFromSide(getLevel(), getBlockPos(), d, Integer.MAX_VALUE);
+                }
+            }
+        });
         if (!level.isClientSide()) {
             if(isFirstLoad) {
                 updateMachineTile();

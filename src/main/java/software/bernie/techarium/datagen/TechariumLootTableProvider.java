@@ -60,25 +60,32 @@ public class TechariumLootTableProvider extends LootTableProvider {
 			dropSelf(BlockRegistry.PIPE);
 			dropSelf(BlockRegistry.MAGNETIC_COIL);
 
-			ILootCondition.IBuilder notEmpty = BlockStateProperty.hasBlockStateProperties(BlockRegistry.VOLTAIC_PILE.get())
-					.setProperties(StatePropertiesPredicate.Builder.properties()
-							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.ONE_THIRD)
-							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.TWO_THIRD)
-							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.FULL));
+			voltaicPileLootTable();
+		}
 
-			ILootCondition.IBuilder empty = BlockStateProperty.hasBlockStateProperties(BlockRegistry.VOLTAIC_PILE.get())
+		public void voltaicPileLootTable() {
+			ILootCondition.IBuilder emptyVoltaicPile = BlockStateProperty.hasBlockStateProperties(BlockRegistry.VOLTAIC_PILE.get())
 					.setProperties(StatePropertiesPredicate.Builder.properties()
 							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.EMPTY));
+			ILootCondition.IBuilder thirdVoltaicPile = BlockStateProperty.hasBlockStateProperties(BlockRegistry.VOLTAIC_PILE.get())
+					.setProperties(StatePropertiesPredicate.Builder.properties()
+							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.ONE_THIRD));
+			ILootCondition.IBuilder twoThirdVoltaicPile = BlockStateProperty.hasBlockStateProperties(BlockRegistry.VOLTAIC_PILE.get())
+					.setProperties(StatePropertiesPredicate.Builder.properties()
+							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.TWO_THIRD));
+			ILootCondition.IBuilder fullVoltaicPile = BlockStateProperty.hasBlockStateProperties(BlockRegistry.VOLTAIC_PILE.get())
+					.setProperties(StatePropertiesPredicate.Builder.properties()
+							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.FULL));
 
 			customBlockLootTable(BlockRegistry.VOLTAIC_PILE.get(),
 					ItemLootEntry.lootTableItem(BlockRegistry.VOLTAIC_PILE.get())
-							.when(notEmpty)
+							.when(thirdVoltaicPile.or(twoThirdVoltaicPile).or(fullVoltaicPile))
 							.apply(CopyNbt.copyData(CopyNbt.Source.BLOCK_ENTITY)
 									.copy("energy", "BlockEntityTag.energy")),
 					ItemLootEntry.lootTableItem(ItemRegistry.COPPER_INGOT.get())
-							.when(empty),
+							.when(emptyVoltaicPile),
 					ItemLootEntry.lootTableItem(ItemRegistry.ZINC_INGOT.get())
-							.when(empty));
+							.when(emptyVoltaicPile));
 		}
 
 		@Override

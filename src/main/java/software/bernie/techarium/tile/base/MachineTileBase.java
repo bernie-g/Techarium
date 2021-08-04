@@ -33,8 +33,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static software.bernie.techarium.block.base.RotatableBlock.FACING;
-
 public abstract class MachineTileBase extends TileEntity implements IHasBehaviour {
     private final TileBehaviour behaviour;
     private final Map<Side, FaceConfig> sideFaceConfigs = setFaceControl();

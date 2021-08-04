@@ -1,6 +1,8 @@
 package software.bernie.techarium.trait.block;
 
 import net.minecraft.block.BlockRenderType;
+import software.bernie.techarium.block.gravmagnet.GravMagnetBlock;
+import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
 import software.bernie.techarium.registry.LangRegistry;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;
@@ -39,6 +41,7 @@ public class BlockBehaviours {
             .animatedModel()
             .tileEntity(GravMagnetTile.class)
             .rotation(BlockTraits.RotationType.XYZ)
+            .with(new BlockTraits.PropertyTrait(GravMagnetBlock.POWERED, false))
             .description(LangRegistry.gravMagnetDescription)
             .build();
     
@@ -54,6 +57,8 @@ public class BlockBehaviours {
             .composeFrom(BlockPartialBehaviours.partialTileBlock)
             .tileEntity(VoltaicPileTile.class)
             .with(new BlockTraits.MachineMaterialTrait())
+            .rotation(BlockTraits.RotationType.XZ)
+            .with(new BlockTraits.PropertyTrait(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.FULL))
             .description(LangRegistry.voltaicPileDescription)
             .build();
 

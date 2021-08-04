@@ -2,10 +2,17 @@ package software.bernie.techarium.trait.tile;
 
 import lombok.Data;
 import lombok.SneakyThrows;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
+import software.bernie.techarium.machine.sideness.Side;
+import software.bernie.techarium.tile.base.MachineTileBase;
 import software.bernie.techarium.trait.Trait;
 import software.bernie.techarium.util.TechariumEnergyStorage;
+
+import java.util.Map;
+
+import static software.bernie.techarium.util.StaticHandler.getSideFromDirection;
 
 public class TileTraits {
     // TODO: ADD FLUID TRAIT
@@ -39,6 +46,29 @@ public class TileTraits {
         @SneakyThrows
         public Object clone() {
             return new PowerTrait(this.getEnergyStorage().copy());
+        }
+    }
+
+    @Data
+    public static class PowerManipulationTrait extends Trait {
+        private final Map<Side, ManipulationConfig> configMap;
+
+        public PowerManipulationTrait(Map<Side, ManipulationConfig> configMap) {
+            this.configMap = configMap;
+        }
+
+        public ManipulationConfig get(Side side) {
+            return configMap.get(side);
+        }
+
+        public void put(Side side, ManipulationConfig config) {
+            configMap.put(side, config);
+        }
+
+        public enum ManipulationConfig {
+            NONE,
+            PUSH,
+            PULL;
         }
     }
 }
