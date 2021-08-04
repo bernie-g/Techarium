@@ -26,10 +26,14 @@ public class AssemblerRecipePatern {
 		}
 	}
 
-	public AssemblerRecipePatern setItemInSlot(int index, Ingredient stack) {
-		recipePatern[index] = stack;
+	public AssemblerRecipePatern setItemInSlot(Ingredient stack, int ... indexs) {
+		for (int index : indexs) {
+			recipePatern[index] = stack;
+		}
+
 		return this;
 	}
+	
 	
 	public Ingredient getItem(int index) {
 		return recipePatern[index];
@@ -58,7 +62,7 @@ public class AssemblerRecipePatern {
 		
 		for (int i = 0; i < craftingGridSize; i++) {
 			if (Character.toString(stringPatern.charAt(i)).equals(S_ITEM))
-				patern.setItemInSlot(i, Utils.deserializeIngredient(json, "slot_" + i));
+				patern.setItemInSlot(Utils.deserializeIngredient(json, "slot_" + i), i);
 		}
 	}
 		

@@ -37,7 +37,7 @@ public class AssemblerSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>
 		AssemblerRecipePatern patern = new AssemblerRecipePatern();
 		
 		for (int i = 0; i < AssemblerRecipePatern.craftingGridSize; i++) {
-			patern.setItemInSlot(i, Ingredient.fromNetwork(buffer));
+			patern.setItemInSlot(Ingredient.fromNetwork(buffer), i);
 		}
 		
 		return new AssemblerRecipe(recipeId, patern, output, isShapeless);

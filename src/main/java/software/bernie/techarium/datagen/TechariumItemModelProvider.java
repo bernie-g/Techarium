@@ -42,7 +42,5 @@ public class TechariumItemModelProvider extends TechariumItemModelProviderBase {
     
     public void registerWire() {
         simpleTexture(ItemRegistry.COPPER_COIL.get(), "item/coil/copper_coil");
-        simpleTexture(ItemRegistry.COBALT_COIL.get(), "item/coil/cobalt_coil");
-        simpleTexture(ItemRegistry.SOLARIUM_COIL.get(), "item/coil/solarium_coil");
     }
 }

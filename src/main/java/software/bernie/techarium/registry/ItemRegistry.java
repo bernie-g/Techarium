@@ -38,9 +38,7 @@ public class ItemRegistry
 	public static final RegistryObject<Item> NICKEL_NUGGET = ITEMS.register("nickel_nugget", itemCreator());
 
 	public static final RegistryObject<Item> COPPER_COIL   = ITEMS.register("copper_coil", () -> new CoilItem(MagneticCoilType.TIER_1));
-	public static final RegistryObject<Item> COBALT_COIL   = ITEMS.register("cobalt_coil", () -> new CoilItem(MagneticCoilType.TIER_2));
-	public static final RegistryObject<Item> SOLARIUM_COIL = ITEMS.register("solarium_coil", () -> new CoilItem(MagneticCoilType.TIER_3));
-	
+
 	public static Supplier<Item> itemCreator() {
 		return () -> new Item(new Item.Properties().tab(TECHARIUM));
 	}

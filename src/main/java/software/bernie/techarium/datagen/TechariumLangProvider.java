@@ -39,6 +39,8 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addItem(ItemRegistry.COPPER_NUGGET, "Copper Nugget");
         addItem(ItemRegistry.LEAD_NUGGET, "Lead Nugget");
         addItem(ItemRegistry.NICKEL_NUGGET, "Nickel Nugget");
+        
+        addItem(ItemRegistry.COPPER_COIL, "Copper Coil");
     }
 
     protected void addBlocks() {
@@ -51,6 +53,7 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addBlock(BlockRegistry.MAGNETIC_COIL, "Magnetic Coil");
 
         addBlock(BlockRegistry.EXCHANGE_STATION, "Exchange Station");
+        addBlock(BlockRegistry.ASSEMBLER, "Assembler");
 
         addBlock(BlockRegistry.ALUMINIUM_ORE, "Aluminium Ore");
         addBlock(BlockRegistry.COPPER_ORE, "Copper Ore");
@@ -61,6 +64,8 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addBlock(BlockRegistry.ALUMINIUM_BLOCK, "Aluminum Block");
         addBlock(BlockRegistry.COPPER_BLOCK, "Copper Block");
         addBlock(BlockRegistry.LEAD_BLOCK, "Lead Block");
+        
+        addBlock(BlockRegistry.BOX_BLOCK, "BoxQD Block");
     }
 
     private void addTranslationComponents() {
@@ -77,5 +82,7 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addTranslation(LangRegistry.machineShiftDescription, "Hold [LShift] for description");
         addTranslation(LangRegistry.gravMagnetDescription, "The Grav Magnet will attract or repel every entity in front of the block. Use a redstone signal to switch between the two mode. Can be boosted if a magnetic coil is place behind");
         addTranslation(LangRegistry.magneticCoilDescription, "The Magnetic Coil is use to boost the Grav Magnet. Add coil inside to boost the power");
+        addTranslation(LangRegistry.assemblerDescription, "The Assembler will allow you to craft every machine of Techarium. Can be use as a crafting table too");
+        
     }
 }
