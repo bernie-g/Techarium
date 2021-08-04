@@ -13,18 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TileBehaviours {
-    private static Map<Side, TileTraits.PowerManipulationTrait.ManipulationConfig> voltaicPileConfig =
-            new HashMap<Side, TileTraits.PowerManipulationTrait.ManipulationConfig>() {{
-                put(Side.FRONT, TileTraits.PowerManipulationTrait.ManipulationConfig.PUSH);
-                put(Side.BACK, TileTraits.PowerManipulationTrait.ManipulationConfig.PUSH);
-                put(Side.LEFT, TileTraits.PowerManipulationTrait.ManipulationConfig.PUSH);
-                put(Side.RIGHT, TileTraits.PowerManipulationTrait.ManipulationConfig.PUSH);
-    }};
-
     public static TileBehaviour voltaicPile = new TileBehaviour.Builder()
             .composeFrom(TilePartialBehaviours.partialEnergyTile)
             .with(new TileTraits.PowerTrait(1000, 0, 10, 1000))
-            .with(new TileTraits.PowerManipulationTrait(voltaicPileConfig))
             .build();
 
     public static TileBehaviour gravMagnet = new TileBehaviour.Builder()

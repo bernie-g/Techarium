@@ -48,27 +48,4 @@ public class TileTraits {
             return new PowerTrait(this.getEnergyStorage().copy());
         }
     }
-
-    @Data
-    public static class PowerManipulationTrait extends Trait {
-        private final Map<Side, ManipulationConfig> configMap;
-
-        public PowerManipulationTrait(Map<Side, ManipulationConfig> configMap) {
-            this.configMap = configMap;
-        }
-
-        public ManipulationConfig get(Side side) {
-            return configMap.get(side);
-        }
-
-        public void put(Side side, ManipulationConfig config) {
-            configMap.put(side, config);
-        }
-
-        public enum ManipulationConfig {
-            NONE,
-            PUSH,
-            PULL;
-        }
-    }
 }
