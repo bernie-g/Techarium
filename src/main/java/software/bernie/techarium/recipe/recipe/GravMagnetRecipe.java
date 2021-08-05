@@ -10,7 +10,7 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.techarium.recipe.AbstractMachineRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
-import software.bernie.techarium.util.ChancedItemStackList;
+import software.bernie.techarium.util.loot.ChancedItemStackList;
 import software.bernie.techarium.util.JsonCodecUtils;
 
 public class GravMagnetRecipe extends AbstractMachineRecipe {

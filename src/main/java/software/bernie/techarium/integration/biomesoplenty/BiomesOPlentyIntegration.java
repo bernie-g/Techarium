@@ -4,8 +4,8 @@ import static biomesoplenty.api.block.BOPBlocks.*;
 import net.minecraft.block.Block;
 import net.minecraft.data.IFinishedRecipe;
 import software.bernie.techarium.integration.Integration;
-import software.bernie.techarium.util.ChancedItemStack;
-import software.bernie.techarium.util.ChancedItemStackList;
+import software.bernie.techarium.util.loot.ChancedItemStack;
+import software.bernie.techarium.util.loot.ChancedItemStackList;
 
 import java.util.HashMap;
 import java.util.Map;

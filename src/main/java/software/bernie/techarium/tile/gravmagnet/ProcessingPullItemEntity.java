@@ -6,7 +6,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import software.bernie.techarium.helper.EntityHelper;
 import software.bernie.techarium.recipe.recipe.GravMagnetRecipe;
-import software.bernie.techarium.util.ChancedItemStack;
+import software.bernie.techarium.util.loot.ChancedItemStack;
 
 public class ProcessingPullItemEntity extends ProcessingItemEntityBase {
 

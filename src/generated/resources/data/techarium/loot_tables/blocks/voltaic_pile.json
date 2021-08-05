@@ -50,7 +50,7 @@
           "name": "techarium:voltaic_pile"
         },
         {
-          "type": "minecraft:item",
+          "type": "techarium:item_list",
           "conditions": [
             {
               "condition": "minecraft:block_state_property",
@@ -60,20 +60,10 @@
               }
             }
           ],
-          "name": "techarium:copper_ingot"
-        },
-        {
-          "type": "minecraft:item",
-          "conditions": [
-            {
-              "condition": "minecraft:block_state_property",
-              "block": "techarium:voltaic_pile",
-              "properties": {
-                "charge": "empty"
-              }
-            }
-          ],
-          "name": "techarium:zinc_ingot"
+          "names": [
+            "techarium:copper_ingot",
+            "techarium:zinc_ingot"
+          ]
         }
       ],
       "conditions": [

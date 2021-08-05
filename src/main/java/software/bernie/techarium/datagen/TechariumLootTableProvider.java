@@ -15,6 +15,7 @@ import net.minecraftforge.fml.RegistryObject;
 import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.ItemRegistry;
+import software.bernie.techarium.util.loot.ItemListLootEntry;
 
 import java.util.List;
 import java.util.Map;
@@ -82,9 +83,7 @@ public class TechariumLootTableProvider extends LootTableProvider {
 							.when(thirdVoltaicPile.or(twoThirdVoltaicPile).or(fullVoltaicPile))
 							.apply(CopyNbt.copyData(CopyNbt.Source.BLOCK_ENTITY)
 									.copy("energy", "BlockEntityTag.energy")),
-					ItemLootEntry.lootTableItem(ItemRegistry.COPPER_INGOT.get())
-							.when(emptyVoltaicPile),
-					ItemLootEntry.lootTableItem(ItemRegistry.ZINC_INGOT.get())
+					ItemListLootEntry.lootTableItemList(ItemRegistry.COPPER_INGOT.get(), ItemRegistry.ZINC_INGOT.get())
 							.when(emptyVoltaicPile));
 		}
 
