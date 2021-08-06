@@ -25,24 +25,11 @@ public class VoltaicPileBlock extends TechariumBlock<VoltaicPileTile> {
     }
 
     public enum Charge implements IStringSerializable {
-        EMPTY("empty"),
-        ONE_THIRD("one_third"),
-        TWO_THIRD("two_third"),
-        FULL("full");
-
-        private final String name;
-
-        Charge(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
+        EMPTY, ONE_THIRD, TWO_THIRD, FULL;
 
         @Override
         public String getSerializedName() {
-            return name;
+            return name();
         }
     }
 }
