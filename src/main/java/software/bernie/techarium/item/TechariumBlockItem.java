@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.block.base.TechariumBlock;
 import software.bernie.techarium.client.ClientUtils;
 import software.bernie.techarium.registry.LangRegistry;
