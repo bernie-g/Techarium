@@ -2,7 +2,6 @@ package software.bernie.techarium.item;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
