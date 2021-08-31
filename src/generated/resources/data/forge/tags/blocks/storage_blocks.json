@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#forge:blocks/aluminium",
+    "#forge:blocks/aluminum",
     "#forge:blocks/copper",
     "#forge:blocks/lead"
   ]
