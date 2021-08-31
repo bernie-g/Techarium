@@ -2,6 +2,7 @@ package software.bernie.techarium.datagen;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import software.bernie.techarium.Techarium;
 import software.bernie.techarium.datagen.base.TechariumBlockStateProviderBase;
 import software.bernie.techarium.registry.BlockRegistry;
 
@@ -41,5 +42,6 @@ public class TechariumBlockStateProvider extends TechariumBlockStateProviderBase
         simpleBlockAndItem(BlockRegistry.ALUMINIUM_BLOCK.get());
         simpleBlockAndItem(BlockRegistry.LEAD_BLOCK.get());
         simpleBlockAndItem(BlockRegistry.NICKEL_BLOCK.get());
+        simpleBlockItem(BlockRegistry.BEAM.get(), blockProvider.getExistingFile(Techarium.rl("block/beam_foot")));
     }
 }

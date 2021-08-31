@@ -46,7 +46,8 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addBlock(BlockRegistry.BOTARIUM_TOP, "Botarium");
         addBlock(BlockRegistry.ARBORETUM, "Arboretum");
         addBlock(BlockRegistry.ARBORETUM_TOP, "Arboretum");
-        
+        addBlock(BlockRegistry.BEAM, "Metal Beam");
+
         addBlock(BlockRegistry.GRAVMAGNET, "Grav Magnet");
         addBlock(BlockRegistry.MAGNETIC_COIL, "Magnetic Coil");
 

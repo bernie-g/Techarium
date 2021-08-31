@@ -11,6 +11,7 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.techarium.Techarium;
+import software.bernie.techarium.block.BeamBlock;
 import software.bernie.techarium.block.BlockRegistryObjectGroup;
 import software.bernie.techarium.block.arboretum.ArboretumMaster;
 import software.bernie.techarium.block.arboretum.ArboretumTop;
@@ -82,6 +83,7 @@ public class BlockRegistry {
     public static final RegistryObject<Block> COPPER_BLOCK = registerBlock("copper_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> LEAD_BLOCK = registerBlock("lead_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> NICKEL_BLOCK = registerBlock("nickel_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> BEAM = registerBlock("beam", BeamBlock::new);
 
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {

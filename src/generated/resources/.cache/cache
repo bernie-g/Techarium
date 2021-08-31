@@ -14,7 +14,7 @@ f519e8724c5d04c1f61462126e60b6f499a4c0d3 assets/techarium/blockstates/copper_blo
 f4d185b9eb086e5024a9818bad57d524267d6e13 assets/techarium/blockstates/multi_pipe.json
 f0db743f9dce3ee2d0e24964cd7d2cb2adfd8545 assets/techarium/blockstates/nickel_block.json
 c1ee12dabbd0e34a1dabfc503a5fb3e26b8a27cc assets/techarium/blockstates/nickel_ore.json
-31286b44533fd1d0fa5012df71ef5e4d3891df04 assets/techarium/lang/en_us.json
+f43b07289f43692e4a465ffc6b1e10bcaf4ddda4 assets/techarium/lang/en_us.json
 e97c8a1fca55000a5ca2ef0ebae6826926dadce1 assets/techarium/models/block/aluminium_block.json
 1ed008726f92a008baa445b18ecd7535ca66b18f assets/techarium/models/block/aluminium_ore.json
 1a660763ca6eb66aa76db912ce0f9841b9a9a15a assets/techarium/models/block/arboretum.json
@@ -32,6 +32,7 @@ d6fd48da9c607922429d910037e41da8013dd826 assets/techarium/models/block/magneticc
 dcd42008699aa2568d8fb8d833cf7f82b4b50539 assets/techarium/models/item/aluminium_nugget.json
 b5034126e519cac2e9edf533a631f06b26ae7e16 assets/techarium/models/item/aluminium_ore.json
 7537010749f658accbc30329def9a745f89b907a assets/techarium/models/item/arboretum.json
+b9be36974a3ecf11489b7deebc5eee9764258bbb assets/techarium/models/item/beam.json
 9c60ac74a5f96035ae0fb4989c6af12b9506bed2 assets/techarium/models/item/botarium.json
 4408b52228336ea20393357a0b95bb91e4eb3269 assets/techarium/models/item/copper_block.json
 55c57e64acddef7d4961e97270d9277924a05ac3 assets/techarium/models/item/copper_ingot.json
@@ -78,6 +79,7 @@ b8c33481d709bf80778c77b96696c1102ce5c346 data/forge/tags/items/ores/lead.json
 1b84b055e1f5a850c69416079f8248ce655d730e data/techarium/loot_tables/blocks/aluminium_block.json
 393e67bfbe118133945bc96c440704fa818a7794 data/techarium/loot_tables/blocks/aluminium_ore.json
 43fab4556010054bd6c85e47cacc14714e909fc9 data/techarium/loot_tables/blocks/arboretum.json
+451990d6d99500830890bc07d2c0ee107f6f9953 data/techarium/loot_tables/blocks/beam.json
 b3e57b62c6d0c5b6b8e005cd9fe0b0b995c46786 data/techarium/loot_tables/blocks/botarium.json
 d0e81d724dbe8421deae9fe594ad742620965001 data/techarium/loot_tables/blocks/copper_block.json
 123cf3bfd10e3480486e13a36e6de6dc8fa7ee26 data/techarium/loot_tables/blocks/copper_ore.json
