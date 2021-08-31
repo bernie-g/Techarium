@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "techarium:lead_ingot",
-    "techarium:lead_nugget"
+    "techarium:lead_ingot"
   ]
 }
