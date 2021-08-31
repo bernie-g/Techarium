@@ -62,8 +62,8 @@ public class ExchangeStationTile extends MachineMasterTile<ExchangeStationRecipe
         controller.setBackground(EXCHANGE_STATION_DRAWABLE, 193, 230);
         controller.setPlayerInvSlotsXY(getPlayerInvSlotsXY());
         controller.setPlayerHotBarSlotsXY(getPlayerHotBarSlotsXY());
-        controller.addInventory(new InventoryAddon(this, "input", 100,36, 1).setOnSlotChanged(this::updateOutput));
-        controller.addInventory(new InventoryAddon(this, "output", 154,36, 1).setOnSlotChanged(this::onOutputChange).setInsertPredicate((itemStack, integer) -> itemStack.isEmpty()));
+        controller.addInventory(new InventoryAddon(this, "input", 99, 35, 1).setOnSlotChanged(this::updateOutput));
+        controller.addInventory(new InventoryAddon(this, "output", 153, 35, 1).setOnSlotChanged(this::onOutputChange).setInsertPredicate((itemStack, integer) -> itemStack.isEmpty()));
         return controller;
     }
 

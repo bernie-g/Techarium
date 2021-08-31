@@ -32,9 +32,9 @@ public class TechariumItemTagsProvider extends ItemTagsProvider {
         tag(TechariumTags.Items.INGOTS_LEAD).add(ItemRegistry.LEAD_INGOT.get());
         tag(TechariumTags.Items.INGOTS_NICKEL).add(ItemRegistry.NICKEL_INGOT.get());
 
-        tag(TechariumTags.Items.INGOTS_ALUMINIUM).add(ItemRegistry.ALUMINIUM_NUGGET.get());
-        tag(TechariumTags.Items.INGOTS_COPPER).add(ItemRegistry.COPPER_NUGGET.get());
-        tag(TechariumTags.Items.INGOTS_LEAD).add(ItemRegistry.LEAD_NUGGET.get());
-        tag(TechariumTags.Items.INGOTS_NICKEL).add(ItemRegistry.NICKEL_NUGGET.get());
+        tag(TechariumTags.Items.NUGGETS_ALUMINIUM).add(ItemRegistry.ALUMINIUM_NUGGET.get());
+        tag(TechariumTags.Items.NUGGETS_COPPER).add(ItemRegistry.COPPER_NUGGET.get());
+        tag(TechariumTags.Items.NUGGETS_LEAD).add(ItemRegistry.LEAD_NUGGET.get());
+        tag(TechariumTags.Items.NUGGETS_NICKEL).add(ItemRegistry.NICKEL_NUGGET.get());
     }
 }
