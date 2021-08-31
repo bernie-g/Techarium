@@ -1,84 +1,59 @@
 package software.bernie.techarium.machine.addon.fluid;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import org.apache.commons.lang3.tuple.Pair;
+import software.bernie.techarium.client.ClientUtils;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.machine.addon.ExposeType;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
-import software.bernie.techarium.machine.interfaces.IToolTippedAddon;
-import software.bernie.techarium.tile.base.MachineMasterTile;
+import software.bernie.techarium.machine.interfaces.ITooltipAddon;
 import software.bernie.techarium.util.Utils;
 import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import software.bernie.techarium.util.Vector2i;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.DEFAULT_FLUID_TANK;
 
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 @Accessors(chain = true)
-public class FluidTankAddon extends FluidTank implements IContainerComponentProvider, IToolTippedAddon {
+public class FluidTankAddon extends FluidTank implements IContainerComponentProvider, ITooltipAddon {
 
     private final String name;
-
     private final int posX;
-
     private final int posY;
-
-    private final MachineMasterTile tile;
-
+    private final Vector2i backgroundSizeXY;
     private IDrawable tankDrawable;
-
-    private int sizeX = 14;
-
-    private int sizeY = 50;
-
+    private Vector2i size = new Vector2i(14,50);
     private int topOffset = 1;
-
     private int bottomOffset = 1;
-
     private int leftOffset = 1;
-
     private int rightOffset = 1;
-
     private Runnable onContentChange;
 
     @Getter
     @Setter
     private ExposeType exposeType = ExposeType.BOTH;
 
-    public FluidTankAddon(MachineMasterTile tile, String name, int capacity, int posX, int posY, Predicate<FluidStack> validator) {
+    public FluidTankAddon(Vector2i backgroundSizeXY, String name, int capacity, int posX, int posY, Predicate<FluidStack> validator) {
         super(capacity, validator);
-        this.tile = tile;
+        this.backgroundSizeXY = backgroundSizeXY;
         this.name = name;
         this.posX = posX;
         this.posY = posY;
         this.onContentChange = () -> {
         };
-    }
-
-    public void setTankDrawable(IDrawable tankDrawable, int sizeX, int sizeY, int topOffset, int bottomOffset,
-                                int leftOffset, int rightOffset) {
-        this.tankDrawable = tankDrawable;
-        this.sizeX = sizeX;
-        this.sizeY = sizeY;
-        this.topOffset = topOffset;
-        this.bottomOffset = bottomOffset;
-        this.leftOffset = leftOffset;
-        this.rightOffset = rightOffset;
     }
 
     @Override
@@ -94,14 +69,6 @@ public class FluidTankAddon extends FluidTank implements IContainerComponentProv
 
     public Runnable onContentChange() {
         return onContentChange;
-    }
-
-    public int getSizeX() {
-        return sizeX;
-    }
-
-    public int getSizeY() {
-        return sizeY;
     }
 
     public int getTopOffset() {
@@ -129,6 +96,11 @@ public class FluidTankAddon extends FluidTank implements IContainerComponentProv
 
     public int getPosY() {
         return posY;
+    }
+
+    @Override
+    public Vector2i getSize() {
+        return size;
     }
 
     public int getPosX() {
@@ -191,8 +163,8 @@ public class FluidTankAddon extends FluidTank implements IContainerComponentProv
         return this.drainInternal(maxDrain, action);
     }
 
-    public Pair<Integer, Integer> getBackgroundSizeXY() {
-        return tile.getController().getBackgroundSizeXY();
+    public Vector2i getBackgroundSizeXY() {
+        return backgroundSizeXY;
     }
 
     @Override
@@ -201,29 +173,25 @@ public class FluidTankAddon extends FluidTank implements IContainerComponentProv
     }
 
     @Override
-    public void renderToolTip(Screen screen, int x, int y, int xCenter, int yCenter, int mouseX, int mouseY) {
-        if (mouseX >= x + getPosX() && mouseX <= x + getPosX() + sizeX) {
-            if (mouseY >= y + getPosY() && mouseY <= y + getPosY() + sizeY) {
-                if (this.getFluid().isEmpty()) {
-                    TextComponent component = Component.text("Empty", NamedTextColor.GOLD);
-                    screen.renderTooltip(new MatrixStack(), Utils.wrapText(component), mouseX - xCenter, mouseY - yCenter);
-                } else {
-                    DecimalFormat decimalFormat = new DecimalFormat();
-                    TextComponent fluidComponent = Component.text("Fluid: ", NamedTextColor.GOLD)
-                            .append(Component.text(getFluidName(fluid)));
-
-                    TextComponent component = Component.text("Power: ", NamedTextColor.GOLD)
-                            .append(Component.text(decimalFormat.format(this.getFluidAmount()), NamedTextColor.GOLD))
-                            .append(Component.text("/", NamedTextColor.WHITE))
-                            .append(Component.text(decimalFormat.format(this.getCapacity()), NamedTextColor.GOLD))
-                            .append(Component.text(" MB", NamedTextColor.DARK_AQUA));
-
-                    screen.renderComponentTooltip(new MatrixStack(), Utils.wrapText(fluidComponent, component), mouseX - xCenter, mouseY - yCenter);
-                }
+    public List<ITextComponent> createToolTipMessage() {
+        if (this.getFluid().isEmpty()) {
+            return Utils.wrapMultipleText(Component.text("Empty", NamedTextColor.GOLD));
+        } else {
+            DecimalFormat decimalFormat = new DecimalFormat();
+            TextComponent fluidComponent = Component.text("Fluid: ", NamedTextColor.GOLD)
+                    .append(Component.text(getFluidName(fluid)));
+            TextComponent component = Component.text(decimalFormat.format(this.getFluidAmount()), NamedTextColor.GOLD)
+                    .append(Component.text("/", NamedTextColor.WHITE))
+                    .append(Component.text(decimalFormat.format(this.getCapacity()), NamedTextColor.GOLD))
+                    .append(Component.text(" MB", NamedTextColor.DARK_AQUA));
+            if (ClientUtils.isAdvancedItem()) {
+                TextComponent registryName = Component.text(fluid.getFluid().getRegistryName().toString());
+                return Utils.wrapMultipleText(fluidComponent, component, registryName);
+            } else {
+                return Utils.wrapMultipleText(fluidComponent, component);
             }
         }
     }
-
     public static String getFluidName(FluidStack stack) {
         return new TranslationTextComponent(stack.getFluid().getAttributes().getTranslationKey(stack)).getString();
     }
