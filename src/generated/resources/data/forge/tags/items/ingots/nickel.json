@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "techarium:nickel_ingot",
-    "techarium:nickel_nugget"
+    "techarium:nickel_ingot"
   ]
 }
