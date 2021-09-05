@@ -15,6 +15,7 @@ import net.minecraftforge.fml.RegistryObject;
 import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.ItemRegistry;
+import software.bernie.techarium.util.loot.ItemListLootEntry;
 
 import java.util.List;
 import java.util.Map;
@@ -53,32 +54,37 @@ public class TechariumLootTableProvider extends LootTableProvider {
 			dropSelf(BlockRegistry.LEAD_BLOCK);
 			dropSelf(BlockRegistry.NICKEL_BLOCK);
 			dropSelf(BlockRegistry.ZINC_BLOCK);
-
-			noDrop(BlockRegistry.ARBORETUM);
-			noDrop(BlockRegistry.BOTARIUM);
-			noDrop(BlockRegistry.EXCHANGE_STATION);
-			noDrop(BlockRegistry.VOLTAIC_PILE);
+			dropSelf(BlockRegistry.ARBORETUM);
+			dropSelf(BlockRegistry.BOTARIUM);
+			dropSelf(BlockRegistry.GRAVMAGNET);
+			dropSelf(BlockRegistry.EXCHANGE_STATION);
 			dropSelf(BlockRegistry.PIPE);
+			dropSelf(BlockRegistry.MAGNETIC_COIL);
 
-			ILootCondition.IBuilder notEmpty = BlockStateProperty.hasBlockStateProperties(BlockRegistry.VOLTAIC_PILE.get())
-					.setProperties(StatePropertiesPredicate.Builder.properties()
-							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.ONE_THIRD)
-							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.TWO_THIRD)
-							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.FULL));
+			voltaicPileLootTable();
+		}
 
-			ILootCondition.IBuilder empty = BlockStateProperty.hasBlockStateProperties(BlockRegistry.VOLTAIC_PILE.get())
+		public void voltaicPileLootTable() {
+			ILootCondition.IBuilder emptyVoltaicPile = BlockStateProperty.hasBlockStateProperties(BlockRegistry.VOLTAIC_PILE.get())
 					.setProperties(StatePropertiesPredicate.Builder.properties()
 							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.EMPTY));
+			ILootCondition.IBuilder thirdVoltaicPile = BlockStateProperty.hasBlockStateProperties(BlockRegistry.VOLTAIC_PILE.get())
+					.setProperties(StatePropertiesPredicate.Builder.properties()
+							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.ONE_THIRD));
+			ILootCondition.IBuilder twoThirdVoltaicPile = BlockStateProperty.hasBlockStateProperties(BlockRegistry.VOLTAIC_PILE.get())
+					.setProperties(StatePropertiesPredicate.Builder.properties()
+							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.TWO_THIRD));
+			ILootCondition.IBuilder fullVoltaicPile = BlockStateProperty.hasBlockStateProperties(BlockRegistry.VOLTAIC_PILE.get())
+					.setProperties(StatePropertiesPredicate.Builder.properties()
+							.hasProperty(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.FULL));
 
 			customBlockLootTable(BlockRegistry.VOLTAIC_PILE.get(),
 					ItemLootEntry.lootTableItem(BlockRegistry.VOLTAIC_PILE.get())
-							.when(notEmpty)
+							.when(thirdVoltaicPile.or(twoThirdVoltaicPile).or(fullVoltaicPile))
 							.apply(CopyNbt.copyData(CopyNbt.Source.BLOCK_ENTITY)
 									.copy("energy", "BlockEntityTag.energy")),
-					ItemLootEntry.lootTableItem(ItemRegistry.COPPER_INGOT.get())
-							.when(empty),
-					ItemLootEntry.lootTableItem(ItemRegistry.ZINC_INGOT.get())
-							.when(empty));
+					ItemListLootEntry.lootTableItemList(ItemRegistry.COPPER_INGOT.get(), ItemRegistry.ZINC_INGOT.get())
+							.when(emptyVoltaicPile));
 		}
 
 		@Override

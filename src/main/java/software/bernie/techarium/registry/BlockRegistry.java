@@ -17,8 +17,10 @@ import software.bernie.techarium.block.arboretum.ArboretumTop;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.block.base.TechariumBlock;
 import software.bernie.techarium.block.botarium.BotariumTop;
+import software.bernie.techarium.block.coils.MagneticCoilBlock;
 import software.bernie.techarium.block.botarium.BotariumMaster;
 import software.bernie.techarium.block.exchangestation.ExchangeStationBlock;
+import software.bernie.techarium.block.gravmagnet.GravMagnetBlock;
 import software.bernie.techarium.block.pipe.PipeBlock;
 import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
 import software.bernie.techarium.item.TechariumBlockItem;
@@ -26,6 +28,8 @@ import software.bernie.techarium.item.MachineItem;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;
 import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
+import software.bernie.techarium.tile.gravmagnet.GravMagnetTile;
+import software.bernie.techarium.tile.magneticcoils.MagneticCoilTile;
 import software.bernie.techarium.tile.pipe.PipeTile;
 import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
 import software.bernie.techarium.tile.voltaicpile.VoltaicPileTile;
@@ -47,6 +51,14 @@ public class BlockRegistry {
     public static final BlockRegistryObjectGroup<ExchangeStationBlock, BlockItem, ExchangeStationTile> EXCHANGE_STATION =
             new BlockRegistryObjectGroup<>("exchange_station", ExchangeStationBlock::new, machineItemCreator(), ExchangeStationTile::new).register(BLOCKS, ITEMS, TILES);
 
+    
+    //MAGNETIC STUFF
+    public static final BlockRegistryObjectGroup<GravMagnetBlock, BlockItem, GravMagnetTile> GRAVMAGNET =
+            new BlockRegistryObjectGroup<>("gravmagnet", GravMagnetBlock::new, machineItemCreator(), GravMagnetTile::new).register(BLOCKS, ITEMS, TILES);
+    
+    public static final BlockRegistryObjectGroup<MagneticCoilBlock, BlockItem, MagneticCoilTile> MAGNETIC_COIL =
+            new BlockRegistryObjectGroup<>("magneticcoil", MagneticCoilBlock::new, machineItemCreator(), MagneticCoilTile::new).register(BLOCKS, ITEMS, TILES);
+    
     // Pipe
     public static final BlockRegistryObjectGroup<PipeBlock, Item, PipeTile> PIPE =
             new BlockRegistryObjectGroup<>("multi_pipe", PipeBlock::new, null, PipeTile::new).registerWithoutItem(BLOCKS, TILES);

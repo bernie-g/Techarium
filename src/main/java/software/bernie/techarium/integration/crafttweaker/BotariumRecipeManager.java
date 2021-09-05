@@ -4,7 +4,6 @@ import com.blamejared.crafttweaker.api.CraftTweakerAPI;
 import com.blamejared.crafttweaker.api.annotations.ZenRegister;
 import com.blamejared.crafttweaker.api.fluid.IFluidStack;
 import com.blamejared.crafttweaker.api.item.IIngredient;
-import com.blamejared.crafttweaker.api.item.IItemStack;
 import com.blamejared.crafttweaker.api.managers.IRecipeManager;
 import com.blamejared.crafttweaker.impl.actions.recipes.ActionAddRecipe;
 import com.blamejared.crafttweaker.impl.item.MCWeightedItemStack;
@@ -16,8 +15,8 @@ import org.jetbrains.annotations.NotNull;
 import org.openzen.zencode.java.ZenCodeType;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
-import software.bernie.techarium.util.ChancedItemStack;
-import software.bernie.techarium.util.ChancedItemStackList;
+import software.bernie.techarium.util.loot.ChancedItemStack;
+import software.bernie.techarium.util.loot.ChancedItemStackList;
 
 import java.util.Arrays;
 

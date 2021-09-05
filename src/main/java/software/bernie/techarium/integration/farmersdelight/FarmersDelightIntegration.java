@@ -4,7 +4,7 @@ import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import software.bernie.techarium.integration.Integration;
-import software.bernie.techarium.util.ChancedItemStackList;
+import software.bernie.techarium.util.loot.ChancedItemStackList;
 import vectorwing.farmersdelight.registry.ModItems;
 
 import java.util.function.Consumer;

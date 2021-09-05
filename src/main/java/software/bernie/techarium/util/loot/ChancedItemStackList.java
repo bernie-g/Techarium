@@ -1,4 +1,4 @@
-package software.bernie.techarium.util;
+package software.bernie.techarium.util.loot;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -6,8 +6,6 @@ import lombok.Getter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.IItemProvider;
-import software.bernie.techarium.Techarium;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

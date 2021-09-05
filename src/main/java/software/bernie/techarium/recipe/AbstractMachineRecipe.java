@@ -63,7 +63,7 @@ public abstract class AbstractMachineRecipe extends TechariumRecipeBuilder<Abstr
     }
 
     public abstract class Result extends TechariumRecipeBuilder.Result {
-        public Result(ResourceLocation id) {
+        protected Result(ResourceLocation id) {
             super(id);
         }
 

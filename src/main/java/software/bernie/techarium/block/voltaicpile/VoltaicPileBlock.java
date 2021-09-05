@@ -13,13 +13,10 @@ import software.bernie.techarium.trait.block.BlockBehaviours;
 import software.bernie.techarium.util.TechariumMaterial;
 
 public class VoltaicPileBlock extends TechariumBlock<VoltaicPileTile> {
-    public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final EnumProperty<Charge> CHARGE = EnumProperty.create("charge", Charge.class);
 
     public VoltaicPileBlock() {
         super(BlockBehaviours.voltaicPile, AbstractBlock.Properties.of(TechariumMaterial.METAL));
-
-        this.registerDefaultState(this.getStateDefinition().any().setValue(HORIZONTAL_FACING, Direction.NORTH).setValue(CHARGE, Charge.FULL));
     }
 
     @Override
@@ -27,30 +24,12 @@ public class VoltaicPileBlock extends TechariumBlock<VoltaicPileTile> {
         return BlockRenderType.MODEL;
     }
 
-    @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(HORIZONTAL_FACING, CHARGE);
-    }
-
     public enum Charge implements IStringSerializable {
-        EMPTY("empty"),
-        ONE_THIRD("one_third"),
-        TWO_THIRD("two_third"),
-        FULL("full");
-
-        private final String name;
-
-        Charge(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
+        EMPTY, ONE_THIRD, TWO_THIRD, FULL;
 
         @Override
         public String getSerializedName() {
-            return name;
+            return name();
         }
     }
 }

@@ -2,10 +2,14 @@ package software.bernie.techarium.tile.voltaicpile;
 
 import net.minecraft.block.FireBlock;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
 import software.bernie.techarium.machine.sideness.FaceConfig;
 import software.bernie.techarium.machine.sideness.Side;
@@ -31,7 +35,6 @@ public class VoltaicPileTile extends TechariumTileBase {
     @Override
     public void tick() {
         getPowerTrait().ifPresent(trait -> {
-
             // Prevent immediate explosion of the Voltaic Pile, the getDayTime is a misleading name, it also includes the night
             if (level.getDayTime() % 40 == 0 && !level.isClientSide()) {
                 for (Direction d : Direction.values()) {
@@ -48,25 +51,19 @@ public class VoltaicPileTile extends TechariumTileBase {
     protected void updateMachineTile() {
         getPowerTrait().ifPresent(trait -> {
             float percentStored = trait.getEnergyStorage().getPercentageFull();
-            if (percentStored == 0) {
-                if (getBlockState().getValue(VoltaicPileBlock.CHARGE) != VoltaicPileBlock.Charge.EMPTY) {
-                    this.getLevel().setBlockAndUpdate(worldPosition, this.getBlockState().setValue(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.EMPTY));
-                }
-            }
-            else if (percentStored <= 0.5) {
-                if (getBlockState().getValue(VoltaicPileBlock.CHARGE) != VoltaicPileBlock.Charge.ONE_THIRD) {
-                    this.getLevel().setBlockAndUpdate(worldPosition, this.getBlockState().setValue(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.ONE_THIRD));
-                }
-            }
-            else if (percentStored < 1) {
-                if (getBlockState().getValue(VoltaicPileBlock.CHARGE) != VoltaicPileBlock.Charge.TWO_THIRD) {
-                    this.getLevel().setBlockAndUpdate(worldPosition, this.getBlockState().setValue(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.TWO_THIRD));
-                }            }
-            else {
-                if (getBlockState().getValue(VoltaicPileBlock.CHARGE) != VoltaicPileBlock.Charge.FULL) {
-                    this.getLevel().setBlockAndUpdate(worldPosition, this.getBlockState().setValue(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.FULL));
-                }
-            }
+            VoltaicPileBlock.Charge currentChargeProperty = getBlockState().getValue(VoltaicPileBlock.CHARGE);
+            VoltaicPileBlock.Charge wantedChargeProperty = VoltaicPileBlock.Charge.FULL;
+
+            if (percentStored < 1)
+                wantedChargeProperty = VoltaicPileBlock.Charge.TWO_THIRD;
+            if (percentStored <= 0.5)
+                wantedChargeProperty = VoltaicPileBlock.Charge.ONE_THIRD;
+            if (percentStored == 0)
+                wantedChargeProperty = VoltaicPileBlock.Charge.EMPTY;
+
+            if (wantedChargeProperty != currentChargeProperty)
+              this.getLevel().setBlockAndUpdate(worldPosition, this.getBlockState().setValue(VoltaicPileBlock.CHARGE, wantedChargeProperty));
+          
         });
         super.updateMachineTile();
     }

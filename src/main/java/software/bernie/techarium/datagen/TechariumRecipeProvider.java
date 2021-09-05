@@ -19,8 +19,8 @@ import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.registry.TagRegistry;
-import software.bernie.techarium.util.ChancedItemStack;
-import software.bernie.techarium.util.ChancedItemStackList;
+import software.bernie.techarium.util.loot.ChancedItemStack;
+import software.bernie.techarium.util.loot.ChancedItemStackList;
 
 import java.util.function.Consumer;
 
@@ -36,6 +36,8 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
         registerExchangeStationRecipes(consumer);
 
         registerVanillaArboretumRecipes(consumer);
+        
+        registerGravMagnetRecipes(consumer);
 
         registerSmeltingRecipes(consumer);
         registerCraftingRecipes(consumer);
@@ -97,6 +99,12 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
 
     }
 
+    private void registerGravMagnetRecipes(Consumer<IFinishedRecipe> consumer) {
+    	buildGravMagnetRecipe("eye_of_ender", 
+    			ChancedItemStackList.of(
+    					ChancedItemStack.of(Items.ENDER_PEARL, 1, 1d),
+    					ChancedItemStack.of(Items.BLAZE_POWDER, 1, 1d)), new ItemStack(Items.ENDER_EYE), 6 * 20, true, consumer);
+    }
 
     private void registerExchangeStationRecipes(Consumer<IFinishedRecipe> consumer) {
         buildExchangeStationRecipe(Items.GOLD_INGOT, 1, Items.DIRT, 1, consumer);

@@ -2,13 +2,17 @@ package software.bernie.techarium.trait.tile;
 
 import lombok.Data;
 import lombok.SneakyThrows;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
+import software.bernie.techarium.machine.sideness.Side;
+import software.bernie.techarium.tile.base.MachineTileBase;
 import software.bernie.techarium.trait.Trait;
 import software.bernie.techarium.util.TechariumEnergyStorage;
+import java.util.Map;
 
+import static software.bernie.techarium.util.StaticHandler.getSideFromDirection;
 public class TileTraits {
-    // TODO: ADD FLUID TRAIT
 
     @Data
     public static class PowerTrait extends Trait {

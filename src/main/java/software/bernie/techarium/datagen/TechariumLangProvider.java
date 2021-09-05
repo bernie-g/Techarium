@@ -48,6 +48,9 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addBlock(BlockRegistry.BOTARIUM_TOP, "Botarium");
         addBlock(BlockRegistry.ARBORETUM, "Arboretum");
         addBlock(BlockRegistry.ARBORETUM_TOP, "Arboretum");
+        
+        addBlock(BlockRegistry.GRAVMAGNET, "Grav Magnet");
+        addBlock(BlockRegistry.MAGNETIC_COIL, "Magnetic Coil");
 
         addBlock(BlockRegistry.VOLTAIC_PILE, "Voltaic Pile");
         addBlock(BlockRegistry.EXCHANGE_STATION, "Exchange Station");
@@ -78,7 +81,7 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addTranslation(LangRegistry.guiPipeRoundRobin, "Round-Robin");
         addTranslation(LangRegistry.guiPipeSelfFeed, "Self Feed");
         addTranslation(LangRegistry.machineShiftDescription, "Hold [LShift] for description");
-
-
+        addTranslation(LangRegistry.gravMagnetDescription, "The Grav Magnet will attract or repel every entity in front of the block. Use a redstone signal to switch between the two mode. Can be boosted if a magnetic coil is place behind");
+        addTranslation(LangRegistry.magneticCoilDescription, "The Magnetic Coil is use to boost the Grav Magnet. Add coil inside to boost the power");
     }
 }

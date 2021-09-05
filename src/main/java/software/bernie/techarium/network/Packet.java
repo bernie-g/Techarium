@@ -17,7 +17,6 @@ public abstract class Packet<MSG extends Packet<MSG>> {
 
     public abstract Optional<NetworkDirection> getDirection();
 
-
     public abstract void write(PacketBuffer writeInto);
 
     public abstract MSG create(PacketBuffer readFrom);
