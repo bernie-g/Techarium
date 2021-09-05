@@ -13,6 +13,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -92,10 +93,11 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     }
 
     @Override
-    public ActionResultType onTileActivated(PlayerEntity player) {
-        NetworkHooks.openGui((ServerPlayerEntity) player, this,
-                packetBuffer -> packetBuffer.writeBlockPos(this.getBlockPos())
-        );
+    public ActionResultType onTileActivated(PlayerEntity player, Hand hand) {
+        NetworkHooks.openGui((ServerPlayerEntity) player, this, packetBuffer -> {
+            packetBuffer.writeBlockPos(this.getBlockPos());
+            packetBuffer.writeComponent(this.getDisplayName());
+        });
         return ActionResultType.SUCCESS;
     }
 

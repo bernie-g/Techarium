@@ -1,0 +1,16 @@
+{
+  "type": "techarium:hammering",
+  "input0": {
+    "tag": "forge:ingots/copper"
+  },
+  "input1": {
+    "tag": "forge:ingots/copper"
+  },
+  "input2": {
+    "tag": "forge:ingots/copper"
+  },
+  "output": {
+    "id": "techarium:copper_plate",
+    "Count": 1
+  }
+}

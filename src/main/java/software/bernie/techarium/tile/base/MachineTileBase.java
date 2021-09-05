@@ -12,6 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.block.base.TechariumBlock;
 import software.bernie.techarium.machine.sideness.FaceConfig;

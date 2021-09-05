@@ -60,6 +60,7 @@ public class TechariumLootTableProvider extends LootTableProvider {
 			dropSelf(BlockRegistry.EXCHANGE_STATION);
 			dropSelf(BlockRegistry.PIPE);
 			dropSelf(BlockRegistry.MAGNETIC_COIL);
+			dropSelf(BlockRegistry.DEPOT);
 
 			voltaicPileLootTable();
 		}
@@ -85,6 +86,7 @@ public class TechariumLootTableProvider extends LootTableProvider {
 									.copy("energy", "BlockEntityTag.energy")),
 					ItemListLootEntry.lootTableItemList(ItemRegistry.COPPER_INGOT.get(), ItemRegistry.ZINC_INGOT.get())
 							.when(emptyVoltaicPile));
+
 		}
 
 		@Override

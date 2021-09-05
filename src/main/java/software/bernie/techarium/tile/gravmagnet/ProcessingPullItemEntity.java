@@ -19,7 +19,7 @@ public class ProcessingPullItemEntity extends ProcessingItemEntityBase {
 
 	@Override
 	protected int getRecipeTime() {
-		return recipe.getProcessTime();
+		return recipe.getMaxProgress();
 	}
 
 	@Override

@@ -4,11 +4,9 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import software.bernie.techarium.client.screen.draw.IDrawable;
 import software.bernie.techarium.client.screen.draw.UiTexture;
 import software.bernie.techarium.display.container.PipeContainer;
@@ -21,14 +19,13 @@ import software.bernie.techarium.network.container.ChangedRedstoneControlTypeCon
 import software.bernie.techarium.network.NetworkConnection;
 import software.bernie.techarium.pipe.util.RedstoneControlType;
 import software.bernie.techarium.registry.LangRegistry;
-import software.bernie.techarium.util.Utils;
 import software.bernie.techarium.util.Vector2i;
 
-import static software.bernie.techarium.Techarium.ModID;
+import static software.bernie.techarium.Techarium.MOD_ID;
 
 public class PipeContainerScreen extends DrawableContainerScreen<PipeContainer> {
 
-    private static final IDrawable BACKGROUND_TEXTURE = new UiTexture(new ResourceLocation(ModID, "textures/gui/pipe/inventory.png"), 201, 195).getFullArea();
+    private static final IDrawable BACKGROUND_TEXTURE = new UiTexture(new ResourceLocation(MOD_ID, "textures/gui/pipe/inventory.png"), 201, 195).getFullArea();
 
     @Getter(AccessLevel.PRIVATE)
     @Setter(AccessLevel.PRIVATE)

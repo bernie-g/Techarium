@@ -14,7 +14,6 @@ import software.bernie.techarium.machine.interfaces.ITooltipAddon;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 import software.bernie.techarium.util.Utils;
 import software.bernie.techarium.util.Vector2i;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;

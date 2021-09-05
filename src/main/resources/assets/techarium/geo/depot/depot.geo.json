@@ -1,0 +1,29 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.depot",
+				"texture_width": 128,
+				"texture_height": 128,
+				"visible_bounds_width": 1,
+				"visible_bounds_height": 1,
+				"visible_bounds_offset": [0, 0, 0]
+			},
+			"bones": [
+				{
+					"name": "item1",
+					"pivot": [0, 15.5, 0]
+				},
+				{
+					"name": "item2",
+					"pivot": [0, 17.5, 0]
+				},
+				{
+					"name": "item3",
+					"pivot": [0, 20.5, 0]
+				}
+			]
+		}
+	]
+}

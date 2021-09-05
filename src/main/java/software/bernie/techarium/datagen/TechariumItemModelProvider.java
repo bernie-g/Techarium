@@ -18,6 +18,7 @@ public class TechariumItemModelProvider extends TechariumItemModelProviderBase {
         registerIngots();
 
         simpleTexture(ItemRegistry.DEBUGSTICK.get(), "item/pipe/pipe_stick");
+        simpleTexture(ItemRegistry.HAMMER.get(), "item/hammer");
         simpleTexture(BlockRegistry.EXCHANGE_STATION.getItem(), "item/exchange_station");
         emptyModel("multi_pipe");
     }
@@ -34,6 +35,11 @@ public class TechariumItemModelProvider extends TechariumItemModelProviderBase {
         simpleTexture(ItemRegistry.LEAD_INGOT.get(), "item/ingot/lead_ingot");
         simpleTexture(ItemRegistry.NICKEL_INGOT.get(), "item/ingot/nickel_ingot");
         simpleTexture(ItemRegistry.ZINC_INGOT.get(), "item/ingot/nickel_ingot");
+
+        simpleTexture(ItemRegistry.COPPER_PLATE.get(), "item/plate/copper_plate");
+        simpleTexture(ItemRegistry.ALUMINIUM_PLATE.get(), "item/plate/aluminium_plate");
+        simpleTexture(ItemRegistry.LEAD_PLATE.get(), "item/plate/lead_plate");
+        simpleTexture(ItemRegistry.NICKEL_PLATE.get(), "item/plate/nickel_plate");
 
         simpleTexture(ItemRegistry.COPPER_NUGGET.get(), "item/nugget/copper_nugget");
         simpleTexture(ItemRegistry.ALUMINIUM_NUGGET.get(), "item/nugget/aluminium_nugget");

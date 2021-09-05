@@ -38,7 +38,7 @@ public class IEIntegration extends Integration {
                 .construct()
                 .addCondition(new ModLoadedCondition(ModIntegrations.getIE().orElseThrow(NullPointerException::new).getModID()))
                 .build(consumer,
-                        new ResourceLocation(Techarium.ModID,
+                        new ResourceLocation(Techarium.MOD_ID,
                                 "botarium/immersiveengineering/" + IEItems.Misc.hempSeeds.getRegistryName().getPath()));
     }
 }

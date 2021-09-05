@@ -10,7 +10,7 @@ import software.bernie.techarium.network.tile.UpdateCoilTypePacket;
 public class NetworkConnection {
     private static final String PROTOCOL_VERSION = "1.0";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation(Techarium.ModID, "network"),
+            new ResourceLocation(Techarium.MOD_ID, "network"),
             () -> PROTOCOL_VERSION,
             PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals);

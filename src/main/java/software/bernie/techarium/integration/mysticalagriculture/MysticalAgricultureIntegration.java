@@ -43,7 +43,7 @@ public class MysticalAgricultureIntegration extends Integration {
                         .construct()
                         .addCondition(new ModLoadedCondition(ModIntegrations.getMystical().orElseThrow(NullPointerException::new).getModID()))
                         .build(consumer,
-                                new ResourceLocation(Techarium.ModID, "botarium/mystical/" + mysticalSeed.getRegistryName().getPath()));
+                                new ResourceLocation(Techarium.MOD_ID, "botarium/mystical/" + mysticalSeed.getRegistryName().getPath()));
             }
         }
     }

@@ -75,7 +75,7 @@ public abstract class Integration {
                 .construct()
                 .addCondition(new ModLoadedCondition(modID))
                 .build(consumer,
-                        new ResourceLocation(Techarium.ModID,
+                        new ResourceLocation(Techarium.MOD_ID,
                                 "botarium/" + seed.getRegistryName().getNamespace() + "/" + seed.getRegistryName()
                                         .getPath()));
     }
@@ -100,7 +100,7 @@ public abstract class Integration {
                 .construct()
                 .addCondition(new ModLoadedCondition(modID))
                 .build(consumer,
-                        new ResourceLocation(Techarium.ModID,
+                        new ResourceLocation(Techarium.MOD_ID,
                                 "arboretum/" + modID + "/" + sapling.getRegistryName().getPath()));
     }
 
