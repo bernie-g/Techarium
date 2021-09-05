@@ -56,11 +56,8 @@ public abstract class TechariumTileBase extends MachineTileBase implements ITick
         getPowerTrait().ifPresent(trait -> {
             for (Direction d : Direction.values()) {
                 FaceConfig faceConfig = getFaceConfigs().get(getSideFromDirection(d, getFacingDirection()));
-                switch (faceConfig) {
-                    case PUSH_ONLY:
+                if (faceConfig == FaceConfig.PUSH_ONLY) {
                         trait.getEnergyStorage().outputToSide(getLevel(), getBlockPos(), d, Integer.MAX_VALUE);
-                    case PULL_ONLY:
-                        trait.getEnergyStorage().inputFromSide(getLevel(), getBlockPos(), d, Integer.MAX_VALUE);
                 }
             }
         });
