@@ -15,7 +15,7 @@ import software.bernie.techarium.integration.Integration;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.TagRegistry;
-import software.bernie.techarium.util.ChancedItemStackList;
+import software.bernie.techarium.util.loot.ChancedItemStackList;
 
 import java.util.function.Consumer;
 

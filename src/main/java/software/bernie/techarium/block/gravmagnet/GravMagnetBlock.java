@@ -43,16 +43,10 @@ public class GravMagnetBlock extends MachineBlock<GravMagnetTile> {
 			}
 		}
 	}
-	
+
 	@Override
 	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn,
 			BlockRayTraceResult hit) {
 		return ActionResultType.PASS;
 	}
-
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-		super.createBlockStateDefinition(builder);
-		builder.add(POWERED);
-	}
-
 }

@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.techarium.recipe.AbstractMachineRecipe;
-import software.bernie.techarium.util.ChancedItemStackList;
+import software.bernie.techarium.util.loot.ChancedItemStackList;
 import software.bernie.techarium.util.JsonCodecUtils;
 
 import static software.bernie.techarium.registry.RecipeRegistry.BOTARIUM_RECIPE_TYPE;

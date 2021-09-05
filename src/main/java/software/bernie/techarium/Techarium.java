@@ -44,6 +44,7 @@ public class Techarium {
 		bus.addListener(NetworkEvents::onCommonSetup);
 		bus.addListener(this::gatherData);
 		bus.addListener(this::enqueueIMC);
+		bus.addListener(LootRegistry::registerLootPoolEntryTypes);
 		MinecraftForge.EVENT_BUS.addListener(WorldGen::generateOres);
 		TechariumConfig.load();
 		NetworkConnection.registerMessages();

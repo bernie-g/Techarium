@@ -12,7 +12,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
-import software.bernie.techarium.util.ChancedItemStackList;
+import software.bernie.techarium.util.loot.ChancedItemStackList;
 import software.bernie.techarium.util.JsonCodecUtils;
 import software.bernie.techarium.util.Utils;
 

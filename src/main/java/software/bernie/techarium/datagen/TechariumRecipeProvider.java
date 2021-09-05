@@ -12,7 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.IItemProvider;
-import net.minecraftforge.common.crafting.StackList;
 import net.minecraftforge.fluids.FluidStack;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.datagen.base.TechariumRecipeProviderBase;
@@ -21,13 +20,10 @@ import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.registry.TagRegistry;
-import software.bernie.techarium.util.ChancedItemStack;
-import software.bernie.techarium.util.ChancedItemStackList;
+import software.bernie.techarium.util.loot.ChancedItemStack;
+import software.bernie.techarium.util.loot.ChancedItemStackList;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
     public TechariumRecipeProvider(DataGenerator generatorIn) {
@@ -41,7 +37,7 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
         registerExchangeStationRecipes(consumer);
 
         registerVanillaArboretumRecipes(consumer);
-        
+
         registerGravMagnetRecipes(consumer);
         registerHammerRecipes(consumer);
 
@@ -104,7 +100,7 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
     }
 
     private void registerGravMagnetRecipes(Consumer<IFinishedRecipe> consumer) {
-    	buildGravMagnetRecipe("eye_of_ender", 
+    	buildGravMagnetRecipe("eye_of_ender",
     			ChancedItemStackList.of(
     					ChancedItemStack.of(Items.ENDER_PEARL, 1, 1d),
     					ChancedItemStack.of(Items.BLAZE_POWDER, 1, 1d)), new ItemStack(Items.ENDER_EYE), 6 * 20, true, consumer);
@@ -167,6 +163,10 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .smelting(Ingredient.of(BlockRegistry.NICKEL_ORE.get()), ItemRegistry.NICKEL_INGOT.get(), 0.7f, 200)
                 .unlockedBy("has_item", has(BlockRegistry.NICKEL_ORE.get()))
                 .save(consumer, Techarium.rl("smelting/nickel_ore"));
+        CookingRecipeBuilder
+                .smelting(Ingredient.of(BlockRegistry.ZINC_ORE.get()), ItemRegistry.ZINC_INGOT.get(), 0.7f, 200)
+                .unlockedBy("has_item", has(BlockRegistry.ZINC_ORE.get()))
+                .save(consumer, Techarium.rl("smelting/zinc_ore"));
 
         CookingRecipeBuilder
                 .blasting(Ingredient.of(BlockRegistry.ALUMINIUM_ORE.get()), ItemRegistry.ALUMINIUM_INGOT
@@ -185,6 +185,10 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .blasting(Ingredient.of(BlockRegistry.NICKEL_ORE.get()), ItemRegistry.NICKEL_INGOT.get(), 0.7f, 100)
                 .unlockedBy("has_item", has(BlockRegistry.NICKEL_ORE.get()))
                 .save(consumer, Techarium.rl("blasting/nickel_ore"));
+        CookingRecipeBuilder
+                .blasting(Ingredient.of(BlockRegistry.ZINC_ORE.get()), ItemRegistry.ZINC_INGOT.get(), 0.7f, 100)
+                .unlockedBy("has_item", has(BlockRegistry.ZINC_ORE.get()))
+                .save(consumer, Techarium.rl("blasting/zinc_ore"));
     }
 
     private static void buildExchangeStationRecipe(IItemProvider input, int inputAmount, IItemProvider output, int outputAmount, Consumer<IFinishedRecipe> consumer) {

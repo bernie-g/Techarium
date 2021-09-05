@@ -25,6 +25,7 @@ import software.bernie.techarium.helper.EntityHelper;
 import software.bernie.techarium.item.CoilItem;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.tile.base.MachineTileBase;
+import software.bernie.techarium.trait.tile.TileBehaviours;
 
 public class MagneticCoilTile extends MachineTileBase implements IAnimatable {
 
@@ -35,7 +36,7 @@ public class MagneticCoilTile extends MachineTileBase implements IAnimatable {
 	private MagneticCoilType coilType = MagneticCoilType.TIER_NULL;
 
 	public MagneticCoilTile() {
-		super(BlockRegistry.MAGNETIC_COIL.getTileEntityType());
+		super(BlockRegistry.MAGNETIC_COIL.getTileEntityType(), TileBehaviours.magneticCoil);
 	}
 
 	private <E extends IAnimatable> PlayState animationPredicate(AnimationEvent<E> event) {

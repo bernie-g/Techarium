@@ -1,4 +1,4 @@
-package software.bernie.techarium.util;
+package software.bernie.techarium.util.loot;
 
 import com.google.gson.JsonObject;
 import lombok.Getter;

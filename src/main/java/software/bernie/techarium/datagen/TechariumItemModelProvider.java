@@ -34,6 +34,7 @@ public class TechariumItemModelProvider extends TechariumItemModelProviderBase {
         simpleTexture(ItemRegistry.ALUMINIUM_INGOT.get(), "item/ingot/aluminium_ingot");
         simpleTexture(ItemRegistry.LEAD_INGOT.get(), "item/ingot/lead_ingot");
         simpleTexture(ItemRegistry.NICKEL_INGOT.get(), "item/ingot/nickel_ingot");
+        simpleTexture(ItemRegistry.ZINC_INGOT.get(), "item/ingot/nickel_ingot");
 
         simpleTexture(ItemRegistry.COPPER_PLATE.get(), "item/plate/copper_plate");
         simpleTexture(ItemRegistry.ALUMINIUM_PLATE.get(), "item/plate/aluminium_plate");
@@ -44,11 +45,6 @@ public class TechariumItemModelProvider extends TechariumItemModelProviderBase {
         simpleTexture(ItemRegistry.ALUMINIUM_NUGGET.get(), "item/nugget/aluminium_nugget");
         simpleTexture(ItemRegistry.LEAD_NUGGET.get(), "item/nugget/lead_nugget");
         simpleTexture(ItemRegistry.NICKEL_NUGGET.get(), "item/nugget/nickel_nugget");
-    }
-    
-    public void registerWire() {
-        simpleTexture(ItemRegistry.COPPER_COIL.get(), "item/coil/copper_coil");
-        simpleTexture(ItemRegistry.COBALT_COIL.get(), "item/coil/cobalt_coil");
-        simpleTexture(ItemRegistry.SOLARIUM_COIL.get(), "item/coil/solarium_coil");
+        simpleTexture(ItemRegistry.ZINC_NUGGET.get(), "item/nugget/zinc_nugget");
     }
 }

@@ -44,6 +44,8 @@ import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.tile.base.MachineTileBase;
 import software.bernie.techarium.tile.depot.DepotTileEntity;
 import software.bernie.techarium.tile.magneticcoils.MagneticCoilTile;
+import software.bernie.techarium.trait.tile.TileBehaviour;
+import software.bernie.techarium.trait.tile.TileBehaviours;
 
 public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITickableTileEntity {
 
@@ -59,7 +61,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 	private List<ProcessingItemEntityBase> toRemove = new ArrayList<>();
 
 	public GravMagnetTile() {
-		super(BlockRegistry.GRAVMAGNET.getTileEntityType());
+		super(BlockRegistry.GRAVMAGNET.getTileEntityType(), TileBehaviours.gravMagnet);
 	}
 
 	private <E extends IAnimatable> PlayState animationPredicate(AnimationEvent<E> event) {

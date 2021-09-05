@@ -93,8 +93,12 @@ public abstract class TechariumBlock<T extends TileEntity> extends Block impleme
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        if (this.behaviour != null && behaviour.has(BlockTraits.BlockRotationTrait.class))
-            getBehaviour().getRequired(BlockTraits.BlockRotationTrait.class).createBlockStateDefinition(builder);
+        if (this.behaviour == null) {
+            return;
+        }
+
+        getBehaviour().get(BlockTraits.PropertyTrait.class).ifPresent(trait -> trait.createBlockStateDefinition(builder));
+        getBehaviour().get(BlockTraits.BlockRotationTrait.class).ifPresent(trait -> trait.createBlockStateDefinition(builder));
     }
 
     @Override

@@ -3,6 +3,8 @@ package software.bernie.techarium.datagen;
 import net.minecraft.block.Block;
 import net.minecraft.data.loot.BlockLootTables;
 import net.minecraft.item.Item;
+import net.minecraft.loot.LootEntry;
+import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.util.IItemProvider;
 
@@ -19,6 +21,10 @@ public class TechariumBlockLootTableProvider extends BlockLootTables
 		super.dropSelf(block.get());
 	}
 
+	public void noDrop(Supplier<? extends Block> block) {
+		super.add(block.get(), noDrop());
+	}
+
 	public void dropAsSilk(Supplier<? extends Block> block) {
 		super.dropWhenSilkTouch(block.get());
 	}
@@ -29,5 +35,15 @@ public class TechariumBlockLootTableProvider extends BlockLootTables
 
 	public void dropWithFortune(Supplier<? extends Block> block, Supplier<? extends Item> drop) {
 		super.add(block.get(), (result) -> createOreDrop(result, drop.get()));
+	}
+
+	public void customBlockLootTable(Block block, LootEntry.Builder<?>... builders) {
+		LootPool.Builder builder = LootPool.lootPool();
+
+		for (LootEntry.Builder<?> entryBuilder : builders) {
+			builder = builder.add(entryBuilder);
+		}
+
+		add(block, LootTable.lootTable().withPool(applyExplosionCondition(block, builder)));
 	}
 }

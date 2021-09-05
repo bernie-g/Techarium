@@ -10,7 +10,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import software.bernie.techarium.recipe.recipe.GravMagnetRecipe;
-import software.bernie.techarium.util.ChancedItemStackList;
+import software.bernie.techarium.util.loot.ChancedItemStackList;
 import software.bernie.techarium.util.JsonCodecUtils;
 
 public class GravMagnetRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>>

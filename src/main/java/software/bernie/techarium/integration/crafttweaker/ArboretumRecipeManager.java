@@ -13,8 +13,8 @@ import org.jetbrains.annotations.NotNull;
 import org.openzen.zencode.java.ZenCodeType;
 import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
-import software.bernie.techarium.util.ChancedItemStack;
-import software.bernie.techarium.util.ChancedItemStackList;
+import software.bernie.techarium.util.loot.ChancedItemStack;
+import software.bernie.techarium.util.loot.ChancedItemStackList;
 
 import java.util.Arrays;
 

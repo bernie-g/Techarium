@@ -16,6 +16,8 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import org.jetbrains.annotations.NotNull;
+import software.bernie.techarium.trait.tile.TileBehaviour;
+import software.bernie.techarium.trait.tile.TileBehaviours;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -28,7 +30,7 @@ public class MachineSlaveTile extends MachineTileBase {
     private BlockPos masterPos = BlockPos.ZERO;
 
     public MachineSlaveTile(TileEntityType<?> tileEntityTypeIn) {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, TileBehaviours.base);
     }
 
 

@@ -1,5 +1,8 @@
 package software.bernie.techarium.trait.block;
 
+import net.minecraft.block.BlockRenderType;
+import software.bernie.techarium.block.gravmagnet.GravMagnetBlock;
+import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
 import software.bernie.techarium.registry.LangRegistry;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;
@@ -7,6 +10,9 @@ import software.bernie.techarium.tile.depot.DepotTileEntity;
 import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
 import software.bernie.techarium.tile.gravmagnet.GravMagnetTile;
 import software.bernie.techarium.tile.magneticcoils.MagneticCoilTile;
+import software.bernie.techarium.tile.voltaicpile.VoltaicPileTile;
+import software.bernie.techarium.trait.Trait;
+import software.bernie.techarium.trait.Traits;
 
 public class BlockBehaviours {
     public static final BlockBehaviour BOTARIUM = new BlockBehaviour.Builder()
@@ -29,11 +35,12 @@ public class BlockBehaviours {
             .rotation(BlockTraits.RotationType.XZ)
             .description(LangRegistry.exchangeDescription)
             .build();
-    
+
     public static final BlockBehaviour GRAV_MAGNET = new BlockBehaviour.Builder()
             .composeFrom(BlockPartialBehaviours.partialMachineBlock)
             .tileEntity(GravMagnetTile.class)
             .rotation(BlockTraits.RotationType.XYZ)
+            .with(new BlockTraits.PropertyTrait(GravMagnetBlock.POWERED, false))
             .description(LangRegistry.gravMagnetDescription)
             .build();
 
@@ -50,6 +57,15 @@ public class BlockBehaviours {
             .tileEntity(MagneticCoilTile.class)
             .rotation(BlockTraits.RotationType.XYZ)
             .description(LangRegistry.magneticCoilDescription)
+            .build();
+
+    public static BlockBehaviour voltaicPile = new BlockBehaviour.Builder()
+            .composeFrom(BlockPartialBehaviours.partialTileBlock)
+            .tileEntity(VoltaicPileTile.class)
+            .with(new BlockTraits.MachineMaterialTrait())
+            .rotation(BlockTraits.RotationType.XZ)
+            .with(new BlockTraits.PropertyTrait(VoltaicPileBlock.CHARGE, VoltaicPileBlock.Charge.FULL))
+            .description(LangRegistry.voltaicPileDescription)
             .build();
 
     public static BlockBehaviour createSlave(BlockBehaviour masterBehaviour) {

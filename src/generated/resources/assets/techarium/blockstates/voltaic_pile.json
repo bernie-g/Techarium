@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "charge=empty,facing=north": {
+      "model": "techarium:block/voltaic_pile_empty",
+      "y": 180
+    },
+    "charge=one_third,facing=north": {
+      "model": "techarium:block/voltaic_pile_33",
+      "y": 180
+    },
+    "charge=two_third,facing=north": {
+      "model": "techarium:block/voltaic_pile_66",
+      "y": 180
+    },
+    "charge=full,facing=north": {
+      "model": "techarium:block/voltaic_pile_full",
+      "y": 180
+    },
+    "charge=empty,facing=south": {
+      "model": "techarium:block/voltaic_pile_empty"
+    },
+    "charge=one_third,facing=south": {
+      "model": "techarium:block/voltaic_pile_33"
+    },
+    "charge=two_third,facing=south": {
+      "model": "techarium:block/voltaic_pile_66"
+    },
+    "charge=full,facing=south": {
+      "model": "techarium:block/voltaic_pile_full"
+    },
+    "charge=empty,facing=west": {
+      "model": "techarium:block/voltaic_pile_empty",
+      "y": 90
+    },
+    "charge=one_third,facing=west": {
+      "model": "techarium:block/voltaic_pile_33",
+      "y": 90
+    },
+    "charge=two_third,facing=west": {
+      "model": "techarium:block/voltaic_pile_66",
+      "y": 90
+    },
+    "charge=full,facing=west": {
+      "model": "techarium:block/voltaic_pile_full",
+      "y": 90
+    },
+    "charge=empty,facing=east": {
+      "model": "techarium:block/voltaic_pile_empty",
+      "y": 270
+    },
+    "charge=one_third,facing=east": {
+      "model": "techarium:block/voltaic_pile_33",
+      "y": 270
+    },
+    "charge=two_third,facing=east": {
+      "model": "techarium:block/voltaic_pile_66",
+      "y": 270
+    },
+    "charge=full,facing=east": {
+      "model": "techarium:block/voltaic_pile_full",
+      "y": 270
+    }
+  }
+}

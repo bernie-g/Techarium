@@ -15,6 +15,7 @@ import software.bernie.techarium.block.BlockRegistryObjectGroup;
 import software.bernie.techarium.block.arboretum.ArboretumMaster;
 import software.bernie.techarium.block.arboretum.ArboretumTop;
 import software.bernie.techarium.block.base.MachineBlock;
+import software.bernie.techarium.block.base.TechariumBlock;
 import software.bernie.techarium.block.botarium.BotariumTop;
 import software.bernie.techarium.block.coils.MagneticCoilBlock;
 import software.bernie.techarium.block.botarium.BotariumMaster;
@@ -22,6 +23,8 @@ import software.bernie.techarium.block.depot.DepotBlock;
 import software.bernie.techarium.block.exchangestation.ExchangeStationBlock;
 import software.bernie.techarium.block.gravmagnet.GravMagnetBlock;
 import software.bernie.techarium.block.pipe.PipeBlock;
+import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
+import software.bernie.techarium.item.TechariumBlockItem;
 import software.bernie.techarium.item.MachineItem;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;
@@ -31,6 +34,7 @@ import software.bernie.techarium.tile.gravmagnet.GravMagnetTile;
 import software.bernie.techarium.tile.magneticcoils.MagneticCoilTile;
 import software.bernie.techarium.tile.pipe.PipeTile;
 import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
+import software.bernie.techarium.tile.voltaicpile.VoltaicPileTile;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -79,15 +83,21 @@ public class BlockRegistry {
     public static final RegistryObject<TileEntityType<TopEnabledOnlySlave>> ARBORETUM_TOP_TILE = TILES.register("arboretum_top", () -> TileEntityType.Builder.of(TopEnabledOnlySlave::new, ARBORETUM_TOP.get())
             .build(null));
 
+    // Voltaic Pile
+    public static final BlockRegistryObjectGroup<VoltaicPileBlock, BlockItem, VoltaicPileTile> VOLTAIC_PILE =
+            new BlockRegistryObjectGroup<>("voltaic_pile", VoltaicPileBlock::new, techariumBlockItemCreator(), VoltaicPileTile::new).register(BLOCKS, ITEMS, TILES);
+
     // Ores + Blocks
     public static final RegistryObject<Block> ALUMINIUM_ORE = registerBlock("aluminium_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)));
     public static final RegistryObject<Block> COPPER_ORE = registerBlock("copper_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)));
     public static final RegistryObject<Block> LEAD_ORE = registerBlock("lead_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)));
     public static final RegistryObject<Block> NICKEL_ORE = registerBlock("nickel_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)));
+    public static final RegistryObject<Block> ZINC_ORE = registerBlock("zinc_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)));
     public static final RegistryObject<Block> ALUMINIUM_BLOCK = registerBlock("aluminium_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> COPPER_BLOCK = registerBlock("copper_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> LEAD_BLOCK = registerBlock("lead_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> NICKEL_BLOCK = registerBlock("nickel_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> ZINC_BLOCK = registerBlock("zinc_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
 
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
@@ -98,6 +108,10 @@ public class BlockRegistry {
 
     public static <B extends Block> Function<B, BlockItem> blockItemCreator() {
         return block -> new BlockItem(block, new Item.Properties().tab(TECHARIUM));
+    }
+
+    public static <B extends TechariumBlock> Function<B, BlockItem> techariumBlockItemCreator() {
+        return block -> new TechariumBlockItem(block, new Item.Properties().tab(TECHARIUM));
     }
 
     public static <B extends MachineBlock> Function<B, BlockItem> machineItemCreator() {

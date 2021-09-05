@@ -10,12 +10,17 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.Property;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.ToolType;
 import software.bernie.techarium.trait.Trait;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @UtilityClass
 public class BlockTraits {
@@ -77,6 +82,30 @@ public class BlockTraits {
 
         public DirectionProperty getDirectionProperty() {
         	return rotationType.direction;
+        }
+    }
+
+    public static class PropertyTrait extends Trait {
+
+        private final Map<Property<?>, Object> propertyMap;
+
+        public PropertyTrait(Property<?> property, Object defaultValue) {
+            this.propertyMap = Collections.singletonMap(property, defaultValue);
+        }
+
+        public PropertyTrait(Property<?> p1, Object d1, Property<?> p2, Object d2) {
+            this.propertyMap = new HashMap<Property<?>, Object>(){{
+                put(p1, d1);
+                put(p2, d2);
+            }};
+        }
+
+        public PropertyTrait(Map<Property<?>, Object> map) {
+            this.propertyMap = map;
+        }
+
+        public void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+            propertyMap.keySet().forEach(builder::add);
         }
     }
 

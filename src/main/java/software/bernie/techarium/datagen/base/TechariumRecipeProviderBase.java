@@ -20,7 +20,7 @@ import net.minecraftforge.fluids.FluidStack;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.recipe.recipe.*;
 import software.bernie.techarium.registry.TagRegistry;
-import software.bernie.techarium.util.ChancedItemStackList;
+import software.bernie.techarium.util.loot.ChancedItemStackList;
 
 import java.util.function.Consumer;
 
