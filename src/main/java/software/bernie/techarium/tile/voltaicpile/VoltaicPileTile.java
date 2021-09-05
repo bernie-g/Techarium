@@ -24,11 +24,6 @@ public class VoltaicPileTile extends TechariumTileBase {
     }
 
     @Override
-    public ActionResultType onTileActivated(PlayerEntity player) {
-        return ActionResultType.PASS;
-    }
-
-    @Override
     public void tick() {
         getPowerTrait().ifPresent(trait -> {
             // Prevent immediate explosion of the Voltaic Pile, the getDayTime is a misleading name, it also includes the night

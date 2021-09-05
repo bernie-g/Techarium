@@ -60,7 +60,9 @@ public abstract class MachineTileBase extends TileEntity implements IHasBehaviou
         return sideFaceConfigs;
     }
 
-    public abstract ActionResultType onTileActivated(PlayerEntity player);
+    public ActionResultType onTileActivated(PlayerEntity player, Hand hand) {
+        return ActionResultType.PASS;
+    }
 
     @Override
     public void load(BlockState state, CompoundNBT nbt) {
