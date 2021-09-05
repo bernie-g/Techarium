@@ -39,7 +39,7 @@ import software.bernie.techarium.tile.gravmagnet.GravMagnetTile;
 import software.bernie.techarium.tile.magneticcoils.MagneticCoilTile;
 import software.bernie.techarium.tile.pipe.PipeTile;
 import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
-import software.bernie.techarium.util.Utils
+import software.bernie.techarium.util.Utils;
 import software.bernie.techarium.tile.voltaicpile.VoltaicPileTile;
 
 import java.util.function.Function;
