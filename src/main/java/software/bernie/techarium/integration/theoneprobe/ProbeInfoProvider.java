@@ -16,7 +16,7 @@ import software.bernie.techarium.tile.base.MachineSlaveTile;
 public class ProbeInfoProvider implements IProbeInfoProvider {
     @Override
     public String getID() {
-        return Techarium.ModID + ":machineBlock";
+        return Techarium.MOD_ID + ":machineBlock";
     }
 
     @Override

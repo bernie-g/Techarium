@@ -22,7 +22,7 @@ import javax.annotation.Nonnull;
 public class ArboretumMaster extends MachineBlock<ArboretumTile> {
 
     public ArboretumMaster() {
-        super(BlockBehaviours.arboretum, AbstractBlock.Properties.of(Material.METAL));
+        super(BlockBehaviours.ARBORETUM, AbstractBlock.Properties.of(Material.METAL));
     }
 
     @Override

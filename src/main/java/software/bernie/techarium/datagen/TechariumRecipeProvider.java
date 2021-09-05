@@ -7,6 +7,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
@@ -42,6 +43,7 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
         registerVanillaArboretumRecipes(consumer);
         
         registerGravMagnetRecipes(consumer);
+        registerHammerRecipes(consumer);
 
         registerSmeltingRecipes(consumer);
         registerCraftingRecipes(consumer);
@@ -49,14 +51,14 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
     }
 
     private void registerCraftingRecipes(Consumer<IFinishedRecipe> consumer) {
-        buildMetalRecipe("aluminium", ItemRegistry.ALUMINIUM_INGOT.get(), ItemRegistry.ALUMINIUM_NUGGET
-                .get(), BlockRegistry.ALUMINIUM_BLOCK.get(), consumer);
-        buildMetalRecipe("copper", ItemRegistry.COPPER_INGOT.get(), ItemRegistry.COPPER_NUGGET
-                .get(), BlockRegistry.COPPER_BLOCK.get(), consumer);
-        buildMetalRecipe("lead", ItemRegistry.LEAD_INGOT.get(), ItemRegistry.LEAD_NUGGET.get(), BlockRegistry.LEAD_BLOCK
-                .get(), consumer);
-        buildMetalRecipe("nickel", ItemRegistry.NICKEL_INGOT.get(), ItemRegistry.NICKEL_NUGGET
-                .get(), BlockRegistry.NICKEL_BLOCK.get(), consumer);
+        buildMetalRecipe("aluminium", ItemRegistry.ALUMINIUM_INGOT.get(), ItemRegistry.ALUMINIUM_NUGGET.get(),
+                BlockRegistry.ALUMINIUM_BLOCK.get(), consumer);
+        buildMetalRecipe("copper", ItemRegistry.COPPER_INGOT.get(), ItemRegistry.COPPER_NUGGET.get(),
+                BlockRegistry.COPPER_BLOCK.get(), consumer);
+        buildMetalRecipe("lead", ItemRegistry.LEAD_INGOT.get(), ItemRegistry.LEAD_NUGGET.get(),
+                BlockRegistry.LEAD_BLOCK.get(), consumer);
+        buildMetalRecipe("nickel", ItemRegistry.NICKEL_INGOT.get(), ItemRegistry.NICKEL_NUGGET.get(),
+                BlockRegistry.NICKEL_BLOCK.get(), consumer);
     }
 
     private void registerVanillaBotariumRecipes(Consumer<IFinishedRecipe> consumer) {
@@ -106,6 +108,13 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
     			ChancedItemStackList.of(
     					ChancedItemStack.of(Items.ENDER_PEARL, 1, 1d),
     					ChancedItemStack.of(Items.BLAZE_POWDER, 1, 1d)), new ItemStack(Items.ENDER_EYE), 6 * 20, true, consumer);
+    }
+
+    private void registerHammerRecipes(Consumer<IFinishedRecipe> consumer) {
+        buildHammerPlateRecipe(TechariumTags.Items.INGOTS_ALUMINIUM, ItemRegistry.ALUMINIUM_PLATE.get(), consumer);
+        buildHammerPlateRecipe(TechariumTags.Items.INGOTS_COPPER, ItemRegistry.COPPER_PLATE.get(), consumer);
+        buildHammerPlateRecipe(TechariumTags.Items.INGOTS_LEAD, ItemRegistry.LEAD_PLATE.get(), consumer);
+        buildHammerPlateRecipe(TechariumTags.Items.INGOTS_NICKEL, ItemRegistry.NICKEL_PLATE.get(), consumer);
     }
 
     private void registerExchangeStationRecipes(Consumer<IFinishedRecipe> consumer) {

@@ -81,12 +81,12 @@ public class BlockTraits {
     }
 
 	public enum RotationType {
-		XZ(BlockStateProperties.HORIZONTAL_FACING),
+        XZ(BlockStateProperties.HORIZONTAL_FACING),
 		XYZ(BlockStateProperties.FACING);
 
 		DirectionProperty direction;
 
-		private RotationType(DirectionProperty dir) {
+		RotationType(DirectionProperty dir) {
 			direction = dir;
 		}
 	}

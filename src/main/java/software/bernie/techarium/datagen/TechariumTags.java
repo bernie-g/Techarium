@@ -25,7 +25,7 @@ public class TechariumTags {
         }
 
         private static ITag.INamedTag<Block> mod(String path) {
-            return BlockTags.bind(new ResourceLocation(Techarium.ModID, path).toString());
+            return BlockTags.bind(new ResourceLocation(Techarium.MOD_ID, path).toString());
         }
     }
 
@@ -56,7 +56,7 @@ public class TechariumTags {
         }
 
         private static ITag.INamedTag<Item> mod(String path) {
-            return ItemTags.bind(new ResourceLocation(Techarium.ModID, path).toString());
+            return ItemTags.bind(new ResourceLocation(Techarium.MOD_ID, path).toString());
         }
     }
 }

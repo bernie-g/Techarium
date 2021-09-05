@@ -13,7 +13,7 @@ import software.bernie.techarium.registry.lang.TranslationLangEntry;
 
 public abstract class TechariumLangProviderBase extends LanguageProvider {
     public TechariumLangProviderBase(DataGenerator gen) {
-        super(gen, Techarium.ModID, "en_us");
+        super(gen, Techarium.MOD_ID, "en_us");
     }
 
     public void addBlock(BlockRegistryObjectGroup<?, ?, ?> key, String name) {

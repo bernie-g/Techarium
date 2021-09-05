@@ -18,12 +18,14 @@ import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.block.botarium.BotariumTop;
 import software.bernie.techarium.block.coils.MagneticCoilBlock;
 import software.bernie.techarium.block.botarium.BotariumMaster;
+import software.bernie.techarium.block.depot.DepotBlock;
 import software.bernie.techarium.block.exchangestation.ExchangeStationBlock;
 import software.bernie.techarium.block.gravmagnet.GravMagnetBlock;
 import software.bernie.techarium.block.pipe.PipeBlock;
 import software.bernie.techarium.item.MachineItem;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;
+import software.bernie.techarium.tile.depot.DepotTileEntity;
 import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
 import software.bernie.techarium.tile.gravmagnet.GravMagnetTile;
 import software.bernie.techarium.tile.magneticcoils.MagneticCoilTile;
@@ -37,10 +39,10 @@ import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUM;
 @SuppressWarnings("unused")
 public class BlockRegistry {
     public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES,
-            Techarium.ModID);
+            Techarium.MOD_ID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
-            Techarium.ModID);
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Techarium.ModID);
+            Techarium.MOD_ID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Techarium.MOD_ID);
 
     // Exchange Station
 
@@ -55,6 +57,10 @@ public class BlockRegistry {
     public static final BlockRegistryObjectGroup<MagneticCoilBlock, BlockItem, MagneticCoilTile> MAGNETIC_COIL =
             new BlockRegistryObjectGroup<>("magneticcoil", MagneticCoilBlock::new, machineItemCreator(), MagneticCoilTile::new).register(BLOCKS, ITEMS, TILES);
     
+
+    public static final BlockRegistryObjectGroup<DepotBlock, BlockItem, DepotTileEntity> DEPOT =
+            new BlockRegistryObjectGroup<>("depot", DepotBlock::new, machineItemCreator(), DepotTileEntity::new).register(BLOCKS, ITEMS, TILES);
+
     // Pipe
     public static final BlockRegistryObjectGroup<PipeBlock, Item, PipeTile> PIPE =
             new BlockRegistryObjectGroup<>("multi_pipe", PipeBlock::new, null, PipeTile::new).registerWithoutItem(BLOCKS, TILES);

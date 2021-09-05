@@ -14,7 +14,7 @@ public abstract class TechariumItemModelProviderBase extends ItemModelProvider {
     public final Lazy<ModelFile> EMPTY_MODEL = Lazy.of(() -> getExistingFile(mcLoc("air")));
 
     public TechariumItemModelProviderBase(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, Techarium.ModID, existingFileHelper);
+        super(generator, Techarium.MOD_ID, existingFileHelper);
     }
 
     public ItemModelBuilder simpleTexture(Item item, ResourceLocation texture) {

@@ -8,6 +8,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -32,9 +33,9 @@ public class MachineSlaveTile extends MachineTileBase {
 
 
     @Override
-    public ActionResultType onTileActivated(PlayerEntity player) {
+    public ActionResultType onTileActivated(PlayerEntity player, Hand hand) {
         assert level != null;
-        return ((MachineTileBase) Objects.requireNonNull(level.getBlockEntity(masterPos))).onTileActivated(player);
+        return ((MachineTileBase) Objects.requireNonNull(level.getBlockEntity(masterPos))).onTileActivated(player, hand);
     }
 
     public BlockPos getMasterPos() {

@@ -12,11 +12,11 @@ import software.bernie.techarium.Techarium;
 public class LangRegistryBase {
 
     public static TranslationLangEntry register(String type, String name) {
-        return new TranslationLangEntry(type + "." + Techarium.ModID + "." + name).registerSelf();
+        return new TranslationLangEntry(type + "." + Techarium.MOD_ID + "." + name).registerSelf();
     }
 
     public static TranslationLangEntry registerDescription(RegistryObject<? extends Block> block) {
-        return new TranslationLangEntry("description." + Techarium.ModID + "." + block.getId().getPath()).registerSelf();
+        return new TranslationLangEntry("description." + Techarium.MOD_ID + "." + block.getId().getPath()).registerSelf();
     }
 
 }

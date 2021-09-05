@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 public class ExchangeStationBlock extends MachineBlock<ExchangeStationTile> {
 
     public ExchangeStationBlock() {
-        super(BlockBehaviours.exchangeStation, AbstractBlock.Properties.of(Material.METAL));
+        super(BlockBehaviours.EXCHANGE_STATION, AbstractBlock.Properties.of(Material.METAL));
     }
 
     @Override

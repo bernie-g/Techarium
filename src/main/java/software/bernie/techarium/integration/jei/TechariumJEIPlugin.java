@@ -21,7 +21,6 @@ import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.LangRegistry;
 import software.bernie.techarium.registry.RecipeRegistry;
-
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 

@@ -19,7 +19,7 @@ import software.bernie.techarium.trait.block.BlockBehaviours;
 public class ArboretumTop extends MachineBlock<TopEnabledOnlySlave> {
 
     public ArboretumTop() {
-        super(BlockBehaviours.createSlave(BlockBehaviours.arboretum), Properties.of(Material.METAL).strength(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).noOcclusion().requiresCorrectToolForDrops().noDrops());
+        super(BlockBehaviours.createSlave(BlockBehaviours.ARBORETUM), Properties.of(Material.METAL).strength(3.5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).noOcclusion().requiresCorrectToolForDrops().noDrops());
     }
 
     @Override

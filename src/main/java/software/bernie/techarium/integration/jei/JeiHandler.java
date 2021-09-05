@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @UtilityClass
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid = Techarium.ModID, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid = Techarium.MOD_ID, value = Dist.CLIENT)
 public class JeiHandler {
 
     /**
-     * Get's called after every screen draw. Needed because we need to draw our {@link RecipeDisplayWidget} after JEIs RecipeButtons
+     * Is called after every screen draw. Needed because we need to draw our {@link RecipeDisplayWidget} after JEIs RecipeButtons
      * The invalid RecipeDisplayWidgets are removed from the screen and from their intermediate storage in {@link software.bernie.techarium.integration.jei.category.BaseRecipeCategory#recipeWidgets}
      */
     @SubscribeEvent
