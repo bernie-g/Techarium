@@ -15,7 +15,7 @@ import software.bernie.techarium.integration.Integration;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.TagRegistry;
-import software.bernie.techarium.util.ChancedItemStackList;
+import software.bernie.techarium.util.loot.ChancedItemStackList;
 
 import java.util.function.Consumer;
 
@@ -38,7 +38,7 @@ public class IEIntegration extends Integration {
                 .construct()
                 .addCondition(new ModLoadedCondition(ModIntegrations.getIE().orElseThrow(NullPointerException::new).getModID()))
                 .build(consumer,
-                        new ResourceLocation(Techarium.ModID,
+                        new ResourceLocation(Techarium.MOD_ID,
                                 "botarium/immersiveengineering/" + IEItems.Misc.hempSeeds.getRegistryName().getPath()));
     }
 }

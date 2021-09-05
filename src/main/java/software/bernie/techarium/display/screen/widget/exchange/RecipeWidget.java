@@ -7,12 +7,12 @@ import net.minecraft.util.ResourceLocation;
 import software.bernie.techarium.display.screen.widget.SelectableWidget;
 import software.bernie.techarium.util.Vector2i;
 
-import static software.bernie.techarium.Techarium.ModID;
+import static software.bernie.techarium.Techarium.MOD_ID;
 
 public class RecipeWidget extends SelectableWidget {
     private static final Vector2i SIZE = new Vector2i(52,18);
     private static final Vector2i TEXTURE_POSITION = new Vector2i(110,0);
-    private static final ResourceLocation MACHINE_COMPONENTS = new ResourceLocation(ModID, "textures/gui/machine_components.png");
+    private static final ResourceLocation MACHINE_COMPONENTS = new ResourceLocation(MOD_ID, "textures/gui/machine_components.png");
     ItemStack input, output;
     public RecipeWidget(Vector2i pos, ItemStack input, ItemStack output) {
         super(pos, SIZE);

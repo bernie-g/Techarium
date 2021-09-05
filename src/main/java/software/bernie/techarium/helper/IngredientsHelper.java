@@ -26,4 +26,14 @@ public class IngredientsHelper {
 	
 		return false;
 	}
+
+	public static boolean areEqualIgnoreSize(ItemStack first, ItemStack second) {
+		if (first.getItem() != second.getItem()) {
+			return false;
+		} else if (first.getTag() == null && second.getTag() != null) {
+			return false;
+		} else {
+			return (first.getTag() == null || first.getTag().equals(second.getTag())) && first.areCapsCompatible(second);
+		}
+	}
 }

@@ -17,7 +17,7 @@ import software.bernie.techarium.integration.Integration;
 import software.bernie.techarium.integration.ModIntegrations;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.TagRegistry;
-import software.bernie.techarium.util.ChancedItemStackList;
+import software.bernie.techarium.util.loot.ChancedItemStackList;
 
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
@@ -52,7 +52,7 @@ public class ThermalCultivationIntegration extends Integration {
                         .construct()
                         .addCondition(new ModLoadedCondition(ModIntegrations.getThermalCultivation().orElseThrow(NullPointerException::new).getModID()))
                         .build(consumer,
-                                new ResourceLocation(Techarium.ModID, "botarium/thermal/cultivation/" + seedsProvider.asItem().getRegistryName().getPath()));
+                                new ResourceLocation(Techarium.MOD_ID, "botarium/thermal/cultivation/" + seedsProvider.asItem().getRegistryName().getPath()));
             }
         }
     }

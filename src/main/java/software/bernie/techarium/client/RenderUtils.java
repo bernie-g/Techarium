@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.ItemStack;
@@ -41,7 +40,7 @@ import javax.annotation.Nonnull;
 import java.util.EnumMap;
 import java.util.Random;
 
-@Mod.EventBusSubscriber(modid = Techarium.ModID, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Techarium.MOD_ID, value = Dist.CLIENT)
 public class RenderUtils {
 
 	private static final float Z_FIGHTING_VALUE = 0.001f;

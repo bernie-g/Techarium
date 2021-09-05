@@ -1,9 +1,7 @@
 package software.bernie.techarium.integration.theoneprobe;
 
-import mcjty.theoneprobe.api.IProbeHitData;
-import mcjty.theoneprobe.api.IProbeInfo;
-import mcjty.theoneprobe.api.IProbeInfoProvider;
-import mcjty.theoneprobe.api.ProbeMode;
+import mcjty.theoneprobe.api.*;
+import mcjty.theoneprobe.config.Config;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -12,11 +10,13 @@ import software.bernie.techarium.Techarium;
 import software.bernie.techarium.registry.LangRegistry;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 import software.bernie.techarium.tile.base.MachineSlaveTile;
+import software.bernie.techarium.tile.base.TechariumTileBase;
+import software.bernie.techarium.trait.tile.TileTraits;
 
 public class ProbeInfoProvider implements IProbeInfoProvider {
     @Override
     public String getID() {
-        return Techarium.ModID + ":machineBlock";
+        return Techarium.MOD_ID + ":machineBlock";
     }
 
     @Override

@@ -21,7 +21,6 @@ import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.LangRegistry;
 import software.bernie.techarium.registry.RecipeRegistry;
-
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
@@ -57,9 +56,11 @@ public class TechariumJEIPlugin implements IModPlugin {
 			List<ArboretumRecipe> recipesArboretum = world.getRecipeManager().getAllRecipesFor(RecipeRegistry.ARBORETUM_RECIPE_TYPE);
 			registration.addRecipes(recipesArboretum, ArboretumRecipeCategory.UID);
 		}
-		registration.addIngredientInfo(new ItemStack(BlockRegistry.BOTARIUM.getBlock()), VanillaTypes.ITEM, LangRegistry.botariumDescription.get());
-		registration.addIngredientInfo(new ItemStack(BlockRegistry.ARBORETUM.getBlock()), VanillaTypes.ITEM, LangRegistry.arboretumDescription.get());
-		registration.addIngredientInfo(new ItemStack(BlockRegistry.EXCHANGE_STATION.getBlock()), VanillaTypes.ITEM, LangRegistry.exchangeDescription.get());
+
+		registration.addIngredientInfo(new ItemStack(BlockRegistry.BOTARIUM.getBlock()), VanillaTypes.ITEM, LangRegistry.botariumDescription.getKey());
+		registration.addIngredientInfo(new ItemStack(BlockRegistry.ARBORETUM.getBlock()), VanillaTypes.ITEM, LangRegistry.arboretumDescription.getKey());
+		registration.addIngredientInfo(new ItemStack(BlockRegistry.EXCHANGE_STATION.getBlock()), VanillaTypes.ITEM, LangRegistry.exchangeDescription.getKey());
+		registration.addIngredientInfo(new ItemStack(BlockRegistry.VOLTAIC_PILE.getBlock()), VanillaTypes.ITEM, LangRegistry.voltaicPileDescription.getKey());
 	}
 
 	@Override

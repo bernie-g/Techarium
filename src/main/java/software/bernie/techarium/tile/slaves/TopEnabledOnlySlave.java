@@ -3,9 +3,7 @@ package software.bernie.techarium.tile.slaves;
 import software.bernie.techarium.machine.sideness.FaceConfig;
 import software.bernie.techarium.machine.sideness.Side;
 import software.bernie.techarium.tile.base.MachineSlaveTile;
-
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 import static software.bernie.techarium.registry.BlockRegistry.BOTARIUM_TOP_TILE;

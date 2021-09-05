@@ -1,11 +1,14 @@
 package software.bernie.techarium.trait.block;
 
 import net.minecraft.block.BlockRenderType;
+import net.minecraft.state.Property;
 import net.minecraft.tileentity.TileEntity;
 import software.bernie.techarium.registry.lang.LangEntry;
 import software.bernie.techarium.trait.Traits;
 import software.bernie.techarium.trait.behaviour.Behaviour;
 import software.bernie.techarium.trait.block.BlockTraits.BlockRotationTrait;
+
+import java.util.Map;
 
 public class BlockBehaviour extends Behaviour {
     public static class Builder extends Behaviour.Builder<BlockBehaviour, BlockBehaviour.Builder> {
@@ -35,6 +38,10 @@ public class BlockBehaviour extends Behaviour {
 
         public Builder rotation(BlockTraits.RotationType rotation) {
             return this.with(new BlockRotationTrait(rotation));
+        }
+
+        public Builder property(Map<Property<?>, Object> propertyMap) {
+            return this.with(new BlockTraits.PropertyTrait(propertyMap));
         }
     }
 }

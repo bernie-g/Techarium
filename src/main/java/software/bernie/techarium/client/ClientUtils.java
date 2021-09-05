@@ -10,16 +10,11 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import software.bernie.techarium.Techarium;
-import software.bernie.techarium.client.tile.model.MagneticCoilModel;
-import software.bernie.techarium.client.tile.render.ArboretumRenderer;
-import software.bernie.techarium.client.tile.render.BotariumRenderer;
-import software.bernie.techarium.client.tile.render.ExchangeStationRenderer;
-import software.bernie.techarium.client.tile.render.GravMagnetRenderer;
-import software.bernie.techarium.client.tile.render.MagneticCoilRenderer;
+import software.bernie.techarium.client.tile.render.*;
 import software.bernie.techarium.registry.BlockRegistry;
 
 @UtilityClass
-@Mod.EventBusSubscriber(modid = Techarium.ModID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Techarium.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientUtils {
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
@@ -32,11 +27,12 @@ public class ClientUtils {
 		ClientRegistry.bindTileEntityRenderer(BlockRegistry.EXCHANGE_STATION.getTileEntityType(), ExchangeStationRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(BlockRegistry.GRAVMAGNET.getTileEntityType(), GravMagnetRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(BlockRegistry.MAGNETIC_COIL.getTileEntityType(), MagneticCoilRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(BlockRegistry.DEPOT.getTileEntityType(), DepotRenderer::new);
 	}
 
 	@SubscribeEvent
 	public static void modelBakeEvent(ModelBakeEvent event) {
-
+		//TODO: Add Pipe ModelBaking
 	}
 
 	public static boolean isShift() {

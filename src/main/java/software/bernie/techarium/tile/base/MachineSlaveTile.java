@@ -8,6 +8,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -15,6 +16,8 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import org.jetbrains.annotations.NotNull;
+import software.bernie.techarium.trait.tile.TileBehaviour;
+import software.bernie.techarium.trait.tile.TileBehaviours;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -27,14 +30,14 @@ public class MachineSlaveTile extends MachineTileBase {
     private BlockPos masterPos = BlockPos.ZERO;
 
     public MachineSlaveTile(TileEntityType<?> tileEntityTypeIn) {
-        super(tileEntityTypeIn);
+        super(tileEntityTypeIn, TileBehaviours.base);
     }
 
 
     @Override
-    public ActionResultType onTileActivated(PlayerEntity player) {
+    public ActionResultType onTileActivated(PlayerEntity player, Hand hand) {
         assert level != null;
-        return ((MachineTileBase) Objects.requireNonNull(level.getBlockEntity(masterPos))).onTileActivated(player);
+        return ((MachineTileBase) Objects.requireNonNull(level.getBlockEntity(masterPos))).onTileActivated(player, hand);
     }
 
     public BlockPos getMasterPos() {

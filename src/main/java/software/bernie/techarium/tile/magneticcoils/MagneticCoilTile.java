@@ -11,6 +11,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -24,6 +25,7 @@ import software.bernie.techarium.helper.EntityHelper;
 import software.bernie.techarium.item.CoilItem;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.tile.base.MachineTileBase;
+import software.bernie.techarium.trait.tile.TileBehaviours;
 
 public class MagneticCoilTile extends MachineTileBase implements IAnimatable {
 
@@ -34,7 +36,7 @@ public class MagneticCoilTile extends MachineTileBase implements IAnimatable {
 	private MagneticCoilType coilType = MagneticCoilType.TIER_NULL;
 
 	public MagneticCoilTile() {
-		super(BlockRegistry.MAGNETIC_COIL.getTileEntityType());
+		super(BlockRegistry.MAGNETIC_COIL.getTileEntityType(), TileBehaviours.magneticCoil);
 	}
 
 	private <E extends IAnimatable> PlayState animationPredicate(AnimationEvent<E> event) {
@@ -84,7 +86,7 @@ public class MagneticCoilTile extends MachineTileBase implements IAnimatable {
 	}
 
 	@Override
-	public ActionResultType onTileActivated(PlayerEntity player) {
+	public ActionResultType onTileActivated(PlayerEntity player, Hand hand) {
 		return ActionResultType.SUCCESS;
 	}
 

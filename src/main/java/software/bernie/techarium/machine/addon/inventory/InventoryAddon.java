@@ -157,6 +157,13 @@ public class InventoryAddon extends ItemStackHandler implements IContainerCompon
         return this;
     }
 
+    public InventoryAddon setAllSlotStackSizes(int limit) {
+        for (int i = 0; i < slotLimit; i++) {
+            slotStackSizes.put(i, limit);
+        }
+        return this;
+    }
+
     public int getSlotStackSize(int slot){
         return slotStackSizes.getOrDefault(slot,this.slotLimit);
     }

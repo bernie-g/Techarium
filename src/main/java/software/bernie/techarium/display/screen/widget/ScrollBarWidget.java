@@ -18,7 +18,7 @@ public class ScrollBarWidget extends Widget {
     private static final Vector2i SCROLLER_POSITION_VERTICAL = new Vector2i(1,3);
     private static final Vector2i SCROLLER_DIMENSION_HORIZONTAL = new Vector2i(15,6);
     private static final Vector2i SCROLLER_POSITION_HORIZONTAL = new Vector2i(17,1);
-    private static final ResourceLocation texture = new ResourceLocation(Techarium.ModID, "textures/gui/scrollbar.png");
+    private static final ResourceLocation texture = new ResourceLocation(Techarium.MOD_ID, "textures/gui/scrollbar.png");
 
     private final boolean vertical;
 
