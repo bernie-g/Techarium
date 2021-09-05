@@ -7,9 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 import software.bernie.techarium.block.coils.MagneticCoilType;
-import software.bernie.techarium.display.container.ExchangeStationContainer;
 import software.bernie.techarium.network.ServerToClientPacket;
-import software.bernie.techarium.network.container.RecipeWidgetClickContainerPacket;
 import software.bernie.techarium.tile.magneticcoils.MagneticCoilTile;
 
 public class UpdateCoilTypePacket extends ServerToClientPacket<UpdateCoilTypePacket>{

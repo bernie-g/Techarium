@@ -1,12 +1,7 @@
 package software.bernie.techarium.trait.tile;
 
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.tileentity.TileEntity;
-import software.bernie.techarium.registry.lang.LangEntry;
 import software.bernie.techarium.trait.Trait;
 import software.bernie.techarium.trait.behaviour.Behaviour;
-import software.bernie.techarium.trait.block.BlockTraits;
-import software.bernie.techarium.util.TechariumEnergyStorage;
 
 public class TileBehaviour extends Behaviour {
     public static class Builder extends Behaviour.Builder<TileBehaviour, TileBehaviour.Builder> {

@@ -1,16 +1,5 @@
 package software.bernie.techarium.trait.tile;
 
-import software.bernie.techarium.machine.sideness.Side;
-import software.bernie.techarium.registry.LangRegistry;
-import software.bernie.techarium.tile.arboretum.ArboretumTile;
-import software.bernie.techarium.tile.botarium.BotariumTile;
-import software.bernie.techarium.tile.exchangestation.ExchangeStationTile;
-import software.bernie.techarium.tile.voltaicpile.VoltaicPileTile;
-import software.bernie.techarium.trait.block.BlockBehaviour;
-import software.bernie.techarium.trait.block.BlockTraits;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class TileBehaviours {
     public static TileBehaviour voltaicPile = new TileBehaviour.Builder()

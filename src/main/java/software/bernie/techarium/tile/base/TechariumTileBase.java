@@ -15,10 +15,8 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import software.bernie.techarium.machine.sideness.FaceConfig;
 import software.bernie.techarium.trait.tile.TileBehaviour;
-import software.bernie.techarium.trait.tile.TileTraits;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Optional;
 
 import static software.bernie.techarium.util.StaticHandler.getSideFromDirection;
 

@@ -1,16 +1,14 @@
 package software.bernie.techarium.block.voltaicpile;
 
 import net.minecraft.block.*;
-import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
 import net.minecraft.util.IStringSerializable;
 import software.bernie.techarium.block.base.TechariumBlock;
 import software.bernie.techarium.tile.voltaicpile.VoltaicPileTile;
 import software.bernie.techarium.trait.block.BlockBehaviours;
 import software.bernie.techarium.util.TechariumMaterial;
+
+import java.util.Locale;
 
 public class VoltaicPileBlock extends TechariumBlock<VoltaicPileTile> {
     public static final EnumProperty<Charge> CHARGE = EnumProperty.create("charge", Charge.class);
@@ -29,7 +27,7 @@ public class VoltaicPileBlock extends TechariumBlock<VoltaicPileTile> {
 
         @Override
         public String getSerializedName() {
-            return name();
+            return name().toLowerCase(Locale.ROOT);
         }
     }
 }

@@ -21,18 +21,10 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.techarium.machine.sideness.FaceConfig;
-import software.bernie.techarium.machine.sideness.Side;
 import software.bernie.techarium.trait.behaviour.IHasBehaviour;
 import software.bernie.techarium.trait.tile.TileBehaviour;
-import software.bernie.techarium.trait.tile.TileBehaviours;
 import software.bernie.techarium.trait.tile.TileTraits;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
-
-import static software.bernie.techarium.block.base.RotatableBlock.FACING;
 
 public abstract class MachineTileBase extends TileEntity implements IHasBehaviour {
     private final TileBehaviour behaviour;

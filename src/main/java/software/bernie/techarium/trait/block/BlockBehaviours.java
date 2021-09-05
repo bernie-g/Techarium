@@ -62,13 +62,6 @@ public class BlockBehaviours {
             .description(LangRegistry.voltaicPileDescription)
             .build();
 
-    public static BlockBehaviour voltaicPile = new BlockBehaviour.Builder()
-            .composeFrom(BlockPartialBehaviours.partialTileBlock)
-            .tileEntity(VoltaicPileTile.class)
-            .with(new BlockTraits.MachineMaterialTrait())
-            .description(LangRegistry.voltaicPileDescription)
-            .build();
-
     public static BlockBehaviour createSlave(BlockBehaviour masterBehaviour) {
         // copy the master block's material trait to the slave
         return masterBehaviour.getBaseTrait(BlockTraits.MaterialTrait.class).map(trait -> new BlockBehaviour.Builder()

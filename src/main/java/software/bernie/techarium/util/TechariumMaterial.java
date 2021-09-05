@@ -4,9 +4,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 
 public class TechariumMaterial extends Material.Builder {
-    public TechariumMaterial(MaterialColor p_i48270_1_) {
-        super(p_i48270_1_);
+    public TechariumMaterial(MaterialColor materialColor) {
+        super(materialColor);
     }
 
-    public static final Material METAL = (new TechariumMaterial(MaterialColor.METAL)).flammable().build();
+    public static final Material METAL = new TechariumMaterial(MaterialColor.METAL).flammable().build();
 }
