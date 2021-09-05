@@ -6,10 +6,14 @@ import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.block.BlockRegistryObjectGroup;
 import software.bernie.techarium.block.arboretum.ArboretumMaster;
@@ -26,6 +30,7 @@ import software.bernie.techarium.block.pipe.PipeBlock;
 import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
 import software.bernie.techarium.item.TechariumBlockItem;
 import software.bernie.techarium.item.MachineItem;
+import software.bernie.techarium.item.FancyItem;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;
 import software.bernie.techarium.tile.depot.DepotTileEntity;
@@ -34,6 +39,7 @@ import software.bernie.techarium.tile.gravmagnet.GravMagnetTile;
 import software.bernie.techarium.tile.magneticcoils.MagneticCoilTile;
 import software.bernie.techarium.tile.pipe.PipeTile;
 import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
+import software.bernie.techarium.util.Utils;
 import software.bernie.techarium.tile.voltaicpile.VoltaicPileTile;
 
 import java.util.function.Function;
@@ -71,7 +77,15 @@ public class BlockRegistry {
 
     // Botarium
     public static final BlockRegistryObjectGroup<BotariumMaster, BlockItem, BotariumTile> BOTARIUM =
-            new BlockRegistryObjectGroup<>("botarium", BotariumMaster::new, machineItemCreator(), BotariumTile::new).register(BLOCKS, ITEMS, TILES);
+            new BlockRegistryObjectGroup<>("botarium", BotariumMaster::new, fancyItemCreator(event -> {
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.idle", true));
+                return PlayState.CONTINUE;
+            },
+                Utils.rl("geo/botarium/botarium.geo.json"),
+                Utils.rl("textures/block/animated/botarium.png"),
+                Utils.rl("animations/botarium.animation.json")), BotariumTile::new)
+                    .register(BLOCKS, ITEMS, TILES);
+
     public static final RegistryObject<BotariumTop> BOTARIUM_TOP = BLOCKS.register("botarium_top", BotariumTop::new);
     public static final RegistryObject<TileEntityType<TopEnabledOnlySlave>> BOTARIUM_TOP_TILE = TILES.register("botarium_top", () -> TileEntityType.Builder.of(TopEnabledOnlySlave::new,BOTARIUM_TOP.get())
             .build(null));
@@ -116,6 +130,11 @@ public class BlockRegistry {
 
     public static <B extends MachineBlock> Function<B, BlockItem> machineItemCreator() {
         return block -> new MachineItem(block, new Item.Properties().tab(TECHARIUM));
+    }
+
+    // INTENDED FOR MULTI-BLOCK MACHINES!
+    public static <B extends MachineBlock> Function<B, BlockItem> fancyItemCreator(Function<AnimationEvent<? extends Item>, PlayState> animationPredicate, ResourceLocation model, ResourceLocation texture, ResourceLocation animation) {
+        return block -> new FancyItem(block, animationPredicate, model, texture, animation);
     }
 
     public static void register(IEventBus bus){
