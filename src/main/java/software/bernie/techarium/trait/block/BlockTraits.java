@@ -3,6 +3,7 @@ package software.bernie.techarium.trait.block;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -16,9 +17,10 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.ToolType;
 import software.bernie.techarium.trait.Trait;
 
+@UtilityClass
 public class BlockTraits {
-    public static abstract class MaterialTrait extends Trait {
-        public MaterialTrait() {
+    public abstract static class MaterialTrait extends Trait {
+        protected MaterialTrait() {
             this.addTweaker(AbstractBlock.Properties.class, this::tweakProperties);
         }
         protected abstract void tweakProperties(AbstractBlock.Properties properties);
@@ -37,7 +39,7 @@ public class BlockTraits {
 
         @SneakyThrows
         public T createTileEntity() {
-            return tileClass.newInstance();
+            return tileClass.getDeclaredConstructor().newInstance();
         }
     }
 
@@ -47,7 +49,7 @@ public class BlockTraits {
     }
 
     @Data
-    public static class BlockRenderTypeTrait extends Trait{
+    public static class BlockRenderTypeTrait extends Trait {
         private final BlockRenderType blockRenderType;
     }
     
@@ -79,12 +81,12 @@ public class BlockTraits {
     }
 
 	public enum RotationType {
-		XZ(BlockStateProperties.HORIZONTAL_FACING),
+        XZ(BlockStateProperties.HORIZONTAL_FACING),
 		XYZ(BlockStateProperties.FACING);
 
 		DirectionProperty direction;
 
-		private RotationType(DirectionProperty dir) {
+		RotationType(DirectionProperty dir) {
 			direction = dir;
 		}
 	}

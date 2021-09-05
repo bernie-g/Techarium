@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "techarium:aluminium_ingot",
     "techarium:aluminium_nugget"
   ]
 }

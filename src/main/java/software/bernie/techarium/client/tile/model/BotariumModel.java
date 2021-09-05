@@ -9,16 +9,16 @@ public class BotariumModel extends AnimatedGeoModel<BotariumTile>
 {
 	@Override
 	public ResourceLocation getAnimationFileLocation(BotariumTile tile) {
-		return new ResourceLocation(Techarium.ModID, "animations/botarium.animation.json");
+		return new ResourceLocation(Techarium.MOD_ID, "animations/botarium.animation.json");
 	}
 
 	@Override
 	public ResourceLocation getModelLocation(BotariumTile tile) {
-		return new ResourceLocation(Techarium.ModID, "geo/botarium/botarium.geo.json");
+		return new ResourceLocation(Techarium.MOD_ID, "geo/botarium/botarium.geo.json");
 	}
 
 	@Override
 	public ResourceLocation getTextureLocation(BotariumTile tile) {
-		return new ResourceLocation(Techarium.ModID, "textures/block/animated/botarium.png");
+		return new ResourceLocation(Techarium.MOD_ID, "textures/block/animated/botarium.png");
 	}
 }

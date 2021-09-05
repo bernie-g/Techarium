@@ -13,7 +13,7 @@ import software.bernie.techarium.recipe.recipe.TechariumRecipeBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractMachineRecipe extends TechariumRecipeBuilder<AbstractMachineRecipe> implements IMachineRecipe {
+public abstract class AbstractMachineRecipe extends TechariumRecipeBuilder<AbstractMachineRecipe> implements IMachineRecipe{
 
     @Getter
     protected final ResourceLocation id;
@@ -34,8 +34,6 @@ public abstract class AbstractMachineRecipe extends TechariumRecipeBuilder<Abstr
         this.progressPerTick = progressPerTick;
     }
 
-
-    @Override
     public List<Integer> getMaxProgressTimes() {
         List<Integer> progressList = new ArrayList<>();
         progressList.add(getMaxProgress());
@@ -63,7 +61,7 @@ public abstract class AbstractMachineRecipe extends TechariumRecipeBuilder<Abstr
     }
 
     public abstract class Result extends TechariumRecipeBuilder.Result {
-        public Result(ResourceLocation id) {
+        protected Result(ResourceLocation id) {
             super(id);
         }
 

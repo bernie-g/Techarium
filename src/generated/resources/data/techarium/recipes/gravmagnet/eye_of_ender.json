@@ -1,5 +1,8 @@
 {
   "type": "techarium:gravmagnet",
+  "progressPerTick": 1,
+  "maxProgress": 120,
+  "rfPerTick": 0,
   "output": [
     {
       "item": "minecraft:ender_pearl",
@@ -16,6 +19,5 @@
     "id": "minecraft:ender_eye",
     "Count": 1
   },
-  "pull": true,
-  "processTime": 120
+  "pull": true
 }

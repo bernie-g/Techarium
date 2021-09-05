@@ -52,7 +52,7 @@ public class ThermalCultivationIntegration extends Integration {
                         .construct()
                         .addCondition(new ModLoadedCondition(ModIntegrations.getThermalCultivation().orElseThrow(NullPointerException::new).getModID()))
                         .build(consumer,
-                                new ResourceLocation(Techarium.ModID, "botarium/thermal/cultivation/" + seedsProvider.asItem().getRegistryName().getPath()));
+                                new ResourceLocation(Techarium.MOD_ID, "botarium/thermal/cultivation/" + seedsProvider.asItem().getRegistryName().getPath()));
             }
         }
     }

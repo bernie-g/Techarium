@@ -17,6 +17,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -41,6 +42,7 @@ import software.bernie.techarium.recipe.recipe.GravMagnetRecipe;
 import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.tile.base.MachineTileBase;
+import software.bernie.techarium.tile.depot.DepotTileEntity;
 import software.bernie.techarium.tile.magneticcoils.MagneticCoilTile;
 
 public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITickableTileEntity {
@@ -53,8 +55,8 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 	@Getter
 	private boolean pull = false;
 
-	private List<ProcessingItemEntityBase> processing = new ArrayList<ProcessingItemEntityBase>();
-	private List<ProcessingItemEntityBase> toRemove = new ArrayList<ProcessingItemEntityBase>();
+	private List<ProcessingItemEntityBase> processing = new ArrayList<>();
+	private List<ProcessingItemEntityBase> toRemove = new ArrayList<>();
 
 	public GravMagnetTile() {
 		super(BlockRegistry.GRAVMAGNET.getTileEntityType());
@@ -80,7 +82,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 	}
 
 	@Override
-	public ActionResultType onTileActivated(PlayerEntity player) {
+	public ActionResultType onTileActivated(PlayerEntity player, Hand hand) {
 		return ActionResultType.PASS;
 	}
 
@@ -90,7 +92,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 		pull = state.getValue(GravMagnetBlock.POWERED);
 		Direction dir = state.getValue(BlockRegistry.GRAVMAGNET.getBlock().getDirectionProperty());
 		updatePower(dir);
-		interactWithEntity(dir, MODE.fromBoolean(pull));
+		interactWithEntity(dir, Mode.fromBoolean(pull));
 	}
 
 	public void updatePower(Direction dir) {
@@ -135,7 +137,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 	}
 
 	// return the acceleration for the entity (from the distance and the power)
-	private Vector3d getMotionPower(Entity entity, Direction dir, MODE mode) {
+	private Vector3d getMotionPower(Entity entity, Direction dir, Mode mode) {
 
 		// calculing the distance from the center of gravity of the entity, not the feet
 
@@ -145,20 +147,22 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 		double dist = Math.max(EntityHelper.getDistanceFromCenter(entity, centerPos), 1) / (power);
 		double distPower = Math.max(0, (Math.sqrt(power + entityMass) * 0.05f) / dist);
 
-		int mul = mode == MODE.PULL ? -1 : 1;
+		int mul = mode == Mode.PULL ? -1 : 1;
 
 		return entity.getDeltaMovement().add(dir.getStepX() * distPower * mul, dir.getStepY() * distPower * mul,
 				dir.getStepZ() * distPower * mul);
 	}
 
 	// ehhh Im lazy to write lol
-	private void interactWithEntity(Direction dir, MODE mode) {
+	private void interactWithEntity(Direction dir, Mode mode) {
 		AxisAlignedBB box = getBox(dir);
 
 		BlockPos secondMagnet = null;
 
 		if (!level.isClientSide) {
 			secondMagnet = getFacingGravMagnet(dir); // check for the closest
+			if (secondMagnet != null && isPull() == ((GravMagnetTile)level.getBlockEntity(secondMagnet)).isPull())
+				updateDepots(secondMagnet, mode);
 			updateProcess(secondMagnet, dir); // update runnning recipies
 		}
 
@@ -166,7 +170,6 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 			entity.setDeltaMovement(getMotionPower(entity, dir, mode));
 
 			if (!level.isClientSide) {
-
 				if (entity instanceof ItemEntity) {
 					if (secondMagnet == null) {
 						resetItem((ItemEntity) entity);
@@ -184,6 +187,39 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 		}
 	}
 
+	private void updateDepots(BlockPos secondMagnet, Mode mode) {
+		Vector3d center = new Vector3d(findCenter(getBlockPos().getX(), secondMagnet.getX()),
+				findCenter(getBlockPos().getY(), secondMagnet.getY()),
+				findCenter(getBlockPos().getZ(), secondMagnet.getZ()));
+		BlockPos pos = new BlockPos(center).below();
+		for (int x = 0; x <= (isBetweenBlocks(center, Direction.Axis.X) ? 1 : 0); x++) {
+			for (int y = 0; y <= (isBetweenBlocks(center, Direction.Axis.Y) ? 1 : 0); y++) {
+				for (int z = 0; z <= (isBetweenBlocks(center, Direction.Axis.Z) ? 1 : 0); z++) {
+					updateDepot(pos.offset(x, y,z), mode);
+				}
+			}
+		}
+
+	}
+	private void updateDepot(BlockPos pos, Mode mode) {
+		TileEntity te = level.getBlockEntity(pos);
+		if (te instanceof DepotTileEntity) {
+			DepotTileEntity depot = (DepotTileEntity) te;
+			if (mode == Mode.PULL) {
+				depot.setMagnetPull(true);
+			} else {
+				depot.setMagnetPush(true);
+			}
+		}
+	}
+
+	private static boolean isBetweenBlocks(Vector3d position, Direction.Axis axis) {
+		double value = axis == Direction.Axis.X ? position.x() : axis == Direction.Axis.Y ? position.y() : position.z();
+		return Math.abs(value%1) > 0.2d && Math.abs(value%1) < 0.8d;
+	}
+	private static float findCenter(int value1, int value2) {
+		return (value1+value2)/2f;
+	}
 	private BlockPos getFacingGravMagnet(Direction dir) {
 		for (int i = 1; i <= power * 2; i++) {
 			BlockPos posOffset = getBlockPos().relative(dir, i);
@@ -194,7 +230,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 					dir.getOpposite())) {
 				TileEntity te = level.getBlockEntity(posOffset);
 
-				if (te != null && te instanceof GravMagnetTile) {
+				if (te instanceof GravMagnetTile) {
 					if (((GravMagnetTile) te).power == power) {
 						return posOffset;
 					}
@@ -216,6 +252,10 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 	}
 
 	private boolean isItemCenter(ItemEntity item, BlockPos secondMagnet, Direction dir) {
+		return isInCenter(item.position(), secondMagnet, dir);
+	}
+
+	private boolean isInCenter(Vector3d pos, BlockPos secondMagnet, Direction dir) {
 		float marge = 0.5f;
 
 		Vector3d pos1 = BlockPosHelper.getCenter(getBlockPos());
@@ -227,23 +267,16 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 
 		AxisAlignedBB box = new AxisAlignedBB(center.x - marge, center.y - marge, center.z - marge, center.x + marge,
 				center.y + marge, center.z + marge);
-
-		for (ItemEntity otherItem : level.getEntitiesOfClass(ItemEntity.class, box)) {
-			if (otherItem.equals(item)) {
-				return true;
-			}
-		}
-
-		return false;
+		return box.contains(pos);
 	}
 
-	private void tryCreateProcess(ItemEntity item, MODE mode) {
+	private void tryCreateProcess(ItemEntity item, Mode mode) {
 		ItemStack currentStack = item.getItem();
 
-		List<GravMagnetRecipe> recipies = level.getRecipeManager()
+		List<GravMagnetRecipe> recipes = level.getRecipeManager()
 				.getAllRecipesFor(RecipeRegistry.GRAVMAGNET_RECIPE_TYPE);
-		for (GravMagnetRecipe recipe : recipies) {
-			if (MODE.fromBoolean(recipe.isPull()) != mode)
+		for (GravMagnetRecipe recipe : recipes) {
+			if (Mode.fromBoolean(recipe.isPull()) != mode)
 				continue;
 
 			ItemStack input = recipe.getInput().copy();
@@ -255,14 +288,14 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 			}
 		}
 
-		if (currentStack.getCount() >= 9 && mode == MODE.PUSH) {
+		if (currentStack.getCount() >= 9 && mode == Mode.PUSH) {
 			List<ICraftingRecipe> compressRecipies = level.getRecipeManager().getAllRecipesFor(IRecipeType.CRAFTING);
 			for (ICraftingRecipe recipe : compressRecipies) {
 				NonNullList<Ingredient> ingredients = recipe.getIngredients();
 				if (ingredients.size() < 9)
 					continue;
 
-				if (IngredientsHelper.isItemInIngredient(currentStack, ingredients.get(0)) && is9x9Craft(recipe)) {
+				if (IngredientsHelper.isItemInIngredient(currentStack, ingredients.get(0)) && is3x3Craft(recipe)) {
 					setupItem(item);
 					ProcessCompressItemEntity processItem = new ProcessCompressItemEntity(item, recipe);
 					processing.add(processItem);
@@ -272,7 +305,7 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 		}
 	}
 
-	private boolean is9x9Craft(ICraftingRecipe recipe) {
+	private boolean is3x3Craft(ICraftingRecipe recipe) {
 		NonNullList<Ingredient> ingredients = recipe.getIngredients();
 		ItemStack first = IngredientsHelper.getFirstIngredient(ingredients.get(0));
 
@@ -343,10 +376,10 @@ public class GravMagnetTile extends MachineTileBase implements IAnimatable, ITic
 		super.load(state, compound);
 	}
 
-	private enum MODE {
+	private enum Mode {
 		PUSH, PULL;
 
-		public static MODE fromBoolean(boolean inverse) {
+		public static Mode fromBoolean(boolean inverse) {
 			return inverse ? PULL : PUSH;
 		}
 	}

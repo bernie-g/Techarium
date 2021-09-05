@@ -20,7 +20,7 @@ import software.bernie.techarium.pipe.util.PipeType;
 
 public class ItemRegistry
 {
-	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Techarium.ModID);
+	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Techarium.MOD_ID);
 	@Getter
 	public static final RegistryObject<PowerStickDebug> DEBUGSTICK = ITEMS.register("pipe_stick", PowerStickDebug::new);
 	public static final RegistryObject<PipeItem> ITEM_PIPE = ITEMS.register("item_pipe", () -> new PipeItem(PipeType.ITEM));
@@ -36,6 +36,11 @@ public class ItemRegistry
 	public static final RegistryObject<Item> COPPER_NUGGET = ITEMS.register("copper_nugget", itemCreator());
 	public static final RegistryObject<Item> LEAD_NUGGET = ITEMS.register("lead_nugget", itemCreator());
 	public static final RegistryObject<Item> NICKEL_NUGGET = ITEMS.register("nickel_nugget", itemCreator());
+	public static final RegistryObject<Item> ALUMINIUM_PLATE = ITEMS.register("aluminium_plate", itemCreator());
+	public static final RegistryObject<Item> COPPER_PLATE = ITEMS.register("copper_plate", itemCreator());
+	public static final RegistryObject<Item> LEAD_PLATE = ITEMS.register("lead_plate", itemCreator());
+	public static final RegistryObject<Item> NICKEL_PLATE = ITEMS.register("nickel_plate", itemCreator());
+	public static final RegistryObject<Item> HAMMER = ITEMS.register("hammer", itemCreator());
 
 	public static final RegistryObject<Item> COPPER_COIL   = ITEMS.register("copper_coil", () -> new CoilItem(MagneticCoilType.TIER_1));
 	public static final RegistryObject<Item> COBALT_COIL   = ITEMS.register("cobalt_coil", () -> new CoilItem(MagneticCoilType.TIER_2));

@@ -13,14 +13,16 @@ public abstract class TechariumBlockStateProviderBase extends BlockStateProvider
 
     public TechariumBlockModelProviderBase blockProvider;
     public TechariumItemModelProviderBase itemProvider;
+    public ExistingFileHelper helper;
 
     public TechariumBlockStateProviderBase(DataGenerator gen, ExistingFileHelper exFileHelper) {
-        super(gen, Techarium.ModID, exFileHelper);
+        super(gen, Techarium.MOD_ID, exFileHelper);
         this.blockProvider = new TechariumBlockModelProviderBase(gen, exFileHelper) {
             @Override
             protected void registerModels() {
             }
         };
+        helper = exFileHelper;
 
         this.itemProvider = new TechariumItemModelProviderBase(gen, exFileHelper) {
             @Override
@@ -72,6 +74,12 @@ public abstract class TechariumBlockStateProviderBase extends BlockStateProvider
 
     public void simpleBlockAndItem(Block block){
         ModelFile model = cubeAll(block);
+        this.simpleBlock(block, model);
+        this.simpleBlockItem(block, model);
+    }
+
+    public void existingBlock(Block block, ResourceLocation existingModel) {
+        ModelFile model = new ModelFile.ExistingModelFile(existingModel, helper);
         this.simpleBlock(block, model);
         this.simpleBlockItem(block, model);
     }

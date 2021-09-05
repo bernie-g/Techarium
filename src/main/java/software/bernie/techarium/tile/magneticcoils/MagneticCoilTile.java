@@ -11,6 +11,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -84,7 +85,7 @@ public class MagneticCoilTile extends MachineTileBase implements IAnimatable {
 	}
 
 	@Override
-	public ActionResultType onTileActivated(PlayerEntity player) {
+	public ActionResultType onTileActivated(PlayerEntity player, Hand hand) {
 		return ActionResultType.SUCCESS;
 	}
 
