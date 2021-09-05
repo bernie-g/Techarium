@@ -7,11 +7,14 @@ import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.Direction;
 import net.minecraft.util.JSONUtils;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
+import software.bernie.techarium.Techarium;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,5 +67,9 @@ public class Utils {
         double y = blockRay.getLocation().y - blockRay.getBlockPos().getY();
         double z = blockRay.getLocation().z - blockRay.getBlockPos().getZ();
         return x >= shape.bounds().minX && x <= shape.bounds().maxX && y >= shape.bounds().minY && y <= shape.bounds().maxY && z >= shape.bounds().minZ && z <= shape.bounds().maxZ;
+    }
+
+    public static ResourceLocation rl(String str) {
+        return new ResourceLocation(Techarium.ModID, str);
     }
 }
