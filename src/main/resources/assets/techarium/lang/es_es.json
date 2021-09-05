@@ -1,0 +1,54 @@
+{
+
+    "block.techarium.aluminium_block": "Bloque de Aluminio",
+    "block.techarium.aluminium_ore": "Mena de Aluminio",
+    "block.techarium.arboretum": "Arboretum",
+    "block.techarium.arboretum_top": "Arboretum",
+    "block.techarium.botarium": "Botarium",
+    "block.techarium.botarium_top": "Botarium",
+    "block.techarium.copper_block": "Bloque de Cobre",
+    "block.techarium.copper_ore": "Mena de Cobre",
+    "block.techarium.exchange_station": "Estación de Intercambio",
+    "block.techarium.gravmagnet": "Imán Gravitacional",
+    "block.techarium.lead_block": "Bloque de Plomo",
+    "block.techarium.lead_ore": "Mena de Plomo",
+    "block.techarium.magneticcoil": "Bobina Magnética",
+    "block.techarium.nickel_block": "Bloque de Níquel",
+    "block.techarium.nickel_ore": "Mena de Níquel",
+
+    "description.techarium.arboretum": "El Arboretum te permite hacer crecer brotes a cambio de energía y agua",
+    "description.techarium.botarium": "El Botarium te permite hacer crecer cultivos a cambio de energía y un fluído adecuado",
+    "description.techarium.exchange_station": "La Estación de Intercambios te permite obtener nuevas máquinas a cambio de oro",
+    "description.techarium.gravmagnet": "El Imán Gravitacional atreará o repelerá cualquier entidad en frente del bloque. Usa una señal de redstone para cambiar de modo. Se puede amplificar su efecto si una Bobina Magnética se coloca detrás",
+    "description.techarium.magneticcoil": "La Bobina Magnética se utiliza para amplificar el efecto del Imán Gravitacional. Añade algún tipo de Bobina (Cobre, Cobalto...) para amplificar el efecto",
+
+    "gui.techarium.pipe.input": "Entrada",
+    "gui.techarium.pipe.output": "Salida",
+    "gui.techarium.pipe.round_robin": "Distribución Equitativa",
+    "gui.techarium.pipe.self_feed": "Auto Alimentación",
+
+    "hwyla.techarium.progress.eta": "Tiempo Estimado Restante: %s segundos restantes",
+    "hwyla.techarium.progress.no_recipe": "Tiempo Estimado Restante: Receta Inválida",
+
+    "item.techarium.aluminium_ingot": "Lingote de Aluminio",
+    "item.techarium.aluminium_nugget": "Pepita de Aluminio",
+    "item.techarium.copper_ingot": "Lingote de Cobre",
+    "item.techarium.copper_nugget": "Pepita de Cobre",
+    "item.techarium.energy_pipe": "Tubería de Energía",
+    "item.techarium.fluid_pipe": "Tubería de Fluidos",
+    "item.techarium.item_pipe": "Tubería de Objetos",
+    "item.techarium.lead_ingot": "Lingote de Plomo",
+    "item.techarium.lead_nugget": "Pepita de Plomo",
+    "item.techarium.nickel_ingot": "Lingote de Níquel",
+    "item.techarium.nickel_nugget": "Pepita de Níquel",
+    "item.techarium.pipe_stick": "Tubería Palo",
+    "item.techarium.copper_coil": "Bobina de Cobre",
+    "item.techarium.cobalt_coil": "Bobina de Cobalto",
+    "item.techarium.solarium_coil": "Bobina de Solarium",
+
+    "itemGroup.techarium": "Techarium",
+
+    "shift.techarium.description": "Aprieta [LShift] para obtener una descripción",
+
+    "top.techarium.progress.eta": "Tiempo Estimado Restante: "
+}
