@@ -51,6 +51,6 @@
   "item.techarium.zinc_ingot": "Lingot de Zinc",
   "item.techarium.zinc_nugget": "Pépite de Zinc",
   "itemGroup.techarium": "Techarium",
-  "shift.techarium.description": "Maintenir [LShift] pour une description",
+  "shift.techarium.description": "Maintenir [Maj] pour une description",
   "top.techarium.progress.eta": "Temps de complétion estimé: "
 }
