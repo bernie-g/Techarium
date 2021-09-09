@@ -40,12 +40,13 @@ public abstract class TechariumItemModelProviderBase extends ItemModelProvider {
         ModelBuilder<ItemModelBuilder>.TransformsBuilder builder = withExistingParent(name(obj.getItem()), new ResourceLocation("techarium:item/machinebase")).transforms();
         builder.transform(ModelBuilder.Perspective.GUI)
                 .translation(dimensions.translation.x(), dimensions.translation.y(), dimensions.translation.z())
-                .scale(dimensions.scale, dimensions.scale, dimensions.scale);
+                .scale(dimensions.scale, dimensions.scale, dimensions.scale)
+                .rotation(30, 225, 0);
         return builder.end();
     }
 
     protected enum MachineDimensions {
-        _1X1X1(new Vector3f(0, -4.7F, 0), 0.575F),
+        _1X1X1(new Vector3f(0, -4.6F, 0), 0.575F),
         _1X1X2(new Vector3f(0, -6, 0), 0.375F);
 
         public Vector3f translation;

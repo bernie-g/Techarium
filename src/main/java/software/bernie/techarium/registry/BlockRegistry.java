@@ -30,7 +30,6 @@ import software.bernie.techarium.block.pipe.PipeBlock;
 import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
 import software.bernie.techarium.item.TechariumBlockItem;
 import software.bernie.techarium.item.MachineItem;
-import software.bernie.techarium.item.FancyItem;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;
 import software.bernie.techarium.tile.depot.DepotTileEntity;
@@ -39,7 +38,8 @@ import software.bernie.techarium.tile.gravmagnet.GravMagnetTile;
 import software.bernie.techarium.tile.magneticcoils.MagneticCoilTile;
 import software.bernie.techarium.tile.pipe.PipeTile;
 import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
-import software.bernie.techarium.util.Utils;
+import software.bernie.techarium.trait.item.ItemBehaviour;
+import software.bernie.techarium.trait.item.ItemBehaviours;
 import software.bernie.techarium.tile.voltaicpile.VoltaicPileTile;
 
 import java.util.function.Function;
@@ -57,34 +57,22 @@ public class BlockRegistry {
     // Exchange Station
 
     public static final BlockRegistryObjectGroup<ExchangeStationBlock, BlockItem, ExchangeStationTile> EXCHANGE_STATION =
-            new BlockRegistryObjectGroup<>("exchange_station", ExchangeStationBlock::new, machineItemCreator(), ExchangeStationTile::new).register(BLOCKS, ITEMS, TILES);
+            new BlockRegistryObjectGroup<>("exchange_station", ExchangeStationBlock::new, machineItemCreator(ItemBehaviours.base), ExchangeStationTile::new).register(BLOCKS, ITEMS, TILES);
 
     
     //MAGNETIC STUFF
     public static final BlockRegistryObjectGroup<GravMagnetBlock, BlockItem, GravMagnetTile> GRAVMAGNET =
-            new BlockRegistryObjectGroup<>("gravmagnet", GravMagnetBlock::new, fancyItemCreator(event -> {
-                        // event.getController().setAnimation(new AnimationBuilder().addAnimation("pushing", true));
-                        return PlayState.CONTINUE;
-                    },
-                    Utils.rl("geo/gravmagnet/gravmagnet.geo.json"),
-                    Utils.rl("textures/block/animated/gravmagnet_push.png"),
-                    Utils.rl("animations/gravmagnet.animation.json")), GravMagnetTile::new)
+            new BlockRegistryObjectGroup<>("gravmagnet", GravMagnetBlock::new, machineItemCreator(ItemBehaviours.gravMagnet), GravMagnetTile::new)
                         .register(BLOCKS, ITEMS, TILES);
     
     public static final BlockRegistryObjectGroup<MagneticCoilBlock, BlockItem, MagneticCoilTile> MAGNETIC_COIL =
-            new BlockRegistryObjectGroup<>("magneticcoil", MagneticCoilBlock::new, fancyItemCreator(event -> {
-                        event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
-                        return PlayState.CONTINUE;
-                    },
-                    Utils.rl("geo/magneticcoil/magneticcoil.geo.json"),
-                    Utils.rl("textures/block/animated/magneticcoil/magneticcoil_support.png"),
-                    Utils.rl("animations/magneticcoil.animation.json")), MagneticCoilTile::new)
+            new BlockRegistryObjectGroup<>("magneticcoil", MagneticCoilBlock::new, machineItemCreator(ItemBehaviours.magneticCoil), MagneticCoilTile::new)
                         .register(BLOCKS, ITEMS, TILES);
     
 
     // Depot
     public static final BlockRegistryObjectGroup<DepotBlock, BlockItem, DepotTileEntity> DEPOT =
-            new BlockRegistryObjectGroup<>("depot", DepotBlock::new, machineItemCreator(), DepotTileEntity::new)
+            new BlockRegistryObjectGroup<>("depot", DepotBlock::new, machineItemCreator(ItemBehaviours.base), DepotTileEntity::new)
                         .register(BLOCKS, ITEMS, TILES);
 
     // Pipe
@@ -93,13 +81,7 @@ public class BlockRegistry {
 
     // Botarium
     public static final BlockRegistryObjectGroup<BotariumMaster, BlockItem, BotariumTile> BOTARIUM =
-            new BlockRegistryObjectGroup<>("botarium", BotariumMaster::new, fancyItemCreator(event -> {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.idle", true));
-                return PlayState.CONTINUE;
-            },
-                Utils.rl("geo/botarium/botarium.geo.json"),
-                Utils.rl("textures/block/animated/botarium.png"),
-                Utils.rl("animations/botarium.animation.json")), BotariumTile::new)
+            new BlockRegistryObjectGroup<>("botarium", BotariumMaster::new, machineItemCreator(ItemBehaviours.botarium), BotariumTile::new)
                     .register(BLOCKS, ITEMS, TILES);
 
     public static final RegistryObject<BotariumTop> BOTARIUM_TOP = BLOCKS.register("botarium_top", BotariumTop::new);
@@ -108,13 +90,7 @@ public class BlockRegistry {
 
     // Arboretum
     public static final BlockRegistryObjectGroup<ArboretumMaster, BlockItem, ArboretumTile> ARBORETUM =
-            new BlockRegistryObjectGroup<>("arboretum", ArboretumMaster::new, fancyItemCreator(event -> {
-                        event.getController().setAnimation(new AnimationBuilder().addAnimation("Arboretum.anim.idle", true));
-                        return PlayState.CONTINUE;
-                    },
-                    Utils.rl("geo/arboretum/arboretum.geo.json"),
-                    Utils.rl("textures/block/animated/arboretum.png"),
-                    Utils.rl("animations/arboretum.animation.json")), ArboretumTile::new)
+            new BlockRegistryObjectGroup<>("arboretum", ArboretumMaster::new, machineItemCreator(ItemBehaviours.arboretum), ArboretumTile::new)
                         .register(BLOCKS, ITEMS, TILES);
     public static final RegistryObject<ArboretumTop> ARBORETUM_TOP = BLOCKS.register("arboretum_top", ArboretumTop::new);
     public static final RegistryObject<TileEntityType<TopEnabledOnlySlave>> ARBORETUM_TOP_TILE = TILES.register("arboretum_top", () -> TileEntityType.Builder.of(TopEnabledOnlySlave::new, ARBORETUM_TOP.get())
@@ -122,7 +98,7 @@ public class BlockRegistry {
 
     // Voltaic Pile
     public static final BlockRegistryObjectGroup<VoltaicPileBlock, BlockItem, VoltaicPileTile> VOLTAIC_PILE =
-            new BlockRegistryObjectGroup<>("voltaic_pile", VoltaicPileBlock::new, techariumBlockItemCreator(), VoltaicPileTile::new).register(BLOCKS, ITEMS, TILES);
+            new BlockRegistryObjectGroup<>("voltaic_pile", VoltaicPileBlock::new, techariumBlockItemCreator(ItemBehaviours.base), VoltaicPileTile::new).register(BLOCKS, ITEMS, TILES);
 
     // Ores + Blocks
     public static final RegistryObject<Block> ALUMINIUM_ORE = registerBlock("aluminium_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)));
@@ -147,17 +123,12 @@ public class BlockRegistry {
         return block -> new BlockItem(block, new Item.Properties().tab(TECHARIUM));
     }
 
-    public static <B extends TechariumBlock> Function<B, BlockItem> techariumBlockItemCreator() {
-        return block -> new TechariumBlockItem(block, new Item.Properties().tab(TECHARIUM));
+    public static <B extends TechariumBlock> Function<B, BlockItem> techariumBlockItemCreator(ItemBehaviour behaviour) {
+        return block -> new TechariumBlockItem(block, new Item.Properties().tab(TECHARIUM), behaviour);
     }
 
-    public static <B extends MachineBlock> Function<B, BlockItem> machineItemCreator() {
-        return block -> new MachineItem(block, new Item.Properties().tab(TECHARIUM));
-    }
-
-    // INTENDED FOR MULTI-BLOCK MACHINES!
-    public static <B extends MachineBlock> Function<B, BlockItem> fancyItemCreator(Function<AnimationEvent<? extends Item>, PlayState> animationPredicate, ResourceLocation model, ResourceLocation texture, ResourceLocation animation) {
-        return block -> new FancyItem(block, animationPredicate, model, texture, animation);
+    public static <B extends MachineBlock> Function<B, BlockItem> machineItemCreator(ItemBehaviour behaviour) {
+        return block -> new MachineItem(block, new Item.Properties().tab(TECHARIUM), behaviour);
     }
 
     public static void register(IEventBus bus){

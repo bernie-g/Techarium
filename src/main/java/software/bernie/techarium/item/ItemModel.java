@@ -3,7 +3,7 @@ package software.bernie.techarium.item;
 import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
-public class ItemModel extends AnimatedGeoModel<FancyItem> {
+public class ItemModel extends AnimatedGeoModel<TechariumBlockItem> {
 	private ResourceLocation model;
 	private ResourceLocation texture;
 	private ResourceLocation animation;
@@ -21,17 +21,17 @@ public class ItemModel extends AnimatedGeoModel<FancyItem> {
 	}
 
 	@Override
-	public ResourceLocation getModelLocation(FancyItem object) {
+	public ResourceLocation getModelLocation(TechariumBlockItem object) {
 		return model;
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(FancyItem object) {
+	public ResourceLocation getTextureLocation(TechariumBlockItem object) {
 		return texture;
 	}
 
 	@Override
-	public ResourceLocation getAnimationFileLocation(FancyItem animatable) {
+	public ResourceLocation getAnimationFileLocation(TechariumBlockItem animatable) {
 		return animation;
 	}
 }

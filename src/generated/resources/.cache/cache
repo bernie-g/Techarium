@@ -35,8 +35,8 @@ d68ddc795e2ae38a312f0ad82352f7c16531d76a assets/techarium/models/block/zinc_ore.
 dcd42008699aa2568d8fb8d833cf7f82b4b50539 assets/techarium/models/item/aluminium_nugget.json
 b5034126e519cac2e9edf533a631f06b26ae7e16 assets/techarium/models/item/aluminium_ore.json
 1bcc080333cf57e3ab9e6d8e6ab0c8a75073747b assets/techarium/models/item/aluminium_plate.json
-175e10bb4694010b71eaaf19383f616aee6d1454 assets/techarium/models/item/arboretum.json
-175e10bb4694010b71eaaf19383f616aee6d1454 assets/techarium/models/item/botarium.json
+d68754f06e2be5001ea3e9861e2b90469d04da2d assets/techarium/models/item/arboretum.json
+d68754f06e2be5001ea3e9861e2b90469d04da2d assets/techarium/models/item/botarium.json
 4408b52228336ea20393357a0b95bb91e4eb3269 assets/techarium/models/item/copper_block.json
 55c57e64acddef7d4961e97270d9277924a05ac3 assets/techarium/models/item/copper_ingot.json
 db9fbfe918abc7ab5931c629eb50c0f0d0958fda assets/techarium/models/item/copper_nugget.json
@@ -46,7 +46,7 @@ eb49321f2550ca86e2f5a098c6f4e5d0b05187cc assets/techarium/models/item/depot.json
 9a7e9c84c40429136c70c380e7c9cbb244a60919 assets/techarium/models/item/energy_pipe.json
 aad39075e4d39703198318ccde6cc93df59688cf assets/techarium/models/item/exchange_station.json
 c97fd3e31c11c8fc25a94e9723cae75197409360 assets/techarium/models/item/fluid_pipe.json
-d7e57d7d212f37064827f52d040a1710330f9849 assets/techarium/models/item/gravmagnet.json
+eed26aa835d7e21227c37d444eea8bd52d58d9d2 assets/techarium/models/item/gravmagnet.json
 f960d9d18294be0f44c7d9bba1b0c371a5b4f7c8 assets/techarium/models/item/hammer.json
 0cf621e39e213a4c48571337e25b5e943d270cb4 assets/techarium/models/item/item_pipe.json
 663d4051f2bc714ee4b5cea1ad7bdae6cc86298f assets/techarium/models/item/lead_block.json
@@ -54,7 +54,7 @@ bb04ceeaacabbe6373c2627e45d55900a3eda6b1 assets/techarium/models/item/lead_ingot
 09492c130683b2011a4d4854448b4857dcfa5ac5 assets/techarium/models/item/lead_nugget.json
 471aaeb46032ff7901de5c01271f9da5b6b42cc3 assets/techarium/models/item/lead_ore.json
 9317afad749d20aad032c71ab6df1f081d4eb582 assets/techarium/models/item/lead_plate.json
-d7e57d7d212f37064827f52d040a1710330f9849 assets/techarium/models/item/magneticcoil.json
+eed26aa835d7e21227c37d444eea8bd52d58d9d2 assets/techarium/models/item/magneticcoil.json
 8470cade7189df01ca19b2e5d3d4847dbc939cbc assets/techarium/models/item/multi_pipe.json
 b27d3e0882234bb2daadc56b221646833c2888dc assets/techarium/models/item/nickel_block.json
 ccfe467076fd645e462dc030d83a49623c6ab751 assets/techarium/models/item/nickel_ingot.json

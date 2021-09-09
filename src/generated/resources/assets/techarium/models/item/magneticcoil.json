@@ -2,9 +2,14 @@
   "parent": "techarium:item/machinebase",
   "display": {
     "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
       "translation": [
         0,
-        -4.7,
+        -4.6,
         0
       ],
       "scale": [
