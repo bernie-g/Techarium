@@ -16,6 +16,7 @@ public class TechariumItemModelProvider extends TechariumItemModelProviderBase {
     protected void registerModels() {
         registerPipes();
         registerIngots();
+        registerMachines();
 
         simpleTexture(ItemRegistry.DEBUGSTICK.get(), "item/pipe/pipe_stick");
         simpleTexture(ItemRegistry.HAMMER.get(), "item/hammer");
@@ -46,5 +47,12 @@ public class TechariumItemModelProvider extends TechariumItemModelProviderBase {
         simpleTexture(ItemRegistry.LEAD_NUGGET.get(), "item/nugget/lead_nugget");
         simpleTexture(ItemRegistry.NICKEL_NUGGET.get(), "item/nugget/nickel_nugget");
         simpleTexture(ItemRegistry.ZINC_NUGGET.get(), "item/nugget/zinc_nugget");
+    }
+
+    public void registerMachines() {
+        machineItemGen(BlockRegistry.BOTARIUM, MachineDimensions._1X1X2);
+        machineItemGen(BlockRegistry.ARBORETUM, MachineDimensions._1X1X2);
+        machineItemGen(BlockRegistry.GRAVMAGNET, MachineDimensions._1X1X1);
+        machineItemGen(BlockRegistry.MAGNETIC_COIL, MachineDimensions._1X1X1);
     }
 }

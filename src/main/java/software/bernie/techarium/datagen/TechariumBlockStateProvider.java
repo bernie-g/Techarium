@@ -26,10 +26,10 @@ public class TechariumBlockStateProvider extends TechariumBlockStateProviderBase
     }
 
     public void registerMachines(){
-        simpleMachineBox(BlockRegistry.BOTARIUM, models().modLoc("block/botarium_side"));
-        simpleMachineBox(BlockRegistry.ARBORETUM, models().modLoc("block/botarium_side"));
-        simpleMachineXYZBox(BlockRegistry.GRAVMAGNET, models().modLoc("block/gravmagnet_side"));
-        simpleMachineXYZBox(BlockRegistry.MAGNETIC_COIL, models().modLoc("block/magnetic_coil_side"));
+        simpleMachineBoxNoItem(BlockRegistry.BOTARIUM, models().modLoc("block/botarium_side"));
+        simpleMachineBoxNoItem(BlockRegistry.ARBORETUM, models().modLoc("block/botarium_side"));
+        simpleMachineXYZBoxNoItem(BlockRegistry.GRAVMAGNET, models().modLoc("block/gravmagnet_side"));
+        simpleMachineXYZBoxNoItem(BlockRegistry.MAGNETIC_COIL, models().modLoc("block/magnetic_coil_side"));
         existingBlock(BlockRegistry.DEPOT.get(), models().modLoc("block/depot"));
 
         invisMachine(BlockRegistry.BOTARIUM_TOP.get());

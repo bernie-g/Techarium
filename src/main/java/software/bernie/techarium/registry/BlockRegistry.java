@@ -62,14 +62,30 @@ public class BlockRegistry {
     
     //MAGNETIC STUFF
     public static final BlockRegistryObjectGroup<GravMagnetBlock, BlockItem, GravMagnetTile> GRAVMAGNET =
-            new BlockRegistryObjectGroup<>("gravmagnet", GravMagnetBlock::new, machineItemCreator(), GravMagnetTile::new).register(BLOCKS, ITEMS, TILES);
+            new BlockRegistryObjectGroup<>("gravmagnet", GravMagnetBlock::new, fancyItemCreator(event -> {
+                        // event.getController().setAnimation(new AnimationBuilder().addAnimation("pushing", true));
+                        return PlayState.CONTINUE;
+                    },
+                    Utils.rl("geo/gravmagnet/gravmagnet.geo.json"),
+                    Utils.rl("textures/block/animated/gravmagnet_push.png"),
+                    Utils.rl("animations/gravmagnet.animation.json")), GravMagnetTile::new)
+                        .register(BLOCKS, ITEMS, TILES);
     
     public static final BlockRegistryObjectGroup<MagneticCoilBlock, BlockItem, MagneticCoilTile> MAGNETIC_COIL =
-            new BlockRegistryObjectGroup<>("magneticcoil", MagneticCoilBlock::new, machineItemCreator(), MagneticCoilTile::new).register(BLOCKS, ITEMS, TILES);
+            new BlockRegistryObjectGroup<>("magneticcoil", MagneticCoilBlock::new, fancyItemCreator(event -> {
+                        event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+                        return PlayState.CONTINUE;
+                    },
+                    Utils.rl("geo/magneticcoil/magneticcoil.geo.json"),
+                    Utils.rl("textures/block/animated/magneticcoil/magneticcoil_support.png"),
+                    Utils.rl("animations/magneticcoil.animation.json")), MagneticCoilTile::new)
+                        .register(BLOCKS, ITEMS, TILES);
     
 
+    // Depot
     public static final BlockRegistryObjectGroup<DepotBlock, BlockItem, DepotTileEntity> DEPOT =
-            new BlockRegistryObjectGroup<>("depot", DepotBlock::new, machineItemCreator(), DepotTileEntity::new).register(BLOCKS, ITEMS, TILES);
+            new BlockRegistryObjectGroup<>("depot", DepotBlock::new, machineItemCreator(), DepotTileEntity::new)
+                        .register(BLOCKS, ITEMS, TILES);
 
     // Pipe
     public static final BlockRegistryObjectGroup<PipeBlock, Item, PipeTile> PIPE =
@@ -92,7 +108,14 @@ public class BlockRegistry {
 
     // Arboretum
     public static final BlockRegistryObjectGroup<ArboretumMaster, BlockItem, ArboretumTile> ARBORETUM =
-            new BlockRegistryObjectGroup<>("arboretum", ArboretumMaster::new, machineItemCreator(), ArboretumTile::new).register(BLOCKS, ITEMS, TILES);
+            new BlockRegistryObjectGroup<>("arboretum", ArboretumMaster::new, fancyItemCreator(event -> {
+                        event.getController().setAnimation(new AnimationBuilder().addAnimation("Arboretum.anim.idle", true));
+                        return PlayState.CONTINUE;
+                    },
+                    Utils.rl("geo/arboretum/arboretum.geo.json"),
+                    Utils.rl("textures/block/animated/arboretum.png"),
+                    Utils.rl("animations/arboretum.animation.json")), ArboretumTile::new)
+                        .register(BLOCKS, ITEMS, TILES);
     public static final RegistryObject<ArboretumTop> ARBORETUM_TOP = BLOCKS.register("arboretum_top", ArboretumTop::new);
     public static final RegistryObject<TileEntityType<TopEnabledOnlySlave>> ARBORETUM_TOP_TILE = TILES.register("arboretum_top", () -> TileEntityType.Builder.of(TopEnabledOnlySlave::new, ARBORETUM_TOP.get())
             .build(null));

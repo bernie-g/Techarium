@@ -70,6 +70,6 @@ public class Utils {
     }
 
     public static ResourceLocation rl(String str) {
-        return new ResourceLocation(Techarium.ModID, str);
+        return new ResourceLocation(Techarium.MOD_ID, str);
     }
 }
