@@ -8,6 +8,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.techarium.item.ItemRender;
 import software.bernie.techarium.trait.Trait;
 import software.bernie.techarium.util.TechariumEnergyStorage;
@@ -25,6 +26,18 @@ public class ItemTraits {
             this.model = model;
             this.texture = texture;
             this.animation = animation;
+
+            addTweaker(Item.Properties.class, this::addISTER);
+        }
+
+        // Only use if model doesn't rely on any TE info, but if there is a workaround, create an anonymous class
+        // Example for above, check ItemBehaviors.gravMagnet
+        // Can't directly use model because item render requires the type to extend item, and ofc a TE does not do that
+        public GeckoLibItemRendering(Function<AnimationEvent<? extends Item>, PlayState> animationPredicate, AnimatedGeoModel<?> model) {
+            this.animationPredicate = animationPredicate;
+            this.model = model.getModelLocation(null);
+            this.texture = model.getTextureLocation(null);
+            this.animation = model.getAnimationFileLocation(null);
 
             addTweaker(Item.Properties.class, this::addISTER);
         }
