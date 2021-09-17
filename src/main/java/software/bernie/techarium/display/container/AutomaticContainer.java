@@ -4,16 +4,20 @@ import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.IContainerListener;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.network.NetworkDirection;
 import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
+import software.bernie.techarium.network.NetworkConnection;
+import software.bernie.techarium.network.container.SyncContainerPacket;
 import software.bernie.techarium.tile.base.MachineMasterTile;
 import software.bernie.techarium.util.Vector2i;
 import software.bernie.techarium.util.inventory.ContainerUtil;
@@ -74,6 +78,17 @@ public class AutomaticContainer extends Container {
 
     public MachineController<? extends IMachineRecipe> getMachineController() {
         return tile.getController();
+    }
+
+    @Override
+    public void broadcastChanges() {
+        super.broadcastChanges();
+        for (IContainerListener containerListener : containerListeners) {
+            if (containerListener instanceof ServerPlayerEntity) {
+                NetworkConnection.INSTANCE.sendTo(new SyncContainerPacket(this), ((ServerPlayerEntity) containerListener).connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+
+            }
+        }
     }
 
     @Override

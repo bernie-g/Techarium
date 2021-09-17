@@ -11,8 +11,8 @@ import software.bernie.techarium.util.Vector2i;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListWidget extends Widget {
-    final List<SelectableWidget> widgets;
+public class ListWidget<T extends SelectableWidget> extends Widget {
+    final List<T> widgets;
     final int numWidgets;
     final ScrollBarWidget scrollBar;
     final int firstY;
@@ -20,7 +20,7 @@ public class ListWidget extends Widget {
 
     private final Screen on;
 
-    public ListWidget(Vector2i pos, Vector2i size, Vector2i scrollBarPos, int scrollBarLength, List<SelectableWidget> widgets, int numWidgets, int firstY, int yOff, Screen on) {
+    public ListWidget(Vector2i pos, Vector2i size, Vector2i scrollBarPos, int scrollBarLength, List<T> widgets, int numWidgets, int firstY, int yOff, Screen on) {
         super(pos.getX(), pos.getY(), size.getX(), size.getY(), StringTextComponent.EMPTY);
         scrollBar = new ScrollBarWidget(scrollBarPos.add(pos), scrollBarLength, true, false);
         this.widgets = widgets;
@@ -54,11 +54,11 @@ public class ListWidget extends Widget {
         return Math.min((int)(scrollBar.getScrollPosition()/(1f/(widgets.size()-numWidgets+1))),widgets.size() - numWidgets);
     }
 
-    public void elementClicked(SelectableWidget widget) {
+    public void elementClicked(T widget) {
         if (!widgets.contains(widget))
             return;
         for (int i = 0; i < widgets.size(); i++) {
-            SelectableWidget localWidget = widgets.get(i);
+            T localWidget = widgets.get(i);
             if (localWidget == widget) {
                 localWidget.setSelected(true);
                 int finalI = i;
@@ -69,8 +69,21 @@ public class ListWidget extends Widget {
         }
     }
 
-    public SelectableWidget getSelected() {
-        for (SelectableWidget widget : widgets) {
+    public void select(int index) {
+        for (int i = 0; i < widgets.size(); i++) {
+            T localWidget = widgets.get(i);
+            if (i == index) {
+                localWidget.setSelected(true);
+                int finalI = i;
+                localWidget.onClick.ifPresent(onClick -> onClick.accept(finalI, on));
+            } else {
+                localWidget.setSelected(false);
+            }
+        }
+    }
+
+    public T getSelected() {
+        for (T widget : widgets) {
             if (widget.isSelected())
                 return widget;
         }

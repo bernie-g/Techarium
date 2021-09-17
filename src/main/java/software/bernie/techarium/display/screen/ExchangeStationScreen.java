@@ -1,13 +1,14 @@
 package software.bernie.techarium.display.screen;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import software.bernie.techarium.display.container.AutomaticContainer;
 import software.bernie.techarium.display.container.ExchangeStationContainer;
-import software.bernie.techarium.display.screen.widget.SelectableWidget;
 import software.bernie.techarium.display.screen.widget.ListWidget;
 import software.bernie.techarium.display.screen.widget.exchange.RecipeWidget;
+import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
 import software.bernie.techarium.network.NetworkConnection;
 import software.bernie.techarium.network.container.RecipeWidgetClickContainerPacket;
 import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
@@ -26,6 +27,7 @@ public class ExchangeStationScreen extends AutomaticContainerScreen {
     private List<ExchangeStationRecipe> recipes;
 
     private final ExchangeStationContainer exchangeStationContainer;
+    ListWidget<RecipeWidget> listWidget;
 
     //weird generic stuff, pls put only ExchangeStationStuff here
     public ExchangeStationScreen(AutomaticContainer container, PlayerInventory inv, ITextComponent containerName) {
@@ -37,20 +39,28 @@ public class ExchangeStationScreen extends AutomaticContainerScreen {
     }
 
     @Override
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        IMachineRecipe currentRecipe = exchangeStationContainer.getTile().getController().getCurrentRecipe();
+        if (recipes.contains(currentRecipe)) {
+            listWidget.select(recipes.indexOf(currentRecipe));
+        }
+    }
+
+    @Override
     protected void init() {
         super.init();
-        List<SelectableWidget> widgets = new ArrayList<>();
+        List<RecipeWidget> widgets = new ArrayList<>();
         for (int i = 0; i < recipes.size(); i++) {
             ExchangeStationRecipe recipe = recipes.get(i);
             RecipeWidget recipeWidget = new RecipeWidget(new Vector2i(16 + leftPos, 24 + topPos + 18*i), recipe.getInput(), recipe.getOutput());
             recipeWidget.onClick = Optional.of((widget, screen) -> NetworkConnection.INSTANCE.sendToServer(new RecipeWidgetClickContainerPacket(getMenu(), widget)));
             widgets.add(recipeWidget);
         }
-        ListWidget widget = new ListWidget(new Vector2i(15 + leftPos,23 + topPos), new Vector2i(62,110),new Vector2i(54,0), 110, widgets, 6, 1, 18, this);
-        addButton(widget);
-        widget.getRekursiveSubWidgets().forEach(this::addButton);
+        listWidget = new ListWidget(new Vector2i(15 + leftPos,23 + topPos), new Vector2i(62,110),new Vector2i(54,0), 110, widgets, 6, 1, 18, this);
+        addButton(listWidget);
+        listWidget.getRekursiveSubWidgets().forEach(this::addButton);
     }
-
     @Override
     public ExchangeStationContainer getMenu() {
         return (ExchangeStationContainer) super.getMenu();

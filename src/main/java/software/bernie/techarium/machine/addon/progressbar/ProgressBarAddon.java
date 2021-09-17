@@ -211,7 +211,7 @@ public class ProgressBarAddon implements INBTSerializable<CompoundNBT>, IContain
     @Override
     public List<ITextComponent> createToolTipMessage() {
         DecimalFormat decimalFormat = new DecimalFormat();
-        int progress = (this.getMaxProgress() - this.getProgress()) / this.getProgressToAdd();
+        int progress = (this.getMaxProgress() - this.getProgress()) / getProgressToAdd();
         if (!this.canProgressUp()) {
             progress = this.getMaxProgress() - progress;
         }

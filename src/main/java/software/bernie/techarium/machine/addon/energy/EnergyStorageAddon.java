@@ -37,6 +37,10 @@ public class EnergyStorageAddon extends EnergyStorage implements INBTSerializabl
         this.energy = energy;
     }
 
+    public void setMaxEnergyStored(int maxEnergyStored) {
+        capacity = maxEnergyStored;
+    }
+
     public EnergyStorageAddon(int totalEnergy, int maxIO, int posX, int posY) {
         this(totalEnergy, maxIO, maxIO, posX, posY);
     }

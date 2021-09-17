@@ -21,6 +21,7 @@ import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
 import software.bernie.techarium.tile.base.MachineMasterTile;
+import software.bernie.techarium.tile.sync.*;
 import software.bernie.techarium.util.Vector2i;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +51,7 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
     private Map<Integer, Vector2i> playerHotbarSlotsXY = new HashMap<>();
     private boolean isPowered;
     private EnergyStorageAddon energyStorage;
-    private final LazyOptional<IEnergyStorage> lazyEnergyStorage = LazyOptional.of(this::getEnergyStorage);
+    private final LazyOptional<EnergyStorageAddon> lazyEnergyStorage = LazyOptional.of(this::getEnergyStorage);
 
     private MultiInventoryAddon multiInventory = new MultiInventoryAddon();
     private MultiFluidTankAddon multiTank = new MultiFluidTankAddon();
@@ -160,7 +161,7 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
         return multiTank;
     }
 
-    public LazyOptional<IEnergyStorage> getLazyEnergyStorage() {
+    public LazyOptional<EnergyStorageAddon> getLazyEnergyStorage() {
         return lazyEnergyStorage;
     }
 
@@ -191,16 +192,16 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
         return components;
     }
 
-    public void tick() {
+    public void tick(boolean isServer) {
+        if (currentRecipeLocation != null) {
+            this.currentRecipe = (T) this.tile.getLevel().getRecipeManager().byKey(currentRecipeLocation).orElse(null);
+            currentRecipeLocation = null;
+        }
+        if (!isServer)
+            return;
         int lastEnergy = getEnergyStorage() != null ? getEnergyStorage().getEnergyStored() : 0;
         if (multiProgressBar != null) {
             this.multiProgressBar.attemptTickAllBars();
-        }
-
-        if(currentRecipeLocation != null)
-        {
-            this.currentRecipe = (T) this.tile.getLevel().getRecipeManager().byKey(currentRecipeLocation).orElse(null);
-            currentRecipeLocation = null;
         }
 
         if (currentRecipe == null) {
@@ -238,6 +239,25 @@ public class MachineController<T extends IMachineRecipe> implements IContainerCo
                 .stream()
                 .filter(tile::checkRecipe)
                 .map(tile::castRecipe);
+    }
+
+    public List<TechariumDataSlot<?>> createDataSlots() {
+        List<TechariumDataSlot<?>> dataSlots = new ArrayList<>();
+        dataSlots.add(new ResourceLocationDataSlot(
+                () -> currentRecipe != null ? currentRecipe.getId() : currentRecipeLocation,
+                recipe ->  currentRecipeLocation = recipe));
+        getLazyEnergyStorage().ifPresent(energyStorage -> {
+            dataSlots.add(new IntDataSlot(energyStorage::getEnergyStored, energyStorage::forceSetEnergy));
+            dataSlots.add(new IntDataSlot(energyStorage::getLastDrained, energyStorage::setLastDrained));
+        });
+        for (FluidTankAddon fluidTank : getMultiTank().getFluidTanks()) {
+            dataSlots.add(new FluidStackDataSlot(fluidTank::getFluid, fluidTank::setFluid));
+        }
+        for (ProgressBarAddon progressBar : getMultiProgressBar().getProgressBarAddons()) {
+            dataSlots.add(new IntDataSlot(progressBar::getProgress, progressBar::setProgress));
+            dataSlots.add(new IntDataSlot(progressBar::getProgressToAdd, progressBar::setProgressToAdd));
+        }
+        return dataSlots;
     }
 
     @Override

@@ -29,8 +29,11 @@ import software.bernie.techarium.machine.sideness.Side;
 import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.tile.base.MultiblockMasterTile;
+import software.bernie.techarium.tile.sync.FluidStackDataSlot;
+import software.bernie.techarium.tile.sync.IntDataSlot;
+import software.bernie.techarium.tile.sync.ItemStackDataSlot;
+import software.bernie.techarium.tile.sync.TechariumDataSlot;
 import software.bernie.techarium.util.Vector2i;
-
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -68,6 +71,11 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
 
     public ArboretumTile() {
         super(ARBORETUM.getTileEntityType());
+        addDataSlot(new FluidStackDataSlot(() -> getFluidInventory().getFluid(), getFluidInventory()::setFluid, TechariumDataSlot.SyncMode.RENDER));
+        addDataSlot(new ItemStackDataSlot(() -> getSoilInventory().getStackInSlot(0), itemStack -> getSoilInventory().setStackInSlot(0, itemStack), TechariumDataSlot.SyncMode.RENDER));
+        addDataSlot(new ItemStackDataSlot(() -> getCropInventory().getStackInSlot(0), itemStack -> getCropInventory().setStackInSlot(0, itemStack), TechariumDataSlot.SyncMode.RENDER));
+        addDataSlot(new IntDataSlot(() -> getController().getMultiProgressBar().getBarByName("techarium.gui.mainprogress").get().getProgress(), progress -> getController().getMultiProgressBar().getBarByName("techarium.gui.mainprogress").get().setProgress(progress), TechariumDataSlot.SyncMode.RENDER));
+        addDataSlot(new IntDataSlot(() -> getController().getMultiProgressBar().getBarByName("techarium.gui.mainprogress").get().getMaxProgress(), progress -> getController().getMultiProgressBar().getBarByName("techarium.gui.mainprogress").get().setMaxProgress(progress), TechariumDataSlot.SyncMode.RENDER));
     }
 
     @Override
