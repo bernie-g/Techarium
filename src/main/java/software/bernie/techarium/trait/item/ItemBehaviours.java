@@ -11,7 +11,8 @@ import software.bernie.techarium.client.tile.model.GravMagnetModel;
 import software.bernie.techarium.client.tile.model.MagneticCoilModel;
 import software.bernie.techarium.tile.gravmagnet.GravMagnetTile;
 import software.bernie.techarium.tile.magneticcoils.MagneticCoilTile;
-import software.bernie.techarium.util.Utils;
+
+import static software.bernie.techarium.trait.item.ItemTraits.GeckoLibItemRendering.singleAnimation;
 
 public class ItemBehaviours {
     public static ItemBehaviour base = new ItemBehaviour.Builder()
@@ -20,23 +21,17 @@ public class ItemBehaviours {
 
     public static ItemBehaviour botarium = new ItemBehaviour.Builder()
             .composeFrom(ItemPartialBehaviours.partialBaseItem)
-            .geoISTER(event -> {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.idle", true));
-                return PlayState.CONTINUE;
-            }, new BotariumModel())
+            .geoISTER(event -> singleAnimation(event, "Botarium.anim.idle"), new BotariumModel())
             .build();
 
     public static ItemBehaviour arboretum = new ItemBehaviour.Builder()
             .composeFrom(ItemPartialBehaviours.partialBaseItem)
-            .geoISTER(event -> {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("Arboretum.anim.idle", true));
-                return PlayState.CONTINUE;
-            }, new ArboretumModel())
+            .geoISTER(event -> singleAnimation(event, "Arboretum.anim.idle"), new ArboretumModel())
             .build();
 
     public static ItemBehaviour gravMagnet = new ItemBehaviour.Builder()
             .composeFrom(ItemPartialBehaviours.partialBaseItem)
-            .geoISTER(event -> PlayState.CONTINUE, new GravMagnetModel() {
+            .geoISTER(ItemTraits.GeckoLibItemRendering::noAnimation, new GravMagnetModel() {
                 public ResourceLocation getTextureLocation(GravMagnetTile tile) {
                     return new ResourceLocation(Techarium.MOD_ID, "textures/block/animated/gravmagnet_push.png");
                 }
@@ -45,10 +40,7 @@ public class ItemBehaviours {
 
     public static ItemBehaviour magneticCoil = new ItemBehaviour.Builder()
             .composeFrom(ItemPartialBehaviours.partialBaseItem)
-            .geoISTER(event -> {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
-                return PlayState.CONTINUE;
-            }, new MagneticCoilModel() {
+            .geoISTER(event -> singleAnimation(event, "idle"), new MagneticCoilModel() {
                 public ResourceLocation getTextureLocation(MagneticCoilTile tile) {
                     return new ResourceLocation(Techarium.MOD_ID, "textures/block/animated/magneticcoil/magneticcoil_support.png");
                 }

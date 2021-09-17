@@ -7,6 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.techarium.item.ItemRender;
@@ -44,6 +45,20 @@ public class ItemTraits {
 
         private void addISTER(Item.Properties properties) {
             properties.setISTER(() -> () -> new ItemRender(model, texture, animation));
+        }
+
+        @Override
+        public Object clone() {
+            return new GeckoLibItemRendering(animationPredicate, model, texture, animation);
+        }
+
+        public static PlayState noAnimation(AnimationEvent<?> event) {
+            return PlayState.CONTINUE;
+        }
+
+        public static PlayState singleAnimation(AnimationEvent<?> event, String string) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation(string, true));
+            return PlayState.CONTINUE;
         }
     }
 }
