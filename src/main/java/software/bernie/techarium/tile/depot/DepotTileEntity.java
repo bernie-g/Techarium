@@ -10,9 +10,6 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -34,6 +31,8 @@ import software.bernie.techarium.registry.BlockRegistry;
 import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.tile.base.MachineMasterTile;
+import software.bernie.techarium.tile.sync.ItemStackDataSlot;
+import software.bernie.techarium.tile.sync.TechariumDataSlot;
 
 import java.util.List;
 
@@ -55,6 +54,12 @@ public class DepotTileEntity extends MachineMasterTile<IMachineRecipe> implement
         for (Side side : Side.values()) {
             getFaceConfigs().put(side, FaceConfig.ENABLED);
         }
+        addDataSlot(new ItemStackDataSlot(() -> getInput().getStackInSlot(0), itemStack -> getInput().setStackInSlot(0, itemStack), TechariumDataSlot.SyncMode.RENDER));
+        addDataSlot(new ItemStackDataSlot(() -> getInput().getStackInSlot(1), itemStack -> getInput().setStackInSlot(1, itemStack), TechariumDataSlot.SyncMode.RENDER));
+        addDataSlot(new ItemStackDataSlot(() -> getInput().getStackInSlot(2), itemStack -> getInput().setStackInSlot(2, itemStack), TechariumDataSlot.SyncMode.RENDER));
+        addDataSlot(new ItemStackDataSlot(() -> getOutput().getStackInSlot(0), itemStack -> getOutput().setStackInSlot(0, itemStack), TechariumDataSlot.SyncMode.RENDER));
+        addDataSlot(new ItemStackDataSlot(() -> getOutput().getStackInSlot(1), itemStack -> getOutput().setStackInSlot(1, itemStack), TechariumDataSlot.SyncMode.RENDER));
+        addDataSlot(new ItemStackDataSlot(() -> getOutput().getStackInSlot(2), itemStack -> getOutput().setStackInSlot(2, itemStack), TechariumDataSlot.SyncMode.RENDER));
     }
 
     @Override

@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.Property;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -22,7 +21,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.common.Tags;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 import software.bernie.techarium.client.RenderUtils;
 import software.bernie.techarium.client.tile.model.BotariumModel;
@@ -216,12 +214,7 @@ public class BotariumRenderer extends GeoBlockRenderer<BotariumTile> {
     }
 
     private static ProgressBarAddon getMachineProgressBarAddon(BotariumTile tile) {
-        for (ProgressBarAddon progressBarAddon : tile.getController().getMultiProgressBar().getProgressBarAddons()) {
-            if (progressBarAddon.getName().equals("techarium.gui.mainprogress")) {
-                return progressBarAddon;
-            }
-        }
-        throw new NullPointerException("No progressbar found");
+        return tile.getController().getMultiProgressBar().getBarByName("techarium.gui.mainprogress").orElseThrow(() -> new NullPointerException("No progressbar found"));
     }
 
     @Override

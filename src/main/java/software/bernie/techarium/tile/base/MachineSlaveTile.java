@@ -67,16 +67,6 @@ public class MachineSlaveTile extends MachineTileBase {
     private boolean shouldGetCapabilityFromMaster(@NotNull Capability<?> cap) {
         return getMasterPos() != BlockPos.ZERO && (cap == CapabilityEnergy.ENERGY || cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
     }
-    @Nullable
-    @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.getBlockPos(), -1, this.getUpdateTag());
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        handleUpdateTag(this.getBlockState(), pkt.getTag());
-    }
 
     @Override
     @Nonnull

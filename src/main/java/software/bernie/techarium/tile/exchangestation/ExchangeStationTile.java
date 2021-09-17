@@ -18,7 +18,6 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.techarium.display.container.ExchangeStationContainer;
 import software.bernie.techarium.machine.addon.inventory.InventoryAddon;
 import software.bernie.techarium.machine.controller.MachineController;
-import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipe.recipe.ExchangeStationRecipe;
 import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.tile.base.MachineMasterTile;
@@ -50,10 +49,8 @@ public class ExchangeStationTile extends MachineMasterTile<ExchangeStationRecipe
                 return super.getRecipes().sorted(Comparator.comparingInt(o1 -> o1.getInput().getCount()));
             }
             @Override
-            public void tick() {
-                if (getMultiProgressBar() != null) {
-                    this.getMultiProgressBar().attemptTickAllBars();
-                }
+            public void tick(boolean isServer) {
+                super.tick(isServer);
                 if (getCurrentRecipe() == null) {
                     getController().getRecipes().findFirst().ifPresent(getController()::setCurrentRecipe);
                 }

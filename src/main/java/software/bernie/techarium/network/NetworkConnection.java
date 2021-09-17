@@ -24,6 +24,7 @@ public class NetworkConnection {
         registerMessage(new ChangedMainConfigContainerPacket());
         registerMessage(new RecipeWidgetClickContainerPacket());
         registerMessage(new UpdateCoilTypePacket());
+        registerMessage(new SyncContainerPacket());
     }
     public static <MSG extends Packet<MSG>> void registerMessage(MSG dummyPacket) {
         INSTANCE.registerMessage(getAndUpdateIndex(),

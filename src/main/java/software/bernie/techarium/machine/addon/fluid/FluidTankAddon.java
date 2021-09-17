@@ -195,5 +195,4 @@ public class FluidTankAddon extends FluidTank implements IContainerComponentProv
     public static String getFluidName(FluidStack stack) {
         return new TranslationTextComponent(stack.getFluid().getAttributes().getTranslationKey(stack)).getString();
     }
-
 }

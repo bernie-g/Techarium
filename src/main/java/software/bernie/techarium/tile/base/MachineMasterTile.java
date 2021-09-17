@@ -7,9 +7,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -38,13 +35,14 @@ import javax.annotation.Nullable;
 
 import static software.bernie.techarium.util.StaticHandler.*;
 
-public abstract class MachineMasterTile<T extends IMachineRecipe> extends MachineTileBase implements INamedContainerProvider, ITickableTileEntity, IRecipeMachine<T>, IForcedRecipe {
+public abstract class MachineMasterTile<T extends IMachineRecipe> extends MachineTileBase implements INamedContainerProvider, IRecipeMachine<T>, IForcedRecipe {
 
     private final MachineController<T> controller;
 
     public MachineMasterTile(TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn, TileBehaviours.base);
         controller = createMachineController();
+        controller.createDataSlots().forEach(this::addDataSlot);
     }
 
     public MachineController<T> getController() {
@@ -110,14 +108,17 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
 
     @Override
     public void tick() {
-        this.getController().tick();
-        if (!level.isClientSide()) {
+        boolean isServer = !level.isClientSide();
+        getController().tick(isServer);
+
+        if (isServer) {
             if(isFirstLoad) {
                 updateMachineTile();
                 isFirstLoad = false;
             } else if(level.getGameTime() % 3 == 0){
                 isFirstLoad = true;
             }
+            super.tick();
         }
     }
 
@@ -125,7 +126,6 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     public void load(BlockState state, CompoundNBT nbt) {
         getController().deserializeNBT(nbt.getCompound("activeMachine"));
         super.load(state, nbt);
-        updateMachineTile();
     }
 
 
@@ -133,25 +133,6 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     public CompoundNBT save(CompoundNBT compound) {
         compound.put("activeMachine", getController().serializeNBT());
         return super.save(compound);
-    }
-
-    protected void updateMachineTile() {
-        requestModelDataUpdate();
-        this.setChanged();
-        if (this.getLevel() != null) {
-            this.getLevel().sendBlockUpdated(worldPosition, this.getBlockState(), this.getBlockState(), 3);
-        }
-    }
-
-    @Nullable
-    @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.getBlockPos(), -1, this.getUpdateTag());
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        handleUpdateTag(this.getBlockState(), pkt.getTag());
     }
 
     @Override

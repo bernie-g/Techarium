@@ -1,11 +1,13 @@
 package software.bernie.techarium.machine.addon.progressbar;
 
 import net.minecraft.inventory.container.Slot;
+import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
 import software.bernie.techarium.machine.interfaces.IContainerComponentProvider;
 import software.bernie.techarium.machine.interfaces.IFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MultiProgressBarAddon implements IContainerComponentProvider {
 
@@ -38,6 +40,9 @@ public class MultiProgressBarAddon implements IContainerComponentProvider {
         }
     }
 
+    public Optional<ProgressBarAddon> getBarByName(String name) {
+        return progressBarAddons.stream().filter(addon -> addon.getName().equals(name)).findFirst();
+    }
     public List<ProgressBarAddon> getProgressBarAddons() {
         return progressBarAddons;
     }
