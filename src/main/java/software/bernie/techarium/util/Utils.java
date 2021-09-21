@@ -68,8 +68,4 @@ public class Utils {
         double z = blockRay.getLocation().z - blockRay.getBlockPos().getZ();
         return x >= shape.bounds().minX && x <= shape.bounds().maxX && y >= shape.bounds().minY && y <= shape.bounds().maxY && z >= shape.bounds().minZ && z <= shape.bounds().maxZ;
     }
-
-    public static ResourceLocation rl(String str) {
-        return new ResourceLocation(Techarium.MOD_ID, str);
-    }
 }
