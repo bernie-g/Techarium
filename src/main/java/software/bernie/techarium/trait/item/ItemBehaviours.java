@@ -33,7 +33,7 @@ public class ItemBehaviours {
             .composeFrom(ItemPartialBehaviours.partialBaseItem)
             .geoISTER(ItemTraits.GeckoLibItemRendering::noAnimation, new GravMagnetModel() {
                 public ResourceLocation getTextureLocation(GravMagnetTile tile) {
-                    return new ResourceLocation(Techarium.MOD_ID, "textures/block/animated/gravmagnet_push.png");
+                    return Techarium.rl( "textures/block/animated/gravmagnet_push.png");
                 }
             })
             .build();
@@ -42,7 +42,7 @@ public class ItemBehaviours {
             .composeFrom(ItemPartialBehaviours.partialBaseItem)
             .geoISTER(event -> singleAnimation(event, "idle"), new MagneticCoilModel() {
                 public ResourceLocation getTextureLocation(MagneticCoilTile tile) {
-                    return new ResourceLocation(Techarium.MOD_ID, "textures/block/animated/magneticcoil/magneticcoil_support.png");
+                    return Techarium.rl( "textures/block/animated/magneticcoil/magneticcoil_support.png");
                 }
             })
             .build();
