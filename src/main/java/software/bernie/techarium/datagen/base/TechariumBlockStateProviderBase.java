@@ -67,9 +67,17 @@ public abstract class TechariumBlockStateProviderBase extends BlockStateProvider
     public void simpleMachineBox(BlockRegistryObjectGroup group, ResourceLocation sideTexture) {
         this.machineBoxXZAndItem(group, models().machineBox(name(group.getBlock()), sideTexture));
     }
+
+    public void simpleMachineBoxNoItem(BlockRegistryObjectGroup group, ResourceLocation sideTexture) {
+        this.horizontalBlock(group.getBlock(), models().machineBox(name(group.getBlock()), sideTexture));
+    }
     
     public void simpleMachineXYZBox(BlockRegistryObjectGroup group, ResourceLocation sideTexture) {
         this.machineBoxXYZAndItem(group, models().machineBox(name(group.getBlock()), sideTexture));
+    }
+
+    public void simpleMachineXYZBoxNoItem(BlockRegistryObjectGroup group, ResourceLocation sideTexture) {
+        this.directionalBlock(group.getBlock(), models().machineBox(name(group.getBlock()), sideTexture));
     }
 
     public void simpleBlockAndItem(Block block){
@@ -82,5 +90,10 @@ public abstract class TechariumBlockStateProviderBase extends BlockStateProvider
         ModelFile model = new ModelFile.ExistingModelFile(existingModel, helper);
         this.simpleBlock(block, model);
         this.simpleBlockItem(block, model);
+    }
+
+    public void existingBlockNoItem(Block block, ResourceLocation existingModel) {
+        ModelFile model = new ModelFile.ExistingModelFile(existingModel, helper);
+        this.simpleBlock(block, model);
     }
 }
