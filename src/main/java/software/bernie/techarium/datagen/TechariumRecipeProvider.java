@@ -45,6 +45,17 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
     }
 
     private void registerCraftingRecipes(Consumer<IFinishedRecipe> consumer) {
+        ShapedRecipeBuilder.shaped(ItemRegistry.HAMMER.get(), 9)
+                .define('a', BlockRegistry.ALUMINIUM_BLOCK.get())
+                .define('c', ItemRegistry.COPPER_INGOT.get())
+                .define('s', Items.STICK)
+                .define('l', ItemRegistry.LEAD_INGOT.get())
+                .pattern(" ac")
+                .pattern(" sa")
+                .pattern("l  ")
+                .group("hammer").unlockedBy("has_aluminium_block", has(BlockRegistry.ALUMINIUM_BLOCK.get()))
+                .save(consumer, Techarium.rl("hammer"));
+
         //metal recipes
         buildMetalRecipe("aluminium", ItemRegistry.ALUMINIUM_INGOT.get(), ItemRegistry.ALUMINIUM_NUGGET.get(),
                 BlockRegistry.ALUMINIUM_BLOCK.get(), consumer);
