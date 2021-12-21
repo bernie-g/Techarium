@@ -1,5 +1,6 @@
 package software.bernie.techarium.tile.assembler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -16,7 +17,6 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ICraftingRecipe;
 import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.item.crafting.ShapelessRecipe;
 import net.minecraft.nbt.CompoundNBT;
@@ -38,6 +38,7 @@ import software.bernie.techarium.display.container.AssemblerContainer;
 import software.bernie.techarium.recipe.recipe.assembler.AssemblerRecipe;
 import software.bernie.techarium.recipe.recipe.assembler.AssemblerRecipeHelper;
 import software.bernie.techarium.registry.BlockRegistry;
+import software.bernie.techarium.registry.ItemRegistry;
 import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.tile.base.MachineTileBase;
 
@@ -54,7 +55,6 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
     public static final int inventorySize = 11;
     
 	private CraftingType craftingType = CraftingType.ASSEMBLER;
-	
 	private NonNullList<ItemStack> inventory;
 	
 	public AssemblerTile() {
@@ -209,6 +209,7 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
 	}
 
 	private ItemStack lookForCraftingRecipes() {
+		
 		List<ICraftingRecipe> recipes  = level.getRecipeManager().getAllRecipesFor(IRecipeType.CRAFTING);
 		
 		for (ICraftingRecipe recipe : recipes) {
@@ -221,10 +222,10 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
 	private ItemStack lookForAssemblerRecipes() {
 		if (getItem(boxSlotId).getItem() != BlockRegistry.BOX_BLOCK.get().asItem()) return ItemStack.EMPTY;
 		List<AssemblerRecipe> recipes  = level.getRecipeManager().getAllRecipesFor(RecipeRegistry.ASSEMBLER_RECIPE_TYPE);
-		
-		for (AssemblerRecipe recipe : recipes) {
+				
+		for (AssemblerRecipe recipe : recipes) {			
 			boolean isShapeless = recipe.isShapeless();			
-			if (recipe.getRecipePatern().isRecipeValide(inventory, isShapeless)) return recipe.getOutput();
+			if (recipe.getRecipePatern().isRecipeValide(getGridSlotCopy(), isShapeless)) return recipe.getOutput();
 		}
 		
 		return ItemStack.EMPTY;
@@ -244,49 +245,17 @@ public class AssemblerTile extends MachineTileBase implements IAnimatable, IName
 	
 	private boolean checkVanillaCraft(ICraftingRecipe recipe) {
 				
-		if (recipe instanceof ShapelessRecipe) return AssemblerRecipeHelper.checkShapeless(convertShapeless(recipe), inventory);
-		if (recipe instanceof ShapedRecipe) return AssemblerRecipeHelper.checkNonShapeless(convertNonShapeless((ShapedRecipe) recipe), inventory);
+		if (recipe instanceof ShapelessRecipe) return AssemblerRecipeHelper.checkShapeless(getGridSlotCopy(), recipe.getIngredients());
+		if (recipe instanceof ShapedRecipe) return AssemblerRecipeHelper.checkNonShapeless(getGridSlotCopy(), recipe.getIngredients(), ((ShapedRecipe) recipe).getWidth(), ((ShapedRecipe) recipe).getHeight());
 		
 		return false;
 	}
-	
-	private Ingredient [] convertShapeless(ICraftingRecipe recipe) {
-		Ingredient [] recipePatern = new Ingredient [9];
 		
-		for (int i = 0; i < 9; i++) {
-			if (i < recipe.getIngredients().size())	recipePatern[i] = recipe.getIngredients().get(i);
-			else recipePatern[i] = Ingredient.EMPTY;
-		}
-		
-		return recipePatern;
-	}
-	
-	private Ingredient [] convertNonShapeless(ShapedRecipe recipe) {
-		Ingredient [] recipePatern = new Ingredient [9];
-		
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				int gridPos = (i * 3) + j;
-				if (!fusion(recipe, recipePatern, i, j, gridPos)) recipePatern[gridPos] = Ingredient.EMPTY;
-			}
-		}
-		return recipePatern;
-		
-	}
-	
-	private boolean fusion(ShapedRecipe recipe, Ingredient [] recipePatern, int i, int j, int gridPos) {
-		for (int ii = 0; ii < recipe.getHeight(); ii++) {
-			for (int jj = 0; jj < recipe.getWidth(); jj++) {
-				int recipeGridPos = (ii * recipe.getWidth()) + jj;
-				
-				if (i == ii && j == jj) {
-					recipePatern[gridPos] = recipe.getIngredients().get(recipeGridPos);
-					return true;
-				}
-			}
-		}
-		
-		return false;
+	private List<ItemStack> getGridSlotCopy() {
+		List<ItemStack> gridInventory = new ArrayList<>(inventory);
+		gridInventory.remove(gridInventory.size()-1);
+		gridInventory.remove(gridInventory.size()-1);
+		return gridInventory;
 	}
 	
 	@Override

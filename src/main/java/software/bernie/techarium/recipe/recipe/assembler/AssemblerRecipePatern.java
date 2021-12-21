@@ -1,5 +1,7 @@
 package software.bernie.techarium.recipe.recipe.assembler;
 
+import java.util.List;
+
 import com.google.gson.JsonObject;
 
 import net.minecraft.item.ItemStack;
@@ -13,47 +15,39 @@ public class AssemblerRecipePatern {
 	public static final String S_EMPTY = "O";
 	public static final String S_ITEM = "X";
 	
-	private Ingredient [] recipePatern;
+	private NonNullList<Ingredient> recipePatern;
 	
 	public AssemblerRecipePatern() {
-		this.recipePatern = new Ingredient [craftingGridSize];
-		initPatern();
-	}
-	
-	private void initPatern() {
-		for (int i = 0; i < craftingGridSize; i ++) {
-			recipePatern[i] = Ingredient.EMPTY;
-		}
+		this.recipePatern = NonNullList.withSize(craftingGridSize, Ingredient.EMPTY);
 	}
 
 	public AssemblerRecipePatern setItemInSlot(Ingredient stack, int ... indexs) {
 		for (int index : indexs) {
-			recipePatern[index] = stack;
+			recipePatern.set(index, stack);
 		}
-
 		return this;
 	}
 	
-	
 	public Ingredient getItem(int index) {
-		return recipePatern[index];
+		return recipePatern.get(index);
 	}
 	
-	public boolean isRecipeValide(NonNullList<ItemStack> inventory, boolean isShapeless) {		
-		if (isShapeless) return AssemblerRecipeHelper.checkShapeless(recipePatern, inventory);
-		else return AssemblerRecipeHelper.checkNonShapeless(recipePatern, inventory);
+	public boolean isRecipeValide(List<ItemStack> inventory, boolean isShapeless) {	
+		if (isShapeless) return AssemblerRecipeHelper.checkShapeless(inventory, recipePatern);
+		else return AssemblerRecipeHelper.checkNonShapeless(inventory, recipePatern, 3, 3);
 	}
 	
 	public static void saveJson(JsonObject json, AssemblerRecipePatern patern) {
 		String stringPatern = "";
-		for (int i = 0; i < craftingGridSize; i++)
-			stringPatern += patern.recipePatern[i].isEmpty() ? S_EMPTY : S_ITEM;
+		
+		for (Ingredient ingredient : patern.recipePatern)
+			stringPatern += ingredient.isEmpty() ? S_EMPTY : S_ITEM;
 		
 		json.addProperty("patern", stringPatern);
-		
+				
 		for (int i = 0; i < craftingGridSize; i++) {
 			if (Character.toString(stringPatern.charAt(i)).equals(S_ITEM))
-				json.add("slot_" + i, patern.recipePatern[i].toJson());
+				json.add("slot_" + i, patern.recipePatern.get(i).toJson());
 		}
 	}
 	
