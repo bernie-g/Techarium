@@ -48,6 +48,7 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
     }
 
     private void registerCraftingRecipes(Consumer<IFinishedRecipe> consumer) {
+        //metal recipes
         buildMetalRecipe("aluminium", ItemRegistry.ALUMINIUM_INGOT.get(), ItemRegistry.ALUMINIUM_NUGGET.get(),
                 BlockRegistry.ALUMINIUM_BLOCK.get(), consumer);
         buildMetalRecipe("copper", ItemRegistry.COPPER_INGOT.get(), ItemRegistry.COPPER_NUGGET.get(),
@@ -59,7 +60,9 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
         buildMetalRecipe("zinc", ItemRegistry.ZINC_INGOT.get(), ItemRegistry.ZINC_NUGGET.get(),
                 BlockRegistry.ZINC_BLOCK.get(), consumer);
 
-        ShapedRecipeBuilder.shaped(BlockRegistry.ALUMINIUM_PLATE_BLOCK.get()).define('#',
+
+        //plate blocks
+        ShapedRecipeBuilder.shaped(BlockRegistry.ALUMINIUM_PLATE_BLOCK.get(), 9).define('#',
                 ItemRegistry.ALUMINIUM_PLATE.get())
                 .pattern("###")
                 .pattern("###")
@@ -67,7 +70,7 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .group("aluminium_plate_block").unlockedBy("has_aluminium_plate", has(ItemRegistry.ALUMINIUM_PLATE.get()))
                 .save(consumer, Techarium.rl("aluminium_plate_block"));
 
-        ShapedRecipeBuilder.shaped(BlockRegistry.COPPER_PLATE_BLOCK.get()).define('#',
+        ShapedRecipeBuilder.shaped(BlockRegistry.COPPER_PLATE_BLOCK.get(), 9).define('#',
                 ItemRegistry.COPPER_PLATE.get())
                 .pattern("###")
                 .pattern("###")
@@ -75,7 +78,7 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .group("copper_plate_block").unlockedBy("has_copper_plate", has(ItemRegistry.COPPER_PLATE.get()))
                 .save(consumer, Techarium.rl("copper_plate_block"));
 
-        ShapedRecipeBuilder.shaped(BlockRegistry.LEAD_PLATE_BLOCK.get()).define('#',
+        ShapedRecipeBuilder.shaped(BlockRegistry.LEAD_PLATE_BLOCK.get(), 9).define('#',
                 ItemRegistry.LEAD_PLATE.get())
                 .pattern("###")
                 .pattern("###")
@@ -83,7 +86,7 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .group("lead_plate_block").unlockedBy("has_lead_plate", has(ItemRegistry.LEAD_PLATE.get()))
                 .save(consumer, Techarium.rl("lead_plate_block"));
 
-        ShapedRecipeBuilder.shaped(BlockRegistry.NICKEL_PLATE_BLOCK.get()).define('#',
+        ShapedRecipeBuilder.shaped(BlockRegistry.NICKEL_PLATE_BLOCK.get(), 9).define('#',
                 ItemRegistry.NICKEL_PLATE.get())
                 .pattern("###")
                 .pattern("###")
@@ -91,13 +94,59 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .group("nickel_plate_block").unlockedBy("has_nickel_plate", has(ItemRegistry.NICKEL_PLATE.get()))
                 .save(consumer, Techarium.rl("nickel_plate_block"));
 
-        ShapedRecipeBuilder.shaped(BlockRegistry.ZINC_PLATE_BLOCK.get()).define('#',
+        ShapedRecipeBuilder.shaped(BlockRegistry.ZINC_PLATE_BLOCK.get(), 9).define('#',
                 ItemRegistry.ZINC_PLATE.get())
                 .pattern("###")
                 .pattern("###")
                 .pattern("###")
                 .group("zinc_plate_block").unlockedBy("has_zinc_plate", has(ItemRegistry.ZINC_PLATE.get()))
                 .save(consumer, Techarium.rl("zinc_plate_block"));
+
+        //encased blocks
+        ShapedRecipeBuilder.shaped(BlockRegistry.ENCASED_ALUMINUM_BLOCK.get(), 9)
+                .define('#', ItemRegistry.LEAD_INGOT.get())
+                .define('b', BlockRegistry.ALUMINIUM_BLOCK.get())
+                .pattern("###")
+                .pattern("#b#")
+                .pattern("###")
+                .group("encased_aluminum_block").unlockedBy("has_aluminium_block", has(BlockRegistry.ALUMINIUM_BLOCK.get()))
+                .save(consumer, Techarium.rl("encased_aluminum_block"));
+
+        ShapedRecipeBuilder.shaped(BlockRegistry.ENCASED_COPPER_BLOCK.get(), 9)
+                .define('#', ItemRegistry.LEAD_INGOT.get())
+                .define('b', BlockRegistry.COPPER_BLOCK.get())
+                .pattern("###")
+                .pattern("#b#")
+                .pattern("###")
+                .group("encased_copper_block").unlockedBy("has_copper_block", has(BlockRegistry.COPPER_BLOCK.get()))
+                .save(consumer, Techarium.rl("encased_copper_block"));
+
+        ShapedRecipeBuilder.shaped(BlockRegistry.ENCASED_NICKEL_BLOCK.get(), 9)
+                .define('#', ItemRegistry.LEAD_INGOT.get())
+                .define('b', BlockRegistry.NICKEL_BLOCK.get())
+                .pattern("###")
+                .pattern("#b#")
+                .pattern("###")
+                .group("encased_nickel_block").unlockedBy("has_nickel_block", has(BlockRegistry.NICKEL_BLOCK.get()))
+                .save(consumer, Techarium.rl("encased_nickel_block"));
+
+        ShapedRecipeBuilder.shaped(BlockRegistry.ENCASED_LEAD_BLOCK.get(), 9)
+                .define('#', ItemRegistry.LEAD_INGOT.get())
+                .define('b', BlockRegistry.LEAD_BLOCK.get())
+                .pattern("###")
+                .pattern("#b#")
+                .pattern("###")
+                .group("encased_lead_block").unlockedBy("has_lead_block", has(BlockRegistry.LEAD_BLOCK.get()))
+                .save(consumer, Techarium.rl("encased_lead_block"));
+
+        ShapedRecipeBuilder.shaped(BlockRegistry.ENCASED_ZINC_BLOCK.get(), 9)
+                .define('#', ItemRegistry.LEAD_INGOT.get())
+                .define('b', BlockRegistry.ZINC_BLOCK.get())
+                .pattern("###")
+                .pattern("#b#")
+                .pattern("###")
+                .group("encased_zinc_block").unlockedBy("has_zinc_block", has(BlockRegistry.ZINC_BLOCK.get()))
+                .save(consumer, Techarium.rl("encased_zinc_block"));
     }
 
 

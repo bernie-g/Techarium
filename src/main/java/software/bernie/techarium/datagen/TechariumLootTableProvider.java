@@ -61,6 +61,12 @@ public class TechariumLootTableProvider extends LootTableProvider {
 			dropSelf(BlockRegistry.NICKEL_PLATE_BLOCK);
 			dropSelf(BlockRegistry.ZINC_PLATE_BLOCK);
 
+			dropSelf(BlockRegistry.ENCASED_ALUMINUM_BLOCK);
+			dropSelf(BlockRegistry.ENCASED_COPPER_BLOCK);
+			dropSelf(BlockRegistry.ENCASED_LEAD_BLOCK);
+			dropSelf(BlockRegistry.ENCASED_NICKEL_BLOCK);
+			dropSelf(BlockRegistry.ENCASED_ZINC_BLOCK);
+
 			dropSelf(BlockRegistry.ARBORETUM);
 			dropSelf(BlockRegistry.BOTARIUM);
 			dropSelf(BlockRegistry.GRAVMAGNET);

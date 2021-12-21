@@ -79,6 +79,12 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addBlock(BlockRegistry.COPPER_PLATE_BLOCK, "Block of Copper Plates");
         addBlock(BlockRegistry.LEAD_PLATE_BLOCK, "Block of Lead Plates");
         addBlock(BlockRegistry.ZINC_PLATE_BLOCK, "Block of Zinc Plates");
+
+        addBlock(BlockRegistry.ENCASED_NICKEL_BLOCK, "Encased Nickel Block");
+        addBlock(BlockRegistry.ENCASED_ALUMINUM_BLOCK, "Encased Aluminium Block");
+        addBlock(BlockRegistry.ENCASED_COPPER_BLOCK, "Encased Copper Block");
+        addBlock(BlockRegistry.ENCASED_LEAD_BLOCK, "Encased Lead Block");
+        addBlock(BlockRegistry.ENCASED_ZINC_BLOCK, "Encased Zinc Block");
     }
 
     private void addTranslationComponents() {
