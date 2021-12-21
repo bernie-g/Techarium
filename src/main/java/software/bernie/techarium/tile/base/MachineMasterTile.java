@@ -13,6 +13,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -30,6 +31,7 @@ import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.machine.interfaces.recipe.IForcedRecipe;
 import software.bernie.techarium.machine.interfaces.recipe.IMachineRecipe;
 import software.bernie.techarium.machine.interfaces.recipe.IRecipeMachine;
+import software.bernie.techarium.trait.tile.TileBehaviours;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,8 +42,8 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
 
     private final MachineController<T> controller;
 
-    protected MachineMasterTile(TileEntityType<?> tileEntityTypeIn) {
-        super(tileEntityTypeIn);
+    public MachineMasterTile(TileEntityType<?> tileEntityTypeIn) {
+        super(tileEntityTypeIn, TileBehaviours.base);
         controller = createMachineController();
     }
 
@@ -91,10 +93,11 @@ public abstract class MachineMasterTile<T extends IMachineRecipe> extends Machin
     }
 
     @Override
-    public ActionResultType onTileActivated(PlayerEntity player) {
-        NetworkHooks.openGui((ServerPlayerEntity) player, this,
-                packetBuffer -> packetBuffer.writeBlockPos(this.getBlockPos())
-        );
+    public ActionResultType onTileActivated(PlayerEntity player, Hand hand) {
+        NetworkHooks.openGui((ServerPlayerEntity) player, this, packetBuffer -> {
+            packetBuffer.writeBlockPos(this.getBlockPos());
+            packetBuffer.writeComponent(this.getDisplayName());
+        });
         return ActionResultType.SUCCESS;
     }
 

@@ -13,6 +13,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tags.ITag;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.data.ForgeRecipeProvider;
 import net.minecraftforge.fluids.FluidStack;
@@ -20,8 +22,9 @@ import software.bernie.techarium.Techarium;
 import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.recipe.recipe.BotariumRecipe;
 import software.bernie.techarium.recipe.recipe.GravMagnetRecipe;
+import software.bernie.techarium.recipe.recipe.HammerRecipe;
 import software.bernie.techarium.registry.TagRegistry;
-import software.bernie.techarium.util.ChancedItemStackList;
+import software.bernie.techarium.util.loot.ChancedItemStackList;
 
 import java.util.function.Consumer;
 
@@ -34,20 +37,31 @@ public abstract class TechariumRecipeProviderBase extends ForgeRecipeProvider {
         buildBotariumRecipe(flowerBlock.asItem(), ChancedItemStackList.of(new ItemStack(flowerBlock)), Ingredient
                 .of(Blocks.GRASS_BLOCK), 1000, 1000, consumer);
     }
-    public void buildBotariumRecipe(Item seed, ChancedItemStackList drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+
+    public void buildBotariumRecipe(Item seed, ChancedItemStackList drop, int amountWater, int time,
+                                    Consumer<IFinishedRecipe> consumer) {
         buildBotariumRecipe(seed, drop, Ingredient.of(TagRegistry.DIRT), null, amountWater, time, consumer);
     }
-    public void buildBotariumFarmlandRecipe(Item seed, ChancedItemStackList drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
-        buildBotariumRecipe(seed, drop, Ingredient.of(TagRegistry.DIRT), (BlockItem) Items.FARMLAND, amountWater, time, consumer);
+
+    public void buildBotariumFarmlandRecipe(Item seed, ChancedItemStackList drop, int amountWater, int time,
+                                            Consumer<IFinishedRecipe> consumer) {
+        buildBotariumRecipe(seed, drop, Ingredient.of(TagRegistry.DIRT), (BlockItem) Items.FARMLAND, amountWater, time,
+                consumer);
     }
-    public void buildBotariumRecipe(Item seed, ChancedItemStackList drop, Ingredient soil, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+
+    public void buildBotariumRecipe(Item seed, ChancedItemStackList drop, Ingredient soil, int amountWater, int time,
+                                    Consumer<IFinishedRecipe> consumer) {
         buildBotariumRecipe(seed, drop, soil, null, new FluidStack(Fluids.WATER, amountWater), time, consumer);
     }
-    public void buildBotariumRecipe(Item seed, ChancedItemStackList drop, Ingredient soil, BlockItem renderSoil, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+
+    public void buildBotariumRecipe(Item seed, ChancedItemStackList drop, Ingredient soil, BlockItem renderSoil,
+                                    int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
         buildBotariumRecipe(seed, drop, soil, renderSoil, new FluidStack(Fluids.WATER, amountWater), time, consumer);
     }
 
-    public void buildBotariumRecipe(Item seed, ChancedItemStackList drop, Ingredient soil, BlockItem renderSoil, FluidStack fluid, int time, Consumer<IFinishedRecipe> consumer) {
+
+    public void buildBotariumRecipe(Item seed, ChancedItemStackList drop, Ingredient soil, BlockItem renderSoil,
+                                    FluidStack fluid, int time, Consumer<IFinishedRecipe> consumer) {
         BotariumRecipe.builder()
                 .cropType(Ingredient.of(seed))
                 .soilIn(soil)
@@ -59,20 +73,40 @@ public abstract class TechariumRecipeProviderBase extends ForgeRecipeProvider {
                 .output(drop)
                 .construct()
                 .build(consumer,
-                        new ResourceLocation(Techarium.ModID,
+                        Techarium.rl(
                                 "botarium/" + seed.getRegistryName().getNamespace() + "/" + seed.getRegistryName()
                                         .getPath()));
     }
 
-    public void buildArboretumRecipe(Item sapling, ChancedItemStackList drop, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+    public void buildHammerPlateRecipe(Item ingot, Item plate, Consumer<IFinishedRecipe> consumer) {
+        buildHammerRecipe(Ingredient.of(ingot), Ingredient.of(ingot), Ingredient.of(ingot), plate.getDefaultInstance(),
+                consumer);
+    }
+
+    public void buildHammerPlateRecipe(ITag<Item> ingot, Item plate, Consumer<IFinishedRecipe> consumer) {
+        buildHammerRecipe(Ingredient.of(ingot), Ingredient.of(ingot), Ingredient.of(ingot), plate.getDefaultInstance(),
+                consumer);
+    }
+
+    public void buildHammerRecipe(Ingredient input0, Ingredient input1, Ingredient input2, ItemStack output,
+                                  Consumer<IFinishedRecipe> consumer) {
+        ResourceLocation rl = new ResourceLocation(output.getItem().getRegistryName().getNamespace(),
+                "hammering/" + output.getItem().getRegistryName().getPath());
+        new HammerRecipe(rl, input0, input1, input2, output).build(consumer, rl);
+    }
+
+    public void buildArboretumRecipe(Item sapling, ChancedItemStackList drop, int amountWater, int time,
+                                     Consumer<IFinishedRecipe> consumer) {
         buildArboretumRecipe(sapling, drop, Ingredient.of(TagRegistry.DIRT), amountWater, time, consumer);
     }
 
-    public void buildArboretumRecipe(Item sapling, ChancedItemStackList drop, Ingredient soil, int amountWater, int time, Consumer<IFinishedRecipe> consumer) {
+    public void buildArboretumRecipe(Item sapling, ChancedItemStackList drop, Ingredient soil, int amountWater,
+                                     int time, Consumer<IFinishedRecipe> consumer) {
         buildArboretumRecipe(sapling, drop, soil, new FluidStack(Fluids.WATER, amountWater), time, consumer);
     }
 
-    public void buildArboretumRecipe(Item sapling, ChancedItemStackList drop, Ingredient soil, FluidStack fluid, int time, Consumer<IFinishedRecipe> consumer) {
+    public void buildArboretumRecipe(Item sapling, ChancedItemStackList drop, Ingredient soil, FluidStack fluid,
+                                     int time, Consumer<IFinishedRecipe> consumer) {
         ArboretumRecipe.builder()
                 .cropType(Ingredient.of(sapling))
                 .soilIn(soil)
@@ -83,22 +117,24 @@ public abstract class TechariumRecipeProviderBase extends ForgeRecipeProvider {
                 .output(drop)
                 .construct()
                 .build(consumer,
-                        new ResourceLocation(Techarium.ModID,
+                        new ResourceLocation(Techarium.MOD_ID,
                                 "arboretum/" + sapling.getRegistryName().getNamespace() + "/" + sapling
                                         .getRegistryName().getPath()));
     }
 
-    public void buildGravMagnetRecipe(String name, ChancedItemStackList output, ItemStack input, int processTime, boolean pull, Consumer<IFinishedRecipe> consumer) {
+    public void buildGravMagnetRecipe(String name, ChancedItemStackList output, ItemStack input, int processTime,
+                                      boolean pull, Consumer<IFinishedRecipe> consumer) {
         GravMagnetRecipe.builder()
-        		.output(output)
-        		.input(input)
-        		.processTime(processTime)
-        		.pull(pull)
+                .output(output)
+                .input(input)
+                .processTime(processTime)
+                .pull(pull)
                 .construct()
-                .build(consumer, new ResourceLocation(Techarium.ModID, "gravmagnet/" + name));
+                .build(consumer, new ResourceLocation(Techarium.MOD_ID, "gravmagnet/" + name));
     }
-    
-    public void buildMetalRecipe(String name, Item ingot, Item nugget, Block block, Consumer<IFinishedRecipe> consumer) {
+
+    public void buildMetalRecipe(String name, Item ingot, Item nugget, Block block,
+                                 Consumer<IFinishedRecipe> consumer) {
         String nuggetName = nugget.getRegistryName().getPath();
         String ingotName = ingot.getRegistryName().getPath();
         String blockName = block.getRegistryName().getPath();

@@ -31,7 +31,7 @@ import software.bernie.techarium.machine.addon.energy.EnergyStorageAddon;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
 import software.bernie.techarium.machine.interfaces.ITooltipAddon;
 import software.bernie.techarium.machine.interfaces.ITooltipProvider;
-import software.bernie.techarium.util.ChancedItemStack;
+import software.bernie.techarium.util.loot.ChancedItemStack;
 import software.bernie.techarium.util.Vector2i;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;

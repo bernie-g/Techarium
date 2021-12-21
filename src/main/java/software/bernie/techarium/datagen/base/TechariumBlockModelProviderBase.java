@@ -13,7 +13,7 @@ public abstract class TechariumBlockModelProviderBase extends BlockModelProvider
     public final Lazy<ModelFile> EMPTY_MODEL = Lazy.of(() -> getExistingFile(mcLoc("air")));
 
     public TechariumBlockModelProviderBase(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, Techarium.ModID, existingFileHelper);
+        super(generator, Techarium.MOD_ID, existingFileHelper);
     }
 
     public BlockModelBuilder machineBox(String name, ResourceLocation texture) {

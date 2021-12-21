@@ -11,6 +11,7 @@ public class BlockPartialBehaviours {
             .requiredTraits(BlockTraits.ParticlesTrait.class)
             .requiredTraits(BlockTraits.MaterialTrait.class)
             .requiredTraits(BlockTraits.BlockRenderTypeTrait.class)
+            .requiredTraits(BlockTraits.BlockRotationTrait.class)
             .staticModel()
             .showBreakParticles(true)
             .partial();
@@ -21,6 +22,7 @@ public class BlockPartialBehaviours {
 
     public static PartialBehaviour partialMachineBlock = new BlockBehaviour.Builder().composeFrom(partialTileBlock)
             .with(new BlockTraits.MachineMaterialTrait())
+            .requiredTraits(BlockTraits.BlockRotationTrait.class)
             .animatedModel()
             .partial();
 

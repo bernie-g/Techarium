@@ -10,7 +10,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import software.bernie.techarium.recipe.recipe.GravMagnetRecipe;
-import software.bernie.techarium.util.ChancedItemStackList;
+import software.bernie.techarium.util.loot.ChancedItemStackList;
 import software.bernie.techarium.util.JsonCodecUtils;
 
 public class GravMagnetRecipeSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>>
@@ -20,7 +20,7 @@ public class GravMagnetRecipeSerializer extends ForgeRegistryEntry<IRecipeSerial
 	public GravMagnetRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
 		ItemStack input = JsonCodecUtils.deserializeItemStack(json.get("input"));
 		ChancedItemStackList output = ChancedItemStackList.fromJSON(json.get("output").getAsJsonArray());
-		int time = json.get("processTime").getAsInt();
+		int time = json.get("maxProgress").getAsInt();
 		boolean pull = json.get("pull").getAsBoolean();
 
 		return new GravMagnetRecipe(recipeId, output, input, time, pull);
@@ -40,7 +40,7 @@ public class GravMagnetRecipeSerializer extends ForgeRegistryEntry<IRecipeSerial
 	public void toNetwork(PacketBuffer buffer, GravMagnetRecipe recipe) {
 		buffer.writeItem(recipe.getInput());
 		recipe.getOutput().write(buffer);
-		buffer.writeInt(recipe.getProcessTime());
+		buffer.writeInt(recipe.getMaxProgress());
 		buffer.writeBoolean(recipe.isPull());
 
 	}

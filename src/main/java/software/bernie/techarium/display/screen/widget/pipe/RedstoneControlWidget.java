@@ -14,11 +14,11 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import static software.bernie.techarium.Techarium.ModID;
+import static software.bernie.techarium.Techarium.MOD_ID;
 
 public class RedstoneControlWidget extends Widget {
 
-    private static final ResourceLocation MACHINE_COMPONENTS = new ResourceLocation(ModID, "textures/gui/machine_components.png");
+    private static final ResourceLocation MACHINE_COMPONENTS = new ResourceLocation(MOD_ID, "textures/gui/machine_components.png");
 
     private static final Vector2i size = new Vector2i(68,22);
     final Map<RedstoneControlType, Widget> redstoneActiveControlWidgets = new EnumMap<>(RedstoneControlType.class);

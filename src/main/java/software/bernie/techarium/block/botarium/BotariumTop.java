@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 public class BotariumTop extends MachineBlock<TopEnabledOnlySlave> {
 
     public BotariumTop() {
-        super(BlockBehaviours.createSlave(BlockBehaviours.botarium), Block.Properties.of(Material.METAL).strength(3.5f).harvestLevel(2)
+        super(BlockBehaviours.createSlave(BlockBehaviours.BOTARIUM), Block.Properties.of(Material.METAL).strength(3.5f).harvestLevel(2)
                 .harvestTool(ToolType.PICKAXE).noOcclusion().requiresCorrectToolForDrops().noDrops());
     }
 

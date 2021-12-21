@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class Trait {
+public abstract class Trait implements Cloneable {
 
     private final Map<Class<?>, Consumer<Object>> tweakers = new HashMap<>();
 
@@ -32,4 +32,8 @@ public class Trait {
         tweakers.put(tweakerType, (Consumer<Object>) tweaker);
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

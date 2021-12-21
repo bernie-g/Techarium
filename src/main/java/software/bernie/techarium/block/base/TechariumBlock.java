@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.item.BlockItemUseContext;
@@ -37,6 +38,14 @@ public abstract class TechariumBlock<T extends TileEntity> extends Block impleme
 
 
         behaviour.tweak(this);
+    }
+
+    @Override
+    public BlockRenderType getRenderShape(BlockState state) {
+        Optional<BlockTraits.BlockRenderTypeTrait> renderTypeTrait = behaviour.get(BlockTraits.BlockRenderTypeTrait.class);
+        if (renderTypeTrait.isPresent())
+            return renderTypeTrait.get().getBlockRenderType();
+        return BlockRenderType.MODEL;
     }
 
     public static Properties configure(Properties properties, BlockBehaviour behaviour) {
@@ -84,8 +93,12 @@ public abstract class TechariumBlock<T extends TileEntity> extends Block impleme
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        if (this.behaviour != null)
-            getBehaviour().getRequired(BlockTraits.BlockRotationTrait.class).createBlockStateDefinition(builder);
+        if (this.behaviour == null) {
+            return;
+        }
+
+        getBehaviour().get(BlockTraits.PropertyTrait.class).ifPresent(trait -> trait.createBlockStateDefinition(builder));
+        getBehaviour().get(BlockTraits.BlockRotationTrait.class).ifPresent(trait -> trait.createBlockStateDefinition(builder));
     }
 
     @Override

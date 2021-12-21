@@ -1,0 +1,76 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:alternative",
+              "terms": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "techarium:voltaic_pile",
+                  "properties": {
+                    "charge": "one_third"
+                  }
+                },
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "techarium:voltaic_pile",
+                  "properties": {
+                    "charge": "two_third"
+                  }
+                },
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "techarium:voltaic_pile",
+                  "properties": {
+                    "charge": "full"
+                  }
+                }
+              ]
+            }
+          ],
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "energy",
+                  "target": "BlockEntityTag.energy",
+                  "op": "replace"
+                }
+              ]
+            }
+          ],
+          "name": "techarium:voltaic_pile"
+        },
+        {
+          "type": "techarium:item_list",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "techarium:voltaic_pile",
+              "properties": {
+                "charge": "empty"
+              }
+            }
+          ],
+          "names": [
+            "techarium:copper_ingot",
+            "techarium:zinc_ingot"
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}

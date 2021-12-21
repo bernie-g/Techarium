@@ -1,0 +1,35 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"item": {
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"item1": {
+					"rotation": {
+						"vector": ["20+32.5*math.cos(120+query.anim_time*180)*0.3", 0, 0]
+					},
+					"position": {
+						"vector": [0, "2-math.cos(query.anim_time*180)*0.5", 0]
+					}
+				},
+				"item2": {
+					"rotation": {
+						"vector": ["20+32.5*math.cos(80+query.anim_time*180)*0.3", 0, 0]
+					},
+					"position": {
+						"vector": [0, "6-math.cos(40-query.anim_time*180)*0.5", 0]
+					}
+				},
+				"item3": {
+					"rotation": {
+						"vector": ["20+32.5*math.cos(40+query.anim_time*180)*0.3", 0, 0]
+					},
+					"position": {
+						"vector": [0, "10-math.cos(80-query.anim_time*180)*0.5", 0]
+					}
+				}
+			}
+		}
+	}
+}

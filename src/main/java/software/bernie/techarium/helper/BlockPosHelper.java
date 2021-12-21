@@ -1,8 +1,5 @@
 package software.bernie.techarium.helper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -11,6 +8,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
+import java.util.function.Predicate;
+
 public class BlockPosHelper {
 
 	public static Vector3d getCenter(BlockPos pos) {
@@ -18,46 +17,29 @@ public class BlockPosHelper {
 	}
 	
 	public BlockPos isBlockInside(World world, AxisAlignedBB box, Block block) {
-        int i = MathHelper.floor(box.minX);
-        int j = MathHelper.ceil(box.maxX);
-        int k = MathHelper.floor(box.minY);
-        int l = MathHelper.ceil(box.maxY);
-        int i1 = MathHelper.floor(box.minZ);
-        int j1 = MathHelper.ceil(box.maxZ);
-
-        BlockPos.Mutable mutable = new BlockPos.Mutable();
-
-        for(int k1 = i; k1 < j; ++k1) {
-            for(int l1 = k; l1 < l; ++l1) {
-                for(int i2 = i1; i2 < j1; ++i2) {
-                   if (world.getBlockState(mutable.set(k1, l1, i2)).getBlock() == block)
-                	   return mutable.set(k1, l1, i2);
-                }
-            }
-        }
-
-        return null;
+        return isStateInside(world, box, state -> state.getBlock() == block);
 	}
 	
 	public BlockPos isStateInside(World world, AxisAlignedBB box, BlockState state) {
-        int i = MathHelper.floor(box.minX);
-        int j = MathHelper.ceil(box.maxX);
-        int k = MathHelper.floor(box.minY);
-        int l = MathHelper.ceil(box.maxY);
-        int i1 = MathHelper.floor(box.minZ);
-        int j1 = MathHelper.ceil(box.maxZ);
+        return isStateInside(world, box, toTest -> toTest == state);
+	}
+    public BlockPos isStateInside(World world, AxisAlignedBB box, Predicate<BlockState> predicate) {
+        int minX = MathHelper.floor(box.minX);
+        int maxX = MathHelper.ceil(box.maxX);
+        int minY = MathHelper.floor(box.minY);
+        int maxY = MathHelper.ceil(box.maxY);
+        int minZ = MathHelper.floor(box.minZ);
+        int maxZ = MathHelper.ceil(box.maxZ);
 
-        BlockPos.Mutable mutable = new BlockPos.Mutable();
-
-        for(int k1 = i; k1 < j; ++k1) {
-            for(int l1 = k; l1 < l; ++l1) {
-                for(int i2 = i1; i2 < j1; ++i2) {
-                   if (world.getBlockState(mutable.set(k1, l1, i2)) == state)
-                	   return mutable.set(k1, l1, i2);
+        for(int x = minX; x < maxX; ++x) {
+            for(int y = minY; y < maxY; ++y) {
+                for(int z = minZ; z < maxZ; ++z) {
+                    if (predicate.test(world.getBlockState(new BlockPos(x,y,z))))
+                        return new BlockPos(x,y,z);
                 }
             }
         }
         return null;
-	}
+    }
 	
 }	

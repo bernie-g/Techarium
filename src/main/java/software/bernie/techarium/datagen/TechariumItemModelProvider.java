@@ -16,8 +16,10 @@ public class TechariumItemModelProvider extends TechariumItemModelProviderBase {
     protected void registerModels() {
         registerPipes();
         registerIngots();
+        registerMachines();
 
         simpleTexture(ItemRegistry.DEBUGSTICK.get(), "item/pipe/pipe_stick");
+        simpleTexture(ItemRegistry.HAMMER.get(), "item/hammer");
         simpleTexture(BlockRegistry.EXCHANGE_STATION.getItem(), "item/exchange_station");
         emptyModel("multi_pipe");
     }
@@ -33,16 +35,25 @@ public class TechariumItemModelProvider extends TechariumItemModelProviderBase {
         simpleTexture(ItemRegistry.ALUMINIUM_INGOT.get(), "item/ingot/aluminium_ingot");
         simpleTexture(ItemRegistry.LEAD_INGOT.get(), "item/ingot/lead_ingot");
         simpleTexture(ItemRegistry.NICKEL_INGOT.get(), "item/ingot/nickel_ingot");
+        simpleTexture(ItemRegistry.ZINC_INGOT.get(), "item/ingot/zinc_ingot");
+
+        simpleTexture(ItemRegistry.COPPER_PLATE.get(), "item/plate/copper_plate");
+        simpleTexture(ItemRegistry.ALUMINIUM_PLATE.get(), "item/plate/aluminium_plate");
+        simpleTexture(ItemRegistry.LEAD_PLATE.get(), "item/plate/lead_plate");
+        simpleTexture(ItemRegistry.NICKEL_PLATE.get(), "item/plate/nickel_plate");
+        simpleTexture(ItemRegistry.ZINC_PLATE.get(), "item/plate/zinc_plate");
 
         simpleTexture(ItemRegistry.COPPER_NUGGET.get(), "item/nugget/copper_nugget");
         simpleTexture(ItemRegistry.ALUMINIUM_NUGGET.get(), "item/nugget/aluminium_nugget");
         simpleTexture(ItemRegistry.LEAD_NUGGET.get(), "item/nugget/lead_nugget");
         simpleTexture(ItemRegistry.NICKEL_NUGGET.get(), "item/nugget/nickel_nugget");
+        simpleTexture(ItemRegistry.ZINC_NUGGET.get(), "item/nugget/zinc_nugget");
     }
-    
-    public void registerWire() {
-        simpleTexture(ItemRegistry.COPPER_COIL.get(), "item/coil/copper_coil");
-        simpleTexture(ItemRegistry.COBALT_COIL.get(), "item/coil/cobalt_coil");
-        simpleTexture(ItemRegistry.SOLARIUM_COIL.get(), "item/coil/solarium_coil");
+
+    public void registerMachines() {
+        machineItemGen(BlockRegistry.BOTARIUM, MachineDimensions._1X1X2);
+        machineItemGen(BlockRegistry.ARBORETUM, MachineDimensions._1X1X2);
+        machineItemGen(BlockRegistry.GRAVMAGNET, MachineDimensions._1X1X1);
+        machineItemGen(BlockRegistry.MAGNETIC_COIL, MachineDimensions._1X1X1);
     }
 }

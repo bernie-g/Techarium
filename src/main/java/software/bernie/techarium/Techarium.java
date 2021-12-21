@@ -13,6 +13,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
+import software.bernie.techarium.config.TechariumConfig;
 import software.bernie.techarium.datagen.*;
 import software.bernie.techarium.display.screen.AutomaticContainerScreen;
 import software.bernie.techarium.display.screen.ExchangeStationScreen;
@@ -27,15 +28,14 @@ import software.bernie.techarium.world.WorldGen;
 
 import static software.bernie.techarium.registry.ContainerRegistry.*;
 
-@Mod(Techarium.ModID)
+@Mod(Techarium.MOD_ID)
 public class Techarium {
-	public final static String ModID = "techarium";
-	public static Logger LOGGER;
+	public static final String MOD_ID = "techarium";
+	public static final Logger LOGGER = LogCache.getLogger(Techarium.class);
 
 	public Techarium() {
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 		GeckoLib.initialize();
-		LOGGER = LogCache.getLogger(getClass());
 		ItemRegistry.register(bus);
 		BlockRegistry.register(bus);
 		ContainerRegistry.register(bus);
@@ -44,13 +44,14 @@ public class Techarium {
 		bus.addListener(NetworkEvents::onCommonSetup);
 		bus.addListener(this::gatherData);
 		bus.addListener(this::enqueueIMC);
+		bus.addListener(LootRegistry::registerLootPoolEntryTypes);
 		MinecraftForge.EVENT_BUS.addListener(WorldGen::generateOres);
-
+		TechariumConfig.load();
 		NetworkConnection.registerMessages();
 	}
 
 	public static ResourceLocation rl(String path) {
-		return new ResourceLocation(Techarium.ModID, path);
+		return new ResourceLocation(Techarium.MOD_ID, path);
 	}
 
 	private void gatherData(GatherDataEvent event) {
