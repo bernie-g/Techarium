@@ -106,11 +106,23 @@ public class BlockRegistry {
     public static final RegistryObject<Block> LEAD_ORE = registerBlock("lead_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)));
     public static final RegistryObject<Block> NICKEL_ORE = registerBlock("nickel_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)));
     public static final RegistryObject<Block> ZINC_ORE = registerBlock("zinc_ore", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_ORE)));
+
     public static final RegistryObject<Block> ALUMINIUM_BLOCK = registerBlock("aluminium_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> COPPER_BLOCK = registerBlock("copper_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> LEAD_BLOCK = registerBlock("lead_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> NICKEL_BLOCK = registerBlock("nickel_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> ZINC_BLOCK = registerBlock("zinc_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+
+    public static final RegistryObject<Block> ALUMINIUM_PLATE_BLOCK = registerBlock("aluminium_plate_block",
+            () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> COPPER_PLATE_BLOCK = registerBlock("copper_plate_block",
+            () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> LEAD_PLATE_BLOCK = registerBlock("lead_plate_block",
+            () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> NICKEL_PLATE_BLOCK = registerBlock("nickel_plate_block",
+            () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> ZINC_PLATE_BLOCK = registerBlock("zinc_plate_block",
+            () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
 
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {

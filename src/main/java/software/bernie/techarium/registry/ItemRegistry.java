@@ -43,6 +43,7 @@ public class ItemRegistry
 	public static final RegistryObject<Item> COPPER_PLATE = ITEMS.register("copper_plate", itemCreator());
 	public static final RegistryObject<Item> LEAD_PLATE = ITEMS.register("lead_plate", itemCreator());
 	public static final RegistryObject<Item> NICKEL_PLATE = ITEMS.register("nickel_plate", itemCreator());
+	public static final RegistryObject<Item> ZINC_PLATE = ITEMS.register("zinc_plate", itemCreator());
 	public static final RegistryObject<Item> HAMMER = ITEMS.register("hammer", itemCreator());
 
 	public static final RegistryObject<Item> COPPER_COIL = ITEMS.register("copper_coil", () -> new CoilItem(MagneticCoilType.TIER_1));

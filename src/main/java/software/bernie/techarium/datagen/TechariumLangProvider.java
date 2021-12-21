@@ -41,6 +41,7 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addItem(ItemRegistry.COPPER_PLATE, "Copper Plate");
         addItem(ItemRegistry.LEAD_PLATE, "Lead Plate");
         addItem(ItemRegistry.NICKEL_PLATE, "Nickel Plate");
+        addItem(ItemRegistry.ZINC_PLATE, "Zinc Plate");
 
         addItem(ItemRegistry.ALUMINIUM_NUGGET, "Aluminium Nugget");
         addItem(ItemRegistry.COPPER_NUGGET, "Copper Nugget");
@@ -72,6 +73,12 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addBlock(BlockRegistry.COPPER_BLOCK, "Block of Copper");
         addBlock(BlockRegistry.LEAD_BLOCK, "Block of Lead");
         addBlock(BlockRegistry.ZINC_BLOCK, "Block of Zinc");
+
+        addBlock(BlockRegistry.NICKEL_PLATE_BLOCK, "Block of Nickel Plates");
+        addBlock(BlockRegistry.ALUMINIUM_PLATE_BLOCK, "Block of Aluminum Plates");
+        addBlock(BlockRegistry.COPPER_PLATE_BLOCK, "Block of Copper Plates");
+        addBlock(BlockRegistry.LEAD_PLATE_BLOCK, "Block of Lead Plates");
+        addBlock(BlockRegistry.ZINC_PLATE_BLOCK, "Block of Zinc Plates");
     }
 
     private void addTranslationComponents() {

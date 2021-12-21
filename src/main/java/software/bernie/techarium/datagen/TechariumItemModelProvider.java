@@ -35,12 +35,13 @@ public class TechariumItemModelProvider extends TechariumItemModelProviderBase {
         simpleTexture(ItemRegistry.ALUMINIUM_INGOT.get(), "item/ingot/aluminium_ingot");
         simpleTexture(ItemRegistry.LEAD_INGOT.get(), "item/ingot/lead_ingot");
         simpleTexture(ItemRegistry.NICKEL_INGOT.get(), "item/ingot/nickel_ingot");
-        simpleTexture(ItemRegistry.ZINC_INGOT.get(), "item/ingot/nickel_ingot");
+        simpleTexture(ItemRegistry.ZINC_INGOT.get(), "item/ingot/zinc_ingot");
 
         simpleTexture(ItemRegistry.COPPER_PLATE.get(), "item/plate/copper_plate");
         simpleTexture(ItemRegistry.ALUMINIUM_PLATE.get(), "item/plate/aluminium_plate");
         simpleTexture(ItemRegistry.LEAD_PLATE.get(), "item/plate/lead_plate");
         simpleTexture(ItemRegistry.NICKEL_PLATE.get(), "item/plate/nickel_plate");
+        simpleTexture(ItemRegistry.ZINC_PLATE.get(), "item/plate/zinc_plate");
 
         simpleTexture(ItemRegistry.COPPER_NUGGET.get(), "item/nugget/copper_nugget");
         simpleTexture(ItemRegistry.ALUMINIUM_NUGGET.get(), "item/nugget/aluminium_nugget");
