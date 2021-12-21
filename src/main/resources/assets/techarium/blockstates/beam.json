@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "up=false,down=false": {
+      "model": "techarium:block/beam_both"
+    },
+    "up=false,down=true": {
+      "model": "techarium:block/beam_foot",
+      "x": 180
+    },
+    "up=true,down=false": {
+      "model": "techarium:block/beam_foot"
+    },
+    "up=true,down=true": {
+      "model": "techarium:block/beam_rod"
+    }
+  }
+}
