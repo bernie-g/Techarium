@@ -5,6 +5,7 @@ import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUM;
 import java.util.function.Supplier;
 
 import lombok.Getter;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;

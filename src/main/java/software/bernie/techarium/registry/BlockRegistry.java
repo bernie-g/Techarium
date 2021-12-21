@@ -15,6 +15,7 @@ import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.techarium.Techarium;
+import software.bernie.techarium.block.BeamBlock;
 import software.bernie.techarium.block.BlockRegistryObjectGroup;
 import software.bernie.techarium.block.arboretum.ArboretumMaster;
 import software.bernie.techarium.block.arboretum.ArboretumTop;
@@ -111,6 +112,7 @@ public class BlockRegistry {
     public static final RegistryObject<Block> COPPER_BLOCK = registerBlock("copper_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> LEAD_BLOCK = registerBlock("lead_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> NICKEL_BLOCK = registerBlock("nickel_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> BEAM = registerBlock("beam", BeamBlock::new);
     public static final RegistryObject<Block> ZINC_BLOCK = registerBlock("zinc_block", () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
 
     public static final RegistryObject<Block> ALUMINIUM_PLATE_BLOCK = registerBlock("aluminium_plate_block",

@@ -2,9 +2,7 @@ package software.bernie.techarium.datagen;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowerBlock;
-import net.minecraft.data.CookingRecipeBuilder;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IFinishedRecipe;
+import net.minecraft.data.*;
 import net.minecraft.data.ShapedRecipeBuilder;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItem;
@@ -34,7 +32,6 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
     @Override
     protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
         registerVanillaBotariumRecipes(consumer);
-
         registerExchangeStationRecipes(consumer);
 
         registerVanillaArboretumRecipes(consumer);

@@ -66,6 +66,7 @@ public class TechariumLootTableProvider extends LootTableProvider {
 			dropSelf(BlockRegistry.GRAVMAGNET);
 			dropSelf(BlockRegistry.EXCHANGE_STATION);
 			dropSelf(BlockRegistry.PIPE);
+			dropSelf(BlockRegistry.BEAM);
 			dropSelf(BlockRegistry.MAGNETIC_COIL);
 			dropSelf(BlockRegistry.DEPOT);
 
