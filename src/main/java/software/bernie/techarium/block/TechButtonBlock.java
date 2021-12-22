@@ -34,9 +34,9 @@ public class TechButtonBlock extends StoneButtonBlock {
             case CEILING:
             default:
                 if (direction.getAxis() == Direction.Axis.X) {
-                    return CEILING_AABB_X;
-                } else {
                     return CEILING_AABB_Z;
+                } else {
+                    return CEILING_AABB_X;
                 }
         }
     }
