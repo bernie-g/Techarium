@@ -1,0 +1,16 @@
+{
+  "type": "techarium:hammering",
+  "input0": {
+    "tag": "forge:ingots/zinc"
+  },
+  "input1": {
+    "tag": "forge:ingots/zinc"
+  },
+  "input2": {
+    "tag": "forge:ingots/zinc"
+  },
+  "output": {
+    "id": "techarium:zinc_plate",
+    "Count": 1
+  }
+}

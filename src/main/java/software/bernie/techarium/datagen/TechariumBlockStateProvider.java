@@ -65,6 +65,12 @@ public class TechariumBlockStateProvider extends TechariumBlockStateProviderBase
         simpleBlockAndItem(BlockRegistry.ENCASED_LEAD_BLOCK.get());
         simpleBlockAndItem(BlockRegistry.ENCASED_NICKEL_BLOCK.get());
         simpleBlockAndItem(BlockRegistry.ENCASED_ZINC_BLOCK.get());
+
+        simpleBlockAndItem(BlockRegistry.ALUMINIUM_FACTORY_BLOCK.get());
+        simpleBlockAndItem(BlockRegistry.COPPER_FACTORY_BLOCK.get());
+        simpleBlockAndItem(BlockRegistry.NICKEL_FACTORY_BLOCK.get());
+        simpleBlockAndItem(BlockRegistry.LEAD_FACTORY_BLOCK.get());
+        simpleBlockAndItem(BlockRegistry.ZINC_FACTORY_BLOCK.get());
     }
 
     private void registerVoltaicPile() {

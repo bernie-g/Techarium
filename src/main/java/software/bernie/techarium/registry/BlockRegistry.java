@@ -137,6 +137,16 @@ public class BlockRegistry {
     public static final RegistryObject<Block> ENCASED_ZINC_BLOCK = registerBlock("encased_zinc_block",
             () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
 
+    public static final RegistryObject<Block> ALUMINIUM_FACTORY_BLOCK = registerBlock("aluminium_factoryblock",
+            () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> COPPER_FACTORY_BLOCK = registerBlock("copper_factoryblock",
+            () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> NICKEL_FACTORY_BLOCK = registerBlock("nickel_factoryblock",
+            () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> LEAD_FACTORY_BLOCK = registerBlock("lead_factoryblock",
+            () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> ZINC_FACTORY_BLOCK = registerBlock("zinc_factoryblock",
+            () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> reg = BLOCKS.register(name, block);

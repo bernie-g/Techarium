@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "techarium:block/copper_factoryblock"
+    }
+  }
+}

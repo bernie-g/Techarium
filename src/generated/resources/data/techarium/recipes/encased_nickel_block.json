@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "encased_nickel_block",
+  "pattern": [
+    "###",
+    "#b#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "techarium:lead_ingot"
+    },
+    "b": {
+      "item": "techarium:nickel_block"
+    }
+  },
+  "result": {
+    "item": "techarium:encased_nickel_block",
+    "count": 9
+  }
+}
