@@ -93,6 +93,8 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addBlock(BlockRegistry.NICKEL_FACTORY_BLOCK, "Nickel Factory Block");
         addBlock(BlockRegistry.LEAD_FACTORY_BLOCK, "Lead Factory Block");
         addBlock(BlockRegistry.ZINC_FACTORY_BLOCK, "Zinc Factory Block");
+
+        addBlock(BlockRegistry.TECH_BUTTON, "Button");
     }
 
     private void addTranslationComponents() {

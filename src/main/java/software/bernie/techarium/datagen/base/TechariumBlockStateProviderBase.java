@@ -86,6 +86,13 @@ public abstract class TechariumBlockStateProviderBase extends BlockStateProvider
         this.simpleBlockItem(block, model);
     }
 
+
+    public void existingBlockXYZ(Block block, ResourceLocation existingModel) {
+        ModelFile model = new ModelFile.ExistingModelFile(existingModel, helper);
+        this.directionalBlock(block, model);
+        this.simpleBlockItem(block, model);
+    }
+
     public void existingBlock(Block block, ResourceLocation existingModel) {
         ModelFile model = new ModelFile.ExistingModelFile(existingModel, helper);
         this.simpleBlock(block, model);

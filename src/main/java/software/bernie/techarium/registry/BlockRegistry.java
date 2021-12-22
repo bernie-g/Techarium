@@ -3,6 +3,7 @@ package software.bernie.techarium.registry;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.StoneButtonBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
@@ -17,6 +18,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.block.BeamBlock;
 import software.bernie.techarium.block.BlockRegistryObjectGroup;
+import software.bernie.techarium.block.TechButtonBlock;
 import software.bernie.techarium.block.arboretum.ArboretumMaster;
 import software.bernie.techarium.block.arboretum.ArboretumTop;
 import software.bernie.techarium.block.base.MachineBlock;
@@ -147,6 +149,9 @@ public class BlockRegistry {
             () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> ZINC_FACTORY_BLOCK = registerBlock("zinc_factoryblock",
             () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+
+    public static final RegistryObject<TechButtonBlock> TECH_BUTTON = registerBlock("tech_button",
+            () -> new TechButtonBlock(AbstractBlock.Properties.copy(Blocks.STONE_BUTTON)));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> reg = BLOCKS.register(name, block);
