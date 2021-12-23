@@ -82,6 +82,7 @@ public class TechariumLootTableProvider extends LootTableProvider {
 			dropSelf(BlockRegistry.MAGNETIC_COIL);
 			dropSelf(BlockRegistry.DEPOT);
 			dropSelf(BlockRegistry.TECH_BUTTON);
+			dropSelf(BlockRegistry.TECH_LEVER);
 
 			voltaicPileLootTable();
 		}

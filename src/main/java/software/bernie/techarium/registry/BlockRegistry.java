@@ -19,6 +19,7 @@ import software.bernie.techarium.Techarium;
 import software.bernie.techarium.block.BeamBlock;
 import software.bernie.techarium.block.BlockRegistryObjectGroup;
 import software.bernie.techarium.block.TechButtonBlock;
+import software.bernie.techarium.block.TechLeverBlock;
 import software.bernie.techarium.block.arboretum.ArboretumMaster;
 import software.bernie.techarium.block.arboretum.ArboretumTop;
 import software.bernie.techarium.block.base.MachineBlock;
@@ -152,6 +153,8 @@ public class BlockRegistry {
 
     public static final RegistryObject<TechButtonBlock> TECH_BUTTON = registerBlock("tech_button",
             () -> new TechButtonBlock(AbstractBlock.Properties.copy(Blocks.STONE_BUTTON)));
+    public static final RegistryObject<TechLeverBlock> TECH_LEVER = registerBlock("tech_lever",
+            () -> new TechLeverBlock(AbstractBlock.Properties.copy(Blocks.LEVER)));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> reg = BLOCKS.register(name, block);

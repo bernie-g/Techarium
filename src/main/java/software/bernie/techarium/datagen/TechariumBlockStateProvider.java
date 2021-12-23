@@ -74,6 +74,8 @@ public class TechariumBlockStateProvider extends TechariumBlockStateProviderBase
 
         simpleBlockItem(BlockRegistry.TECH_BUTTON.get(),
                 blockProvider.getExistingFile(Techarium.rl("block/tech_button_off")));
+        simpleBlockItem(BlockRegistry.TECH_LEVER.get(),
+                blockProvider.getExistingFile(Techarium.rl("block/tech_lever_off")));
     }
 
     private void registerVoltaicPile() {
