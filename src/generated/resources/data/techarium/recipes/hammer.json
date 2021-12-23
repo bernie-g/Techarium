@@ -11,17 +11,16 @@
       "item": "techarium:aluminium_block"
     },
     "c": {
-      "item": "techarium:copper_ingot"
+      "tag": "forge:ingots/copper"
     },
     "s": {
       "item": "minecraft:stick"
     },
     "l": {
-      "item": "techarium:lead_ingot"
+      "tag": "forge:ingots/lead"
     }
   },
   "result": {
-    "item": "techarium:hammer",
-    "count": 9
+    "item": "techarium:hammer"
   }
 }

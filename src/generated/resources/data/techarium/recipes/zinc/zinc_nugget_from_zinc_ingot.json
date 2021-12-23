@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "techarium:zinc_ingot"
+      "tag": "forge:ingots/zinc"
     }
   ],
   "result": {

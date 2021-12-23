@@ -8,7 +8,7 @@
   ],
   "key": {
     "#": {
-      "item": "techarium:lead_ingot"
+      "tag": "forge:ingots/lead"
     },
     "b": {
       "item": "techarium:lead_block"

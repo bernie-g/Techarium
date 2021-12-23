@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "techarium:nickel_ingot"
+      "tag": "forge:ingots/nickel"
     }
   ],
   "result": {

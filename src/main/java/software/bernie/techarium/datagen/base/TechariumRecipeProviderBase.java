@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ITag;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.data.ForgeRecipeProvider;
@@ -133,20 +134,20 @@ public abstract class TechariumRecipeProviderBase extends ForgeRecipeProvider {
                 .build(consumer, new ResourceLocation(Techarium.MOD_ID, "gravmagnet/" + name));
     }
 
-    public void buildMetalRecipe(String name, Item ingot, Item nugget, Block block,
-                                 Consumer<IFinishedRecipe> consumer) {
+    public void buildMetalRecipe(String name, Item ingot, Item nugget, Block block, ITag<Item> ingotTag,
+                                 ITag<Item> nuggetTag, Consumer<IFinishedRecipe> consumer) {
         String nuggetName = nugget.getRegistryName().getPath();
         String ingotName = ingot.getRegistryName().getPath();
         String blockName = block.getRegistryName().getPath();
-        ShapedRecipeBuilder.shaped(ingot).define('#', nugget).pattern("###").pattern("###")
+        ShapedRecipeBuilder.shaped(ingot).define('#', nuggetTag).pattern("###").pattern("###")
                 .pattern("###").group(ingotName).unlockedBy("has_" + nuggetName, has(nugget))
                 .save(consumer, Techarium.rl(name + "/" + ingotName + "_from_" + ingotName));
-        ShapelessRecipeBuilder.shapeless(nugget, 9).requires(ingot).unlockedBy("has_" + ingotName, has(ingot))
+        ShapelessRecipeBuilder.shapeless(nugget, 9).requires(ingotTag).unlockedBy("has_" + ingotName, has(ingot))
                 .save(consumer, Techarium.rl(name + "/" + nuggetName + "_from_" + ingotName));
         ShapelessRecipeBuilder.shapeless(ingot, 9).requires(block).group(ingotName)
                 .unlockedBy("has_" + blockName, has(block))
                 .save(consumer, Techarium.rl(name + "/" + ingotName + "_from_" + blockName));
-        ShapedRecipeBuilder.shaped(block).define('#', ingot).pattern("###").pattern("###")
+        ShapedRecipeBuilder.shaped(block).define('#', ingotTag).pattern("###").pattern("###")
                 .pattern("###").unlockedBy("has_" + ingotName, has(ingot))
                 .save(consumer, Techarium.rl(name + "/" + blockName + "_from_" + ingotName));
     }
