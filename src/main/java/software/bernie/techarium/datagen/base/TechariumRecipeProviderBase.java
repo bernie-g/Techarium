@@ -140,15 +140,15 @@ public abstract class TechariumRecipeProviderBase extends ForgeRecipeProvider {
         String ingotName = ingot.getRegistryName().getPath();
         String blockName = block.getRegistryName().getPath();
         ShapedRecipeBuilder.shaped(ingot).define('#', nuggetTag).pattern("###").pattern("###")
-                .pattern("###").group(ingotName).unlockedBy("has_" + nuggetName, has(nugget))
+                .pattern("###").group(ingotName).unlockedBy("has_" + nuggetName, has(nuggetTag))
                 .save(consumer, Techarium.rl(name + "/" + ingotName + "_from_" + ingotName));
-        ShapelessRecipeBuilder.shapeless(nugget, 9).requires(ingotTag).unlockedBy("has_" + ingotName, has(ingot))
+        ShapelessRecipeBuilder.shapeless(nugget, 9).requires(ingotTag).unlockedBy("has_" + ingotName, has(ingotTag))
                 .save(consumer, Techarium.rl(name + "/" + nuggetName + "_from_" + ingotName));
         ShapelessRecipeBuilder.shapeless(ingot, 9).requires(block).group(ingotName)
                 .unlockedBy("has_" + blockName, has(block))
                 .save(consumer, Techarium.rl(name + "/" + ingotName + "_from_" + blockName));
         ShapedRecipeBuilder.shaped(block).define('#', ingotTag).pattern("###").pattern("###")
-                .pattern("###").unlockedBy("has_" + ingotName, has(ingot))
+                .pattern("###").unlockedBy("has_" + ingotName, has(ingotTag))
                 .save(consumer, Techarium.rl(name + "/" + blockName + "_from_" + ingotName));
     }
 }

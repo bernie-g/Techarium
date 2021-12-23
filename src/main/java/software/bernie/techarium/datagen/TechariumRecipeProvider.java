@@ -175,6 +175,15 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .requires(ItemRegistry.COPPER_PLATE.get(), 1)
                 .group("tech_button").unlockedBy("has_copper_plate", has(ItemRegistry.COPPER_PLATE.get()))
                 .save(consumer, Techarium.rl("tech_button"));
+
+        ShapedRecipeBuilder.shaped(BlockRegistry.BEAM.get(), 12)
+                .define('l', ItemRegistry.LEAD_PLATE.get())
+                .define('c', TechariumTags.Items.INGOTS_COPPER)
+                .pattern("ccc")
+                .pattern("lll")
+                .pattern("ccc")
+                .group("beam").unlockedBy("has_copper_ingot", has(TechariumTags.Items.INGOTS_COPPER))
+                .save(consumer, Techarium.rl("beam"));
     }
 
 
