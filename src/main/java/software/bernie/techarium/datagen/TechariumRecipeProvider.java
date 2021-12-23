@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.IItemProvider;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.fluids.FluidStack;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.datagen.base.TechariumRecipeProviderBase;
@@ -31,30 +32,16 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
     protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
         registerVanillaBotariumRecipes(consumer);
         registerExchangeStationRecipes(consumer);
-
         registerVanillaArboretumRecipes(consumer);
-
         registerGravMagnetRecipes(consumer);
         registerHammerRecipes(consumer);
-
         registerSmeltingRecipes(consumer);
         registerCraftingRecipes(consumer);
         ModIntegrations.getIntegrations().forEach(wrapper -> wrapper.get().ifPresent(o -> o.generateRecipes(consumer)));
     }
 
     private void registerCraftingRecipes(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shaped(ItemRegistry.HAMMER.get(), 1)
-                .define('a', BlockRegistry.ALUMINIUM_BLOCK.get())
-                .define('c', TechariumTags.Items.INGOTS_COPPER)
-                .define('s', Items.STICK)
-                .define('l', TechariumTags.Items.INGOTS_LEAD)
-                .pattern(" ac")
-                .pattern(" sa")
-                .pattern("l  ")
-                .group("hammer").unlockedBy("has_aluminium_block", has(BlockRegistry.ALUMINIUM_BLOCK.get()))
-                .save(consumer, Techarium.rl("hammer"));
-
-        //metal recipes
+        //<editor-fold desc="Metal Recipes">
         buildMetalRecipe("aluminium", ItemRegistry.ALUMINIUM_INGOT.get(), ItemRegistry.ALUMINIUM_NUGGET.get(),
                 BlockRegistry.ALUMINIUM_BLOCK.get(), TechariumTags.Items.INGOTS_ALUMINIUM,
                 TechariumTags.Items.NUGGETS_ALUMINIUM, consumer);
@@ -70,9 +57,9 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
         buildMetalRecipe("zinc", ItemRegistry.ZINC_INGOT.get(), ItemRegistry.ZINC_NUGGET.get(),
                 BlockRegistry.ZINC_BLOCK.get(), TechariumTags.Items.INGOTS_ZINC,
                 TechariumTags.Items.NUGGETS_ZINC, consumer);
+        //</editor-fold>
 
-
-        //plate blocks
+        //<editor-fold desc="Plate Blocks">
         ShapedRecipeBuilder.shaped(BlockRegistry.ALUMINIUM_PLATE_BLOCK.get(), 9).define('#',
                 ItemRegistry.ALUMINIUM_PLATE.get())
                 .pattern("###")
@@ -113,8 +100,9 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .pattern("###")
                 .group("zinc_plate_block").unlockedBy("has_zinc_plate", has(ItemRegistry.ZINC_PLATE.get()))
                 .save(consumer, Techarium.rl("zinc_plate_block"));
+        //</editor-fold>
 
-        //encased blocks
+        //<editor-fold desc="Encased Blocks">
         ShapedRecipeBuilder.shaped(BlockRegistry.ENCASED_ALUMINUM_BLOCK.get(), 9)
                 .define('#', TechariumTags.Items.INGOTS_LEAD)
                 .define('b', BlockRegistry.ALUMINIUM_BLOCK.get())
@@ -160,6 +148,17 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .pattern("###")
                 .group("encased_zinc_block").unlockedBy("has_zinc_block", has(BlockRegistry.ZINC_BLOCK.get()))
                 .save(consumer, Techarium.rl("encased_zinc_block"));
+        //</editor-fold>
+
+        //<editor-fold desc="Misc">
+        ShapedRecipeBuilder.shaped(BlockRegistry.BEAM.get(), 12)
+                .define('l', ItemRegistry.LEAD_PLATE.get())
+                .define('c', TechariumTags.Items.INGOTS_COPPER)
+                .pattern("ccc")
+                .pattern("lll")
+                .pattern("ccc")
+                .group("beam").unlockedBy("has_copper_ingot", has(TechariumTags.Items.INGOTS_COPPER))
+                .save(consumer, Techarium.rl("beam"));
 
         ShapedRecipeBuilder.shaped(BlockRegistry.TECH_LEVER.get(), 2)
                 .define('r', Blocks.REDSTONE_WIRE)
@@ -176,16 +175,66 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .group("tech_button").unlockedBy("has_copper_plate", has(ItemRegistry.COPPER_PLATE.get()))
                 .save(consumer, Techarium.rl("tech_button"));
 
-        ShapedRecipeBuilder.shaped(BlockRegistry.BEAM.get(), 12)
-                .define('l', ItemRegistry.LEAD_PLATE.get())
+        ShapedRecipeBuilder.shaped(ItemRegistry.HAMMER.get(), 1)
+                .define('a', BlockRegistry.ALUMINIUM_BLOCK.get())
                 .define('c', TechariumTags.Items.INGOTS_COPPER)
-                .pattern("ccc")
-                .pattern("lll")
-                .pattern("ccc")
-                .group("beam").unlockedBy("has_copper_ingot", has(TechariumTags.Items.INGOTS_COPPER))
-                .save(consumer, Techarium.rl("beam"));
-    }
+                .define('s', Items.STICK)
+                .define('l', TechariumTags.Items.INGOTS_LEAD)
+                .pattern(" ac")
+                .pattern(" sa")
+                .pattern("l  ")
+                .group("hammer").unlockedBy("has_aluminium_block", has(BlockRegistry.ALUMINIUM_BLOCK.get()))
+                .save(consumer, Techarium.rl("hammer"));
+        //</editor-fold>
 
+        //<editor-fold desc="Factory Blocks">
+        ShapedRecipeBuilder.shaped(BlockRegistry.ALUMINIUM_FACTORY_BLOCK.get(), 16)
+                .define('p', ItemRegistry.ALUMINIUM_PLATE.get())
+                .define('i', Tags.Items.NUGGETS_IRON)
+                .pattern("ppp")
+                .pattern("i i")
+                .pattern("ppp")
+                .group("aluminium_factory_block").unlockedBy("has_aluminium_plate",
+                has(ItemRegistry.ALUMINIUM_PLATE.get()))
+                .save(consumer, Techarium.rl("aluminium_factory_block"));
+        ShapedRecipeBuilder.shaped(BlockRegistry.ALUMINIUM_FACTORY_BLOCK.get(), 16)
+                .define('p', ItemRegistry.ALUMINIUM_PLATE.get())
+                .define('i', Tags.Items.NUGGETS_IRON)
+                .pattern("ppp")
+                .pattern("i i")
+                .pattern("ppp")
+                .group("aluminium_factory_block").unlockedBy("has_aluminium_plate",
+                has(ItemRegistry.ALUMINIUM_PLATE.get()))
+                .save(consumer, Techarium.rl("aluminium_factory_block"));
+        ShapedRecipeBuilder.shaped(BlockRegistry.ALUMINIUM_FACTORY_BLOCK.get(), 16)
+                .define('p', ItemRegistry.ALUMINIUM_PLATE.get())
+                .define('i', Tags.Items.NUGGETS_IRON)
+                .pattern("ppp")
+                .pattern("i i")
+                .pattern("ppp")
+                .group("aluminium_factory_block").unlockedBy("has_aluminium_plate",
+                has(ItemRegistry.ALUMINIUM_PLATE.get()))
+                .save(consumer, Techarium.rl("aluminium_factory_block"));
+        ShapedRecipeBuilder.shaped(BlockRegistry.ALUMINIUM_FACTORY_BLOCK.get(), 16)
+                .define('p', ItemRegistry.ALUMINIUM_PLATE.get())
+                .define('i', Tags.Items.NUGGETS_IRON)
+                .pattern("ppp")
+                .pattern("i i")
+                .pattern("ppp")
+                .group("aluminium_factory_block").unlockedBy("has_aluminium_plate",
+                has(ItemRegistry.ALUMINIUM_PLATE.get()))
+                .save(consumer, Techarium.rl("aluminium_factory_block"));
+        ShapedRecipeBuilder.shaped(BlockRegistry.ALUMINIUM_FACTORY_BLOCK.get(), 16)
+                .define('p', ItemRegistry.ALUMINIUM_PLATE.get())
+                .define('i', Tags.Items.NUGGETS_IRON)
+                .pattern("ppp")
+                .pattern("i i")
+                .pattern("ppp")
+                .group("aluminium_factory_block").unlockedBy("has_aluminium_plate",
+                has(ItemRegistry.ALUMINIUM_PLATE.get()))
+                .save(consumer, Techarium.rl("aluminium_factory_block"));
+        //</editor-fold>
+    }
 
     private void registerVanillaBotariumRecipes(Consumer<IFinishedRecipe> consumer) {
         buildBotariumFarmlandRecipe(Items.CARROT, ChancedItemStackList.of(Items.CARROT), 1000, 800, consumer);
@@ -227,7 +276,6 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
         buildBotariumFlowerRecipe((FlowerBlock) Blocks.OXEYE_DAISY, consumer);
         buildBotariumFlowerRecipe((FlowerBlock) Blocks.CORNFLOWER, consumer);
         buildBotariumFlowerRecipe((FlowerBlock) Blocks.LILY_OF_THE_VALLEY, consumer);
-
     }
 
     private void registerGravMagnetRecipes(Consumer<IFinishedRecipe> consumer) {
