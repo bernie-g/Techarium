@@ -197,42 +197,42 @@ public class TechariumRecipeProvider extends TechariumRecipeProviderBase {
                 .group("aluminium_factory_block").unlockedBy("has_aluminium_plate",
                 has(ItemRegistry.ALUMINIUM_PLATE.get()))
                 .save(consumer, Techarium.rl("aluminium_factory_block"));
-        ShapedRecipeBuilder.shaped(BlockRegistry.ALUMINIUM_FACTORY_BLOCK.get(), 16)
-                .define('p', ItemRegistry.ALUMINIUM_PLATE.get())
+        ShapedRecipeBuilder.shaped(BlockRegistry.COPPER_FACTORY_BLOCK.get(), 16)
+                .define('p', ItemRegistry.COPPER_PLATE.get())
                 .define('i', Tags.Items.NUGGETS_IRON)
                 .pattern("ppp")
                 .pattern("i i")
                 .pattern("ppp")
-                .group("aluminium_factory_block").unlockedBy("has_aluminium_plate",
-                has(ItemRegistry.ALUMINIUM_PLATE.get()))
-                .save(consumer, Techarium.rl("aluminium_factory_block"));
-        ShapedRecipeBuilder.shaped(BlockRegistry.ALUMINIUM_FACTORY_BLOCK.get(), 16)
-                .define('p', ItemRegistry.ALUMINIUM_PLATE.get())
+                .group("copper_factory_block").unlockedBy("has_copper_plate",
+                has(ItemRegistry.COPPER_PLATE.get()))
+                .save(consumer, Techarium.rl("copper_factory_block"));
+        ShapedRecipeBuilder.shaped(BlockRegistry.NICKEL_FACTORY_BLOCK.get(), 16)
+                .define('p', ItemRegistry.NICKEL_PLATE.get())
                 .define('i', Tags.Items.NUGGETS_IRON)
                 .pattern("ppp")
                 .pattern("i i")
                 .pattern("ppp")
-                .group("aluminium_factory_block").unlockedBy("has_aluminium_plate",
-                has(ItemRegistry.ALUMINIUM_PLATE.get()))
-                .save(consumer, Techarium.rl("aluminium_factory_block"));
-        ShapedRecipeBuilder.shaped(BlockRegistry.ALUMINIUM_FACTORY_BLOCK.get(), 16)
-                .define('p', ItemRegistry.ALUMINIUM_PLATE.get())
+                .group("nickel_factory_block").unlockedBy("has_nickel_plate",
+                has(ItemRegistry.NICKEL_PLATE.get()))
+                .save(consumer, Techarium.rl("nickel_factory_block"));
+        ShapedRecipeBuilder.shaped(BlockRegistry.LEAD_FACTORY_BLOCK.get(), 16)
+                .define('p', ItemRegistry.LEAD_PLATE.get())
                 .define('i', Tags.Items.NUGGETS_IRON)
                 .pattern("ppp")
                 .pattern("i i")
                 .pattern("ppp")
-                .group("aluminium_factory_block").unlockedBy("has_aluminium_plate",
-                has(ItemRegistry.ALUMINIUM_PLATE.get()))
-                .save(consumer, Techarium.rl("aluminium_factory_block"));
-        ShapedRecipeBuilder.shaped(BlockRegistry.ALUMINIUM_FACTORY_BLOCK.get(), 16)
-                .define('p', ItemRegistry.ALUMINIUM_PLATE.get())
+                .group("lead_factory_block").unlockedBy("has_lead_plate",
+                has(ItemRegistry.LEAD_PLATE.get()))
+                .save(consumer, Techarium.rl("lead_factory_block"));
+        ShapedRecipeBuilder.shaped(BlockRegistry.ZINC_FACTORY_BLOCK.get(), 16)
+                .define('p', ItemRegistry.ZINC_PLATE.get())
                 .define('i', Tags.Items.NUGGETS_IRON)
                 .pattern("ppp")
                 .pattern("i i")
                 .pattern("ppp")
-                .group("aluminium_factory_block").unlockedBy("has_aluminium_plate",
-                has(ItemRegistry.ALUMINIUM_PLATE.get()))
-                .save(consumer, Techarium.rl("aluminium_factory_block"));
+                .group("zinc_factory_block").unlockedBy("has_zinc_plate",
+                has(ItemRegistry.ZINC_PLATE.get()))
+                .save(consumer, Techarium.rl("zinc_factory_block"));
         //</editor-fold>
     }
 
