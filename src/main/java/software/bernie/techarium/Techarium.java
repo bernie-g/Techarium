@@ -40,11 +40,15 @@ public class Techarium {
 		BlockRegistry.register(bus);
 		ContainerRegistry.register(bus);
 		RecipeRegistry.register(bus);
+		ParticlesRegistry.register(bus);
 		bus.addListener(this::onClientSetup);
 		bus.addListener(NetworkEvents::onCommonSetup);
 		bus.addListener(this::gatherData);
 		bus.addListener(this::enqueueIMC);
 		bus.addListener(LootRegistry::registerLootPoolEntryTypes);
+		
+		bus.register(ParticlesRegistry.class);
+		
 		MinecraftForge.EVENT_BUS.addListener(WorldGen::generateOres);
 		TechariumConfig.load();
 		NetworkConnection.registerMessages();

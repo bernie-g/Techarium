@@ -1,7 +1,13 @@
-package software.bernie.techarium.client.tile.render;
+package software.bernie.techarium.client.tile.render.arboretum;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -19,12 +25,22 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 import software.bernie.techarium.client.tile.model.ArboretumModel;
+import software.bernie.techarium.helper.EventHelper;
+import software.bernie.techarium.machine.controller.MachineController;
+import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
-import javax.annotation.Nullable;
 
 public class ArboretumRenderer extends GeoBlockRenderer<ArboretumTile> {
+	
+	private float progress = 0;
+	
+	private Block log = Blocks.OAK_LOG;
+	private Block leaf = Blocks.OAK_LEAVES;
+	private Map<Block, Block> cache = new HashMap<>();
+ 	
 	public ArboretumRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
 		super(rendererDispatcherIn, new ArboretumModel());
 	}
@@ -37,9 +53,65 @@ public class ArboretumRenderer extends GeoBlockRenderer<ArboretumTile> {
 		stack.scale(0.21f, 0.21f, 0.21f);
 		Minecraft.getInstance().getItemRenderer().renderStatic(tile.getCropInventory().getStackInSlot(0), ItemCameraTransforms.TransformType.NONE, packedLightIn, packedOverlayIn, stack, renderTypeBuffer);
 		stack.popPose();
+		
 		renderTile(tile, partialTicks, stack, renderTypeBuffer, packedLightIn, packedOverlayIn);
+		renderTree(tile, partialTicks, stack, renderTypeBuffer, packedLightIn, packedOverlayIn);
+		
 	}
 
+	private void renderTree(ArboretumTile tile, float partialTicks, MatrixStack stack,
+			IRenderTypeBuffer renderTypeBuffer, int packedLightIn, int packedOverlayIn) {
+		MachineController<ArboretumRecipe> controler = tile.getController();
+		
+		controler.getMultiProgressBar().getProgressBarAddons().forEach(bar -> {
+			progress = (float) bar.getProgress() / bar.getMaxProgress();
+		});
+				
+		log = tile.getLogOutput();
+		
+		if (log == null)
+			return;
+		
+		leaf = Blocks.OAK_LEAVES;
+
+		if (cache.containsKey(log)) {
+			leaf = cache.get(log);
+		} else {
+			Ingredient sapling = controler.getCurrentRecipe().getCropType();
+			Block refBlock = sapling.isEmpty() ? log : Block.byItem(sapling.getItems()[0].getItem());
+			String toRemove = sapling.isEmpty() ? "log" : "sapling";
+			
+			String logName = refBlock.getDescriptionId();
+			String logMod = refBlock.getRegistryName().getNamespace();
+			String key = removeUnusedChar(logName, logMod).replace(toRemove, "");
+			
+			ForgeRegistries.BLOCKS.forEach(block -> {
+				String blockName = block.getDescriptionId();
+				String blockMod = block.getRegistryName().getNamespace();
+				String blockKey = removeUnusedChar(blockName, blockMod).replace("leaves", "");
+				
+				if (key.equals(blockKey)) {
+					cache.put(log, block);
+				}	
+			});
+		}
+				
+		ArboretumTreeRender treeRender = ArboretumTreeRender.getInstance();
+		treeRender.setLog(log);
+		treeRender.setLeaves(leaf);
+		
+		stack.pushPose();
+		treeRender.renderTree(stack, renderTypeBuffer, packedLightIn, packedOverlayIn, partialTicks, progress);
+		stack.popPose();
+	}
+
+	private String removeUnusedChar(String str, String mod) {
+		return str.replace("block", "")
+				.replace("_", "")
+				.replace(".", "")
+				.replace(mod, "");
+	}
+	
 	@Override
 	public void render(TileEntity tile, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn,
 					   int combinedLightIn, int combinedOverlayIn) {
@@ -52,17 +124,6 @@ public class ArboretumRenderer extends GeoBlockRenderer<ArboretumTile> {
 		matrixStack.scale(0.5f, 0.5f, 0.5f);
 		Minecraft.getInstance().getBlockRenderer().renderBlock(getRenderSoilBlock(tile), matrixStack, buffer, packedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
 		matrixStack.popPose();
-
-		renderCrop(tile, matrixStack, partialTicks, buffer, packedLightIn, combinedOverlayIn);
-	}
-
-	private void renderCrop(ArboretumTile tile, MatrixStack matrixStack, float partialTicks, IRenderTypeBuffer buffer, int packedLightIn, int combinedOverlayIn) {
-		matrixStack.pushPose();
-		float age = ((float) tile.getProgressBar().getProgress() / tile.getProgressBar().getMaxProgress()) * 0.75f;
-		matrixStack.translate(-age/2, 0.825, -age/2);
-		matrixStack.scale(age, age, age);
-		Minecraft.getInstance().getBlockRenderer().renderBlock(getRenderTreeBlock(tile), matrixStack, buffer, packedLightIn, combinedOverlayIn, EmptyModelData.INSTANCE);
-		matrixStack.popPose();
 	}
 
 	private static boolean testALlDirt(Ingredient ingredient) {
@@ -73,6 +134,8 @@ public class ArboretumRenderer extends GeoBlockRenderer<ArboretumTile> {
 	}
 
 	private BlockState getRenderSoilBlock(ArboretumTile tile) {
+		if (EventHelper.isChristmas()) return Blocks.SNOW_BLOCK.defaultBlockState();
+				
 		ItemStack soil = tile.getSoilInventory().getStackInSlot(0);
 		if (soil.isEmpty() || !(soil.getItem() instanceof BlockItem))
 			return Blocks.AIR.defaultBlockState();
@@ -83,13 +146,6 @@ public class ArboretumRenderer extends GeoBlockRenderer<ArboretumTile> {
 		if (state.hasProperty(BlockStateProperties.MOISTURE))
 			state = state.setValue(BlockStateProperties.MOISTURE, 7);
 		return state;
-	}
-
-	private BlockState getRenderTreeBlock(ArboretumTile tile) {
-		ItemStack crop = tile.getCropInventory().getStackInSlot(0);
-		if (crop.isEmpty() || !(crop.getItem() instanceof BlockItem))
-			return Blocks.AIR.defaultBlockState();
-		return ((BlockItem) crop.getItem()).getBlock().defaultBlockState();
 	}
 
 	@Override
