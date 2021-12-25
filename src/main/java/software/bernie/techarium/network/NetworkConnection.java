@@ -4,6 +4,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import software.bernie.techarium.Techarium;
+import software.bernie.techarium.network.block.ElectroChromicGlassPacket;
 import software.bernie.techarium.network.container.*;
 import software.bernie.techarium.network.tile.UpdateCoilTypePacket;
 
@@ -24,6 +25,7 @@ public class NetworkConnection {
         registerMessage(new ChangedMainConfigContainerPacket());
         registerMessage(new RecipeWidgetClickContainerPacket());
         registerMessage(new UpdateCoilTypePacket());
+        registerMessage(new ElectroChromicGlassPacket());
     }
     public static <MSG extends Packet<MSG>> void registerMessage(MSG dummyPacket) {
         INSTANCE.registerMessage(getAndUpdateIndex(),

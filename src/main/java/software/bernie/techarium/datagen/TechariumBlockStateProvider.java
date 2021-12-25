@@ -1,12 +1,18 @@
 package software.bernie.techarium.datagen;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.PaneBlock;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import software.bernie.techarium.Techarium;
+import software.bernie.techarium.block.electrochromicglass.ElectroChromicGlassBlock;
 import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
 import software.bernie.techarium.datagen.base.TechariumBlockStateProviderBase;
 import software.bernie.techarium.registry.BlockRegistry;
@@ -59,6 +65,9 @@ public class TechariumBlockStateProvider extends TechariumBlockStateProviderBase
         simpleBlockAndItem(BlockRegistry.LEAD_PLATE_BLOCK.get());
         simpleBlockAndItem(BlockRegistry.NICKEL_PLATE_BLOCK.get());
         simpleBlockAndItem(BlockRegistry.ZINC_PLATE_BLOCK.get());
+        
+        simpleBooleanBlock(BlockRegistry.ELECTROCHROMATIC_GLASS.get(), ElectroChromicGlassBlock.POWERED);
+    
     }
 
     private void registerVoltaicPile() {

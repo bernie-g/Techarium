@@ -3,6 +3,8 @@ package software.bernie.techarium.registry;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
@@ -25,6 +27,7 @@ import software.bernie.techarium.block.botarium.BotariumTop;
 import software.bernie.techarium.block.coils.MagneticCoilBlock;
 import software.bernie.techarium.block.botarium.BotariumMaster;
 import software.bernie.techarium.block.depot.DepotBlock;
+import software.bernie.techarium.block.electrochromicglass.ElectroChromicGlassBlock;
 import software.bernie.techarium.block.exchangestation.ExchangeStationBlock;
 import software.bernie.techarium.block.gravmagnet.GravMagnetBlock;
 import software.bernie.techarium.block.pipe.PipeBlock;
@@ -126,7 +129,10 @@ public class BlockRegistry {
     public static final RegistryObject<Block> ZINC_PLATE_BLOCK = registerBlock("zinc_plate_block",
             () -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
 
-
+    //Decoration
+    public static final RegistryObject<Block> ELECTROCHROMATIC_GLASS = registerBlock("electrochromatic_glass",
+    		() -> new ElectroChromicGlassBlock(AbstractBlock.Properties.of(Material.GLASS).strength(0.3F).sound(SoundType.GLASS)));
+    
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> reg = BLOCKS.register(name, block);
         ITEMS.register(name, () -> new BlockItem(reg.get(), new Item.Properties().tab(TECHARIUM)));

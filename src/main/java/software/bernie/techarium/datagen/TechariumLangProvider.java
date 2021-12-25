@@ -81,6 +81,7 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addBlock(BlockRegistry.COPPER_PLATE_BLOCK, "Block of Copper Plates");
         addBlock(BlockRegistry.LEAD_PLATE_BLOCK, "Block of Lead Plates");
         addBlock(BlockRegistry.ZINC_PLATE_BLOCK, "Block of Zinc Plates");
+        addBlock(BlockRegistry.ELECTROCHROMATIC_GLASS, "Electrochromatic Glass");
     }
 
     private void addTranslationComponents() {
