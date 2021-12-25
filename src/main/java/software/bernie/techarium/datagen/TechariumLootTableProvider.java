@@ -61,6 +61,18 @@ public class TechariumLootTableProvider extends LootTableProvider {
 			dropSelf(BlockRegistry.NICKEL_PLATE_BLOCK);
 			dropSelf(BlockRegistry.ZINC_PLATE_BLOCK);
 
+			dropSelf(BlockRegistry.ENCASED_ALUMINUM_BLOCK);
+			dropSelf(BlockRegistry.ENCASED_COPPER_BLOCK);
+			dropSelf(BlockRegistry.ENCASED_LEAD_BLOCK);
+			dropSelf(BlockRegistry.ENCASED_NICKEL_BLOCK);
+			dropSelf(BlockRegistry.ENCASED_ZINC_BLOCK);
+
+			dropSelf(BlockRegistry.ALUMINIUM_FACTORY_BLOCK);
+			dropSelf(BlockRegistry.COPPER_FACTORY_BLOCK);
+			dropSelf(BlockRegistry.NICKEL_FACTORY_BLOCK);
+			dropSelf(BlockRegistry.LEAD_FACTORY_BLOCK);
+			dropSelf(BlockRegistry.ZINC_FACTORY_BLOCK);
+
 			dropSelf(BlockRegistry.ARBORETUM);
 			dropSelf(BlockRegistry.BOTARIUM);
 			dropSelf(BlockRegistry.GRAVMAGNET);
@@ -69,6 +81,8 @@ public class TechariumLootTableProvider extends LootTableProvider {
 			dropSelf(BlockRegistry.BEAM);
 			dropSelf(BlockRegistry.MAGNETIC_COIL);
 			dropSelf(BlockRegistry.DEPOT);
+			dropSelf(BlockRegistry.TECH_BUTTON);
+			dropSelf(BlockRegistry.TECH_LEVER);
 
 			voltaicPileLootTable();
 		}

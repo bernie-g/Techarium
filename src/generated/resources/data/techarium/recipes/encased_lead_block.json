@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "encased_lead_block",
+  "pattern": [
+    "###",
+    "#b#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:ingots/lead"
+    },
+    "b": {
+      "item": "techarium:lead_block"
+    }
+  },
+  "result": {
+    "item": "techarium:encased_lead_block",
+    "count": 9
+  }
+}

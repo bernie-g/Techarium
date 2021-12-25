@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "zinc_ingot",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:nuggets/zinc"
+    }
+  },
+  "result": {
+    "item": "techarium:zinc_ingot"
+  }
+}

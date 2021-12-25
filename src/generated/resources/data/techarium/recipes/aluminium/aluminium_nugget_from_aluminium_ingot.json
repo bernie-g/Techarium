@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "techarium:aluminium_ingot"
+      "tag": "forge:ingots/aluminum"
     }
   ],
   "result": {

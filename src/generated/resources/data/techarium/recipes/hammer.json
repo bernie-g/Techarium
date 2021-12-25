@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "hammer",
+  "pattern": [
+    " ac",
+    " sa",
+    "l  "
+  ],
+  "key": {
+    "a": {
+      "item": "techarium:aluminium_block"
+    },
+    "c": {
+      "tag": "forge:ingots/copper"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    },
+    "l": {
+      "tag": "forge:ingots/lead"
+    }
+  },
+  "result": {
+    "item": "techarium:hammer"
+  }
+}

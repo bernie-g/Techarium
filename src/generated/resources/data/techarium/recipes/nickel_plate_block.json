@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "nickel_plate_block",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "techarium:nickel_plate"
+    }
+  },
+  "result": {
+    "item": "techarium:nickel_plate_block",
+    "count": 9
+  }
+}
