@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "zinc_factory_block",
+  "pattern": [
+    "ppp",
+    "i i",
+    "ppp"
+  ],
+  "key": {
+    "p": {
+      "item": "techarium:zinc_plate"
+    },
+    "i": {
+      "tag": "forge:nuggets/iron"
+    }
+  },
+  "result": {
+    "item": "techarium:zinc_factoryblock",
+    "count": 16
+  }
+}

@@ -1,20 +1,20 @@
 package software.bernie.techarium.registry;
 
+import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUM;
+
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.StoneButtonBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.block.BeamBlock;
 import software.bernie.techarium.block.BlockRegistryObjectGroup;
@@ -24,16 +24,17 @@ import software.bernie.techarium.block.arboretum.ArboretumMaster;
 import software.bernie.techarium.block.arboretum.ArboretumTop;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.block.base.TechariumBlock;
+import software.bernie.techarium.block.botarium.BotariumMaster;
 import software.bernie.techarium.block.botarium.BotariumTop;
 import software.bernie.techarium.block.coils.MagneticCoilBlock;
-import software.bernie.techarium.block.botarium.BotariumMaster;
 import software.bernie.techarium.block.depot.DepotBlock;
 import software.bernie.techarium.block.exchangestation.ExchangeStationBlock;
 import software.bernie.techarium.block.gravmagnet.GravMagnetBlock;
+import software.bernie.techarium.block.ladder.TechariumLadderBlock;
 import software.bernie.techarium.block.pipe.PipeBlock;
 import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
-import software.bernie.techarium.item.TechariumBlockItem;
 import software.bernie.techarium.item.MachineItem;
+import software.bernie.techarium.item.TechariumBlockItem;
 import software.bernie.techarium.tile.arboretum.ArboretumTile;
 import software.bernie.techarium.tile.botarium.BotariumTile;
 import software.bernie.techarium.tile.depot.DepotTileEntity;
@@ -42,14 +43,9 @@ import software.bernie.techarium.tile.gravmagnet.GravMagnetTile;
 import software.bernie.techarium.tile.magneticcoils.MagneticCoilTile;
 import software.bernie.techarium.tile.pipe.PipeTile;
 import software.bernie.techarium.tile.slaves.TopEnabledOnlySlave;
+import software.bernie.techarium.tile.voltaicpile.VoltaicPileTile;
 import software.bernie.techarium.trait.item.ItemBehaviour;
 import software.bernie.techarium.trait.item.ItemBehaviours;
-import software.bernie.techarium.tile.voltaicpile.VoltaicPileTile;
-
-import java.util.function.Function;
-import java.util.function.Supplier;
-
-import static software.bernie.techarium.registry.ItemGroupRegistry.TECHARIUM;
 @SuppressWarnings("unused")
 public class BlockRegistry {
     public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES,
@@ -155,6 +151,9 @@ public class BlockRegistry {
             () -> new TechButtonBlock(AbstractBlock.Properties.copy(Blocks.STONE_BUTTON)));
     public static final RegistryObject<TechLeverBlock> TECH_LEVER = registerBlock("tech_lever",
             () -> new TechLeverBlock(AbstractBlock.Properties.copy(Blocks.LEVER)));
+    
+    public static final RegistryObject<Block> ALUMINIUM_LADDER = registerBlock("aluminium_ladder",
+            () -> new TechariumLadderBlock(AbstractBlock.Properties.copy(Blocks.LADDER), 0.3f));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> reg = BLOCKS.register(name, block);

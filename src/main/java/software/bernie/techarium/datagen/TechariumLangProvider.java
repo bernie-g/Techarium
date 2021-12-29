@@ -96,6 +96,8 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
 
         addBlock(BlockRegistry.TECH_BUTTON, "Button");
         addBlock(BlockRegistry.TECH_LEVER, "Lever");
+        
+        addBlock(BlockRegistry.ALUMINIUM_LADDER, "Aluminium Ladder");
     }
 
     private void addTranslationComponents() {
