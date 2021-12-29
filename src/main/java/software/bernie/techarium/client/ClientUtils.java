@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import software.bernie.techarium.Techarium;
 import software.bernie.techarium.client.tile.render.*;
+import software.bernie.techarium.client.tile.render.arboretum.ArboretumRenderer;
 import software.bernie.techarium.registry.BlockRegistry;
 
 @UtilityClass

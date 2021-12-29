@@ -5,6 +5,8 @@ import lombok.Setter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.RotatedPillarBlock;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -17,6 +19,7 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.techarium.block.base.MachineBlock;
 import software.bernie.techarium.client.screen.draw.IDrawable;
+import software.bernie.techarium.helper.EventHelper;
 import software.bernie.techarium.item.UpgradeItem;
 import software.bernie.techarium.machine.addon.fluid.FluidTankAddon;
 import software.bernie.techarium.machine.addon.inventory.DrawableInventoryAddon;
@@ -27,12 +30,16 @@ import software.bernie.techarium.machine.controller.MachineController;
 import software.bernie.techarium.machine.sideness.FaceConfig;
 import software.bernie.techarium.machine.sideness.Side;
 import software.bernie.techarium.recipe.recipe.ArboretumRecipe;
+import software.bernie.techarium.registry.ParticlesRegistry;
 import software.bernie.techarium.registry.RecipeRegistry;
 import software.bernie.techarium.tile.base.MultiblockMasterTile;
 import software.bernie.techarium.util.Vector2i;
+import software.bernie.techarium.util.loot.ChancedItemStack;
 
+import java.util.Calendar;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Random;
 
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.ARBORETUM_DRAWABLE;
 import static software.bernie.techarium.client.screen.draw.GuiAddonTextures.ARBORETUM_OUTPUT_SLOT;
@@ -79,13 +86,76 @@ public class ArboretumTile extends MultiblockMasterTile<ArboretumRecipe> impleme
             prevLightLevel = newLightLevel;
             level.getLightEngine().checkBlock(worldPosition);
         }
+        
+        if (level.isClientSide()) {
+        	getController().getMultiProgressBar().getProgressBarAddons().forEach(bar -> {
+        		if (bar.getProgress() == bar.getMaxProgress() - 1) 
+        			spawnDestroyParticles();
+        	});
+        	
+        	if (EventHelper.isChristmas())
+        		spawnSnowParticles();
+        }
+    }
+    
+    private void spawnSnowParticles() {
+		Random rand = getLevel().getRandom();
+    	for (int i = 0; i < 5; i++) {
+    		double dx = getBlockPos().getX() + 0.5f + ((rand.nextDouble() - 0.5) / 20f);
+    		double dy = getBlockPos().getY() + 1.8f;
+    		double dz = getBlockPos().getZ() + 0.5f + ((rand.nextDouble() - 0.5) / 20f);
+    		
+    		level.addParticle(ParticlesRegistry.ARBORETUM.get(), dx, dy, dz, 1, 1, 1);
+    	}
     }
 
+    private void spawnDestroyParticles() {
+    	Random rand = getLevel().getRandom();
+    	Block log = getLogOutput();
+    	
+    	if (log == null)
+    		return;
+    	
+    	MaterialColor color = log.defaultMaterialColor();
+    	float red = ((color.col >> 16) & 0xff) / 255f;
+    	float green = ((color.col >> 8) & 0xff) / 255f;
+    	float blue = (color.col & 0xff) / 255f;
+    	
+    	for (int i = 0; i < 100; i++) {
+    		double dx = getBlockPos().getX() + 0.5f + ((rand.nextDouble() - 0.5) / 20f);
+    		double dy = getBlockPos().getY() + 0.5f + rand.nextDouble();
+    		double dz = getBlockPos().getZ() + 0.5f + ((rand.nextDouble() - 0.5) / 20f);
+    		
+    		level.addParticle(ParticlesRegistry.ARBORETUM.get(), dx, dy, dz, red, green, blue);
+    	}
+    }
+    
     @Override
     protected MachineController<ArboretumRecipe> createMachineController() {
         return machineController(ARBORETUM_DRAWABLE);
     }
 
+    public Block getLogOutput() {
+    	MachineController<ArboretumRecipe> controler = getController();
+    	ArboretumRecipe recipe = controler.getCurrentRecipe();
+    	
+		if (recipe == null) return null;
+		if (recipe.getOutput() == null) return null;
+    	
+		Block log = Blocks.OAK_LOG;
+    	
+		for (ChancedItemStack itemStack : recipe.getOutput().getStackList()) {
+			Block block = Block.byItem(itemStack.getStack().getItem());
+
+			if (block instanceof RotatedPillarBlock) {
+				log = block;
+				break;
+			}
+		}
+		
+		return log;
+    }
+    
     private MachineController<ArboretumRecipe> machineController(IDrawable background) {
         MachineController<ArboretumRecipe> controller = createController();
         controller.setBackground(background, SIZE_X, SIZE_Y);
