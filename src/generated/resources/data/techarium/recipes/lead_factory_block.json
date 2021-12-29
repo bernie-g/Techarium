@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "lead_factory_block",
+  "pattern": [
+    "ppp",
+    "i i",
+    "ppp"
+  ],
+  "key": {
+    "p": {
+      "item": "techarium:lead_plate"
+    },
+    "i": {
+      "tag": "forge:nuggets/iron"
+    }
+  },
+  "result": {
+    "item": "techarium:lead_factoryblock",
+    "count": 16
+  }
+}

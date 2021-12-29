@@ -1,0 +1,16 @@
+{
+  "type": "techarium:powered_furnace",
+  "progressPerTick": 1,
+  "maxProgress": 160,
+  "rfPerTick": 10,
+  "ingredient": {
+    "item": "minecraft:bedrock"
+  },
+  "output": [
+    {
+      "item": "minecraft:air",
+      "amount": 0,
+      "chance": 1.0
+    }
+  ]
+}

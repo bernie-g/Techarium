@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "tech_lever",
+  "pattern": [
+    "   ",
+    " r ",
+    "ccc"
+  ],
+  "key": {
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "c": {
+      "item": "techarium:copper_plate"
+    }
+  },
+  "result": {
+    "item": "techarium:tech_lever",
+    "count": 2
+  }
+}

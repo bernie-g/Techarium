@@ -1,6 +1,5 @@
 # eclipse
 bin
-src/generated
 *.launch
 .settings
 .metadata

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "tech_button",
+  "ingredients": [
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "techarium:copper_plate"
+    }
+  ],
+  "result": {
+    "item": "techarium:tech_button",
+    "count": 2
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "beam",
+  "pattern": [
+    "ccc",
+    "lll",
+    "ccc"
+  ],
+  "key": {
+    "l": {
+      "item": "techarium:lead_plate"
+    },
+    "c": {
+      "tag": "forge:ingots/copper"
+    }
+  },
+  "result": {
+    "item": "techarium:beam",
+    "count": 12
+  }
+}
