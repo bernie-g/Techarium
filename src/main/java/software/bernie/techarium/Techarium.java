@@ -93,5 +93,6 @@ public class Techarium {
 		ScreenManager.register(EXCHANGE_STATION_CONTAINER.get(), ExchangeStationScreen::new);
 		
 		RenderTypeLookup.setRenderLayer(BlockRegistry.ALUMINIUM_LADDER.get(), RenderType.cutout());
+		RenderTypeLookup.setRenderLayer(BlockRegistry.ELECTROCHROMATIC_GLASS.get(), RenderType.cutout());
 	}
 }

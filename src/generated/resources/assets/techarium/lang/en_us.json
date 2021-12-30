@@ -1,6 +1,7 @@
 {
   "block.techarium.aluminium_block": "Block of Aluminum",
   "block.techarium.aluminium_factoryblock": "Aluminium Factory Block",
+  "block.techarium.aluminium_ladder": "Aluminium Ladder",
   "block.techarium.aluminium_ore": "Aluminium Ore",
   "block.techarium.aluminium_plate_block": "Block of Aluminum Plates",
   "block.techarium.arboretum": "Arboretum",
@@ -13,6 +14,7 @@
   "block.techarium.copper_ore": "Copper Ore",
   "block.techarium.copper_plate_block": "Block of Copper Plates",
   "block.techarium.depot": "Depot",
+  "block.techarium.electrochromatic_glass": "Electrochromatic Glass",
   "block.techarium.encased_aluminium_block": "Encased Aluminium Block",
   "block.techarium.encased_copper_block": "Encased Copper Block",
   "block.techarium.encased_lead_block": "Encased Lead Block",
