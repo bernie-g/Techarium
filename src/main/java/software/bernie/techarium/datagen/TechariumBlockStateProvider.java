@@ -4,9 +4,12 @@ import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
-import net.minecraftforge.client.model.generators.*;
+import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.ModelProvider;
+import net.minecraftforge.client.model.generators.VariantBlockStateBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import software.bernie.techarium.Techarium;
+import software.bernie.techarium.block.electrochromicglass.ElectroChromicGlassBlock;
 import software.bernie.techarium.block.voltaicpile.VoltaicPileBlock;
 import software.bernie.techarium.datagen.base.TechariumBlockStateProviderBase;
 import software.bernie.techarium.registry.BlockRegistry;
@@ -76,6 +79,8 @@ public class TechariumBlockStateProvider extends TechariumBlockStateProviderBase
                 blockProvider.getExistingFile(Techarium.rl("block/tech_button_off")));
         simpleBlockItem(BlockRegistry.TECH_LEVER.get(),
                 blockProvider.getExistingFile(Techarium.rl("block/tech_lever_off")));
+        
+        simpleBooleanBlock(BlockRegistry.ELECTROCHROMATIC_GLASS.get(), ElectroChromicGlassBlock.POWERED);
     }
 
     private void registerVoltaicPile() {

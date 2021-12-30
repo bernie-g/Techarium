@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "techarium:block/electrochromatic_glass_off"
+    },
+    "powered=true": {
+      "model": "techarium:block/electrochromatic_glass_on"
+    }
+  }
+}

@@ -8,6 +8,8 @@ import java.util.function.Supplier;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
@@ -28,6 +30,7 @@ import software.bernie.techarium.block.botarium.BotariumMaster;
 import software.bernie.techarium.block.botarium.BotariumTop;
 import software.bernie.techarium.block.coils.MagneticCoilBlock;
 import software.bernie.techarium.block.depot.DepotBlock;
+import software.bernie.techarium.block.electrochromicglass.ElectroChromicGlassBlock;
 import software.bernie.techarium.block.exchangestation.ExchangeStationBlock;
 import software.bernie.techarium.block.gravmagnet.GravMagnetBlock;
 import software.bernie.techarium.block.ladder.TechariumLadderBlock;
@@ -154,6 +157,9 @@ public class BlockRegistry {
     
     public static final RegistryObject<Block> ALUMINIUM_LADDER = registerBlock("aluminium_ladder",
             () -> new TechariumLadderBlock(AbstractBlock.Properties.copy(Blocks.LADDER), 0.3f));
+    
+    public static final RegistryObject<Block> ELECTROCHROMATIC_GLASS = registerBlock("electrochromatic_glass",
+    		() -> new ElectroChromicGlassBlock(AbstractBlock.Properties.of(Material.GLASS).strength(0.3F).sound(SoundType.GLASS)));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> reg = BLOCKS.register(name, block);

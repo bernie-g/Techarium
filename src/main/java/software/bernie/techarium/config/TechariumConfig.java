@@ -26,6 +26,7 @@ public class TechariumConfig {
 
     public static class TechariumServerConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> numHammerForDepotRecipe;
+        public final ForgeConfigSpec.ConfigValue<Integer> electroChromicGlassRadius;
 
         private TechariumServerConfig() {
             SERVER.push("General");
@@ -34,6 +35,10 @@ public class TechariumConfig {
                     .comment("The amount of times you need to hammer before the hammering recipe is complete. Hammering 5 times takes 1 second")
                     .defineInRange("numHammerings", 5, 1, Integer.MAX_VALUE);
 
+            electroChromicGlassRadius = SERVER
+            		.comment("The max propagation radius for the ElectroChromic Block")
+            		.defineInRange("radius", 15, 1, 128);
+            
             SERVER.pop();
             SERVER_SPEC = SERVER.build();
         }

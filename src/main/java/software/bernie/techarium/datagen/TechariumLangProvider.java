@@ -98,6 +98,7 @@ public class TechariumLangProvider extends TechariumLangProviderBase {
         addBlock(BlockRegistry.TECH_LEVER, "Lever");
         
         addBlock(BlockRegistry.ALUMINIUM_LADDER, "Aluminium Ladder");
+        addBlock(BlockRegistry.ELECTROCHROMATIC_GLASS, "Electrochromatic Glass");
     }
 
     private void addTranslationComponents() {
